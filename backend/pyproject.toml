@@ -1,7 +1,7 @@
 [project]
 name = "chronosgraph-backend"
 version = "0.1.0"
-description = "Bi-Temporal Company Brain, GRAPH.COPY PR Sandbox & Procedural Memory Engine on FalkorDB"
+description = "ChronosGraph: Speculative GRAPH.COPY PR Sandbox, Bi-Temporal Contradiction Shield & shortestPath JIT Playbook Compiler on FalkorDB"
 readme = "../AGENTS.md"
 requires-python = ">=3.11"
 dependencies = [

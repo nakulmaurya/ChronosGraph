@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0 -- /data/chronosgraph-build/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /data/chronosgraph-build/chronosgraph/backend
+configfile: pyproject.toml
+plugins: platformdirs-4.13.0, anyio-4.15.1
+collecting ... collected 11 items
+
+tests/test_ast_parser.py::test_class_scoped_methods_do_not_collide PASSED [  9%]
+tests/test_ast_parser.py::test_nested_calls_not_attributed_to_outer PASSED [ 18%]
+tests/test_ast_parser.py::test_async_and_signature PASSED                [ 27%]
+tests/test_ast_parser.py::test_syntax_error_returns_diagnostic PASSED    [ 36%]
+tests/test_ast_parser.py::test_relative_import_and_alias PASSED          [ 45%]
+tests/test_ast_parser.py::test_external_import_not_fabricated PASSED     [ 54%]
+tests/test_ast_parser.py::test_dynamic_calls_remain_unresolved PASSED    [ 63%]
+tests/test_ast_parser.py::test_source_is_never_executed PASSED           [ 72%]
+tests/test_ast_parser.py::test_file_encoding_and_digest PASSED           [ 81%]
+tests/test_ast_parser.py::test_nested_classes_keep_full_scope PASSED     [ 90%]
+tests/test_ast_parser.py::test_decorator_calls_use_enclosing_scope PASSED [100%]
+
+============================== 11 passed in 0.03s ==============================

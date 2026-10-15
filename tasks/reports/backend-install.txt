@@ -1,0 +1,61 @@
+Obtaining file:///data/chronosgraph-build/chronosgraph/backend
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Preparing editable metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [32 lines of output]
+      Traceback (most recent call last):
+        File "/data/chronosgraph-build/.venv/lib64/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 167, in prepare_metadata_for_build_editable
+          hook = backend.prepare_metadata_for_build_editable
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      AttributeError: module 'hatchling.build' has no attribute 'prepare_metadata_for_build_editable'
+      
+      During handling of the above exception, another exception occurred:
+      
+      Traceback (most recent call last):
+        File "/data/chronosgraph-build/.venv/lib64/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 353, in <module>
+          main()
+          ~~~~^^
+        File "/data/chronosgraph-build/.venv/lib64/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 335, in main
+          json_out['return_val'] = hook(**hook_input['kwargs'])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/data/chronosgraph-build/.venv/lib64/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 176, in prepare_metadata_for_build_editable
+          whl_basename = build_hook(metadata_directory, config_settings)
+        File "/tmp/pip-build-env-1xa0bf1h/overlay/lib/python3.13/site-packages/hatchling/build.py", line 83, in build_editable
+          return os.path.basename(next(builder.build(directory=wheel_directory, versions=["editable"])))
+                                  ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-1xa0bf1h/overlay/lib/python3.13/site-packages/hatchling/builders/plugin/interface.py", line 101, in build
+          self.metadata.validate_fields()
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        File "/tmp/pip-build-env-1xa0bf1h/overlay/lib/python3.13/site-packages/hatchling/metadata/core.py", line 283, in validate_fields
+          self.core.validate_fields()
+          ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+        File "/tmp/pip-build-env-1xa0bf1h/overlay/lib/python3.13/site-packages/hatchling/metadata/core.py", line 1460, in validate_fields
+          getattr(self, attribute)
+          ~~~~~~~^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-1xa0bf1h/overlay/lib/python3.13/site-packages/hatchling/metadata/core.py", line 550, in readme
+          raise ValueError(message)
+      ValueError: Readme path must be within the project directory: ../AGENTS.md
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 24.2 -> 26.2.1
+[notice] To update, run: python3 -m pip install --upgrade pip
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.

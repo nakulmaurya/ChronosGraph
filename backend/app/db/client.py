@@ -13,7 +13,7 @@ class FalkorDBManager:
     Production FalkorDB Multigraph Manager.
     Enforces:
       - Isolated tenant graphs via db.select_graph()
-      - Read-only execution for untrusted discovery agents via graph.ro_query()
+      - Read-only execution for discovery agents via graph.ro_query()
       - Zero-leak ephemeral sandboxing via graph.copy() + finally: delete()
       - Deterministic 768-dim vector generation fallback when offline
     """
@@ -50,7 +50,6 @@ class FalkorDBManager:
             try:
                 graph.query(stmt)
             except Exception:
-                # Index already exists
                 pass
 
     def query(
@@ -72,13 +71,17 @@ class FalkorDBManager:
         return res, elapsed_ms
 
     @contextmanager
-    def ephemeral_sandbox(self, base_tenant_graph: str, prefix: str = "sandbox_pr") -> Generator[tuple[Graph, str], None, None]:
+    def ephemeral_sandbox(
+        self, base_tenant_graph: str, prefix: str = "sandbox_pr"
+    ) -> Generator[tuple[Graph, str, float], None, None]:
         """Clones base_tenant_graph using FalkorDB GRAPH.COPY and guarantees cleanup."""
         sandbox_name = f"{prefix}_{uuid.uuid4().hex[:8]}"
         base_graph = self.get_graph(base_tenant_graph)
+        t0 = time.perf_counter()
         sandbox_graph = base_graph.copy(sandbox_name)
+        clone_ms = round((time.perf_counter() - t0) * 1000.0, 2)
         try:
-            yield sandbox_graph, sandbox_name
+            yield sandbox_graph, sandbox_name, clone_ms
         finally:
             try:
                 sandbox_graph.delete()
@@ -87,12 +90,6 @@ class FalkorDBManager:
 
     @staticmethod
     def embed_text(text: str) -> List[float]:
-        """
-        Generates a normalized float32 vector of length settings.embedding_dim.
-        Uses deterministic token-trigram projection so hybrid vector queries work
-        100% reliably offline or without paid API keys, and can be upgraded to
-        Gemini/OpenAI embeddings seamlessly.
-        """
         dim = settings.embedding_dim
         vec = np.zeros(dim, dtype=np.float32)
         cleaned = text.lower().strip()
