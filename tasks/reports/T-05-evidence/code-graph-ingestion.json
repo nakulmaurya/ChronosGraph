@@ -1,0 +1,25 @@
+{
+  "tenant_graph": "repo_falkordb_code_graph",
+  "nodes": 858,
+  "files": 86,
+  "functions": 659,
+  "classes": 59,
+  "contributors": 5,
+  "indexed_records": 40,
+  "edges": 1532,
+  "repository": "FalkorDB/code-graph",
+  "source_revision": "2a7a52c0abb529c93e9f571e7358e097f1b76ab3",
+  "resolved_calls": 527,
+  "unresolved_calls": 2958,
+  "parse_errors": [],
+  "history_records": 40,
+  "history_file_links": 66,
+  "policy_files": [
+    "api/graph.py",
+    "api/db.py",
+    "api/info.py",
+    "api/mcp/tools/structural.py"
+  ],
+  "pagerank_method": "native_falkordb_pagerank_normalized",
+  "ownership_limit": "Bounded Git author evidence, not verified maintainers or exhaustive ownership."
+}

@@ -7,22 +7,26 @@ CYPHER_BLAST_RADIUS_AUDIT = """
 MATCH (target:File)
 WHERE target.path IN $modified_files
 OPTIONAL MATCH (downstream:File)-[:IMPORTS*1..3]->(target)
+WITH target, collect(DISTINCT downstream.path) AS impacted_files
 OPTIONAL MATCH (target)-[:DEFINES]->(fn_target:Function)<-[:CALLS*1..3]-(fn_down:Function)
+WITH target, impacted_files, collect(DISTINCT fn_down.qualified_name) AS impacted_functions
 OPTIONAL MATCH (d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(target)
 OPTIONAL MATCH (d)-[:SUPERSEDED]->(old_d:Decision)
-OPTIONAL MATCH (open_issue:Issue {state: 'OPEN'})-[:AFFECTS]->(downstream)
-RETURN
-  target.path AS modified_file,
-  coalesce(target.pagerank, 0.15) AS criticality_score,
-  collect(DISTINCT downstream.path) AS impacted_files,
-  collect(DISTINCT fn_down.qualified_name) AS impacted_functions,
-  collect(DISTINCT {
+WITH target, impacted_files, impacted_functions, collect(DISTINCT {
     id: d.id,
     rule: d.rule,
     rationale: d.rationale,
     source_url: d.source_url,
     superseded_rule: old_d.rule
-  }) AS active_decisions,
+  }) AS active_decisions
+OPTIONAL MATCH (open_issue:Issue {state: 'OPEN'})-[:AFFECTS]->(affected:File)
+WHERE affected.path IN impacted_files
+RETURN
+  target.path AS modified_file,
+  coalesce(target.pagerank, 0.15) AS criticality_score,
+  impacted_files,
+  impacted_functions,
+  active_decisions,
   collect(DISTINCT {
     number: open_issue.number,
     title: open_issue.title,
@@ -33,11 +37,16 @@ RETURN
 CYPHER_FILE_OWNERSHIP_AND_LINEAGE = """
 MATCH (f:File {path: $file_path})
 OPTIONAL MATCH (c:Contributor)-[r:AUTHORED|REVIEWED]->(pr:PullRequest)-[m:MODIFIES]->(f)
-WITH f, c, count(DISTINCT pr) AS pr_count, sum(coalesce(m.additions, 10) + coalesce(m.deletions, 5)) AS lines_touched, max(pr.merged_at) AS last_active
+WITH f, c, count(DISTINCT pr) AS pr_count, sum(coalesce(m.additions, 10) + coalesce(m.deletions, 5)) AS lines_touched, max(coalesce(pr.committed_at, pr.merged_at)) AS last_active,
+  collect(DISTINCT pr.source_type) AS source_types, collect(DISTINCT pr.url) AS source_urls
 ORDER BY pr_count DESC, lines_touched DESC
 WITH f, collect(DISTINCT {
   login: c.login,
   name: c.name,
+  identity_kind: coalesce(c.identity_kind, 'GITHUB_LOGIN'),
+  source_types: source_types,
+  source_urls: source_urls,
+  url: head(source_urls),
   pr_count: pr_count,
   lines_touched: lines_touched,
   last_active: last_active

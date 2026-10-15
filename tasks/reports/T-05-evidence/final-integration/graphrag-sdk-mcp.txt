@@ -1,0 +1,1 @@
+PASS: all five FastMCP tools via protocol on repo_graphrag_sdk; override restored

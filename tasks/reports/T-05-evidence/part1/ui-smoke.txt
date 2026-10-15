@@ -1,0 +1,20 @@
+
+> chronosgraph-arena@0.1.0 test:e2e
+> node tests/live-smoke.mjs
+
+PASS Live tenant catalog and initial source graph
+PASS Track 1 live audit, impacted nodes and verified sandbox cleanup
+PASS Interactive node selection, metadata and draggable positions
+PASS Exact backend Cypher drawer
+PASS Full API payload remains accessible behind focused graph view
+PASS Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry
+PASS Scenario changes invalidate replay availability
+PASS Backend stale-playbook refusal is surfaced and replay disabled
+PASS Track 3 active/superseded policies, times, scope and provenance
+PASS Explicit confirmed override writes real lineage and invalidates UI replay
+PASS Tenant switch clears results and loads SDK-specific policy data
+PASS MCP five-tool template, editable cwd, Escape and focus restoration
+PASS Network failure explains recovery without fake fallback data
+PASS 390px mobile layouts: all three tracks and MCP dialog, no page overflow
+PASS No uncaught browser errors
+Local policy state restored

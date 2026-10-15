@@ -41,8 +41,10 @@ Without Docker, use `bash scripts/start-local.sh --db native` to install/run
 `falkordblite==0.10.0` on a compatible platform, or `--db existing` for a trusted
 FalkorDB already on localhost:6379. Do not reuse an unrelated database.
 Native module/glibc compatibility is platform-dependent; the launcher never replaces
-host libraries. The native helper and existing-DB verification were tested; **Docker
-startup was NOT RUN in the agent environment**. See [release limits](docs/release-checklist.md).
+host libraries. The native helper and existing-DB verification were tested originally. **The default
+Docker launcher and production-mode UI were subsequently verified on the Google Cloud
+test VM** (FalkorDB 4.22.1; [T-05 evidence](tasks/reports/T-05.md)). The legacy Compose
+path remains untested. See [release limits](docs/release-checklist.md).
 
 ## Judge verification matrix
 
@@ -79,8 +81,62 @@ The [2:45 recording runbook](docs/demo-video-script.md) includes exact choreogra
 Sources: [T-01](tasks/reports/T-01.md), [T-02 samples](tasks/reports/T-02-response-excerpts.json),
 [benchmark](tasks/reports/T-02-samples/benchmark.json), [T-03](tasks/reports/T-03.md).
 Live counts include later investigation/playbook records. Latency varies with load;
-the UI displays the actual factor even below 1. Owners reflect limited PR-file
-coverage. Vectors are lexical hashes, not semantic model embeddings.
+the UI displays the actual factor even below 1. Owners reflect bounded PR/review or Git-commit file
+coverage; Git author identities are unverified, not definitive maintainers. Vectors are lexical hashes, not semantic model embeddings.
+
+## Ingest another Python Git repository (v1.3)
+
+With dependencies installed and a trusted FalkorDB running:
+
+```sh
+cd backend
+../.venv/bin/python -m app.ingestion.ingest_repo \
+  --source https://github.com/FalkorDB/code-graph \
+  --tenant repo_falkordb_code_graph --ref 2a7a52c0abb529c93e9f571e7358e097f1b76ab3 --seed-demo-policies
+../.venv/bin/python -m app.ingestion.ingest_repo \
+  --source https://github.com/modelcontextprotocol/python-sdk \
+  --tenant repo_mcp_python_sdk --ref 754254c08fe1c3eda18b69da3d336106fe8d72d6 --seed-demo-policies
+```
+
+`--source` also accepts a local Git directory. It parses a separate checkout of the
+committed snapshot, not uncommitted files, and **never imports/executes downloaded
+Python**. Tracked `.py` files (1–10,000) exclude caches/build directories and symlinks.
+Conservative unresolved calls stay unresolved; invalid Python produces explicit
+file diagnostics. Unsupported encoding/I/O errors fail safely. This is a bounded
+trusted-local tool, not a hardened untrusted-repository ingestion service.
+
+Existing tenants are refused, not overwritten. Use a fresh `repo_[a-z0-9_]+` name.
+Native `algo.pageRank` scores are normalized. `RepoMetadata.status=READY` registers
+new graphs; the catalog supplies files, counts and indexed PR/commit records.
+The UI discovers them on page load; refresh an already-open console after ingestion.
+
+`GIT_COMMIT_HISTORY` identifies at most the latest 40 commits at the pinned snapshot,
+real author-to-commit and exact commit-to-current-file links. Commit records use the
+legacy `PullRequest` shape but are marked `record_kind=COMMIT` with negative numeric
+compatibility IDs, not invented GitHub PRs. `pr_count` is therefore a legacy count
+of evidence records, not exclusively PRs. Git author names are not authenticated
+GitHub handles; uncovered files legitimately have no recommendation.
+
+`--seed-demo-policies` adds fictional `DEMO_POLICY_SCENARIO` pairs, not upstream rules.
+It leaves two non-policy files for the fixed triage demonstration; tiny repositories
+may not support that topology. Without opt-in policies, source/ownership audits work
+but policy/replay features need applicable rules. Cross-process CLI locks protect
+source-cache checkouts and writers; API locks remain single-process demonstration locks.
+
+Append-only, revision-checked ownership backfill (does not reset source or policies):
+
+```sh
+cd backend  # from repository root
+../.venv/bin/python -m app.ingestion.ingest_repo \
+  --source https://github.com/FalkorDB/falkordb-py --tenant repo_falkordb_py \
+  --ref 31f63f44a5745b9bec65969a1db706906718cb82 \
+  --backfill-history --history-path falkordb/graph.py
+```
+
+See [T-05 measurements and verification](tasks/reports/T-05.md) and
+[Principal Architect acceptance](tasks/reviews/T-05.md). Contract v1.3 accepts dynamic
+repository support. Historical T-01/T-02 counts/timings above remain unchanged; the
+larger MCP SDK clone samples reached 257.62 ms, not a universal sub-250 ms guarantee.
 
 ## Verify and connect an agent
 
@@ -88,7 +144,7 @@ coverage. Vectors are lexical hashes, not semantic model embeddings.
 # Against a trusted running local FalkorDB:
 bash scripts/start-local.sh --db existing --verify-only
 # Individual commands after installing dependencies:
-(cd backend && ../.venv/bin/python -m pytest -v)  # 40 tests
+(cd backend && ../.venv/bin/python -m pytest -v)  # 53 with both external tenants; otherwise 47 pass + 6 explicit skips
 (cd frontend && npm test && npm run typecheck && npm run build)  # 7 tests + build
 (cd frontend && npm audit --omit=dev)
 .venv/bin/python scripts/check-release-hygiene.py
@@ -104,4 +160,4 @@ This is a template, not an installed IDE connection. Start/seed FalkorDB first.
 See [frontend setup/live smoke](frontend/README.md), [release evidence](tasks/reports/T-04.md),
 [technical article](docs/blog-post-falkordb.md) and [handoff](docs/handoff.md).
 **Local trusted-client demonstration only: no authentication, no production safety
-guarantee, no deployment or external publication. Release status: v1.2 accepted (40 backend tests, 7 frontend regression tests, and 15 live UI smoke checks verified).**
+guarantee, no deployment or external publication. Release status: v1.3 accepted (53 backend tests, 7 frontend regression tests, and 17 live production Chromium checks verified).**

@@ -1,6 +1,6 @@
 # Product Requirements — ChronosGraph
 
-Version: v1.2 | Principal Architect approved CR-001 and CR-002
+Version: v1.3 | T-05 accepted via user bridge; prior CR-001/CR-002 remain the v1.2 baseline
 
 ## Outcome and truthful scope
 Local engineering console backed by real FalkorDB graph snapshots of
@@ -8,6 +8,22 @@ FalkorDB/falkordb-py and FalkorDB/GraphRAG-SDK. Demonstrate connected static imp
 current/historical policy lineage, and deterministic procedural memory replay.
 This does not establish runtime outages, formal rule violations, autonomous bug
 fixes, semantic embeddings, generic LLM failures, or guaranteed prize eligibility.
+
+## v1.3 additive acceptance — T-05
+Dynamic registered Python Git repositories extend the two defaults. The CLI parses
+tracked committed Python without running it, stores conservative AST edges and
+normalized native PageRank, and links bounded real Git commits to current files.
+Commit author identity is unverified; coverage can legitimately be empty. Demo
+policies remain opt-in and fictional. Registered READY metadata/legacy source File
+graphs are discovered; absent/invalid/incomplete tenants return HTTP 404.
+
+The canonical audit query aggregates each traversal before joining the next branch;
+three-hop semantics, locked response models, zero-model sentinels and stale/scope
+HTTP 409 guards remain unchanged. T-05 acceptance covers four live tenant journeys,
+53 backend / 7 frontend / 17 production Chromium checks. The **154.99–257.62 ms**
+MCP SDK clone sample range is an observation, not a guaranteed latency bound.
+The <250 ms ceiling in FR-02 below is historical acceptance on the original two
+tenants, not a v1.3 promise for larger arbitrary repositories. See `tasks/reviews/T-05.md`.
 
 ## Requirements
 | ID | Requirement | Acceptance |

@@ -33,7 +33,7 @@ def record_decision_override(target_file_path: str,new_rule_text: str,rationale:
 
 @mcp.tool
 def find_true_code_owners(file_path: str,tenant_graph: str='repo_falkordb_py') -> list[dict]:
-    """Rank authors/reviewers only within the limited ingested GitHub PR snapshot."""
+    """Rank evidenced PR/review or git-commit contributors, not verified maintainer ownership."""
     return owners(tenant_graph,file_path)
 
 

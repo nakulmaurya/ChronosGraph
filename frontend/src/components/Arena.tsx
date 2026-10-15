@@ -430,7 +430,7 @@ export default function Arena() {
                 }}
               >
                 <label htmlFor="pr">
-                  Public snapshot PR <span>optional</span>
+                  Snapshot PR / git commit <span>optional</span>
                 </label>
                 <select
                   id="pr"
@@ -441,7 +441,7 @@ export default function Arena() {
                   <option value="">Choose files manually</option>
                   {current?.pull_requests.map((p) => (
                     <option key={p.number} value={p.number}>
-                      #{p.number} · {p.title}
+                      {p.record_kind === "COMMIT" ? `Git ${p.commit_sha?.slice(0, 8)}` : `#${p.number}`} · {p.title}
                     </option>
                   ))}
                 </select>

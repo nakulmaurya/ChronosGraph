@@ -28,7 +28,9 @@ export interface Tenant {
   tenant_graph: string;
   repository: string;
   node_count: number;
-  pull_requests: { number: number; title: string; url: string }[];
+  pull_requests: { number: number; title: string; url: string; source_type?: string; record_kind?: string; commit_sha?: string }[];
+  edge_count?: number;
+  indexed_record_count?: number;
   preset_files: string[];
 }
 export interface Baseline {

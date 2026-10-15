@@ -137,11 +137,11 @@ export function Owners({ owners }: { owners: RecordData[] }) {
       {owners.length ? (
         owners.map((o, i) => (
           <article className="owner" key={`${text(o.login)}-${i}`}>
-            <strong>{text(o.login)}</strong>
+            <strong>{text(o.name || o.login)}</strong>
             <Link
               url={
                 o.url ||
-                `https://github.com/${encodeURIComponent(text(o.login))}`
+                (text(o.login).startsWith("git:") ? undefined : `https://github.com/${encodeURIComponent(text(o.login))}`)
               }
             />
             <dl>
@@ -158,13 +158,13 @@ export function Owners({ owners }: { owners: RecordData[] }) {
         ))
       ) : (
         <p className="empty-note">
-          No PR-file ownership link in the ingested snapshot. This does not mean
+          No PR/commit-file contributor link in the ingested snapshot. This does not mean
           the file has no maintainer.
         </p>
       )}
       <p className="disclaimer">
-        Ranked only from the limited public PR/review snapshot; not a definitive
-        ownership claim.
+        Ranked from bounded PR/review or git-commit file links, not definitive ownership.
+        Git authors are not verified GitHub maintainers.
       </p>
     </section>
   );

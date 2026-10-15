@@ -54,7 +54,7 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
                 lineage_ms+=ms
                 for row in rows(result):
                     for expert in row['top_experts']:
-                        if expert.get('login'): experts[expert['login']]={**expert,'url':'https://github.com/'+expert['login']}
+                        if expert.get('login'): experts[expert['login']]={**expert,'url':expert.get('url') or (None if expert['login'].startswith('git:') else 'https://github.com/'+expert['login'])}
             # Retain full policy provenance instead of presenting demo rules as facts.
             for ident in decisions:
                 provenance,_=read(sandbox_name,'MATCH (d:Decision {id:$id}) RETURN d.source_type AS source_type',{'id':ident})

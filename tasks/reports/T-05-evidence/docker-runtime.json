@@ -1,0 +1,50 @@
+{
+  "container_name": "/chronosgraph-local-6142",
+  "configured_image": "falkordb/falkordb:latest",
+  "image_id": "sha256:b0bdcac2cbaff989e77cb0610439b7a9289e86de033ccbbd4368b66fb680ae7a",
+  "repo_digests": [
+    "falkordb/falkordb@sha256:b0bdcac2cbaff989e77cb0610439b7a9289e86de033ccbbd4368b66fb680ae7a"
+  ],
+  "state": "running",
+  "port_bindings": {
+    "6379/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "6379"
+      }
+    ]
+  },
+  "redis_version": "8.10.2",
+  "modules": [
+    {
+      "name": "vectorset",
+      "ver": 1,
+      "path": "",
+      "args": []
+    },
+    {
+      "name": "graph",
+      "ver": 42201,
+      "path": "/var/lib/falkordb/bin/falkordb.so",
+      "args": [
+        "MAX_QUEUED_QUERIES",
+        "25",
+        "TIMEOUT",
+        "1000",
+        "RESULTSET_SIZE",
+        "10000"
+      ]
+    }
+  ],
+  "graphs": [
+    "repo_falkordb_py",
+    "repo_graphrag_sdk",
+    "repo_falkordb_code_graph",
+    "repo_mcp_python_sdk"
+  ],
+  "tmux_sessions": [
+    "chronosgraph",
+    "chronosgraph-t05-api",
+    "chronosgraph-t05-ui"
+  ]
+}

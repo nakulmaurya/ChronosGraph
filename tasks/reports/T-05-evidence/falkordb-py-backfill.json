@@ -1,0 +1,11 @@
+{
+  "tenant_graph": "repo_falkordb_py",
+  "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+  "history_records": 14,
+  "history_file_links": 143,
+  "history_scope": "path_targeted",
+  "file_paths": [
+    "falkordb/graph.py"
+  ],
+  "source_type": "GIT_COMMIT_HISTORY"
+}

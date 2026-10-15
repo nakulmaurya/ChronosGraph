@@ -1,7 +1,8 @@
 # ChronosGraph Engineering Handoff
 
 ## Current boundary
-Contract **v1.2**, approved CR-001 and CR-002. T-01 and T-02 are merged. T-03 was
+Contract **v1.3**, additive T-05 acceptance supplied through the user bridge;
+prior v1.2 / approved CR-001 and CR-002 remain the historical baseline. T-01 and T-02 are merged. T-03 was
 accepted by the Principal Architect and merged via **PR #3** at
 `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7` (includes product commit `25ed5c0` and
 acceptance record `c332ea2`). The Principal Architect accepted T-04 at `d47c035`
@@ -9,6 +10,31 @@ through the user bridge. M1–M4 and T-01–T-04 are DONE under the accepted v1.
 T-04 is merged into main through PR #4 at `71f9f7b979b2f4779a812149fe0ac83d184fb4ac`.
 Final acceptance polish is included at `dfddf4d`; main is the canonical clone target.
 Deployment, external publication and submission are not performed or authorized here.
+
+## T-05 acceptance and running VM
+
+Status: DONE — ACCEPTED; integration authorized, merge receipt pending.
+The Principal Architect accepted `build/t05-real-world-repos` at `ed1d57a`, based on
+`36baf30`; see `tasks/reviews/T-05.md`. Dynamic tenant discovery, conservative Git/AST CLI, real bounded
+commit-file provenance/backfill, normalized native PageRank and opt-in demo policies
+are implemented. The audit query now aggregates traversal branches independently to
+avoid the actual join fan-out timeout found on `FalkorDB/code-graph`.
+
+The accepted base passed Docker-backed 40/7 tests and 15 production UI checks.
+T-05 passed 53 backend tests, 7 frontend tests, typecheck/build, 17 production UI
+checks, all five MCP tools on both external repos, and zero production audit findings.
+Full output, ownership limits, 257.62 ms clone outlier and hygiene are in
+`tasks/reports/T-05.md`. External graph totals include history and demo policies;
+normal investigations add state afterward. Historical T-01/T-02 measurements remain historical.
+
+VM review checkout: `~/ChronosGraph-t05`; production Next.js on loopback **3000**,
+API **8001**, Docker DB **6379**, tmux `chronosgraph-t05-ui` / `chronosgraph-t05-api`.
+Original accepted-main demo remains on **3001/8000**, tmux `chronosgraph`.
+A laptop must tunnel **both** 3000 and 8001 to the same local ports to use the T-05
+bundle; the browser's API base is `http://localhost:8001/api/v1`.
+Do not expose these unauthenticated services publicly. The original launcher owns
+the ephemeral Docker database: stopping it also stops the shared T-05 database.
+Persisted runtime graphs are not a backup or reboot-persistent service guarantee.
 
 ## Deliverables and ownership
 - `README.md`: architecture, one-command local startup, exact track/query/REST/MCP/UI
@@ -22,7 +48,7 @@ Deployment, external publication and submission are not performed or authorized 
 
 ## Run and verify
 ```bash
-# New ephemeral local Docker database plus API/UI (Docker path NOT RUN here):
+# New ephemeral local Docker database plus API/UI (subsequently verified on the VM):
 bash scripts/start-local.sh
 # Compatible native wheel alternative (platform-dependent):
 bash scripts/start-local.sh --db native
@@ -38,7 +64,7 @@ Python 3.11+, Node 24+, Bash/npm/network required. Use `VENV_DIR` for an install
 alternative environment. UI is `http://127.0.0.1:3001`; API `/health` is on port 8000.
 The MCP modal is a configuration template, not an installed IDE integration.
 
-This workspace verified native FalkorDB **4.18.3** using falkordblite **0.10.0**,
+The original containerless workspace verified native FalkorDB **4.18.3** using falkordblite **0.10.0**,
 Redis **8.6.2**, and a process-local compatibility loader. No Docker binary exists
 here. The native helper passed on isolated port 6381; existing-DB verification
 passed 40 backend tests, 7 frontend tests, typecheck and production build. The
@@ -74,7 +100,7 @@ final chat identifies the latest branch head and repeats the clean status check.
 The README starts directly from main; the article's release-checklist link targets main.
 The final integrator checks scoped hygiene and clean checkout after publishing and merge.
 
-Next human action: test the unverified Docker launcher locally. Then record the demo
+The Docker launcher gap is closed and T-05 is accepted. After integration, record the demo
 and publish/submit only after checking the event's actual rules and deadlines.
 The short 2:45 script does not include a mutating override; that is an optional
 longer take. Prize eligibility, publication and submission are not verified here.
