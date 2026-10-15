@@ -11,10 +11,10 @@ mcp = FastMCP('ChronosGraph', instructions='Local trusted-client demo. Policy sc
 
 @mcp.tool
 def simulate_pr_blast_radius(modified_files: list[str], tenant_graph: str='repo_falkordb_py',
-                             pr_number: int | None=None, proposed_description: str='') -> dict:
+                             pr_number: int | None=None, proposed_description: str='', proposed_code_patch: str | None=None) -> dict:
     """Audit a disposable graph clone. Dependency modifications are labeled simulations."""
     return audit_sandbox(SandboxAuditRequest(tenant_graph=tenant_graph,modified_files=modified_files,
-        pr_number=pr_number,proposed_description=proposed_description)).model_dump()
+        pr_number=pr_number,proposed_description=proposed_description,proposed_code_patch=proposed_code_patch)).model_dump()
 
 
 @mcp.tool

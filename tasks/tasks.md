@@ -81,3 +81,15 @@
   repositories; full route/MCP/production-UI verification and measured telemetry.
 - Acceptance: Principal Architect ACCEPTED via user bridge; contract v1.3. See `tasks/reviews/T-05.md`.
 - Integration: PR #5 merged into main at `37f9540dfcfa2c4b97cf0a7ae06889d045e191f5`. No public deployment or external submission.
+
+### T-06 — AST Patch Simulation & Evidence-First UI Polish
+- Status: DONE (code/UI scope; video deferred)
+- Roles: builder + integrator (sequential self-review).
+- Branch: `build/t06-wow-polish-and-demo`; base `013b66b`.
+- Assignment: `tasks/assignments/T-06.md`.
+- Scope: bounded clone-only Python AST snippets, real PR/commit file scope, above-fold
+  comparisons, semantic causal lanes, retained historical pruned branches, nonblank
+  navigation, v1.3 badge, full compatibility and live UI verification.
+- User amendment: demo script, voiceover, generator and recording explicitly deferred.
+- Gate: local + Docker-backed VM tests, production build/live smoke, zero hygiene
+  findings, report and integration. Never substitute local native tests for VM evidence.

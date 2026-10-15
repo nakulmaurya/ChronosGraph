@@ -21,7 +21,9 @@ type EvidenceNode = Node<{ evidence: VisualNode }, "evidence">;
 function Evidence({ data }: NodeProps<EvidenceNode>) {
   const n = data.evidence;
   return (
-    <div className={`evidence-node status-${n.status}`}>
+    <div
+      className={`evidence-node status-${n.status} ${n.metadata.replay_evidence_only ? "historical-evidence" : ""}`}
+    >
       <Handle type="target" position={Position.Left} />
       <div className="node-top">
         <span>{n.label}</span>
@@ -32,8 +34,14 @@ function Evidence({ data }: NodeProps<EvidenceNode>) {
       <div className="node-title" title={n.title}>
         {n.title}
       </div>
-      {n.status === "DEAD_END" && (
+      {n.metadata.pruned === true && (
         <div className="node-note">PRUNED BY SHORTESTPATH</div>
+      )}
+      {n.metadata.replay_evidence_only === true && (
+        <div className="node-note">COLD EVIDENCE · NOT REPLAYED</div>
+      )}
+      {n.metadata.patch_source_type === "AST_PATCH_SIMULATION" && (
+        <div className="node-note">AST_PATCH_SIMULATION</div>
       )}
       {n.subtitle && (
         <div className="node-note" title={n.subtitle}>
