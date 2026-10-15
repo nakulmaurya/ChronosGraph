@@ -195,3 +195,5 @@ The previously accepted video is retained unchanged; this amendment excludes vid
 VM checkout: `/home/nakulmaurya13579/ChronosGraph-t08`; production target is loopback
 frontend 3000 and API 8001 after authorized integration. Prior checkout remains rollback.
 Publication/deployment receipts and gate evidence are in `tasks/reports/T-08.md`.
+
+VM rollout verified from code commit `cfd17e1d0f8b8201b06f3a755cd2a8addbc7b9ed`: loopback 3000/8001, 27/27 production checks, four-tenant brain APIs PASS, zero post-rollout hygiene findings. GitHub push still requires device authorization.
