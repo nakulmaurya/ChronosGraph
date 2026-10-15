@@ -8,8 +8,8 @@
 |---|---|---|---|
 | M1 — Open-Source Multigraph Seeder & AST Engine | `repo_falkordb_py` & `repo_graphrag_sdk` populated with AST, PRs, Contributors & `SUPERSEDED` Decisions | Baseline DB client | DONE |
 | M2 — 3-Track Core Services, FastMCP & E2E Pytest | All `/api/v1/*` routes, `GRAPH.COPY` sandbox, `shortestPath` compiler & `pytest` green | M1 | DONE |
-| M3 — Next.js Live Agent Arena & Flight Recorder UI | Controlled baseline + React Flow canvas on port 3001 | M2 | IN_PROGRESS |
-| M4 — Polish, Demo Script & Blog Benchmark Export | End-to-end smoke check + blog markdown table output | M3 | TODO |
+| M3 — Next.js Live Agent Arena & Flight Recorder UI | Controlled baseline + React Flow canvas on port 3001 | M2 | DONE |
+| M4 — Polish, Demo Script & Blog Benchmark Export | End-to-end smoke check + blog markdown table output | M3 | IN_PROGRESS |
 
 ## Tasks
 
@@ -43,7 +43,7 @@
   - [ ] `pytest -v` passes 100%.
 
 ### T-03 — Build Next.js "Live Agent Arena & Graph Flight Recorder" Frontend
-- Status: IN_PROGRESS
+- Status: DONE
 - Assigned agent: Builder (Notion Agent)
 - Assignment packet: `tasks/assignments/T-03.md`
 - Goal / user impact: Deliver the scroll-stopping dark-mode UI racing the Blind Baseline Agent against ChronosGraph alongside an interactive React Flow subgraph visualizer.
@@ -53,3 +53,19 @@
 - Acceptance criteria:
   - [ ] Renders Tenant Switcher (`FalkorDB/falkordb-py` | `FalkorDB/GraphRAG-SDK`), Track 1/2/3 tabs, Blind Agent vs. ChronosGraph comparison cards, interactive React Flow canvas, and Cypher query drawer.
   - [ ] `npm run build` succeeds with zero TypeScript/build errors.
+
+
+### T-04 — Release Readiness, Judge Verification README, Demo Script & Technical Blog Post
+- Status: IN_PROGRESS
+- Milestone: M4
+- Assigned agent: Builder + integrator (Notion Agent)
+- Assignment packet: `tasks/assignments/T-04.md` (created on the T-04 branch)
+- Prerequisites: T-03 accepted by Principal Architect and merged into main.
+- Scope: Root README; publication-ready technical blog; 2:45 recording script;
+  release checklist; final handoff; minimal local startup/verification helpers;
+  T-04 assignment, report and evidence.
+- Acceptance: Exact track/query/route/MCP/UI matrix; source-backed provenance and
+  telemetry; 1,200–1,800-word article; fresh 40 backend + 7 frontend checks and build;
+  secret/artifact/fixture hygiene checked; T-04 branch published but not merged.
+- Non-goals: Backend/API redesign, production deployment, external model calls,
+  article/social publication, hackathon submission or a claim of prize eligibility.
