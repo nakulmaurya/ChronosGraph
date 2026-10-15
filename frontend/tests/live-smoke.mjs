@@ -77,7 +77,7 @@ try {
   await page.locator("#tenant").waitFor();
   await page.waitForFunction(
     () =>
-      document.querySelector("#tenant")?.options.length === 2 &&
+      document.querySelector("#tenant")?.options.length >= 2 &&
       !document.querySelector("#tenant")?.disabled,
   );
   await page.locator(".react-flow__node").first().waitFor();
@@ -346,6 +346,38 @@ try {
   mark(
     "390px mobile layouts: all three tracks and MCP dialog, no page overflow",
   );
+  // Opt-in live external repositories, in addition to the unchanged 15 baseline checks.
+  const externalTenants = (process.env.REAL_WORLD_TENANTS || "").split(",").filter(Boolean);
+  const catalog = externalTenants.length ? await (await fetch(API + "/tenants")).json() : [];
+  await page.setViewportSize({ width: 1560, height: 1050 });
+  for (const tenant of externalTenants) {
+    const entry = catalog.find((t) => t.tenant_graph === tenant);
+    assert.ok(entry && entry.preset_files.length, `Registered policy-backed tenant ${tenant}`);
+    await page.locator("#tenant").selectOption(tenant);
+    await page.waitForFunction(() => !document.querySelector("#tenant").disabled);
+    await page.getByRole("button", { name: /TRACK 03/ }).click();
+    await page.locator("#policy-file").selectOption(entry.preset_files[0]);
+    const policy = await action("Read current policy", "/track3/ask-brain");
+    assert.ok(policy.active_decisions.length && policy.superseded_decisions.length);
+    await page.getByRole("button", { name: /TRACK 01/ }).click();
+    const boxes = page.locator('fieldset input[type="checkbox"]');
+    for (const box of await boxes.all()) await box.uncheck();
+    await boxes.first().check();
+    const audit = await action("Run GRAPH.COPY audit", "/track1/sandbox-audit");
+    assert.equal(audit.sandbox_cleaned_up, true);
+    assert.ok(audit.recommended_reviewers.length);
+    await page.getByRole("button", { name: /TRACK 02/ }).click();
+    await page.locator("#scenario").fill(`Review policy ${entry.preset_files[0]} ${Date.now()}`);
+    const cold = await action("Run #1 · Cold triage", "/track2/investigate");
+    const warm = await action("Run #2 · Compiled replay", "/track2/investigate");
+    assert.equal(cold.total_steps_executed, 5);
+    assert.equal(warm.total_steps_executed, 3);
+    assert.equal(warm.subgraph.nodes.filter((n) => n.status === "DEAD_END").length, 0);
+    measurements.push({ tenant, clone_ms: audit.sandbox_clone_time_ms, cold_ms: cold.duration_ms, warm_ms: warm.duration_ms });
+    await noOverflow();
+    await shot(`external-${tenant}`);
+    mark(`External ${tenant}: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay`);
+  }
   assert.deepEqual(errors, []);
   mark("No uncaught browser errors");
 } finally {

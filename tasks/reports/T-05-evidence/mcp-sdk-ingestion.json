@@ -1,0 +1,25 @@
+{
+  "tenant_graph": "repo_mcp_python_sdk",
+  "nodes": 10698,
+  "files": 870,
+  "functions": 8550,
+  "classes": 1224,
+  "contributors": 5,
+  "indexed_records": 40,
+  "edges": 16283,
+  "repository": "modelcontextprotocol/python-sdk",
+  "source_revision": "754254c08fe1c3eda18b69da3d336106fe8d72d6",
+  "resolved_calls": 3949,
+  "unresolved_calls": 32005,
+  "parse_errors": [],
+  "history_records": 40,
+  "history_file_links": 133,
+  "policy_files": [
+    "src/mcp/shared/dispatcher.py",
+    "src/mcp/server/lowlevel/server.py",
+    "src/mcp/client/session.py",
+    "src/mcp/server/mcpserver/context.py"
+  ],
+  "pagerank_method": "native_falkordb_pagerank_normalized",
+  "ownership_limit": "Bounded Git author evidence, not verified maintainers or exhaustive ownership."
+}

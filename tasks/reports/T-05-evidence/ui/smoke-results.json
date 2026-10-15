@@ -1,0 +1,95 @@
+{
+  "checks": [
+    {
+      "check": "Live tenant catalog and initial source graph",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 1 live audit, impacted nodes and verified sandbox cleanup",
+      "status": "PASS"
+    },
+    {
+      "check": "Interactive node selection, metadata and draggable positions",
+      "status": "PASS"
+    },
+    {
+      "check": "Exact backend Cypher drawer",
+      "status": "PASS"
+    },
+    {
+      "check": "Full API payload remains accessible behind focused graph view",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry",
+      "status": "PASS"
+    },
+    {
+      "check": "Scenario changes invalidate replay availability",
+      "status": "PASS"
+    },
+    {
+      "check": "Backend stale-playbook refusal is surfaced and replay disabled",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 3 active/superseded policies, times, scope and provenance",
+      "status": "PASS"
+    },
+    {
+      "check": "Explicit confirmed override writes real lineage and invalidates UI replay",
+      "status": "PASS"
+    },
+    {
+      "check": "Tenant switch clears results and loads SDK-specific policy data",
+      "status": "PASS"
+    },
+    {
+      "check": "MCP five-tool template, editable cwd, Escape and focus restoration",
+      "status": "PASS"
+    },
+    {
+      "check": "Network failure explains recovery without fake fallback data",
+      "status": "PASS"
+    },
+    {
+      "check": "390px mobile layouts: all three tracks and MCP dialog, no page overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "External repo_falkordb_code_graph: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay",
+      "status": "PASS"
+    },
+    {
+      "check": "External repo_mcp_python_sdk: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay",
+      "status": "PASS"
+    },
+    {
+      "check": "No uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "measurements": [
+    {
+      "tenant": "repo_falkordb_py",
+      "cold_duration_ms": 44.066,
+      "warm_duration_ms": 26.397,
+      "latency_speedup_factor": 1.669,
+      "cold_actions": 5,
+      "warm_actions": 3
+    },
+    {
+      "tenant": "repo_falkordb_code_graph",
+      "clone_ms": 80.13,
+      "cold_ms": 48.032,
+      "warm_ms": 30.423
+    },
+    {
+      "tenant": "repo_mcp_python_sdk",
+      "clone_ms": 191.93,
+      "cold_ms": 114.634,
+      "warm_ms": 75.951
+    }
+  ],
+  "browserErrors": []
+}

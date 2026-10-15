@@ -107,3 +107,25 @@ repair. Native `<dialog>` gives keyboard focus containment, Escape and restorati
 reduced-motion CSS suppresses animated paths. Desktop panes scroll internally and
 mobile stacks controls, graph and results. Chromium desktop and 390px emulation
 were checked; Safari, Firefox, physical-device and screen-reader audits are NOT RUN.
+
+## T-05 dynamic repositories
+
+The tenant catalog discovers registered `repo_*` graphs, including ingested public
+Git snapshots. Reload after CLI ingestion. The snapshot selector distinguishes real
+Git commits from PRs; contributor names remain unverified Git identities, not proof
+of maintainer status. `pr_count` is a legacy evidence-record counter.
+
+After ingesting both opt-in policy-backed external snapshots, add these variables
+to the live-smoke command (retain the existing Chromium/Python/evidence variables):
+
+```sh
+FRONTEND_URL=http://127.0.0.1:3000 \
+TEST_API_URL=http://localhost:8001/api/v1 \
+REAL_WORLD_TENANTS=repo_falkordb_code_graph,repo_mcp_python_sdk npm run test:e2e
+```
+
+Build with `NEXT_PUBLIC_API_BASE_URL=http://localhost:8001/api/v1` and serve on
+3000 for this isolated VM review setup. The original 15 baseline checks are retained;
+two added journeys verify all three tracks on the external tenants (17 total).
+Overrides are tested through REST/MCP on each external tenant and restored; the UI
+external journeys read policy history, audit clones and run cold/replay without overrides.

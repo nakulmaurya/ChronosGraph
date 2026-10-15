@@ -62,8 +62,9 @@ def assert_visual(payload):
 def test_health_and_tenant_catalog(client):
     assert client.get('/health').json()['status']=='ok'
     response=client.get('/api/v1/tenants'); assert response.status_code==200
-    data=response.json(); assert {r['tenant_graph'] for r in data}==set(TENANTS)
-    assert all(r['node_count']>400 and r['pull_requests'] and r['preset_files'] for r in data)
+    data=response.json(); indexed={r['tenant_graph']:r for r in data}
+    assert set(TENANTS)<=set(indexed)  # Dynamic registration is now explicitly supported.
+    assert all(indexed[t]['node_count']>400 and indexed[t]['pull_requests'] and indexed[t]['preset_files'] for t in TENANTS)
 
 
 @pytest.mark.parametrize('tenant',TENANTS)

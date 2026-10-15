@@ -1,0 +1,384 @@
+{
+  "captured_at_utc": "2026-10-15T12:02:06.532553+00:00",
+  "method": "Five sequential GRAPH.COPY audits per tenant; one cold/replay pair; single VM, shared loopback Docker DB; no universal latency or LLM-token claim.",
+  "repositories": [
+    {
+      "tenant": "repo_falkordb_code_graph",
+      "revision": "2a7a52c0abb529c93e9f571e7358e097f1b76ab3",
+      "history_limit": 40,
+      "history_scope": "latest_commits_at_source_revision",
+      "live_label_counts_before_samples": [
+        {
+          "label": "AnomalySignature",
+          "nodes": 3
+        },
+        {
+          "label": "Class",
+          "nodes": 59
+        },
+        {
+          "label": "Contributor",
+          "nodes": 5
+        },
+        {
+          "label": "Decision",
+          "nodes": 8
+        },
+        {
+          "label": "File",
+          "nodes": 86
+        },
+        {
+          "label": "Function",
+          "nodes": 659
+        },
+        {
+          "label": "Investigation",
+          "nodes": 6
+        },
+        {
+          "label": "ProceduralPlaybook",
+          "nodes": 3
+        },
+        {
+          "label": "PullRequest",
+          "nodes": 40
+        },
+        {
+          "label": "RepoMetadata",
+          "nodes": 1
+        },
+        {
+          "label": "StateNode",
+          "nodes": 30
+        }
+      ],
+      "live_relationship_counts_before_samples": [
+        {
+          "relationship": "ACTION_TAKEN",
+          "edges": 24
+        },
+        {
+          "relationship": "AUTHORED",
+          "edges": 40
+        },
+        {
+          "relationship": "CALLS",
+          "edges": 524
+        },
+        {
+          "relationship": "COMPILED",
+          "edges": 3
+        },
+        {
+          "relationship": "COMPILED_AS",
+          "edges": 3
+        },
+        {
+          "relationship": "DEFINES",
+          "edges": 718
+        },
+        {
+          "relationship": "GOVERNS",
+          "edges": 8
+        },
+        {
+          "relationship": "HAS_STATE",
+          "edges": 30
+        },
+        {
+          "relationship": "IMPORTS",
+          "edges": 172
+        },
+        {
+          "relationship": "MODIFIES",
+          "edges": 66
+        },
+        {
+          "relationship": "SUPERSEDED",
+          "edges": 4
+        }
+      ],
+      "live_nodes_before_samples": 900,
+      "live_edges_before_samples": 1592,
+      "source_ast_nodes": 804,
+      "python_files": 86,
+      "functions": 659,
+      "classes": 59,
+      "normalized_pagerank_sum": 1.0000000000000002,
+      "files_with_git_history_evidence": 22,
+      "selected_file": "api/graph.py",
+      "git_author_evidence": [
+        {
+          "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+          "last_active": 1780998680,
+          "lines_touched": 86.0,
+          "login": "git:b2a7a7696fd9783a31ee",
+          "name": "Dvir Dukhan",
+          "pr_count": 2,
+          "source_types": [
+            "GIT_COMMIT_HISTORY"
+          ],
+          "source_urls": [
+            "https://github.com/FalkorDB/code-graph/commit/12c0b0d23a3b896eb904148337c80528e64df832",
+            "https://github.com/FalkorDB/code-graph/commit/347dd463f12179836eae01601275ad7d20e9d913"
+          ],
+          "url": "https://github.com/FalkorDB/code-graph/commit/12c0b0d23a3b896eb904148337c80528e64df832"
+        },
+        {
+          "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+          "last_active": 1780998898,
+          "lines_touched": 43.0,
+          "login": "git:76dc296a74c626c15336",
+          "name": "Gal Shubeli",
+          "pr_count": 1,
+          "source_types": [
+            "GIT_COMMIT_HISTORY"
+          ],
+          "source_urls": [
+            "https://github.com/FalkorDB/code-graph/commit/2c2e6676e4108efa09fd2bafe67b0266e2d7a368"
+          ],
+          "url": "https://github.com/FalkorDB/code-graph/commit/2c2e6676e4108efa09fd2bafe67b0266e2d7a368"
+        },
+        {
+          "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+          "last_active": 1780983284,
+          "lines_touched": 43.0,
+          "login": "git:066e21ab8a772a4684ff",
+          "name": "Naseem Ali",
+          "pr_count": 1,
+          "source_types": [
+            "GIT_COMMIT_HISTORY"
+          ],
+          "source_urls": [
+            "https://github.com/FalkorDB/code-graph/commit/eefaa407be68d710bb5944e535a109a9662f2f99"
+          ],
+          "url": "https://github.com/FalkorDB/code-graph/commit/eefaa407be68d710bb5944e535a109a9662f2f99"
+        }
+      ],
+      "clone_samples_ms": [
+        106.18,
+        126.4,
+        116.56,
+        119.79,
+        125.34
+      ],
+      "clone_median_ms": 119.79,
+      "clone_min_ms": 106.18,
+      "clone_max_ms": 126.4,
+      "clone_cleanup_verified": true,
+      "impacted_files_including_labeled_synthetic": 51,
+      "impacted_functions_including_labeled_synthetic": 55,
+      "cold_ms": 40.49,
+      "warm_ms": 26.874,
+      "cold_actions": 5,
+      "replayed_actions": 3,
+      "cold_dead_ends": 2,
+      "warm_dead_ends": 0,
+      "tokens_used": 0,
+      "ownership_limit": "Unverified Git author identity; latest 40 commits, not exhaustive or definitive maintainers."
+    },
+    {
+      "tenant": "repo_mcp_python_sdk",
+      "revision": "754254c08fe1c3eda18b69da3d336106fe8d72d6",
+      "history_limit": 40,
+      "history_scope": "latest_commits_at_source_revision",
+      "live_label_counts_before_samples": [
+        {
+          "label": "AnomalySignature",
+          "nodes": 5
+        },
+        {
+          "label": "Class",
+          "nodes": 1224
+        },
+        {
+          "label": "Contributor",
+          "nodes": 5
+        },
+        {
+          "label": "Decision",
+          "nodes": 8
+        },
+        {
+          "label": "File",
+          "nodes": 870
+        },
+        {
+          "label": "Function",
+          "nodes": 8550
+        },
+        {
+          "label": "Investigation",
+          "nodes": 10
+        },
+        {
+          "label": "ProceduralPlaybook",
+          "nodes": 5
+        },
+        {
+          "label": "PullRequest",
+          "nodes": 40
+        },
+        {
+          "label": "RepoMetadata",
+          "nodes": 1
+        },
+        {
+          "label": "StateNode",
+          "nodes": 50
+        }
+      ],
+      "live_relationship_counts_before_samples": [
+        {
+          "relationship": "ACTION_TAKEN",
+          "edges": 40
+        },
+        {
+          "relationship": "AUTHORED",
+          "edges": 40
+        },
+        {
+          "relationship": "CALLS",
+          "edges": 3909
+        },
+        {
+          "relationship": "COMPILED",
+          "edges": 5
+        },
+        {
+          "relationship": "COMPILED_AS",
+          "edges": 5
+        },
+        {
+          "relationship": "DEFINES",
+          "edges": 9774
+        },
+        {
+          "relationship": "GOVERNS",
+          "edges": 8
+        },
+        {
+          "relationship": "HAS_STATE",
+          "edges": 50
+        },
+        {
+          "relationship": "IMPORTS",
+          "edges": 2415
+        },
+        {
+          "relationship": "MODIFIES",
+          "edges": 133
+        },
+        {
+          "relationship": "SUPERSEDED",
+          "edges": 4
+        }
+      ],
+      "live_nodes_before_samples": 10768,
+      "live_edges_before_samples": 16383,
+      "source_ast_nodes": 10644,
+      "python_files": 870,
+      "functions": 8550,
+      "classes": 1224,
+      "normalized_pagerank_sum": 1.0,
+      "files_with_git_history_evidence": 105,
+      "selected_file": "src/mcp/shared/dispatcher.py",
+      "git_author_evidence": [
+        {
+          "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+          "last_active": 1790939130,
+          "lines_touched": 12.0,
+          "login": "git:96ea05d7e359295b5bfa",
+          "name": "Max",
+          "pr_count": 1,
+          "source_types": [
+            "GIT_COMMIT_HISTORY"
+          ],
+          "source_urls": [
+            "https://github.com/modelcontextprotocol/python-sdk/commit/c8fcfc8d7faad87f90649ab1ebed90a4c8c1abe7"
+          ],
+          "url": "https://github.com/modelcontextprotocol/python-sdk/commit/c8fcfc8d7faad87f90649ab1ebed90a4c8c1abe7"
+        }
+      ],
+      "clone_samples_ms": [
+        188.43,
+        257.62,
+        154.99,
+        169.74,
+        229.02
+      ],
+      "clone_median_ms": 188.43,
+      "clone_min_ms": 154.99,
+      "clone_max_ms": 257.62,
+      "clone_cleanup_verified": true,
+      "impacted_files_including_labeled_synthetic": 506,
+      "impacted_functions_including_labeled_synthetic": 1,
+      "cold_ms": 105.794,
+      "warm_ms": 74.703,
+      "cold_actions": 5,
+      "replayed_actions": 3,
+      "cold_dead_ends": 2,
+      "warm_dead_ends": 0,
+      "tokens_used": 0,
+      "ownership_limit": "Unverified Git author identity; latest 40 commits, not exhaustive or definitive maintainers."
+    }
+  ],
+  "falkordb_graph_py_backfill_experts": [
+    {
+      "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+      "last_active": 1706953835,
+      "lines_touched": 1739.0,
+      "login": "git:f4f9daada1fe5f41af31",
+      "name": "swilly22",
+      "pr_count": 9,
+      "source_types": [
+        "GIT_COMMIT_HISTORY"
+      ],
+      "source_urls": [
+        "https://github.com/FalkorDB/falkordb-py/commit/7d1606e78952515a0ab9dc4b4bdc4e7fe4fc8977",
+        "https://github.com/FalkorDB/falkordb-py/commit/c44c4aedc8c1792ed6d5ec6c9a2a7235cbd5c131",
+        "https://github.com/FalkorDB/falkordb-py/commit/030d8a40a7af692b16da650367c48c8bd8934d53",
+        "https://github.com/FalkorDB/falkordb-py/commit/b51a0f8f6dc04623dad80f15d8408aaad62fceb8",
+        "https://github.com/FalkorDB/falkordb-py/commit/5771cfa6985a6c035241b4be174dc2e2e4c945b7",
+        "https://github.com/FalkorDB/falkordb-py/commit/39516bfbbbf75da7622c6b1c5596b00e63313f3c",
+        "https://github.com/FalkorDB/falkordb-py/commit/382d56a30e1cb95f7853662080b26e42f27177a5",
+        "https://github.com/FalkorDB/falkordb-py/commit/e73e23d87c6df3995f81ea4c7d3c7e2dac8b2f38",
+        "https://github.com/FalkorDB/falkordb-py/commit/098d6af5079f176845d5f9574edbc11410652500"
+      ],
+      "url": "https://github.com/FalkorDB/falkordb-py/commit/7d1606e78952515a0ab9dc4b4bdc4e7fe4fc8977"
+    },
+    {
+      "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+      "last_active": 1771156354,
+      "lines_touched": 198.0,
+      "login": "git:b3e7c24f45c0b7cdeff1",
+      "name": "Guy Korland",
+      "pr_count": 2,
+      "source_types": [
+        "GIT_COMMIT_HISTORY"
+      ],
+      "source_urls": [
+        "https://github.com/FalkorDB/falkordb-py/commit/b3cf2529ae5e39882843f2c4b7b552586e3f75b2",
+        "https://github.com/FalkorDB/falkordb-py/commit/0b6fa11b1fff0b0ad8b183d5acb50496177df6f3"
+      ],
+      "url": "https://github.com/FalkorDB/falkordb-py/commit/b3cf2529ae5e39882843f2c4b7b552586e3f75b2"
+    },
+    {
+      "identity_kind": "GIT_AUTHOR_UNVERIFIED",
+      "last_active": 1709624826,
+      "lines_touched": 197.0,
+      "login": "git:d5321f710f058994622e",
+      "name": "Roi Lipman",
+      "pr_count": 2,
+      "source_types": [
+        "GIT_COMMIT_HISTORY"
+      ],
+      "source_urls": [
+        "https://github.com/FalkorDB/falkordb-py/commit/874f35daab5ec27c9c706c068e3030bf3a21f66b",
+        "https://github.com/FalkorDB/falkordb-py/commit/ef4d96fe6b2d6a901003d3f7261935ae097df6a6"
+      ],
+      "url": "https://github.com/FalkorDB/falkordb-py/commit/874f35daab5ec27c9c706c068e3030bf3a21f66b"
+    }
+  ]
+}

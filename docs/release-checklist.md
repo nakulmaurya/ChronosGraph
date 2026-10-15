@@ -6,6 +6,18 @@ T-04/M4 at `d47c035` through the user bridge. PR #4 merged the release into main
 at `71f9f7b979b2f4779a812149fe0ac83d184fb4ac`.
 This is not a production release, article publication or hackathon submission.
 
+## T-05 VM follow-up — READY_FOR_REVIEW, not merged
+
+On accepted base `36baf30`: actual default Docker startup and verification succeeded;
+fresh production-mode full-stack verification passed **40 backend / 7 frontend / 15 UI**.
+On `build/t05-real-world-repos`: **53 backend / 7 frontend / 17 UI**, typecheck,
+production build and production dependency audit passed. All five MCP tools were
+exercised via the protocol client on both external tenants. See
+`tasks/reports/T-05.md` and `T-05-evidence/` for raw logs, exact image/runtime,
+telemetry and scoped hygiene. No independent T-05 architect acceptance or merge is implied.
+
+The older table below preserves the original T-04 gate record, not fresh T-05 counts.
+
 ## Phase 6 gate
 | Check | Result / evidence |
 | --- | --- |
@@ -25,8 +37,9 @@ This is not a production release, article publication or hackathon submission.
 | Publication integrity | **PASS** at `a165abc`: all 21 published changed files byte-identical after fetch, checkout fast-forwarded, empty `git status --porcelain`. This follow-up records that observed gate; latest head/clean scan in final handoff. |
 
 ## Explicitly NOT RUN / out of scope
-- Docker execution: Docker is unavailable in the agent environment. The default
-  loopback-only Docker launcher is supplied but **not empirically validated here**.
+- Legacy `docker compose up -d` execution remains NOT RUN. The safer default
+  loopback-only launcher **was empirically validated on the VM**; production-mode
+  Chromium checks also passed. This closes the earlier Docker-launcher gap only.
 - Entire clean-machine native installation/startup: only the isolated native helper
   and installed existing-DB verification path were exercised. Native wheels and
   module/glibc support vary by platform; no host libraries were replaced.
@@ -44,7 +57,7 @@ production authentication. Read-only discovery uses `GRAPH.RO_QUERY`; controlled
 writes are allowed for state recording and confirmed local policy overrides.
 The demo actor is not a verified GitHub identity. Keep `DEMO_POLICY_SCENARIO`,
 `SIMULATED_PR_DEPENDENCY`, `DETERMINISTIC_POLICY_TRIAGE` and
-`CONTROLLED_ONE_HOP_BASELINE` visible. Ownership is limited PR-file evidence.
+`CONTROLLED_ONE_HOP_BASELINE` visible. Ownership is bounded PR/review or Git-commit file evidence; Git authors are unverified.
 
 `.env.example` is a public template, not a credential file. `.venv`, `node_modules`,
 source caches, `.next` and Python caches may exist locally but must remain ignored,

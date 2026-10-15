@@ -51,15 +51,18 @@ traversal prefix, not pseudocode:
 MATCH (target:File)
 WHERE target.path IN $modified_files
 OPTIONAL MATCH (downstream:File)-[:IMPORTS*1..3]->(target)
+WITH target, collect(DISTINCT downstream.path) AS impacted_files
 OPTIONAL MATCH (target)-[:DEFINES]->(fn_target:Function)<-[:CALLS*1..3]-(fn_down:Function)
+WITH target, impacted_files, collect(DISTINCT fn_down.qualified_name) AS impacted_functions
 OPTIONAL MATCH (d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(target)
 OPTIONAL MATCH (d)-[:SUPERSEDED]->(old_d:Decision)
-OPTIONAL MATCH (open_issue:Issue {state: 'OPEN'})-[:AFFECTS]->(downstream)
 ```
 
 The full query aggregates impacted paths, functions, current decisions, and related
-issue evidence. A separate ownership/lineage query ranks authors and reviewers
-only where ingested PR-file links exist. Empty results are a coverage limitation,
+issue evidence. T-05 real-repository tests exposed a join fan-out timeout; aggregating
+each traversal before the next join avoids that Cartesian multiplication without
+reducing the three-hop horizon. A separate ownership/lineage query ranks authors and reviewers
+only where ingested PR/review or bounded Git-commit file links exist. Empty results are a coverage limitation,
 not proof that a file lacks maintainers.
 
 The database manager attempts `GRAPH.DELETE` in a context-manager `finally` block.

@@ -1,0 +1,146 @@
+Obtaining file:///home/nakulmaurya13579/ChronosGraph/backend
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: falkordb>=1.0.8 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (1.8.0)
+Requirement already satisfied: fastapi>=0.115.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (0.143.1)
+Requirement already satisfied: fastmcp>=0.4.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (4.1.0)
+Requirement already satisfied: httpx>=0.27.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (0.28.1)
+Requirement already satisfied: numpy>=1.26.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (2.5.4)
+Requirement already satisfied: pydantic-settings>=2.5.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (2.16.0)
+Requirement already satisfied: pydantic>=2.9.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (2.14.1)
+Requirement already satisfied: pytest>=8.3.0 in ./.venv/lib/python3.13/site-packages (from chronosgraph-backend==0.1.0) (9.1.1)
+Requirement already satisfied: uvicorn>=0.30.0 in ./.venv/lib/python3.13/site-packages (from uvicorn[standard]>=0.30.0->chronosgraph-backend==0.1.0) (0.54.0)
+Requirement already satisfied: python-dateutil<3,>=2.9.0 in ./.venv/lib/python3.13/site-packages (from falkordb>=1.0.8->chronosgraph-backend==0.1.0) (2.9.0.post0)
+Requirement already satisfied: redis<9,>=8.0.0 in ./.venv/lib/python3.13/site-packages (from falkordb>=1.0.8->chronosgraph-backend==0.1.0) (8.1.0)
+Requirement already satisfied: six>=1.5 in ./.venv/lib/python3.13/site-packages (from python-dateutil<3,>=2.9.0->falkordb>=1.0.8->chronosgraph-backend==0.1.0) (1.17.0)
+Requirement already satisfied: starlette>=0.46.0 in ./.venv/lib/python3.13/site-packages (from fastapi>=0.115.0->chronosgraph-backend==0.1.0) (1.8.0)
+Requirement already satisfied: typing-extensions>=4.8.0 in ./.venv/lib/python3.13/site-packages (from fastapi>=0.115.0->chronosgraph-backend==0.1.0) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in ./.venv/lib/python3.13/site-packages (from fastapi>=0.115.0->chronosgraph-backend==0.1.0) (0.4.4)
+Requirement already satisfied: annotated-doc>=0.0.2 in ./.venv/lib/python3.13/site-packages (from fastapi>=0.115.0->chronosgraph-backend==0.1.0) (0.0.5)
+Requirement already satisfied: opentelemetry-api>=1.44.0 in ./.venv/lib/python3.13/site-packages (from fastapi>=0.115.0->chronosgraph-backend==0.1.0) (1.45.1)
+Requirement already satisfied: fastmcp-slim==4.1.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (4.1.0)
+Requirement already satisfied: mcp-types<3.0.0,>=2.0.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.3.0)
+Requirement already satisfied: platformdirs>=4.0.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (4.13.0)
+Requirement already satisfied: python-dotenv>=1.1.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.2.4)
+Requirement already satisfied: rich>=13.9.4 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (15.0.0)
+Requirement already satisfied: authlib>=1.6.11 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.9.1)
+Requirement already satisfied: exceptiongroup>=1.2.2 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.3.1)
+Requirement already satisfied: httpx2>=2.5.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.13.1)
+Requirement already satisfied: mcp<3.0.0,>=2.0.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.3.0)
+Requirement already satisfied: py-key-value-aio<0.5.0,>=0.4.4 in ./.venv/lib/python3.13/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.4.6)
+Requirement already satisfied: cyclopts>=4.0.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (5.2.0)
+Requirement already satisfied: griffelib>=2.0.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.3.2)
+Requirement already satisfied: joserfc>=1.5.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.7.5)
+Requirement already satisfied: jsonref>=1.1.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.1.0)
+Requirement already satisfied: jsonschema-path>=0.3.4 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.5.0)
+Requirement already satisfied: openapi-pydantic>=0.5.1 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.6.0)
+Requirement already satisfied: packaging>=24.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (26.3)
+Requirement already satisfied: pyperclip>=1.9.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.11.0)
+Requirement already satisfied: python-multipart>=0.0.26 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.0.32)
+Requirement already satisfied: pyyaml<7.0,>=6.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (6.0.3)
+Requirement already satisfied: uncalled-for>=0.4.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.4.1)
+Requirement already satisfied: watchfiles>=1.0.0 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (1.3.0)
+Requirement already satisfied: websockets>=15.0.1 in ./.venv/lib/python3.13/site-packages (from fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (17.2)
+Requirement already satisfied: anyio>=4.9 in ./.venv/lib/python3.13/site-packages (from mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (4.15.1)
+Requirement already satisfied: jsonschema>=4.20.0 in ./.venv/lib/python3.13/site-packages (from mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (4.26.0)
+Requirement already satisfied: pyjwt>=2.10.1 in ./.venv/lib/python3.13/site-packages (from pyjwt[crypto]>=2.10.1->mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.15.1)
+Requirement already satisfied: sse-starlette>=3.0.0 in ./.venv/lib/python3.13/site-packages (from mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (3.5.0)
+Requirement already satisfied: beartype>=0.20.0 in ./.venv/lib/python3.13/site-packages (from py-key-value-aio<0.5.0,>=0.4.4->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.23.1)
+Requirement already satisfied: aiofile>=3.12.3 in ./.venv/lib/python3.13/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (3.12.3)
+Requirement already satisfied: keyring>=25.6.0 in ./.venv/lib/python3.13/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (25.7.0)
+Requirement already satisfied: cachetools>=5.0.0 in ./.venv/lib/python3.13/site-packages (from py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (7.2.1)
+Requirement already satisfied: caio~=0.12.0 in ./.venv/lib/python3.13/site-packages (from aiofile>=3.12.3->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.12.9)
+Requirement already satisfied: idna>=2.8 in ./.venv/lib/python3.13/site-packages (from anyio>=4.9->mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (3.20)
+Requirement already satisfied: cryptography>=45.0.1 in ./.venv/lib/python3.13/site-packages (from authlib>=1.6.11->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (50.0.2)
+Requirement already satisfied: cffi>=2.0.0 in ./.venv/lib/python3.13/site-packages (from cryptography>=45.0.1->authlib>=1.6.11->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.1.1)
+Requirement already satisfied: pycparser in ./.venv/lib/python3.13/site-packages (from cffi>=2.0.0->cryptography>=45.0.1->authlib>=1.6.11->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (3.11)
+Requirement already satisfied: attrs>=23.1.0 in ./.venv/lib/python3.13/site-packages (from cyclopts>=4.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (26.1.0)
+Requirement already satisfied: docstring-parser<4.0,>=0.15 in ./.venv/lib/python3.13/site-packages (from cyclopts>=4.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.18.0)
+Requirement already satisfied: rich-rst<3,>=2.0.1 in ./.venv/lib/python3.13/site-packages (from cyclopts>=4.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.2.0)
+Requirement already satisfied: pygments>=2.0.0 in ./.venv/lib/python3.13/site-packages (from rich-rst<3,>=2.0.1->cyclopts>=4.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.21.0)
+Requirement already satisfied: certifi in ./.venv/lib/python3.13/site-packages (from httpx>=0.27.0->chronosgraph-backend==0.1.0) (2026.7.22)
+Requirement already satisfied: httpcore==1.* in ./.venv/lib/python3.13/site-packages (from httpx>=0.27.0->chronosgraph-backend==0.1.0) (1.0.9)
+Requirement already satisfied: h11>=0.16 in ./.venv/lib/python3.13/site-packages (from httpcore==1.*->httpx>=0.27.0->chronosgraph-backend==0.1.0) (0.16.0)
+Requirement already satisfied: httpcore2==2.13.1 in ./.venv/lib/python3.13/site-packages (from httpx2>=2.5.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.13.1)
+Requirement already satisfied: truststore>=0.10 in ./.venv/lib/python3.13/site-packages (from httpx2>=2.5.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.10.5)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./.venv/lib/python3.13/site-packages (from jsonschema>=4.20.0->mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in ./.venv/lib/python3.13/site-packages (from jsonschema>=4.20.0->mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in ./.venv/lib/python3.13/site-packages (from jsonschema>=4.20.0->mcp<3.0.0,>=2.0.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2026.9.1)
+Requirement already satisfied: pathable<0.7.0,>=0.6.0 in ./.venv/lib/python3.13/site-packages (from jsonschema-path>=0.3.4->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.6.0)
+Requirement already satisfied: SecretStorage>=3.2 in ./.venv/lib/python3.13/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (3.5.0)
+Requirement already satisfied: jeepney>=0.4.2 in ./.venv/lib/python3.13/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.9.0)
+Requirement already satisfied: jaraco.classes in ./.venv/lib/python3.13/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (3.4.0)
+Requirement already satisfied: jaraco.functools in ./.venv/lib/python3.13/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (4.6.0)
+Requirement already satisfied: jaraco.context in ./.venv/lib/python3.13/site-packages (from keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (6.1.2)
+Requirement already satisfied: annotated-types>=0.6.0 in ./.venv/lib/python3.13/site-packages (from pydantic>=2.9.0->chronosgraph-backend==0.1.0) (0.8.0)
+Requirement already satisfied: pydantic-core==2.50.1 in ./.venv/lib/python3.13/site-packages (from pydantic>=2.9.0->chronosgraph-backend==0.1.0) (2.50.1)
+Requirement already satisfied: email-validator>=2.0.0 in ./.venv/lib/python3.13/site-packages (from pydantic[email]>=2.12.0->fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.3.0)
+Requirement already satisfied: dnspython>=2.0.0 in ./.venv/lib/python3.13/site-packages (from email-validator>=2.0.0->pydantic[email]>=2.12.0->fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (2.9.0)
+Requirement already satisfied: iniconfig>=1.0.1 in ./.venv/lib/python3.13/site-packages (from pytest>=8.3.0->chronosgraph-backend==0.1.0) (2.3.1)
+Requirement already satisfied: pluggy<2,>=1.5 in ./.venv/lib/python3.13/site-packages (from pytest>=8.3.0->chronosgraph-backend==0.1.0) (1.7.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in ./.venv/lib/python3.13/site-packages (from rich>=13.9.4->fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (4.2.0)
+Requirement already satisfied: mdurl~=0.1 in ./.venv/lib/python3.13/site-packages (from markdown-it-py>=2.2.0->rich>=13.9.4->fastmcp-slim==4.1.0->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (0.1.2)
+Requirement already satisfied: click>=7.0 in ./.venv/lib/python3.13/site-packages (from uvicorn>=0.30.0->uvicorn[standard]>=0.30.0->chronosgraph-backend==0.1.0) (8.5.0)
+Requirement already satisfied: httptools>=0.8.0 in ./.venv/lib/python3.13/site-packages (from uvicorn[standard]>=0.30.0->chronosgraph-backend==0.1.0) (0.9.0)
+Requirement already satisfied: uvloop>=0.15.1 in ./.venv/lib/python3.13/site-packages (from uvicorn[standard]>=0.30.0->chronosgraph-backend==0.1.0) (0.23.0)
+Requirement already satisfied: more-itertools in ./.venv/lib/python3.13/site-packages (from jaraco.classes->keyring>=25.6.0->py-key-value-aio[filetree,keyring,memory]<0.5.0,>=0.4.4; extra == "client"->fastmcp-slim[client,server]==4.1.0->fastmcp>=0.4.0->chronosgraph-backend==0.1.0) (11.2.1)
+Building wheels for collected packages: chronosgraph-backend
+  Building editable for chronosgraph-backend (pyproject.toml): started
+  Building editable for chronosgraph-backend (pyproject.toml): finished with status 'done'
+  Created wheel for chronosgraph-backend: filename=chronosgraph_backend-0.1.0-py3-none-any.whl size=1543 sha256=dcf23e32bbb74048dc8111fd4de52f2f612564a09e85738eb9fe37df98fc5cb7
+  Stored in directory: /tmp/pip-ephem-wheel-cache-4wcv8b8q/wheels/64/26/38/005a233631fa4d8ba47ecc32b83ca3a4a4b4b1fb1823e73883
+Successfully built chronosgraph-backend
+Installing collected packages: chronosgraph-backend
+  Attempting uninstall: chronosgraph-backend
+    Found existing installation: chronosgraph-backend 0.1.0
+    Uninstalling chronosgraph-backend-0.1.0:
+      Successfully uninstalled chronosgraph-backend-0.1.0
+Successfully installed chronosgraph-backend-0.1.0
+
+added 71 packages, and audited 72 packages in 13s
+
+11 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+Native GRAPH.LIST verified
+{
+  "repo_falkordb_py": {
+    "repository": "FalkorDB/falkordb-py",
+    "revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+    "nodes": 466,
+    "edges": 689,
+    "pagerank_method": "native_falkordb_pagerank",
+    "files": 42,
+    "functions": 371,
+    "resolved_calls": 196,
+    "unresolved_calls": 1413,
+    "policies": 8,
+    "policy_status": "APPROVED_DEMO_POLICY_SCENARIOS",
+    "graph_write_ms": 126.31
+  },
+  "repo_graphrag_sdk": {
+    "repository": "FalkorDB/GraphRAG-SDK",
+    "revision": "35e67a0b27fdcc7f2c28508b09e86169851a8187",
+    "nodes": 4260,
+    "edges": 6271,
+    "pagerank_method": "native_falkordb_pagerank",
+    "files": 154,
+    "functions": 3364,
+    "resolved_calls": 2144,
+    "unresolved_calls": 16061,
+    "policies": 8,
+    "policy_status": "APPROVED_DEMO_POLICY_SCENARIOS",
+    "graph_write_ms": 445.67
+  }
+}
+Open http://127.0.0.1:3001 after servers are ready. Logs: /tmp/chronosgraph-local.O6zQHw
+Ctrl-C stops only processes/container owned by this launcher. Owned databases are ephemeral.

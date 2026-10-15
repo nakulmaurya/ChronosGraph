@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+import re
 import threading
 from typing import Any
 from fastapi import HTTPException
@@ -9,15 +10,47 @@ from app.db.client import db_manager
 from app.ingestion.seed_repos import REPOS
 from app.models import GraphSubgraphPayload, VisualNode, VisualEdge
 
+TENANT_PATTERN = re.compile(r"repo_[a-z0-9_]+\Z")
 LOCKS = {tenant: threading.RLock() for tenant in REPOS}
+LOCKS_MASTER = threading.Lock()
+
+
+def tenant_lock(tenant: str):
+    """Single-process request locks; CLI ingestion also uses a Redis writer lock."""
+    with LOCKS_MASTER:
+        return LOCKS.setdefault(tenant, threading.RLock())
 
 
 def tenant_exists(tenant: str) -> str:
-    if tenant not in REPOS:
+    if not isinstance(tenant, str) or not TENANT_PATTERN.fullmatch(tenant):
         raise HTTPException(404, 'Unknown tenant graph')
     if tenant not in db_manager.list_tenant_graphs():
-        raise HTTPException(503, 'Tenant is not seeded; run app.ingestion.seed_repos')
+        raise HTTPException(404, 'Unknown or unseeded tenant graph')
+    graph = db_manager.get_graph(tenant)
+    meta = graph.ro_query('MATCH (m:RepoMetadata) RETURN m.status LIMIT 1').result_set
+    if meta:
+        valid = meta[0][0] == 'READY'
+    else:
+        # Backwards-compatible registration for pre-metadata source graphs.
+        valid = bool(graph.ro_query('MATCH (f:File) RETURN f.path LIMIT 1').result_set)
+    if not valid:
+        raise HTTPException(404, 'Unknown or unseeded tenant graph')
+    tenant_lock(tenant)
     return tenant
+
+
+def registered_tenants():
+    graphs = db_manager.list_tenant_graphs()
+    ordered = [t for t in REPOS if t in graphs]
+    ordered += sorted(t for t in graphs if t not in REPOS and TENANT_PATTERN.fullmatch(t))
+    result = []
+    for tenant in ordered:
+        try:
+            result.append(tenant_exists(tenant))
+        except HTTPException as exc:
+            if exc.status_code != 404:
+                raise
+    return result
 
 
 def bounded_text(value: str, name: str, maximum: int = 8000) -> str:

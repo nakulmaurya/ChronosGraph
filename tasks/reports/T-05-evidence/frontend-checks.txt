@@ -1,0 +1,47 @@
+
+> chronosgraph-arena@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ unsafe evidence links are never actionable (1.616672ms)
+✔ timestamps distinguish open intervals from real epoch seconds (0.765342ms)
+✔ measured timing and metadata formatting (0.339343ms)
+✔ graph layout preserves evidence identity and filters dangling edges (1.883021ms)
+✔ API preserves HTTP scope conflict details (58.475009ms)
+✔ API explains network failure without inventing data (0.735278ms)
+✔ focused view preserves policies, real edges, and full payload (0.481804ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 287.160969
+
+> chronosgraph-arena@0.1.0 typecheck
+> tsc --noEmit
+
+
+> chronosgraph-arena@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.4.1 (webpack)
+✓ Running next.config.ts took 46ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.4s
+  Running TypeScript ...
+  Finished TypeScript in 4.5s ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/3) ...
+✓ Generating static pages using 3 workers (3/3) in 353ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+

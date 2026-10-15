@@ -66,7 +66,7 @@ def main():
     graphs = db_manager.list_tenant_graphs()
     orphans = [g for g in graphs if g.startswith(("sandbox_pr_", "test_chronos_"))]
     fixtures = {}
-    for graph in ["repo_falkordb_py", "repo_graphrag_sdk"]:
+    for graph in sorted(g for g in graphs if re.fullmatch(r"repo_[a-z0-9_]+", g)):
         rows = db_manager.get_graph(graph).ro_query("""MATCH (n)
         WHERE n.source_type='E2E_TEST_FIXTURE' OR n.path STARTS WITH '__e2e__/'
         RETURN count(n)""").result_set
