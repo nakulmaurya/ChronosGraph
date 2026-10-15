@@ -1,7 +1,8 @@
 # ChronosGraph Engineering Handoff
 
 ## Current boundary
-Contract **v1.2**, approved CR-001 and CR-002. T-01 and T-02 are merged. T-03 was
+Contract **v1.3**, additive T-05 acceptance supplied through the user bridge;
+prior v1.2 / approved CR-001 and CR-002 remain the historical baseline. T-01 and T-02 are merged. T-03 was
 accepted by the Principal Architect and merged via **PR #3** at
 `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7` (includes product commit `25ed5c0` and
 acceptance record `c332ea2`). The Principal Architect accepted T-04 at `d47c035`
@@ -10,10 +11,11 @@ T-04 is merged into main through PR #4 at `71f9f7b979b2f4779a812149fe0ac83d184fb
 Final acceptance polish is included at `dfddf4d`; main is the canonical clone target.
 Deployment, external publication and submission are not performed or authorized here.
 
-## T-05 review boundary and running VM
+## T-05 acceptance and running VM
 
-`build/t05-real-world-repos` is READY_FOR_REVIEW, based on `36baf30`; **do not merge
-without review**. Dynamic tenant discovery, conservative Git/AST CLI, real bounded
+Status: DONE — ACCEPTED; integration authorized, merge receipt pending.
+The Principal Architect accepted `build/t05-real-world-repos` at `ed1d57a`, based on
+`36baf30`; see `tasks/reviews/T-05.md`. Dynamic tenant discovery, conservative Git/AST CLI, real bounded
 commit-file provenance/backfill, normalized native PageRank and opt-in demo policies
 are implemented. The audit query now aggregates traversal branches independently to
 avoid the actual join fan-out timeout found on `FalkorDB/code-graph`.
@@ -98,7 +100,7 @@ final chat identifies the latest branch head and repeats the clean status check.
 The README starts directly from main; the article's release-checklist link targets main.
 The final integrator checks scoped hygiene and clean checkout after publishing and merge.
 
-The Docker launcher gap is now closed by VM evidence. Next, review T-05; record the demo
+The Docker launcher gap is closed and T-05 is accepted. After integration, record the demo
 and publish/submit only after checking the event's actual rules and deadlines.
 The short 2:45 script does not include a mutating override; that is an optional
 longer take. Prize eligibility, publication and submission are not verified here.

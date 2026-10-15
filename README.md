@@ -84,7 +84,7 @@ Live counts include later investigation/playbook records. Latency varies with lo
 the UI displays the actual factor even below 1. Owners reflect bounded PR/review or Git-commit file
 coverage; Git author identities are unverified, not definitive maintainers. Vectors are lexical hashes, not semantic model embeddings.
 
-## Ingest another Python Git repository (T-05 review branch)
+## Ingest another Python Git repository (v1.3)
 
 With dependencies installed and a trusted FalkorDB running:
 
@@ -133,8 +133,10 @@ cd backend  # from repository root
   --backfill-history --history-path falkordb/graph.py
 ```
 
-See [T-05 measurements and verification](tasks/reports/T-05.md). T-05 is proposed,
-not merged or architect-accepted. Historical T-01/T-02 counts/timings above are unchanged.
+See [T-05 measurements and verification](tasks/reports/T-05.md) and
+[Principal Architect acceptance](tasks/reviews/T-05.md). Contract v1.3 accepts dynamic
+repository support. Historical T-01/T-02 counts/timings above remain unchanged; the
+larger MCP SDK clone samples reached 257.62 ms, not a universal sub-250 ms guarantee.
 
 ## Verify and connect an agent
 
@@ -158,4 +160,4 @@ This is a template, not an installed IDE connection. Start/seed FalkorDB first.
 See [frontend setup/live smoke](frontend/README.md), [release evidence](tasks/reports/T-04.md),
 [technical article](docs/blog-post-falkordb.md) and [handoff](docs/handoff.md).
 **Local trusted-client demonstration only: no authentication, no production safety
-guarantee, no deployment or external publication. Release status: v1.2 accepted (40 backend tests, 7 frontend regression tests, and 15 live UI smoke checks verified).**
+guarantee, no deployment or external publication. Release status: v1.3 accepted (53 backend tests, 7 frontend regression tests, and 17 live production Chromium checks verified).**

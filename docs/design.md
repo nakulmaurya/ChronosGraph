@@ -1,6 +1,10 @@
 # Interface Design — ChronosGraph Flight Recorder
 
-Version v1.2 / approved CR-002; replaces all earlier illustrative fake metrics.
+Version v1.3 / accepted T-05; prior approved CR-002 replaces illustrative fake metrics.
+The tenant menu discovers registered repositories; the snapshot selector distinguishes
+Git commits from PRs. Reviewer names are bounded, unverified author evidence.
+Live totals may grow after ingestion; do not present initial counts as live counts.
+No visual redesign or new production/security claim is part of acceptance.
 
 ## Direction
 A precise, dark industrial graph workbench. Slate-950 canvas, slate-900 panels,

@@ -2,6 +2,18 @@
 
 > Scope: MVP + Hackathon 3-Track Sweep | Related PRD: `docs/prd.md` | Status: accepted
 
+## v1.3 additive integration contract
+T-05 is accepted by the Principal Architect via the user bridge at `ed1d57a`.
+The original two source graphs remain defaults; dynamic `repo_*` graphs register
+through READY metadata or legacy File presence. A trusted-local CLI handles Git/AST
+snapshots, native normalized PageRank and explicitly labeled bounded commit-file
+evidence. Per-tenant RLocks are process-local; CLI source/writer locks use Redis.
+The canonical blast-radius query now aggregates import/call/policy branches in
+sequence to prevent join fan-out while retaining three-hop semantics. Locked models,
+read-only discovery, cleanup and provenance constraints remain. This authorized
+query refinement supersedes the older blanket query-lock wording below only for T-05.
+See `tasks/reviews/T-05.md` and `tasks/reports/T-05.md` for empirical scope and limits.
+
 ## 1. Constraints and architectural goals
 - **Pre-installed baseline:** `docker-compose.yml`, `backend/app/config.py`, `backend/app/models.py`, `backend/app/db/client.py`, and `backend/app/db/queries.py` are locked and pre-verified.
 - **Database Law:** FalkorDB (`falkordb/falkordb:latest`) on port `6379`. Zero Neo4j or APOC syntax permitted. All embeddings wrapped in `vecf32($emb)`.

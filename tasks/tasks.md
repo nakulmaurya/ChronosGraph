@@ -72,11 +72,12 @@
 
 
 ### T-05 — Dynamic Real-World Repository Ingestion & Live Multi-Repo Verification
-- Status: READY_FOR_REVIEW
+- Status: DONE
 - Assigned agent: Builder + integrator (Notion Agent)
 - Assignment: `tasks/assignments/T-05.md`
 - Base: accepted main `36baf30`; branch `build/t05-real-world-repos`.
 - Scope: dynamic registered tenants; conservative Git/AST ingest CLI; real bounded
   commit-file evidence; append-only falkordb/graph.py history backfill; two external
   repositories; full route/MCP/production-UI verification and measured telemetry.
-- Stop: publish code/evidence/report for architect review; do not merge or deploy publicly.
+- Acceptance: Principal Architect ACCEPTED via user bridge; contract v1.3. See `tasks/reviews/T-05.md`.
+- Integration: merge authorized; receipt follows. No public deployment or external submission.

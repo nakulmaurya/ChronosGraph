@@ -1,6 +1,6 @@
 # Planning Manifest — ChronosGraph
 
-> Contract version: v1.2 | Updated: 2026-10-15 | Status: READY_FOR_BUILD | Mode: planner (Brain) → builder (Notion Agent) → reviewer (Brain via GitHub)
+> Contract version: v1.3 | Status: T-01–T-05 ACCEPTED | Integration: authorized, receipt pending | Historical planner→builder→reviewer records retained below.
 
 ## Authority and baseline
 - Project/repository: `chronosgraph` (GitHub Canvas bridged by Nakul Arvind Maurya)
@@ -54,3 +54,15 @@ are tested without artificial timing. Keep current HTTP 409 scope guard. Baselin
 are controlled queries, policies and synthetic dependencies retain provenance.
 After 40/40 tests and integrator acceptance, T-02 may merge; T-03 is authorized on
 build/t03-frontend-arena. Stop at T-03 report; no T-04 or production deployment.
+
+## v1.3 — Accepted T-05 dynamic repository extension
+
+Principal Architect acceptance of `ed1d57a61ba29b31554696a9690692f2e1118066` and
+merge authorization were supplied by Nakul in the attached review. T-01–T-05 are
+DONE; earlier dispatch gates are historical, not current pending tasks.
+Dynamic READY/legacy-File registration, safe unknown-tenant refusal, bounded Git/AST
+ingestion, normalized native PageRank, truthful Git author provenance and sequential
+audit aggregation are accepted additions. Models remain unchanged. Larger-repo clone
+samples include 257.62 ms; do not generalize the old <250 ms two-tenant ceiling.
+Docker baseline 40/7/15 and T-05 53/7/17 checks are recorded in the T-05 report.
+See `tasks/reviews/T-05.md` for authority and preserved trust/verification limits.
