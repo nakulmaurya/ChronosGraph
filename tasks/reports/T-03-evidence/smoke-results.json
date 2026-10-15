@@ -1,0 +1,75 @@
+{
+  "checks": [
+    {
+      "check": "Live tenant catalog and initial source graph",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 1 live audit, impacted nodes and verified sandbox cleanup",
+      "status": "PASS"
+    },
+    {
+      "check": "Interactive node selection, metadata and draggable positions",
+      "status": "PASS"
+    },
+    {
+      "check": "Exact backend Cypher drawer",
+      "status": "PASS"
+    },
+    {
+      "check": "Full API payload remains accessible behind focused graph view",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry",
+      "status": "PASS"
+    },
+    {
+      "check": "Scenario changes invalidate replay availability",
+      "status": "PASS"
+    },
+    {
+      "check": "Backend stale-playbook refusal is surfaced and replay disabled",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 3 active/superseded policies, times, scope and provenance",
+      "status": "PASS"
+    },
+    {
+      "check": "Explicit confirmed override writes real lineage and invalidates UI replay",
+      "status": "PASS"
+    },
+    {
+      "check": "Tenant switch clears results and loads SDK-specific policy data",
+      "status": "PASS"
+    },
+    {
+      "check": "MCP five-tool template, editable cwd, Escape and focus restoration",
+      "status": "PASS"
+    },
+    {
+      "check": "Network failure explains recovery without fake fallback data",
+      "status": "PASS"
+    },
+    {
+      "check": "390px mobile layouts: all three tracks and MCP dialog, no page overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "No uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "measurements": [
+    {
+      "tenant": "repo_falkordb_py",
+      "cold_duration_ms": 29.357,
+      "warm_duration_ms": 13.533,
+      "latency_speedup_factor": 2.169,
+      "cold_actions": 5,
+      "warm_actions": 3
+    }
+  ],
+  "browserErrors": []
+}
