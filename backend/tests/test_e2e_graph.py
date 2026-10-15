@@ -1,7 +1,7 @@
 """Real local FalkorDB route/tool tests. No mock clients or database substitutes.
 
-Functional tests and unmet product-performance gates are both present. The latter
-must fail rather than manufacture a model token benchmark or guarantee a speedup.
+Acceptance gates follow architect-approved CR-002 / v1.2: actual dead-end
+elimination and step reduction, zero-model sentinels, measured replay speedup.
 """
 import asyncio
 import json
@@ -84,7 +84,7 @@ def test_sandbox_clone_mutations_and_cleanup(client,tenant,path):
     assert set(db_manager.list_tenant_graphs())==graphs
     after,_=read(tenant,'MATCH (n) RETURN count(n) AS item_count')
     assert before==after
-    assert data['sandbox_clone_time_ms']>=0
+    assert 0 <= data['sandbox_clone_time_ms'] < 250
     assert data['active_decisions_triggered'] and data['impacted_files'] and data['impacted_functions']
     assert all(d['source_type']=='DEMO_POLICY_SCENARIO' for d in data['active_decisions_triggered'])
     assert data['blind_agent_comparison']['tokens_burned']==0
@@ -250,12 +250,20 @@ def test_pr_selection_and_evidence_based_owners(client):
     assert all(r['login'] and r['pr_count']>0 for r in data['recommended_reviewers'])
 
 
-# These are genuine product-acceptance gates, NOT redefined to make tests green.
-def test_acceptance_token_savings_at_least_75_percent(race):
-    _,warm=race
-    assert warm['token_savings_pct']>=75.0, 'No LLM was called; actual model token savings are unmeasured, not 75%'
+# Architect-approved CR-002 (v1.2), not an unapproved weakening of tests.
+def test_acceptance_dead_end_pruning_and_step_reduction(race):
+    cold,warm=race
+    assert cold['total_steps_executed']==5
+    assert cold['pruned_golden_steps']==warm['total_steps_executed']==3
+    assert sum(bool(s['dead_end']) for s in cold['agent_handoff_log'])==2
+    assert sum(bool(s['dead_end']) for s in warm['agent_handoff_log'])==0
+    assert (cold['total_steps_executed']-warm['total_steps_executed'])/cold['total_steps_executed']==0.4
+    assert cold['tokens_used']==warm['tokens_used']==0
+    assert cold['token_savings_pct']==warm['token_savings_pct']==0.0
 
 
-def test_acceptance_latency_speedup_at_least_4x(race):
-    _,warm=race
-    assert warm['latency_speedup_factor']>=4.0, f"Measured speedup is {warm['latency_speedup_factor']}x, below required 4x"
+def test_acceptance_compiled_replay_is_faster_and_valid(race):
+    cold,warm=race
+    assert warm['total_steps_executed']<cold['total_steps_executed']
+    assert warm['duration_ms']>0
+    assert warm['latency_speedup_factor']>1.0

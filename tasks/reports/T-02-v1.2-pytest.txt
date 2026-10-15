@@ -1,0 +1,50 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0 -- /data/chronosgraph-build/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /data/chronosgraph-build/chronosgraph/backend
+configfile: pyproject.toml
+plugins: platformdirs-4.13.0, anyio-4.15.1
+collecting ... collected 40 items
+
+tests/test_ast_parser.py::test_class_scoped_methods_do_not_collide PASSED [  2%]
+tests/test_ast_parser.py::test_nested_calls_not_attributed_to_outer PASSED [  5%]
+tests/test_ast_parser.py::test_async_and_signature PASSED                [  7%]
+tests/test_ast_parser.py::test_syntax_error_returns_diagnostic PASSED    [ 10%]
+tests/test_ast_parser.py::test_relative_import_and_alias PASSED          [ 12%]
+tests/test_ast_parser.py::test_external_import_not_fabricated PASSED     [ 15%]
+tests/test_ast_parser.py::test_dynamic_calls_remain_unresolved PASSED    [ 17%]
+tests/test_ast_parser.py::test_source_is_never_executed PASSED           [ 20%]
+tests/test_ast_parser.py::test_file_encoding_and_digest PASSED           [ 22%]
+tests/test_ast_parser.py::test_nested_classes_keep_full_scope PASSED     [ 25%]
+tests/test_ast_parser.py::test_decorator_calls_use_enclosing_scope PASSED [ 27%]
+tests/test_e2e_graph.py::test_health_and_tenant_catalog PASSED           [ 30%]
+tests/test_e2e_graph.py::test_real_subgraph_and_unknown_tenant[repo_falkordb_py] PASSED [ 32%]
+tests/test_e2e_graph.py::test_real_subgraph_and_unknown_tenant[repo_graphrag_sdk] PASSED [ 35%]
+tests/test_e2e_graph.py::test_sandbox_clone_mutations_and_cleanup[repo_falkordb_py-falkordb/graph.py] PASSED [ 37%]
+tests/test_e2e_graph.py::test_sandbox_clone_mutations_and_cleanup[repo_graphrag_sdk-graphrag_sdk/src/graphrag_sdk/core/connection.py] PASSED [ 40%]
+tests/test_e2e_graph.py::test_sandbox_input_validation PASSED            [ 42%]
+tests/test_e2e_graph.py::test_brain_returns_real_labeled_current_and_historical_policies[repo_falkordb_py-falkordb/graph.py] PASSED [ 45%]
+tests/test_e2e_graph.py::test_brain_returns_real_labeled_current_and_historical_policies[repo_graphrag_sdk-graphrag_sdk/src/graphrag_sdk/core/connection.py] PASSED [ 47%]
+tests/test_e2e_graph.py::test_brain_semantic_route_and_validation PASSED [ 50%]
+tests/test_e2e_graph.py::test_override_preserves_history_and_scope_guards PASSED [ 52%]
+tests/test_e2e_graph.py::test_memory_cold_persists_branching_path_and_warm_reexecutes_tools PASSED [ 55%]
+tests/test_e2e_graph.py::test_memory_refuses_unknown_and_stale_playbooks PASSED [ 57%]
+tests/test_e2e_graph.py::test_memory_validation PASSED                   [ 60%]
+tests/test_e2e_graph.py::test_five_mcp_tools_via_actual_inprocess_protocol PASSED [ 62%]
+tests/test_e2e_graph.py::test_api_cors_is_local_only PASSED              [ 65%]
+tests/test_e2e_graph.py::test_sdk_investigation_is_tenant_isolated PASSED [ 67%]
+tests/test_e2e_graph.py::test_pr_selection_and_evidence_based_owners PASSED [ 70%]
+tests/test_e2e_graph.py::test_acceptance_dead_end_pruning_and_step_reduction PASSED [ 72%]
+tests/test_e2e_graph.py::test_acceptance_compiled_replay_is_faster_and_valid PASSED [ 75%]
+tests/test_ingestion_live.py::test_source_graph_has_real_structure_and_provenance[repo_falkordb_py] PASSED [ 77%]
+tests/test_ingestion_live.py::test_source_graph_has_real_structure_and_provenance[repo_graphrag_sdk] PASSED [ 80%]
+tests/test_ingestion_live.py::test_reseed_is_idempotent[repo_falkordb_py] PASSED [ 82%]
+tests/test_ingestion_live.py::test_reseed_is_idempotent[repo_graphrag_sdk] PASSED [ 85%]
+tests/test_ingestion_live.py::test_real_sandbox_isolation_and_exception_cleanup PASSED [ 87%]
+tests/test_ingestion_live.py::test_read_only_discovery_rejects_writes PASSED [ 90%]
+tests/test_ingestion_live.py::test_vector_index_and_search_are_real PASSED [ 92%]
+tests/test_ingestion_live.py::test_pagerank_is_computed_and_normalized PASSED [ 95%]
+tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_falkordb_py] PASSED [ 97%]
+tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_graphrag_sdk] PASSED [100%]
+
+============================== 40 passed in 3.58s ==============================
