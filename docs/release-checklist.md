@@ -2,12 +2,14 @@
 
 Contract v1.2; builder + integrator verification. T-03 is accepted and merged via
 PR #3 at `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7`. The Principal Architect accepted
-T-04/M4 at `d47c035` through the user bridge and authorized final integration.
+T-04/M4 at `d47c035` through the user bridge. PR #4 merged the release into main
+at `71f9f7b979b2f4779a812149fe0ac83d184fb4ac`.
 This is not a production release, article publication or hackathon submission.
 
 ## Phase 6 gate
 | Check | Result / evidence |
 | --- | --- |
+| Final integration | **PASS**: fresh 40 backend / 7 frontend tests and TypeScript; clean merged-main hygiene. See `tasks/reports/T-04-evidence/final-integration/`. Earlier build/15-check smoke/audit retained, not rerun for doc-only polish. |
 | Scope and authority | T-04 assignment; docs and minimal local startup/hygiene helpers only. No product API/schema/query changes. |
 | Backend integration | Fresh real FalkorDB run: **40/40 PASS**, 5.07 s. `tasks/reports/T-04-evidence/backend-pytest.txt`. |
 | Frontend regression | **7/7 PASS**, zero failures. `frontend-checks.txt`. |

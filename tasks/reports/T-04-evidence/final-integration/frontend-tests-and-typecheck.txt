@@ -1,0 +1,22 @@
+
+> chronosgraph-arena@0.1.0 test
+> node --test tests/*.test.mjs
+
+✔ unsafe evidence links are never actionable (1.046416ms)
+✔ timestamps distinguish open intervals from real epoch seconds (2.137418ms)
+✔ measured timing and metadata formatting (0.276526ms)
+✔ graph layout preserves evidence identity and filters dangling edges (1.09391ms)
+✔ API preserves HTTP scope conflict details (31.83317ms)
+✔ API explains network failure without inventing data (0.423773ms)
+✔ focused view preserves policies, real edges, and full payload (0.746731ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 208.947171
+
+> chronosgraph-arena@0.1.0 typecheck
+> tsc --noEmit

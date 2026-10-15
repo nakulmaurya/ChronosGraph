@@ -6,7 +6,8 @@ accepted by the Principal Architect and merged via **PR #3** at
 `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7` (includes product commit `25ed5c0` and
 acceptance record `c332ea2`). The Principal Architect accepted T-04 at `d47c035`
 through the user bridge. M1–M4 and T-01–T-04 are DONE under the accepted v1.2 scope.
-Final polish and merge into main are authorized; merge receipt follows after execution.
+T-04 is merged into main through PR #4 at `71f9f7b979b2f4779a812149fe0ac83d184fb4ac`.
+Final acceptance polish is included at `dfddf4d`; main is the canonical clone target.
 Deployment, external publication and submission are not performed or authorized here.
 
 ## Deliverables and ownership
@@ -81,3 +82,11 @@ longer take. Prize eligibility, publication and submission are not verified here
 Historical v1.1 red-test report remains evidence, superseded by approved v1.2.
 The old archive label `68957811d3a5ba99` was not the actual input ZIP digest; actual
 SHA-256: `24624e61ca49734efa026705c022a0b5fb22b6d57a9eb14fd7e2e6dc4097b785`.
+
+## Final integration verification
+Fresh final-integration checks: 40 backend tests PASS (4.65 s), 7 frontend tests PASS,
+TypeScript PASS. The prior accepted 15-check smoke/build/audit evidence is retained,
+not rerun for documentation-only polish. Merged-main hygiene found zero matched
+credential/artifact patterns, test fixtures or sandbox leaks; checkout was clean.
+See `tasks/reports/T-04-evidence/final-integration/`. Final chat supplies the main
+head after this receipt is committed and a repeat clean/hygiene check.
