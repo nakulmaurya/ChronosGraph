@@ -13,7 +13,7 @@ Deployment, external publication and submission are not performed or authorized 
 
 ## T-05 acceptance and running VM
 
-Status: DONE — ACCEPTED; integration authorized, merge receipt pending.
+Status: DONE — ACCEPTED AND MERGED.
 The Principal Architect accepted `build/t05-real-world-repos` at `ed1d57a`, based on
 `36baf30`; see `tasks/reviews/T-05.md`. Dynamic tenant discovery, conservative Git/AST CLI, real bounded
 commit-file provenance/backfill, normalized native PageRank and opt-in demo policies
@@ -116,3 +116,14 @@ not rerun for documentation-only polish. Merged-main hygiene found zero matched
 credential/artifact patterns, test fixtures or sandbox leaks; checkout was clean.
 See `tasks/reports/T-04-evidence/final-integration/`. Final chat supplies the main
 head after this receipt is committed and a repeat clean/hygiene check.
+
+## Final integration receipt
+PR #5 (`https://github.com/nakulmaurya/ChronosGraph/pull/5`) merged T-05 into main
+at `37f9540dfcfa2c4b97cf0a7ae06889d045e191f5`. Accepted documentation tip `bf047dc0ea74d50a7eaa6458693b66adcf81274c`
+is an ancestor of fetched main; the merged tree is identical to that accepted tip.
+A fresh merged-main hygiene scan found no matched credential/artifact patterns,
+no E2E fixture nodes across all four tenant graphs, no orphan sandboxes and an
+empty git status. See `tasks/reports/T-05-evidence/final-integration/merge-receipt.json`
+and `merged-main-hygiene.json`. These are observed merge-time receipts; the final
+chat supplies the later main head after committing this receipt and repeats the
+clean checkout/health scan. No product code changed during closure.

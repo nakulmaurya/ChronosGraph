@@ -80,4 +80,4 @@
   commit-file evidence; append-only falkordb/graph.py history backfill; two external
   repositories; full route/MCP/production-UI verification and measured telemetry.
 - Acceptance: Principal Architect ACCEPTED via user bridge; contract v1.3. See `tasks/reviews/T-05.md`.
-- Integration: merge authorized; receipt follows. No public deployment or external submission.
+- Integration: PR #5 merged into main at `37f9540dfcfa2c4b97cf0a7ae06889d045e191f5`. No public deployment or external submission.

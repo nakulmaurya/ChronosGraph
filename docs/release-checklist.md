@@ -6,7 +6,7 @@ T-04/M4 at `d47c035` through the user bridge. PR #4 merged the release into main
 at `71f9f7b979b2f4779a812149fe0ac83d184fb4ac`.
 This is not a production release, article publication or hackathon submission.
 
-## T-05 VM follow-up — ACCEPTED, integration authorized
+## T-05 VM follow-up — ACCEPTED AND MERGED
 
 On accepted base `36baf30`: actual default Docker startup and verification succeeded;
 fresh production-mode full-stack verification passed **40 backend / 7 frontend / 15 UI**.
@@ -15,7 +15,10 @@ production build and production dependency audit passed. All five MCP tools were
 exercised via the protocol client on both external tenants. See
 `tasks/reports/T-05.md` and `T-05-evidence/` for raw logs, exact image/runtime,
 telemetry and scoped hygiene. The subsequent user-bridged Principal Architect
-acceptance is recorded in `tasks/reviews/T-05.md`; actual integration receipt follows.
+acceptance is recorded in `tasks/reviews/T-05.md`; PR #5 merged at `37f9540dfcfa2c4b97cf0a7ae06889d045e191f5`.
+Fresh integrator tests and clean merged-main hygiene are retained under
+`tasks/reports/T-05-evidence/final-integration/`. Final handoff reports the latest
+main head after this documentation receipt is published.
 
 The older table below preserves the original T-04 gate record, not fresh T-05 counts.
 
