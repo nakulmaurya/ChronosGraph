@@ -4,8 +4,10 @@
 Contract **v1.2**, approved CR-001 and CR-002. T-01 and T-02 are merged. T-03 was
 accepted by the Principal Architect and merged via **PR #3** at
 `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7` (includes product commit `25ed5c0` and
-acceptance record `c332ea2`). T-04 work lives on **build/t04-release-pack** for final
-review; it must not be merged, deployed, externally published or submitted yet.
+acceptance record `c332ea2`). The Principal Architect accepted T-04 at `d47c035`
+through the user bridge. M1–M4 and T-01–T-04 are DONE under the accepted v1.2 scope.
+Final polish and merge into main are authorized; merge receipt follows after execution.
+Deployment, external publication and submission are not performed or authorized here.
 
 ## Deliverables and ownership
 - `README.md`: architecture, one-command local startup, exact track/query/REST/MCP/UI
@@ -66,11 +68,15 @@ scan covered 129 tracked files / 142 reachable text blobs with zero matched find
 zero test fixtures and no sandbox/test graph leaks. This follow-up records the result;
 final chat identifies the latest branch head and repeats the clean status check.
 
-## Final architect review
-Inspect README, full article, recording script, fresh checks and hygiene scope.
-Approve or request changes to T-04 explicitly. Do not treat builder readiness as
-architect acceptance. User authorization currently stops at publishing the review
-branch, not merging it or publishing external content.
+## Final acceptance and remaining human actions
+`tasks/reviews/T-04.md` records the user-supplied Principal Architect acceptance.
+The README starts directly from main; the article's release-checklist link targets main.
+The final integrator checks scoped hygiene and clean checkout after publishing and merge.
+
+Next human action: test the unverified Docker launcher locally. Then record the demo
+and publish/submit only after checking the event's actual rules and deadlines.
+The short 2:45 script does not include a mutating override; that is an optional
+longer take. Prize eligibility, publication and submission are not verified here.
 
 Historical v1.1 red-test report remains evidence, superseded by approved v1.2.
 The old archive label `68957811d3a5ba99` was not the actual input ZIP digest; actual

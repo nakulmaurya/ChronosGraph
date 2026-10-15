@@ -27,8 +27,6 @@ can take minutes; “60-second verification” means inspecting an already-runni
 ```sh
 git clone https://github.com/nakulmaurya/ChronosGraph.git
 cd ChronosGraph
-# Until final release approval, check out the review branch:
-git checkout build/t04-release-pack
 bash scripts/start-local.sh
 ```
 
@@ -106,4 +104,4 @@ This is a template, not an installed IDE connection. Start/seed FalkorDB first.
 See [frontend setup/live smoke](frontend/README.md), [release evidence](tasks/reports/T-04.md),
 [technical article](docs/blog-post-falkordb.md) and [handoff](docs/handoff.md).
 **Local trusted-client demonstration only: no authentication, no production safety
-guarantee, no deployment or external publication. T-04 awaits final architect sign-off.**
+guarantee, no deployment or external publication. Release status: v1.2 accepted (40 backend tests, 7 frontend regression tests, and 15 live UI smoke checks verified).**

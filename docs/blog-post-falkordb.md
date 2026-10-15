@@ -201,4 +201,4 @@ an autonomous production engineer.
 [T-02 accepted report](https://github.com/nakulmaurya/ChronosGraph/blob/a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7/tasks/reports/T-02.md) ·
 [raw HTTP excerpts](https://github.com/nakulmaurya/ChronosGraph/blob/a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7/tasks/reports/T-02-response-excerpts.json) ·
 [benchmark samples](https://github.com/nakulmaurya/ChronosGraph/blob/a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7/tasks/reports/T-02-samples/benchmark.json) ·
-[final release checks](https://github.com/nakulmaurya/ChronosGraph/blob/build/t04-release-pack/docs/release-checklist.md).
+[final release checks](https://github.com/nakulmaurya/ChronosGraph/blob/main/docs/release-checklist.md).

@@ -1,8 +1,9 @@
-# Release checklist — T-04 local review candidate
+# Release checklist — v1.2 accepted local demonstration
 
 Contract v1.2; builder + integrator verification. T-03 is accepted and merged via
-PR #3 at `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7`. T-04 is **not** a final architect
-acceptance, production release, article publication or hackathon submission.
+PR #3 at `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7`. The Principal Architect accepted
+T-04/M4 at `d47c035` through the user bridge and authorized final integration.
+This is not a production release, article publication or hackathon submission.
 
 ## Phase 6 gate
 | Check | Result / evidence |
@@ -58,9 +59,10 @@ local files and remote/platform secrets. Audit and scan results are point-in-tim
 - After a policy override, run fresh cold triage before replay. Never bypass HTTP 409.
 - Local reset: stop the owned ephemeral database and start a new one. Do not blindly
   delete an existing user's tenant. Reseeding is not a supported undo for overrides.
-- Source rollback: use Git to inspect/revert the review branch as appropriate; T-04
-  is not merged. Do not force-push or rewrite accepted history.
+- Source rollback: inspect/revert a reviewed commit as appropriate; do not force-push
+  or rewrite accepted history.
 
 ## Sign-off boundary
-Builder/integrator evidence is ready for the Principal Architect. Merge/publish/deploy
-only after a separate explicit approval; this checklist does not grant that approval.
+T-04/M4 acceptance and merge authorization are supplied by the Principal Architect
+through the user bridge; see `tasks/reviews/T-04.md`. External publication, submission
+and deployment remain separate human actions, not implied by code acceptance.
