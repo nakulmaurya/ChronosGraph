@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0 -- /data/chronosgraph-build/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /data/chronosgraph-build/chronosgraph/backend
+configfile: pyproject.toml
+plugins: platformdirs-4.13.0, anyio-4.15.1
+collecting ... collected 21 items
+
+tests/test_ast_parser.py::test_class_scoped_methods_do_not_collide PASSED [  4%]
+tests/test_ast_parser.py::test_nested_calls_not_attributed_to_outer PASSED [  9%]
+tests/test_ast_parser.py::test_async_and_signature PASSED                [ 14%]
+tests/test_ast_parser.py::test_syntax_error_returns_diagnostic PASSED    [ 19%]
+tests/test_ast_parser.py::test_relative_import_and_alias PASSED          [ 23%]
+tests/test_ast_parser.py::test_external_import_not_fabricated PASSED     [ 28%]
+tests/test_ast_parser.py::test_dynamic_calls_remain_unresolved PASSED    [ 33%]
+tests/test_ast_parser.py::test_source_is_never_executed PASSED           [ 38%]
+tests/test_ast_parser.py::test_file_encoding_and_digest PASSED           [ 42%]
+tests/test_ast_parser.py::test_nested_classes_keep_full_scope PASSED     [ 47%]
+tests/test_ast_parser.py::test_decorator_calls_use_enclosing_scope PASSED [ 52%]
+tests/test_ingestion_live.py::test_source_graph_has_real_structure_and_provenance[repo_falkordb_py] PASSED [ 57%]
+tests/test_ingestion_live.py::test_source_graph_has_real_structure_and_provenance[repo_graphrag_sdk] PASSED [ 61%]
+tests/test_ingestion_live.py::test_reseed_is_idempotent[repo_falkordb_py] PASSED [ 66%]
+tests/test_ingestion_live.py::test_reseed_is_idempotent[repo_graphrag_sdk] PASSED [ 71%]
+tests/test_ingestion_live.py::test_real_sandbox_isolation_and_exception_cleanup PASSED [ 76%]
+tests/test_ingestion_live.py::test_read_only_discovery_rejects_writes PASSED [ 80%]
+tests/test_ingestion_live.py::test_vector_index_and_search_are_real PASSED [ 85%]
+tests/test_ingestion_live.py::test_pagerank_is_computed_and_normalized PASSED [ 90%]
+tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_falkordb_py] PASSED [ 95%]
+tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_graphrag_sdk] PASSED [100%]
+
+============================== 21 passed in 1.61s ==============================

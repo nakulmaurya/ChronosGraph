@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "runtime": "FalkorDB 4.18.3 via FalkorDBLite 0.10.0",
+  "proposed_replacement": {
+    "old": "MATCH golden_path = shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal))",
+    "new": "WITH inv, shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal)) AS golden_path"
+  },
+  "golden_node_ids": [
+    "s",
+    "a",
+    "b",
+    "z"
+  ],
+  "raw_transitions": 5,
+  "retained_steps": 3,
+  "note": "Real database test using explicit synthetic test nodes; zero model usage. Locked query file unchanged."
+}

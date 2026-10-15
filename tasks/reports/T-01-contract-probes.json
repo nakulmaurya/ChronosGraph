@@ -1,0 +1,31 @@
+{
+  "CYPHER_BLAST_RADIUS_AUDIT": {
+    "status": "PASS",
+    "rows": 1
+  },
+  "CYPHER_FILE_OWNERSHIP_AND_LINEAGE": {
+    "status": "PASS",
+    "rows": 1
+  },
+  "CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH": {
+    "status": "FAIL",
+    "error": "FalkorDB currently only supports shortestPaths in WITH or RETURN clauses"
+  },
+  "CYPHER_HYBRID_VECTOR_DECISION_SEARCH": {
+    "status": "PASS",
+    "rows": 0
+  },
+  "CYPHER_SUPERSEDE_DECISION": {
+    "status": "NOT RUN",
+    "reason": "No approved policy evidence; mutating probe deferred"
+  },
+  "app/models.py": {
+    "sha256": "8c2cc6090932d1c95cc3948bf73b6f2a111d806d03f19752e8c22d7b1d2bff2f"
+  },
+  "app/db/client.py": {
+    "sha256": "841f0a32f7875f45c53544b34425c4c1850df3241f63f4b139e686ffdcd2efa2"
+  },
+  "app/db/queries.py": {
+    "sha256": "2170b894eb92546d368d910c73a7a8cf1e61dbfff56db11d8669ee543df2cd54"
+  }
+}

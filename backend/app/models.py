@@ -1,4 +1,4 @@
-from typing import Dict, List, Literal, Optional, Any
+from typing import Any, Dict, List, Literal, Optional
 from pydantic import BaseModel, Field
 
 
@@ -35,6 +35,17 @@ class GraphSubgraphPayload(BaseModel):
     execution_time_ms: float
 
 
+class BlindAgentComparison(BaseModel):
+    """Side-by-side baseline showing what a standard stateless RAG / AST agent does."""
+    verdict: str  # e.g., "FALSE_SAFE_APPROVAL (OUTAGE)" or "SLOW_UNPRUNED_LOOP"
+    mistake_summary: str
+    obsolete_rule_followed: Optional[str] = None
+    missed_downstream_count: int = 0
+    steps_taken: int = 0
+    tokens_burned: int = 0
+    duration_ms: float = 0.0
+
+
 class SandboxAuditRequest(BaseModel):
     tenant_graph: str = "repo_falkordb_py"
     pr_number: Optional[int] = None
@@ -44,12 +55,14 @@ class SandboxAuditRequest(BaseModel):
 
 class SandboxAuditResponse(BaseModel):
     sandbox_graph_name: str
+    sandbox_clone_time_ms: float
     sandbox_cleaned_up: bool
     risk_level: Literal["LOW", "MEDIUM", "HIGH", "CRITICAL_POLICY_VIOLATION"]
     impacted_files: List[str]
     impacted_functions: List[str]
     active_decisions_triggered: List[Dict[str, Any]]
     recommended_reviewers: List[Dict[str, Any]]
+    blind_agent_comparison: BlindAgentComparison
     subgraph: GraphSubgraphPayload
 
 
@@ -73,6 +86,7 @@ class PolicyLineageResponse(BaseModel):
     active_decisions: List[Dict[str, Any]]
     superseded_decisions: List[Dict[str, Any]]
     top_experts: List[Dict[str, Any]]
+    blind_agent_comparison: BlindAgentComparison
     subgraph: GraphSubgraphPayload
 
 
@@ -91,6 +105,8 @@ class InvestigationRunResponse(BaseModel):
     tokens_used: int
     duration_ms: float
     token_savings_pct: float
+    latency_speedup_factor: float
     agent_handoff_log: List[Dict[str, Any]]
     compiled_playbook_id: Optional[str] = None
+    blind_agent_comparison: BlindAgentComparison
     subgraph: GraphSubgraphPayload

@@ -3,7 +3,6 @@ Canonical OpenCypher Queries for ChronosGraph.
 Strictly compliant with FalkorDB OpenCypher (No Neo4j APOC).
 """
 
-# Track 1: Multi-hop Blast Radius + Active Decision Invariants + Related Open Issues
 CYPHER_BLAST_RADIUS_AUDIT = """
 MATCH (target:File)
 WHERE target.path IN $modified_files
@@ -31,7 +30,6 @@ RETURN
   }) AS related_open_issues
 """
 
-# Track 3: True Maintainer Ownership (Commit/Review Centrality) & Bi-Temporal Lineage
 CYPHER_FILE_OWNERSHIP_AND_LINEAGE = """
 MATCH (f:File {path: $file_path})
 OPTIONAL MATCH (c:Contributor)-[r:AUTHORED|REVIEWED]->(pr:PullRequest)-[m:MODIFIES]->(f)
@@ -62,7 +60,6 @@ RETURN
   }) AS decision_lineage
 """
 
-# Track 3: Live Bi-Temporal Policy Override (Supersedes previous ACTIVE Decision)
 CYPHER_SUPERSEDE_DECISION = """
 MATCH (f:File {path: $file_path})
 OPTIONAL MATCH (old_d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(f)
@@ -83,16 +80,15 @@ CREATE (new_d:Decision {
 })
 CREATE (new_d)-[:GOVERNS]->(f)
 FOREACH (od IN old_decisions |
-  CREATE (new_d)-[:SUPERSEDED {timestamp: $timestamp, reason:$rationale}]->(od)
+  CREATE (new_d)-[:SUPERSEDED {timestamp: $timestamp, reason: $rationale}]->(od)
 )
 RETURN new_d.id AS created_decision_id, size(old_decisions) AS superseded_count
 """
 
-# Track 2: State-Transition Dead-End Pruning via shortestPath
 CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH = """
 MATCH (inv:Investigation {id: $investigation_id})-[:HAS_STATE]->(start:StateNode {state_type: 'START'})
 MATCH (inv)-[:HAS_STATE]->(goal:StateNode {state_type: 'VERIFIED_GOAL'})
-MATCH golden_path = shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal))
+WITH inv, shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal)) AS golden_path
 WITH inv, golden_path,
      [rel IN relationships(golden_path) | {
        agent: rel.agent_name,
@@ -113,7 +109,6 @@ RETURN
   size(compiled_steps) AS pruned_step_count
 """
 
-# Track 2 & 3: Single-Pass Hybrid Vector + Multi-Hop Graph Retrieval
 CYPHER_HYBRID_VECTOR_DECISION_SEARCH = """
 CALL db.idx.vector.queryNodes('Decision', 'embedding', 4, vecf32($query_embedding))
 YIELD node AS d, score
