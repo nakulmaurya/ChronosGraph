@@ -16,10 +16,10 @@ acceptance, production release, article publication or hackathon submission.
 | Helper syntax | `bash -n scripts/start-local.sh`; Python compile checks: **PASS**. |
 | Native helper | Real FalkorDB on isolated port 6381; `GRAPH.LIST`, Cypher `RETURN 1`, own-graph cleanup and signal shutdown: **PASS**, with workspace compatibility loader. |
 | Existing-DB verification command | `VENV_DIR=/data/venv bash scripts/start-local.sh --db existing --no-install --verify-only`: **PASS**, seeding + 40/7 checks/typecheck/build. |
-| Credentials/artifacts | Scoped tracked-text and reachable-history heuristic scan; see `hygiene.json` and final post-publication check. No claim of mathematically guaranteed absence. |
+| Credentials/artifacts | **PASS**, 129 tracked files / 142 historical text blobs at published pack commit; zero matched findings. See `post-publication-hygiene.json`. Heuristic, not an absence guarantee. |
 | Test cleanup | No `__e2e__/` / `E2E_TEST_FIXTURE` nodes in either tenant; no sandbox/test graph leaks. |
 | Provenance and article | Actual canonical query excerpts; 1,200–1,800-word article; no measured token-savings claim. `article-validation.json`. |
-| Publication integrity | Publish review branch, fetch and compare every changed file byte-for-byte; require empty `git status --porcelain` after fast-forward. Final check is reported after publication, not predicted here. |
+| Publication integrity | **PASS** at `a165abc`: all 21 published changed files byte-identical after fetch, checkout fast-forwarded, empty `git status --porcelain`. This follow-up records that observed gate; latest head/clean scan in final handoff. |
 
 ## Explicitly NOT RUN / out of scope
 - Docker execution: Docker is unavailable in the agent environment. The default

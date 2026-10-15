@@ -59,6 +59,13 @@ history and invalidate old playbooks; fresh cold triage is required. Incompatibl
 file/scope policies return HTTP 409. This is a localhost trusted-user single-process
 demo with no production authentication or safety guarantee. See release checklist.
 
+## Published integrity checkpoint
+The pack was published at `a165abcdb49bff19641c93eddb7625b7afb7ee00`; all 21 changed
+files matched fetched GitHub bytes and the checkout was clean. A post-publication
+scan covered 129 tracked files / 142 reachable text blobs with zero matched findings,
+zero test fixtures and no sandbox/test graph leaks. This follow-up records the result;
+final chat identifies the latest branch head and repeats the clean status check.
+
 ## Final architect review
 Inspect README, full article, recording script, fresh checks and hygiene scope.
 Approve or request changes to T-04 explicitly. Do not treat builder readiness as
