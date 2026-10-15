@@ -329,7 +329,7 @@ try {
   await page.locator(".policy details").first().locator("summary").click();
   assert.match(
     await page.locator(".comparison-strip").textContent(),
-    /Oldest-Doc Baseline: Returns SUPERSEDED rule/,
+    /Without Graph · Oldest-Doc: Returns SUPERSEDED rule/,
   );
   await shot("06-policy-lineage");
   mark("Track 3 active/superseded policies, times, scope and provenance");
@@ -516,6 +516,57 @@ try {
       `External ${tenant}: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay`,
     );
   }
+  // T-08: compile live notes, navigate a real wikilink, copy bounded recovery
+  // context and download a real ZIP. No graph fixture or response stub.
+  await page.getByRole("button", { name: "Obsidian Wiki & /compact Shield", exact: true }).click();
+  const wiki=page.getByRole("dialog",{name:"Obsidian Second Brain"});
+  await wiki.waitFor();
+  await wiki.getByRole("button",{name:"index.md",exact:true}).click();
+  await wiki.locator(".wiki-link").first().click();
+  assert.match(await wiki.locator(".wiki-note").textContent(), /tenant:/);
+  await wiki.getByRole("button",{name:"log.md",exact:true}).click();
+  assert.match(await wiki.locator(".wiki-note").textContent(),/Investigation and override ledger/);
+  await wiki.getByRole("button",{name:"PreCompact ResumeSnapshot",exact:true}).click();
+  const resume=await wiki.locator(".wiki-note").textContent();
+  assert.ok(Buffer.byteLength(resume,"utf8")<2048);
+  assert.ok(!resume.includes("inspect_candidate"));
+  const recoveryTenant=await page.locator("#tenant").inputValue();
+  const recoveryCatalog=await(await fetch(API+"/tenants")).json();
+  const recoveryTarget=recoveryCatalog.find(t=>t.tenant_graph===recoveryTenant).preset_files[0];
+  assert.ok(resume.includes(recoveryTarget),"Recovery drawer must use the actual investigation target, not the default hub");
+  assert.match(resume,/ACTIVE /);
+  assert.match(resume,/Current playbook /);
+  await wiki.getByRole("button",{name:"Copy note",exact:true}).click();
+  const rawRecovery=await apiPost("/brain/lint-and-compact",{tenant_graph:recoveryTenant,file_path:recoveryTarget});
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),rawRecovery.precompact_resume_markdown);
+  await wiki.getByRole("button",{name:"/brain-lint",exact:true}).click();
+  assert.match(await wiki.locator(".wiki-note").textContent(),/orphan_sandboxes_count/);
+  const health=JSON.parse(await wiki.locator(".wiki-note").textContent());
+  assert.equal(health.orphan_sandboxes_count,0);
+  assert.match(health.precompact_resume_markdown,/LESSON:/);
+  mark("T-08 brain lint and compact use live graph counts and LESSON recovery");
+  const downloadPromise=page.waitForEvent("download");
+  await wiki.getByRole("button",{name:"Download Obsidian Vault (.zip)",exact:true}).click();
+  const download=await downloadPromise;
+  await download.saveAs(path.join(out,"obsidian-vault.zip"));
+  assert.match(download.suggestedFilename(),/obsidian-vault.zip$/);
+  await wiki.getByRole("button",{name:"Close wiki",exact:true}).click();
+  mark("T-08 live Obsidian note wikilinks, source ledger, bounded copied ResumeSnapshot and ZIP export");
+  await page.getByRole("button",{name:"MCP config",exact:true}).click();
+  const mcp=page.getByRole("dialog");
+  await mcp.getByRole("tab",{name:"Cursor",exact:true}).click();
+  await mcp.getByRole("button",{name:"Copy SKILL.md path",exact:true}).click();
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),"skills/chronos-second-brain/SKILL.md");
+  await page.keyboard.press("Escape");
+  mark("T-08 MCP platform guidance and actual portable-skill path clipboard");
+  await page.setViewportSize({width:390,height:844});
+  await page.getByRole("button",{name:"Obsidian Wiki & /compact Shield",exact:true}).click();
+  await page.getByRole("dialog",{name:"Obsidian Second Brain"}).waitFor();
+  await noOverflow();await shot("t08-mobile-wiki");
+  await page.getByRole("button",{name:"Close wiki",exact:true}).click();
+  await page.setViewportSize({width:1560,height:1050});
+  await noOverflow();await shot("t08-desktop-hud");
+  mark("T-08 v1.4 HUD and 390px wiki modal without page overflow");
   assert.deepEqual(errors, []);
   mark("No uncaught browser errors");
 } finally {

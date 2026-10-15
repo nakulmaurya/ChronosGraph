@@ -85,6 +85,17 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
             symbols = sorted({f['qualified_name'] for f in patch['functions']} |
                 {i['module'] + ('.'+i['name'] if i['name'] else '') for i in patch['imports']} |
                 {c['expression'] for c in patch['calls']}) if patch else []
+            from app.services.second_brain_wiki import byte_metrics
+            context_slice={'modified_files':paths,'impacted_files':sorted(real_files),'impacted_functions':sorted(functions),
+                'active_policies':list(decisions.values()),'candidate_tests':selected_tests,'pytest':command,
+                'contributors':list(experts.values()),'provenance':'AST/static snapshot; not equivalent source or safe-skip proof'}
+            source_sizes=sandbox_graph.ro_query('MATCH (f:File) WHERE f.path IN $paths RETURN f.source_utf8_bytes,f.source_chars',
+                {'paths':sorted(real_files|set(paths))}).result_set
+            sizes_available=bool(source_sizes) and all(isinstance(r[0],int) and isinstance(r[1],int) for r in source_sizes)
+            context_measurement=byte_metrics(sum(r[0] for r in source_sizes) if sizes_available else 0,
+                sum(r[1] for r in source_sizes) if sizes_available else 0,context_slice,sizes_available)
+            context_measurement['slice']=context_slice
+            context_measurement['basis']='Captured affected-source bytes vs explicit compact audit subset; excludes graph/UI/HTTP envelope and is not equivalent semantic content.'
             payload=graph_payload(sandbox_name,list(set(paths)|files|patch_paths),cypher=CYPHER_BLAST_RADIUS_AUDIT+'\n'+CYPHER_FILE_OWNERSHIP_AND_LINEAGE,
                                   elapsed=audit_ms+lineage_ms,impacted=True)
             for node in payload.nodes:
@@ -96,7 +107,7 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
                     node.metadata['patch_dependency'] = True
         cleaned=sandbox_name not in db_manager.list_tenant_graphs()
         if not cleaned: raise HTTPException(503,'Sandbox cleanup failed; audit is not complete')
-    return SandboxAuditResponse(sandbox_graph_name=sandbox_name,sandbox_clone_time_ms=clone_ms,
+    return SandboxAuditResponse(context_window_savings=context_measurement,sandbox_graph_name=sandbox_name,sandbox_clone_time_ms=clone_ms,
         sandbox_cleaned_up=cleaned,risk_level='HIGH' if real_files or decisions else 'MEDIUM',
         impacted_files=sorted(files),impacted_functions=sorted(functions),
         impacted_test_files=selected_tests,total_repo_test_files=len(test_paths),

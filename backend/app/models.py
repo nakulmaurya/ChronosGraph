@@ -55,6 +55,7 @@ class SandboxAuditRequest(BaseModel):
 
 
 class SandboxAuditResponse(BaseModel):
+    context_window_savings: Dict[str, Any] = Field(default_factory=dict)
     sandbox_graph_name: str
     sandbox_clone_time_ms: float
     sandbox_cleaned_up: bool
@@ -71,6 +72,12 @@ class SandboxAuditResponse(BaseModel):
     recommended_reviewers: List[Dict[str, Any]]
     blind_agent_comparison: BlindAgentComparison
     subgraph: GraphSubgraphPayload
+
+
+class WikiCompileRequest(BaseModel):
+    tenant_graph: str = "repo_falkordb_py"
+    file_path: Optional[str] = None
+    export: bool = False
 
 
 class BrainQueryRequest(BaseModel):
@@ -105,6 +112,7 @@ class InvestigationRunRequest(BaseModel):
 
 
 class InvestigationRunResponse(BaseModel):
+    resume_snapshot: Dict[str, Any] = Field(default_factory=dict)
     investigation_id: str
     execution_mode: str
     raw_files_context_tokens: int = 0

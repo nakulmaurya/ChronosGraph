@@ -150,3 +150,48 @@ Static pytest candidates do not authorize skipping full-suite CI. Context-token
 equivalents are `chars // 4`, not model tokens or billed savings. Repository
 constraints are source facts, separate from local override governance.
 Demo script, voiceover, generator and recording remain untouched.
+
+## T-08 second-brain context mode
+Baseline main `80b206d`; assignment `tasks/assignments/T-08.md`. Use the original
+five MCP tools and the additive `/api/v1/ctx/*` REST interface; the portable skill
+is `skills/chronos-second-brain/SKILL.md`. Exported vaults are local managed
+immutable generations with an append-only export ledger. The HTTP download is a
+fresh graph snapshot; neither route imports or executes source text. Recovery
+snapshots exclude superseded policy text and stale/dead-end playbooks. They are
+bounded excerpts, not complete policy authority. Refresh current graph state.
+
+Recording script: `scripts/record-second-brain-demo.cjs`. Requires the four seeded
+public snapshots, a running loopback production UI/API and installed Playwright/
+Chromium. Set CHRONOSGRAPH_REPO, BACKEND_PYTHON, FRONTEND_URL, TEST_API_URL and
+CHRONOSGRAPH_RECORDING_DIR as needed. It changes local policy for the recorded
+override scene and restores complete original properties in cleanup; do not run
+concurrently with policy writers. The backend replay-guard diagnostic is a real UI
+request, not an artificially enabled button. TTS/rendering output stays outside Git.
+
+
+## T-08 builder-facing Second Brain + /compact Shield
+The existing five-tool MCP contract and `/api/v1/ctx/*` interfaces remain compatible.
+New read-only APIs:
+- `GET /api/v1/brain/wiki-slice?tenant_graph=...&file_path=...`: live YAML/wiki note,
+  AST signatures, three-hop static import/call candidates, current/history rules,
+  exact captured connected-source UTF-8/Unicode estimates and pytest candidates.
+- `POST /api/v1/brain/lint-and-compact` with tenant_graph and optional file_path:
+  observed rule/dead-end/stale-playbook counts, actual sandbox count and a bounded
+  `LESSON:` ResumeSnapshot. Recovery is manual, not an installed PreCompact hook.
+- `GET /api/v1/brain/obsidian-vault.zip?tenant_graph=...&file_path=...`: in-memory ZIP
+  with `raw/repo_snapshot_manifest.json`, `wiki/index.md`, `wiki/log.md`, file/rule/
+  playbook/contributor notes, `ResumeSnapshot.md`, `_CLAUDE.md` and `SKILL.md`.
+
+The header's **Obsidian Wiki & /compact Shield** opens live notes, `/brain-lint`,
+copyable recovery Markdown and the three-layer ZIP. `skills/chronos-second-brain/SKILL.md`
+routes Claude Code, Cursor, Antigravity/OpenCode and Windsurf through graph-first
+investigation without assuming every client automatically discovers the skill.
+Source notes remain untrusted evidence; policy writes require confirmation.
+The HUD compares connected captured source with the exact lossy wiki note, not raw
+repo totals or the entire HTTP envelope. Compression can be negative or unavailable;
+no fixed reduction, billed-token savings, safe test skips or zero-amnesia guarantee.
+The previously accepted video is retained unchanged; this amendment excludes video.
+
+VM checkout: `/home/nakulmaurya13579/ChronosGraph-t08`; production target is loopback
+frontend 3000 and API 8001 after authorized integration. Prior checkout remains rollback.
+Publication/deployment receipts and gate evidence are in `tasks/reports/T-08.md`.

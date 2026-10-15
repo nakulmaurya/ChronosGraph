@@ -31,7 +31,8 @@ app=FastAPI(title='ChronosGraph',version='0.2.0',lifespan=lifespan,
     description='Local trusted-client graph demo. Not a production authorization boundary.')
 app.add_middleware(CORSMiddleware,allow_origins=['http://localhost:3000','http://localhost:3001',
     'http://127.0.0.1:3000','http://127.0.0.1:3001',
-    'http://localhost:3002','http://127.0.0.1:3002'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
+    'http://localhost:3002','http://127.0.0.1:3002',
+    'http://localhost:3003','http://127.0.0.1:3003'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
 
 
 @app.exception_handler(RedisError)
@@ -89,3 +90,66 @@ def policy(req: PolicyOverrideRequest):
 @app.post('/api/v1/track2/investigate',response_model=InvestigationRunResponse)
 def investigate(req: InvestigationRunRequest):
     return run_investigation(req)
+
+
+# Additive context/wiki API. Five core MCP tool names remain unchanged.
+from app.models import WikiCompileRequest
+from app.services.second_brain_wiki import context_stats,compile_wiki,compact_snapshot
+
+
+@app.get('/api/v1/ctx/stats')
+def ctx_stats(tenant_graph: str='repo_falkordb_py',file_path: str | None=None):
+    return context_stats(tenant_graph,file_path)
+
+
+@app.post('/api/v1/ctx/compile-wiki')
+def ctx_compile_wiki(req: WikiCompileRequest):
+    return compile_wiki(req.tenant_graph,req.file_path,req.export)
+
+
+@app.get('/api/v1/ctx/wiki-page')
+def ctx_wiki_page(tenant_graph: str='repo_falkordb_py',page: str='index.md'):
+    # Look up a generated key, never a filesystem path supplied by a client.
+    result=compile_wiki(tenant_graph)
+    if page not in result['pages']:
+        raise HTTPException(404,'Generated wiki page not found')
+    return {'tenant_graph':tenant_graph,'page':page,'markdown':result['pages'][page],
+        'content_id':result['content_id'],'model_calls':0}
+
+
+@app.post('/api/v1/ctx/compact-snapshot')
+def ctx_compact_snapshot(req: WikiCompileRequest):
+    return compact_snapshot(req.tenant_graph,req.file_path)
+
+
+@app.get('/api/v1/ctx/export')
+def ctx_export_download(tenant_graph: str='repo_falkordb_py',file_path: str | None=None):
+    import io,zipfile
+    from fastapi.responses import Response
+    result=compile_wiki(tenant_graph,file_path)
+    stream=io.BytesIO()
+    with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
+        for path,body in result['pages'].items():
+            info=zipfile.ZipInfo(path,date_time=(2026,1,1,0,0,0))
+            info.compress_type=zipfile.ZIP_DEFLATED
+            archive.writestr(info,body.encode('utf-8'))
+        archive.writestr('ResumeSnapshot.md',result['resume_snapshot']['markdown'].encode('utf-8'))
+    return Response(stream.getvalue(),media_type='application/zip',
+        headers={'Content-Disposition':f'attachment; filename="{tenant_graph}-obsidian-vault.zip"'})
+
+
+from app.services.second_brain_wiki import brain_wiki_slice,brain_lint_and_compact,brain_vault_zip
+
+@app.get('/api/v1/brain/wiki-slice')
+def brain_slice(tenant_graph: str='repo_falkordb_py',file_path: str | None=None):
+    return brain_wiki_slice(tenant_graph,file_path)
+
+@app.post('/api/v1/brain/lint-and-compact')
+def brain_compact(req: WikiCompileRequest):
+    return brain_lint_and_compact(req.tenant_graph,req.file_path)
+
+@app.get('/api/v1/brain/obsidian-vault.zip')
+def brain_download(tenant_graph: str='repo_falkordb_py',file_path: str | None=None):
+    from fastapi.responses import Response
+    return Response(brain_vault_zip(tenant_graph,file_path),media_type='application/zip',
+        headers={'Content-Disposition':f'attachment; filename="{tenant_graph}-obsidian-vault.zip"'})

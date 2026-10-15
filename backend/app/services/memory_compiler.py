@@ -46,9 +46,9 @@ def _execute(tenant, step):
 
 def _log_states(tenant, inv_id, step_log, warm=False):
     db_manager.query(tenant,'''CREATE (i:Investigation {id:$id,execution_mode:$mode,
-      source_type:'DETERMINISTIC_POLICY_TRIAGE',model_calls:0})
+      source_type:'DETERMINISTIC_POLICY_TRIAGE',model_calls:0,created_at:$now})
       CREATE (s:StateNode {id:$id+':start',state_type:'START',title:'Policy triage start'})
-      CREATE (i)-[:HAS_STATE]->(s)''',{'id':inv_id,'mode':'compiled_playbook' if warm else 'cold_multi_agent'})
+      CREATE (i)-[:HAS_STATE]->(s)''',{'id':inv_id,'now':int(time.time()*1000),'mode':'compiled_playbook' if warm else 'cold_multi_agent'})
     current=inv_id+':start'
     for idx,step in enumerate(step_log):
         ident=inv_id+':'+str(idx)
@@ -162,7 +162,14 @@ def _run_locked(tenant,issue,mode):
         duration=round((time.perf_counter()-started)*1000,3)
         db_manager.query(tenant,'MATCH (p:ProceduralPlaybook {id:$id}) SET p.cold_duration_ms=$duration',
                          {'id':playbook_id,'duration':duration})
-    return InvestigationRunResponse(investigation_id=inv_id,execution_mode=mode,**context,
+    from app.services.second_brain_wiki import compact_snapshot
+    resume = compact_snapshot(tenant,target)
+    # Recovery reads are part of the actual request work, not hidden from timing.
+    duration=round((time.perf_counter()-started)*1000,3)
+    if not warm:
+        db_manager.query(tenant,'MATCH (p:ProceduralPlaybook {id:$id}) SET p.cold_duration_ms=$duration',
+                         {'id':playbook_id,'duration':duration})
+    return InvestigationRunResponse(resume_snapshot=resume,investigation_id=inv_id,execution_mode=mode,**context,
       root_cause_summary=f'Policy-triage goal verified for {target}. This does not establish a runtime bug cause or fix. Scout/Historian/Verifier are deterministic role tools, not LLM agents. No model called: token savings are unmeasured (numeric 0 is a contract sentinel).',
       total_steps_executed=len(observations),pruned_golden_steps=len(retained),tokens_used=0,
       duration_ms=duration,token_savings_pct=0.0,

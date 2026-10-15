@@ -36,6 +36,7 @@ import {
   ResultInspector,
 } from "./Evidence";
 import McpModal from "./McpModal";
+import SecondBrain from "./SecondBrain";
 const GraphCanvas = dynamic(() => import("./GraphCanvas"), {
   ssr: false,
   loading: () => <div className="canvas-loading">Loading graph renderer…</div>,
@@ -333,7 +334,7 @@ export default function Arena() {
           </span>
           <span>
             Chronos<span className="brand-light">Graph</span>
-            <small>FLIGHT RECORDER / CONTRACT V1.3</small>
+            <small>V1.4 · SECOND BRAIN + CONTEXT MODE</small>
           </span>
         </a>
         <div className="tenant-control">
@@ -355,7 +356,7 @@ export default function Arena() {
             ))}
           </select>
         </div>
-        <div className="header-actions">
+        <div className="header-actions"><span id="second-brain-trigger" />
           <span className="connection">
             <Activity size={14} />
             {graph ? ms(graph.execution_time_ms) : "No query timing"}
@@ -406,6 +407,7 @@ export default function Arena() {
           Trusted localhost demo
         </span>
       </div>
+      <SecondBrain tenant={tenant} selected={selected} target={result?.kind === "brain" ? result.data.file_path : result?.kind === "audit" ? String(result.data.subgraph.nodes.find(n=>n.metadata.audit_target)?.metadata.path||"") : result?.kind === "memory" ? result.data.resume_snapshot?.file_path : undefined} revision={result ? JSON.stringify([result.kind,result.data.subgraph.execution_time_ms,result.data.subgraph.nodes.map(n=>n.id)]) : ""} />
       {(error || notice || loading) && (
         <div className="notification-stack">
           {loading && (
@@ -625,6 +627,7 @@ export default function Arena() {
                   <span>3 verified actions</span>
                   <span>No dead ends replayed</span>
                 </div>
+                {!replayReady && issue.trim() && <button type="button" className="button secondary" disabled={busy} onClick={()=>void run("replay")}>Check backend replay guard</button>}
                 {!replayReady && (
                   <p className="field-note">
                     Run cold triage for this exact scenario first. Changing the
@@ -786,6 +789,7 @@ export default function Arena() {
             <ShieldCheck size={16} />
           </div>
           <ComparisonStrip result={result} cold={cold} />
+          <div id="second-brain-inspector" />
           {error && result && (
             <p className="retained-result-note">
               Previous successful result retained below. The latest request

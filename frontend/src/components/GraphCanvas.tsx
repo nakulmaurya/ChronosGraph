@@ -124,6 +124,12 @@ function Canvas({
     );
     return () => clearTimeout(timer);
   }, [view, fitView]);
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const resize = () => { clearTimeout(timer); timer=setTimeout(() => void fitView({padding:0.2,minZoom:0.1,maxZoom:0.85,duration:0}),120); };
+    window.addEventListener("resize",resize);
+    return () => { window.removeEventListener("resize",resize); clearTimeout(timer); };
+  }, [fitView]);
   return (
     <>
       <div className="canvas-heading">

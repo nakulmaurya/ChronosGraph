@@ -81,3 +81,17 @@ Baseline main `3c27b39` includes merged T-06. Assignment `tasks/assignments/T-07
 Additive contracts only; no fixed 90% claim, no safe-test-skipping guarantee and no
 billed-token savings claim. Extracted source constraints remain distinct from
 local override governance. Video work is deferred by the user.
+
+## T-08 second-brain/context-mode extension
+Baseline main `80b206d`. Preserve T-06/T-07; assignment `tasks/assignments/T-08.md`.
+The deterministic graph wiki is an inspired three-layer structure, not an external
+product integration or LLM synthesis. Source-wide and affected-file ratios are
+separate measured comparisons of lossy focused slices. No fixed savings or timing
+claim. Video recording is explicitly included in this task; generated media remains
+outside Git. Five core MCP names remain unchanged; wiki/recovery use additive REST.
+
+
+T-08 amendment: original v1.4 accepted by Principal Architect; extend the same branch
+with /brain wiki-slice, lint-and-compact, read-only three-layer ZIP, LESSON skill
+routing and builder-facing UI. No further video. Final publication and production
+rollout require the unchanged regression/hygiene gates and authenticated GitHub push.

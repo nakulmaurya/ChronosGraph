@@ -32,6 +32,8 @@ export default function McpModal({ onClose }: { onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   const [cwd, setCwd] = useState("/absolute/path/to/ChronosGraph/backend");
   const [copied, setCopied] = useState("");
+  const [platform, setPlatform] = useState("Claude Code");
+  const skillPath = "skills/chronos-second-brain/SKILL.md";
   const config = JSON.stringify(
     {
       mcpServers: {
@@ -86,6 +88,12 @@ export default function McpModal({ onClose }: { onClose: () => void }) {
         Configuration template only. No IDE connection has been installed. Seed
         FalkorDB on localhost:6379 and install the backend first.
       </p>
+      <div className="wiki-nav" role="tablist" aria-label="MCP platform">
+        {["Claude Code","Cursor","Antigravity / OpenCode"].map(name=><button key={name} role="tab" aria-selected={platform===name} className="button secondary" onClick={()=>setPlatform(name)}>{name}</button>)}
+      </div>
+      <p>{platform}: use the client's supported stdio MCP configuration. This is a generic template, not an installed integration. Reference the portable skill from the client's project instructions; discovery varies by platform.</p>
+      <p className="mono">{skillPath}</p>
+      <button className="button secondary" onClick={async()=>{try{await navigator.clipboard.writeText(skillPath);setCopied("Copied skill path");}catch{setCopied("Select the skill path above");}}}>Copy SKILL.md path</button>
       <label htmlFor="mcp-cwd">Absolute backend directory</label>
       <input
         id="mcp-cwd"

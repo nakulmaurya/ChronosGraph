@@ -43,6 +43,7 @@ export interface Baseline {
   duration_ms: number;
 }
 export interface Audit {
+  context_window_savings?: { measurement_status: string; raw_repo_bytes: number; slice_bytes: number; context_saved_pct: number };
   impacted_test_files?: string[];
   total_repo_test_files?: number;
   test_suite_reduction_pct?: number;
@@ -70,6 +71,7 @@ export interface Brain {
   subgraph: Subgraph;
 }
 export interface Investigation {
+  resume_snapshot?: { file_path: string; markdown: string; snapshot_bytes: number };
   raw_files_context_tokens?: number;
   compiled_slice_context_tokens?: number;
   context_token_reduction_pct?: number;

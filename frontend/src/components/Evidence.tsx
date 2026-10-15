@@ -98,6 +98,7 @@ export function ComparisonStrip({ result, cold }: {
       </div>
       {result.kind === "audit" && (
         <div className="utility-card" data-testid="test-impact-plan">
+          {result.data.context_window_savings?.measurement_status === "MEASURED_UTF8_BYTES" && <p>{result.data.context_window_savings.raw_repo_bytes} affected-source bytes → {result.data.context_window_savings.slice_bytes} compact audit bytes ({result.data.context_window_savings.context_saved_pct}% reduction; focused subset)</p>}
           <strong>Selective CI Test Runner: {result.data.impacted_test_files?.length ?? 0}/{result.data.total_repo_test_files ?? 0} test files</strong>
           <p>{result.data.test_suite_reduction_pct ?? 0}% outside static candidate selection. Not guaranteed safe to skip.</p>
           {!result.data.impacted_test_files?.length && <p>No reachable tests: full-suite fallback.</p>}

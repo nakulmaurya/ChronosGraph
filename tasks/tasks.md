@@ -104,3 +104,17 @@
   top-inspector utility cards. Preserve T-06 layout and existing interfaces.
 - Gates: Docker backend, frontend unit/type/build, production live smoke, hygiene,
   report and self-review before merge. Video/narration/recording explicitly deferred.
+
+### T-08 — Obsidian second brain and context mode
+- Status: DONE (implementation verified; GitHub publication pending authorization)
+- Branch: `build/t08-second-brain-context-mode`; baseline main `80b206d`.
+- Roles: builder + integrator, sequential self-review.
+- Assignment: `tasks/assignments/T-08.md`.
+- Scope: native read-only wiki/ledger compiler, safe managed vault exports, measured
+  source/slice telemetry, bounded current-only recovery, portable skill, v1.4 HUD
+  and measured 165-second narrated live demo with restored policy overrides.
+- Gates: full regression suite, production smoke, visual/video/audio QA, hygiene,
+  report/review and authorized merge. Preserve all T-06/T-07 changes.
+
+- Architect amendment: additive `/brain/*` three-layer vault and builder-first
+  context folding; preserve accepted T-06/T-07. No additional video work.

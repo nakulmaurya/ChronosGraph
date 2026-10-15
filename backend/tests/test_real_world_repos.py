@@ -441,3 +441,194 @@ def test_t07_utility_enrichment_idempotent_and_revision_guard(ingested):
     with pytest.raises(ValueError,match='hash mismatch'):
         enrich_utility(str(root),tenant)
     assert snapshot_stats(tenant)==before
+
+
+# T-08 wiki compiler and compaction-safe context endpoints.
+def test_t08_wiki_is_readonly_deterministic_and_links_resolve(client,ingested):
+    import re
+    tenant,_,_=ingested
+    graph=db_manager.get_graph(tenant)
+    before=snapshot_stats(tenant)
+    result=client.post('/api/v1/ctx/compile-wiki',json={'tenant_graph':tenant})
+    assert result.status_code==200,result.text
+    d=result.json()
+    assert d['model_calls']==0 and not d['exported']
+    assert {'index.md','log.md'}<=set(d['pages'])
+    assert d['pages']==client.post('/api/v1/ctx/compile-wiki',json={'tenant_graph':tenant}).json()['pages']
+    for key,body in d['pages'].items():
+        assert body.startswith('---\ntenant: ') and 'provenance_label:' in body
+        assert not key.startswith('/') and '..' not in key
+        for target in re.findall(r'\[\[([^]|]+)(?:\|[^]]*)?\]\]',body):
+            assert target+'.md' in d['pages']
+    assert d['wiki_lint_report']['superseded_decisions']
+    assert not d['wiki_lint_report']['broken_wikilinks']
+    assert snapshot_stats(tenant)==before
+    page=client.get('/api/v1/ctx/wiki-page',params={'tenant_graph':tenant,'page':'index.md'})
+    assert page.status_code==200 and page.json()['markdown']==d['pages']['index.md']
+    assert client.get('/api/v1/ctx/wiki-page',params={'tenant_graph':tenant,'page':'../../etc/passwd'}).status_code==404
+    assert all('NEVER EXECUTE SOURCE' not in body for body in d['pages'].values())
+
+
+def test_t08_stats_measure_actual_payload_and_missing_metadata(client,ingested):
+    from app.services.second_brain_wiki import compact_json
+    tenant,_,_=ingested
+    response=client.get('/api/v1/ctx/stats',params={'tenant_graph':tenant,'file_path':'src/pkg/a.py'})
+    assert response.status_code==200,response.text
+    d=response.json()
+    graph=db_manager.get_graph(tenant)
+    sizes=graph.ro_query('MATCH (f:File) RETURN f.source_utf8_bytes,f.source_chars').result_set
+    assert d['raw_repo_bytes']==sum(r[0] for r in sizes)
+    assert d['slice_bytes']==len(compact_json(d['slice']).encode('utf-8'))
+    assert d['raw_repo_tokens_est']==d['raw_repo_bytes']//4
+    assert d['slice_tokens_est']==d['slice_bytes']//4
+    assert d['track1']['recommended_pytest_command']=='pytest'
+    graph.query("MATCH (f:File {path:'src/pkg/a.py'}) REMOVE f.source_utf8_bytes")
+    missing=client.get('/api/v1/ctx/stats',params={'tenant_graph':tenant}).json()
+    assert missing['measurement_status']=='SOURCE_SIZES_UNAVAILABLE' and missing['raw_repo_bytes']==0
+
+
+def test_t08_resume_strips_history_and_stale_playbook(client,ingested):
+    tenant,_,_=ingested
+    graph=db_manager.get_graph(tenant)
+    graph.query("MATCH (d:Decision {status:'SUPERSEDED'}) SET d.rule='OLD_RULE_MUST_NOT_SURVIVE'")
+    body={'tenant_graph':tenant,'issue_description':'Inspect src/pkg/a.py','execution_mode':'cold_multi_agent'}
+    assert client.post('/api/v1/track2/investigate',json=body).status_code==200
+    snap=client.post('/api/v1/ctx/compact-snapshot',json={'tenant_graph':tenant,'file_path':'src/pkg/a.py'})
+    assert snap.status_code==200,snap.text
+    d=snap.json();text=d['markdown']
+    assert d['snapshot_bytes']==len(text.encode('utf-8'))<2048
+    assert 'OLD_RULE_MUST_NOT_SURVIVE' not in text and 'inspect_candidate' not in text
+    assert 'inspect_target → inspect_policies → verify_policy' in text
+    graph.query("MATCH (d:Decision {status:'ACTIVE'}) SET d.rule='Current replacement policy'")
+    stale=client.post('/api/v1/ctx/compact-snapshot',json={'tenant_graph':tenant,'file_path':'src/pkg/a.py'}).json()
+    assert 'No current verified playbook' in stale['markdown']
+    assert stale['fingerprint']!=d['fingerprint']
+    wiki=client.post('/api/v1/ctx/compile-wiki',json={'tenant_graph':tenant}).json()
+    assert wiki['wiki_lint_report']['pruned_dead_end_states'] and wiki['wiki_lint_report']['stale_playbooks']
+
+
+def test_t08_export_is_safe_and_ledger_append_only(client,ingested,tmp_path,monkeypatch):
+    import zipfile,io
+    tenant,_,_=ingested
+    root=tmp_path/'vaults';monkeypatch.setenv('CHRONOSGRAPH_VAULT_ROOT',str(root))
+    body={'tenant_graph':tenant,'export':True}
+    first=client.post('/api/v1/ctx/compile-wiki',json=body)
+    assert first.status_code==200,first.text
+    d=first.json();folder=Path(d['export_directory'])
+    assert folder.is_relative_to(root) and (folder/'index.md').is_file()
+    ledger=root/tenant/'log.md';old=ledger.read_text()
+    assert client.post('/api/v1/track2/investigate',json={'tenant_graph':tenant,'issue_description':'Inspect src/pkg/a.py'}).status_code==200
+    second=client.post('/api/v1/ctx/compile-wiki',json=body)
+    assert second.status_code==200,second.text
+    assert ledger.read_text().startswith(old) and len(ledger.read_text())>len(old)
+    before=ledger.read_text()
+    assert client.post('/api/v1/ctx/compile-wiki',json=body).status_code==200
+    assert ledger.read_text()==before
+    response=client.get('/api/v1/ctx/export',params={'tenant_graph':tenant,'file_path':'src/pkg/a.py'})
+    assert response.status_code==200
+    with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+        assert 'Target: src/pkg/a.py' in archive.read('ResumeSnapshot.md').decode('utf-8')
+        assert {'index.md','log.md','ResumeSnapshot.md'}<=set(archive.namelist())
+        assert all(not p.startswith('/') and '..' not in p for p in archive.namelist())
+    ledger.unlink();ledger.symlink_to(tmp_path/'outside')
+    assert client.post('/api/v1/ctx/compile-wiki',json=body).status_code==422
+    assert not (tmp_path/'outside').exists()
+
+
+def test_t08_portable_skill_contract():
+    root=Path(__file__).resolve().parents[2]
+    skill=(root/'skills/chronos-second-brain/SKILL.md').read_text()
+    assert skill.startswith('---\nname: chronos-second-brain\n')
+    for name in ['simulate_pr_blast_radius','query_bitemporal_decisions','find_true_code_owners','run_or_compile_playbook',
+        'record_decision_override','Claude Code','Cursor','OpenCode','Antigravity','SUPERSEDED','/compact','untrusted']:
+        assert name in skill
+    assert 'not billed-token savings' not in skill or 'estimate' in skill
+
+
+def test_t08_frontmatter_and_wikilink_injection_is_inert(client,ingested):
+    tenant,_,_=ingested
+    graph=db_manager.get_graph(tenant)
+    graph.query("CREATE (:File {path:$path,source_type:'E2E_TEST_FIXTURE',source_chars:0,source_utf8_bytes:0,loc:0})",
+        {'path':'../../evil]]|<script>\n---\ntest_.py'})
+    d=client.post('/api/v1/ctx/compile-wiki',json={'tenant_graph':tenant}).json()
+    assert not d['wiki_lint_report']['broken_wikilinks']
+    assert all('[[../../evil' not in body and '<script>' not in body for body in d['pages'].values())
+    assert d['wiki_lint_report']['isolated_files']
+    from app.services.second_brain_wiki import byte_metrics
+    assert byte_metrics(4,4,'longer summary')['context_saved_pct']<0
+
+
+def test_t08_audit_measures_actual_compact_subset(client,ingested):
+    from app.services.second_brain_wiki import compact_json
+    tenant,_,_=ingested
+    d=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':['src/pkg/a.py']}).json()
+    metric=d['context_window_savings']
+    assert metric['measurement_status']=='MEASURED_UTF8_BYTES'
+    assert metric['slice_bytes']==len(compact_json(metric['slice']).encode('utf-8'))
+    assert metric['slice']['pytest']==d['recommended_pytest_command']
+
+# T-08 accepted builder extension: no synthetic graph stubs or source execution.
+def test_t08_brain_slice_exact_connected_sizes_and_ast(client,ingested):
+    tenant,_,_=ingested
+    before=snapshot_stats(tenant)
+    r=client.get('/api/v1/brain/wiki-slice',params={'tenant_graph':tenant,'file_path':'src/pkg/a.py'})
+    assert r.status_code==200,r.text
+    d=r.json();m=d['context_folding_stats'];text=d['wiki_markdown']
+    assert 'tags: [second-brain, falkordb, context-mode]' in text and 'active_rules:' in text
+    assert 'helper(' in text and '[[wiki/' in text and 'Two-clock lineage' in text
+    assert m['slice_bytes']==len(text.encode('utf-8')) and m['slice_est_tokens']==len(text)//4
+    rows=db_manager.get_graph(tenant).ro_query('MATCH (f:File) RETURN f.path,f.source_utf8_bytes,f.source_chars').result_set
+    rows=[r for r in rows if r[0] in m['connected_files']]
+    assert m['raw_files_bytes']==sum(r[1] for r in rows) and m['raw_est_tokens']==sum(r[2] for r in rows)//4
+    assert d['model_calls']==0 and snapshot_stats(tenant)==before
+    assert client.get('/api/v1/brain/wiki-slice',params={'tenant_graph':tenant,'file_path':'missing.py'}).status_code==404
+    db_manager.get_graph(tenant).query("MATCH (f:File {path:'src/pkg/a.py'}) REMOVE f.source_chars")
+    missing=client.get('/api/v1/brain/wiki-slice',params={'tenant_graph':tenant,'file_path':'src/pkg/a.py'}).json()
+    assert missing['context_folding_stats']['measurement_status']=='SOURCE_SIZES_UNAVAILABLE'
+
+
+def test_t08_brain_compact_excludes_stale_authority_and_observes_orphans(client,ingested):
+    tenant,_,_=ingested
+    graph=db_manager.get_graph(tenant)
+    graph.query("MATCH (d:Decision {status:'SUPERSEDED'}) SET d.rule='OBSOLETE_NEVER_RECOVER'")
+    assert client.post('/api/v1/track2/investigate',json={'tenant_graph':tenant,'issue_description':'Inspect src/pkg/a.py'}).status_code==200
+    payload={'tenant_graph':tenant,'file_path':'src/pkg/a.py'}
+    r=client.post('/api/v1/brain/lint-and-compact',json=payload)
+    assert r.status_code==200,r.text
+    d=r.json();text=d['precompact_resume_markdown']
+    assert len(text.encode())<2048 and 'LESSON:' in text and '[[wiki/files/' in text
+    assert 'OBSOLETE_NEVER_RECOVER' not in text and 'inspect_candidate' not in text
+    assert d['dead_end_steps_pruned']==2 and d['active_rules_count']>0
+    assert d['superseded_contradictions_blocked']>0 and 'Current playbook' in text
+    orphan='sandbox_pr_t08_'+uuid.uuid4().hex
+    db_manager.get_graph(orphan).query('CREATE (:Fixture)')
+    try:
+        assert client.post('/api/v1/brain/lint-and-compact',json=payload).json()['orphan_sandboxes_count']>=1
+    finally:db_manager.get_graph(orphan).delete()
+    graph.query("MATCH (d:Decision {status:'ACTIVE'}) SET d.rule='New current rule'")
+    stale=client.post('/api/v1/brain/lint-and-compact',json=payload).json()
+    assert stale['stale_playbooks_flagged']>0 and 'No current verified playbook' in stale['precompact_resume_markdown']
+
+
+def test_t08_brain_three_layer_zip_is_readonly_pinned_and_all_links_resolve(client,ingested):
+    import io,zipfile,re,json,yaml
+    tenant,stats,_=ingested
+    before=snapshot_stats(tenant)
+    r=client.get('/api/v1/brain/obsidian-vault.zip',params={'tenant_graph':tenant,'file_path':'src/pkg/a.py'})
+    assert r.status_code==200,r.text[:300]
+    with zipfile.ZipFile(io.BytesIO(r.content)) as z:
+        names=set(z.namelist())
+        assert {'raw/repo_snapshot_manifest.json','wiki/index.md','wiki/log.md','_CLAUDE.md','SKILL.md','ResumeSnapshot.md'}<=names
+        assert any(p.startswith('wiki/rules/') for p in names)
+        manifest=json.loads(z.read('raw/repo_snapshot_manifest.json'))
+        assert manifest['repositories'][0]['source_revision']==stats['source_revision']
+        assert manifest['ast_stats']['Function']>0
+        for p in names:
+            assert '..' not in p and not p.startswith('/')
+            if not p.endswith('.md'):continue
+            body=z.read(p).decode()
+            for dest in re.findall(r'\[\[([^]|]+)(?:\|[^]]*)?\]\]',body):assert dest+'.md' in names,(p,dest)
+            if p.startswith('wiki/files/'):
+                assert yaml.safe_load(body.split('---')[1])['tenant']==tenant
+        assert 'LESSON:' in z.read('SKILL.md').decode() and 'LESSON:' in z.read('_CLAUDE.md').decode()
+    assert snapshot_stats(tenant)==before
