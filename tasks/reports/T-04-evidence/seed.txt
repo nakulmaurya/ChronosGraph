@@ -1,0 +1,30 @@
+{
+  "repo_falkordb_py": {
+    "repository": "FalkorDB/falkordb-py",
+    "revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+    "nodes": 550,
+    "edges": 809,
+    "pagerank_method": "native_falkordb_pagerank",
+    "files": 42,
+    "functions": 371,
+    "resolved_calls": 196,
+    "unresolved_calls": 1413,
+    "policies": 8,
+    "policy_status": "APPROVED_DEMO_POLICY_SCENARIOS",
+    "graph_write_ms": 66.39
+  },
+  "repo_graphrag_sdk": {
+    "repository": "FalkorDB/GraphRAG-SDK",
+    "revision": "35e67a0b27fdcc7f2c28508b09e86169851a8187",
+    "nodes": 4316,
+    "edges": 6351,
+    "pagerank_method": "native_falkordb_pagerank",
+    "files": 154,
+    "functions": 3364,
+    "resolved_calls": 2144,
+    "unresolved_calls": 16061,
+    "policies": 8,
+    "policy_status": "APPROVED_DEMO_POLICY_SCENARIOS",
+    "graph_write_ms": 366.51
+  }
+}

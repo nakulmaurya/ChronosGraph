@@ -1,0 +1,24 @@
+{
+  "whitespace_word_count": 1485,
+  "query_excerpts": [
+    {
+      "snippet_prefix": "MATCH (target:File)",
+      "matches": [
+        "CYPHER_BLAST_RADIUS_AUDIT"
+      ]
+    },
+    {
+      "snippet_prefix": "CALL db.idx.vector.queryNodes('Decision', 'embedding', 4, vecf32($query_embedding))",
+      "matches": [
+        "CYPHER_HYBRID_VECTOR_DECISION_SEARCH"
+      ]
+    },
+    {
+      "snippet_prefix": "MATCH (inv:Investigation {id: $investigation_id})-[:HAS_STATE]->(start:StateNode {state_type: 'START'})",
+      "matches": [
+        "CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH"
+      ]
+    }
+  ],
+  "syntax_checks": "bash -n and Python py_compile PASS"
+}

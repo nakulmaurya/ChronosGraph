@@ -9,7 +9,7 @@
 | M1 — Open-Source Multigraph Seeder & AST Engine | `repo_falkordb_py` & `repo_graphrag_sdk` populated with AST, PRs, Contributors & `SUPERSEDED` Decisions | Baseline DB client | DONE |
 | M2 — 3-Track Core Services, FastMCP & E2E Pytest | All `/api/v1/*` routes, `GRAPH.COPY` sandbox, `shortestPath` compiler & `pytest` green | M1 | DONE |
 | M3 — Next.js Live Agent Arena & Flight Recorder UI | Controlled baseline + React Flow canvas on port 3001 | M2 | DONE |
-| M4 — Polish, Demo Script & Blog Benchmark Export | End-to-end smoke check + blog markdown table output | M3 | IN_PROGRESS |
+| M4 — Polish, Demo Script & Blog Benchmark Export | End-to-end smoke check + blog markdown table output | M3 | READY_FOR_REVIEW |
 
 ## Tasks
 
@@ -56,7 +56,7 @@
 
 
 ### T-04 — Release Readiness, Judge Verification README, Demo Script & Technical Blog Post
-- Status: IN_PROGRESS
+- Status: READY_FOR_REVIEW
 - Milestone: M4
 - Assigned agent: Builder + integrator (Notion Agent)
 - Assignment packet: `tasks/assignments/T-04.md` (created on the T-04 branch)

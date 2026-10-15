@@ -1,0 +1,19 @@
+7937:C 15 Oct 2026 08:34:08.278 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+7937:C 15 Oct 2026 08:34:08.278 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+7937:C 15 Oct 2026 08:34:08.278 * Redis version=8.6.2, bits=64, commit=00000000, modified=1, pid=7937, just started
+7937:C 15 Oct 2026 08:34:08.278 * Configuration loaded
+7937:M 15 Oct 2026 08:34:08.279 * monotonic clock: POSIX clock_gettime
+7937:M 15 Oct 2026 08:34:08.279 * Running mode=standalone, port=6381.
+7937:M 15 Oct 2026 08:34:08.288 * <graph> GraphBLAS JIT restrict to pre-jit kernels
+7937:M 15 Oct 2026 08:34:08.297 * <graph> Enabled role change notification
+7937:M 15 Oct 2026 08:34:08.297 * <graph> Starting up FalkorDB version 4.18.3.
+7937:M 15 Oct 2026 08:34:08.299 * <graph> Thread pool created, using 2 threads.
+7937:M 15 Oct 2026 08:34:08.299 * <graph> Maximum number of OpenMP threads set to 2
+7937:M 15 Oct 2026 08:34:08.299 * <graph> Query backlog size: 1000
+7937:M 15 Oct 2026 08:34:08.300 * Module 'graph' loaded from /data/venv/lib64/python3.13/site-packages/redislite/bin/falkordb.so
+7937:M 15 Oct 2026 08:34:08.300 * Server initialized
+7937:M 15 Oct 2026 08:34:08.300 * Ready to accept connections tcp
+7937:M 15 Oct 2026 08:34:08.300 # WARNING: Redis does not require authentication. Redis will accept connections from any local client.
+7937:signal-handler (1792053249) Received SIGTERM scheduling shutdown...
+7937:M 15 Oct 2026 08:34:09.502 * User requested shutdown...
+7937:M 15 Oct 2026 08:34:09.502 # Redis is now ready to exit, bye bye...
