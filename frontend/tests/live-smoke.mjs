@@ -30,6 +30,7 @@ const context = await browser.newContext({
   reducedMotion: "reduce",
 });
 const page = await context.newPage();
+await context.grantPermissions(["clipboard-read", "clipboard-write"]);
 page.on("pageerror", (e) => errors.push(e.message));
 // Do not consume a response body twice when asserting status.
 async function apiPost(endpoint, body) {
@@ -116,6 +117,13 @@ try {
     ),
   );
   assert.equal(patched.sandbox_cleaned_up, true);
+  assert.ok(Array.isArray(patched.impacted_test_files));
+  assert.ok(patched.recommended_pytest_command.startsWith("pytest"));
+  assert.ok(patched.patch_symbols_analyzed.some((s) => s.includes("t06_helper")));
+  await page.getByTestId("test-impact-plan").waitFor();
+  await page.getByRole("button", { name: "Copy pytest command", exact: true }).click();
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), patched.recommended_pytest_command);
+  mark("T-07 visible static test candidates, safe full-suite fallback and copyable pytest command");
   await page.locator(".comparison-strip").waitFor();
   const stripBox = await page.locator(".comparison-strip").boundingBox();
   assert.ok(stripBox && stripBox.y + stripBox.height < 1050);
@@ -123,6 +131,20 @@ try {
   mark(
     "Real commit scope, AST snippet editor, clone cleanup and above-fold audit comparison",
   );
+  const diffTarget = (await page.locator("fieldset label").first().innerText()).trim();
+  const realDiff = JSON.parse(execFileSync(
+    process.env.BACKEND_PYTHON || "python3",
+    ["-c", "import json,difflib,sys;from app.db.client import db_manager;g=db_manager.get_graph('repo_falkordb_py');p,s=g.ro_query('MATCH (f:File {path:$path}) RETURN f.path,f.source_text',{'path':sys.argv[1]}).result_set[0];d=''.join(difflib.unified_diff(s.splitlines(True),('# T-07 static patch audit\\n'+s).splitlines(True),fromfile='a/'+p,tofile='b/'+p));print(json.dumps({'path':p,'diff':d}))", diffTarget],
+    { cwd: path.resolve("../backend"), encoding: "utf8" }
+  ));
+  await page.locator("#pr").selectOption("");
+  for (const checkbox of await page.locator("fieldset input[type=checkbox]").all()) await checkbox.uncheck();
+  await page.getByRole("checkbox", { name: realDiff.path, exact: true }).check();
+  await page.locator("#python-patch").fill(realDiff.diff);
+  const diffAudit = await action("Run GRAPH.COPY audit", "/track1/sandbox-audit");
+  assert.equal(diffAudit.sandbox_cleaned_up, true);
+  assert.ok(diffAudit.subgraph.nodes.some((n) => n.metadata.patch_semantics === "VALIDATED_UNIFIED_DIFF_ADDITIVE_OVERLAY"));
+  mark("T-07 real unified diff matches captured source and is AST-parsed only in disposable clone");
   await page.getByLabel("Apply Python snippet overlay").uncheck();
   await page.locator(".patch-editor summary").click();
   await page.locator("#pr").selectOption("");
@@ -189,6 +211,17 @@ try {
   const warm = await action("Run #2 · Compiled replay", "/track2/investigate");
   assert.equal(warm.total_steps_executed, 3);
   assert.equal(warm.tokens_used, 0);
+  assert.equal(warm.model_calls, 0);
+  assert.equal(cold.context_measurement_status, "MEASURED_SOURCE_CHARS_DIV_4");
+  assert.ok(cold.raw_files_context_bytes > 0);
+  assert.equal(warm.raw_files_context_tokens, cold.raw_files_context_tokens);
+  assert.equal(warm.compiled_slice_context_tokens, Math.floor(Array.from(warm.compiled_context_slice_preview).length / 4));
+  await page.getByTestId("context-compression").waitFor();
+  await page.getByText("Actual compiled MCP context slice", { exact: true }).click();
+  await page.getByRole("button", { name: "Copy context slice", exact: true }).click();
+  assert.equal(await page.evaluate(() => navigator.clipboard.readText()), warm.compiled_context_slice_preview);
+  await page.getByText("Actual compiled MCP context slice", { exact: true }).click();
+  mark("T-07 measured candidate-source bytes and persisted compiled MCP context slice; zero models");
   measurements.push({
     tenant: "repo_falkordb_py",
     cold_duration_ms: cold.duration_ms,
@@ -234,6 +267,8 @@ try {
     question: "Current policy",
     file_path: "falkordb/graph.py",
   });
+  assert.ok(original.repository_constraints.length);
+  assert.ok(original.repository_constraints.every((r) => r.source_type === "REPO_EXTRACTED_RULE" && r.source_line > 0));
   policySnapshot = [
     ...original.active_decisions,
     ...original.superseded_decisions,
@@ -436,6 +471,8 @@ try {
     assert.ok(
       policy.active_decisions.length && policy.superseded_decisions.length,
     );
+    assert.ok(policy.repository_constraints.length);
+    await page.getByTestId("repository-constraints").waitFor();
     await page.getByRole("button", { name: /TRACK 01/ }).click();
     const boxes = page.locator('fieldset input[type="checkbox"]');
     for (const box of await boxes.all()) await box.uncheck();
@@ -461,6 +498,15 @@ try {
     measurements.push({
       tenant,
       clone_ms: audit.sandbox_clone_time_ms,
+      selected_test_files: audit.impacted_test_files.length,
+      total_test_files: audit.total_repo_test_files,
+      static_candidate_reduction_pct: audit.test_suite_reduction_pct,
+      raw_context_chars: cold.raw_files_context_chars,
+      raw_context_bytes: cold.raw_files_context_bytes,
+      slice_context_bytes: cold.compiled_slice_context_bytes,
+      raw_token_equivalents: cold.raw_files_context_tokens,
+      slice_token_equivalents: cold.compiled_slice_context_tokens,
+      context_token_reduction_pct: cold.context_token_reduction_pct,
       cold_ms: cold.duration_ms,
       warm_ms: warm.duration_ms,
     });

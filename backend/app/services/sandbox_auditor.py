@@ -1,5 +1,6 @@
 """Disposable dependency scenarios; static impact is not proof of a runtime outage."""
 import uuid
+import shlex
 from fastapi import HTTPException
 from app.db.client import db_manager
 from app.db.queries import CYPHER_BLAST_RADIUS_AUDIT, CYPHER_FILE_OWNERSHIP_AND_LINEAGE
@@ -24,13 +25,16 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
     if not paths:
         raise HTTPException(422,'Select existing modified_files or a PR with ingested Python files')
     for path in paths: check_file(tenant,path)
-    patch = parse_patch(req.proposed_code_patch, paths[0]) if req.proposed_code_patch and req.proposed_code_patch.strip() else None
     with LOCKS[tenant]:
         baseline,base_ms=read(tenant,'''MATCH (target:File) WHERE target.path IN $paths
         OPTIONAL MATCH (direct:File)-[:IMPORTS]->(target)
         RETURN collect(DISTINCT direct.path) AS paths''',{'paths':paths})
         direct=set(baseline[0]['paths']) if baseline else set()
         with db_manager.ephemeral_sandbox(req.tenant_graph) as (sandbox_graph, sandbox_name, clone_ms):
+            patch = None
+            if req.proposed_code_patch and req.proposed_code_patch.strip():
+                original = sandbox_graph.ro_query('MATCH (f:File {path:$path}) RETURN f.source_text', {'path':paths[0]}).result_set
+                patch = parse_patch(req.proposed_code_patch, paths[0], original[0][0] if original else None)
             scenario='scenario_'+uuid.uuid4().hex
             patch_paths = set()
             if patch:
@@ -70,6 +74,17 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
             obsolete=stale[0]['rule'] if stale and stale[0]['status']=='SUPERSEDED' else None
             real_files={p for p in files if p!=scenario}
             missed=len(real_files-direct-set(paths))
+            test_paths = {r[0] for r in sandbox_graph.ro_query("""MATCH (f:File)
+                WHERE f.path STARTS WITH 'tests/' OR f.path CONTAINS 'test_'
+                RETURN DISTINCT f.path""").result_set if r[0] != scenario}
+            selected_tests = sorted((real_files | set(paths)) & test_paths)
+            reduction = round(100 * (1-len(selected_tests)/len(test_paths)), 2) if test_paths else 0.0
+            # No shell execution; quote paths and terminate options. Empty selection
+            # must never silently mean 'no tests needed'.
+            command = 'pytest -- ' + ' '.join(shlex.quote(p) for p in selected_tests) if selected_tests else 'pytest'
+            symbols = sorted({f['qualified_name'] for f in patch['functions']} |
+                {i['module'] + ('.'+i['name'] if i['name'] else '') for i in patch['imports']} |
+                {c['expression'] for c in patch['calls']}) if patch else []
             payload=graph_payload(sandbox_name,list(set(paths)|files|patch_paths),cypher=CYPHER_BLAST_RADIUS_AUDIT+'\n'+CYPHER_FILE_OWNERSHIP_AND_LINEAGE,
                                   elapsed=audit_ms+lineage_ms,impacted=True)
             for node in payload.nodes:
@@ -84,6 +99,9 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
     return SandboxAuditResponse(sandbox_graph_name=sandbox_name,sandbox_clone_time_ms=clone_ms,
         sandbox_cleaned_up=cleaned,risk_level='HIGH' if real_files or decisions else 'MEDIUM',
         impacted_files=sorted(files),impacted_functions=sorted(functions),
+        impacted_test_files=selected_tests,total_repo_test_files=len(test_paths),
+        test_suite_reduction_pct=reduction,recommended_pytest_command=command,
+        patch_symbols_analyzed=symbols,
         active_decisions_triggered=list(decisions.values()),recommended_reviewers=list(experts.values()),
         blind_agent_comparison=BlindAgentComparison(verdict='CONTROLLED_ONE_HOP_BASELINE',
             mistake_summary=f'A measured one-hop query misses {missed} real multi-hop files. Oldest-document policy baseline is separate. Synthetic clone-only dependency is excluded from this count. Mode: {"AST_PATCH_SIMULATION additive snippet overlay" if patch else "SIMULATED_PR_DEPENDENCY"}. Static traversal, not code execution or a runtime outage prediction.',

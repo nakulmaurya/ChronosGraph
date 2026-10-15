@@ -225,3 +225,12 @@ test("comparison uses observed values, not fixed benchmark numbers", async () =>
     /No ACTIVE/,
   );
 });
+test("T-07 compatible responses retain measured baseline comparison", async () => {
+  const { comparison } = await import("../src/lib/comparison.ts");
+  const audit = { kind: "audit", data: {
+    blind_agent_comparison: { missed_downstream_count: 7 }, impacted_files: ["a"], impacted_functions: [],
+    impacted_test_files: [], total_repo_test_files: 0, recommended_pytest_command: "pytest"
+  }};
+  assert.match(comparison(audit, null).left, /Missed 7/);
+  assert.match(comparison(audit, null).right, /1 files/);
+});

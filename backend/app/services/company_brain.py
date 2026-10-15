@@ -30,6 +30,9 @@ def ask_brain(req: BrainQueryRequest) -> PolicyLineageResponse:
                 blind_agent_comparison=BlindAgentComparison(verdict='NO_MATCH',
                     mistake_summary='No active rule matched the lexical vector search. Specify a file path.'),
                 subgraph=graph_payload(tenant,cypher=CYPHER_HYBRID_VECTOR_DECISION_SEARCH,elapsed=hybrid_ms))
+        constraints, _ = read(tenant,"""MATCH (d:Decision {source_type:'REPO_EXTRACTED_RULE'})
+            WHERE d.scope='repository' OR d.target_path=$path RETURN d ORDER BY d.source_path,d.source_line LIMIT 200""",{'path':path})
+        extracted = [{k:v for k,v in r['d'].properties.items() if k!='embedding'} for r in constraints]
         lineage, lineage_ms = read(tenant,CYPHER_FILE_OWNERSHIP_AND_LINEAGE,{'file_path':path})
         policies, policy_ms = read(tenant,'''MATCH (d:Decision)-[:GOVERNS]->(:File {path:$file_path})
         RETURN d ORDER BY d.valid_from,d.id''',{'file_path':path})
@@ -44,7 +47,7 @@ def ask_brain(req: BrainQueryRequest) -> PolicyLineageResponse:
                          'Controlled oldest-document baseline did not select a superseded rule.')
         baseline_note += ' This is a deterministic comparison, not a measured LLM/RAG result. Demo policies are labeled; vectors are lexical hashes, not semantic embeddings.'
         experts = [e for item in lineage for e in item['top_experts'] if e.get('login')]
-        return PolicyLineageResponse(file_path=path,active_decisions=active,superseded_decisions=old,
+        return PolicyLineageResponse(file_path=path,active_decisions=active,superseded_decisions=old,repository_constraints=extracted,
             top_experts=experts,blind_agent_comparison=BlindAgentComparison(
                 verdict='CONTROLLED_STALE_RULE' if obsolete else 'CONTROLLED_BASELINE_NO_ERROR',
                 mistake_summary=baseline_note,obsolete_rule_followed=obsolete,steps_taken=1,duration_ms=base_ms),

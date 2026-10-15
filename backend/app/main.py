@@ -30,7 +30,8 @@ async def lifespan(app):
 app=FastAPI(title='ChronosGraph',version='0.2.0',lifespan=lifespan,
     description='Local trusted-client graph demo. Not a production authorization boundary.')
 app.add_middleware(CORSMiddleware,allow_origins=['http://localhost:3000','http://localhost:3001',
-    'http://127.0.0.1:3000','http://127.0.0.1:3001'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
+    'http://127.0.0.1:3000','http://127.0.0.1:3001',
+    'http://localhost:3002','http://127.0.0.1:3002'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
 
 
 @app.exception_handler(RedisError)

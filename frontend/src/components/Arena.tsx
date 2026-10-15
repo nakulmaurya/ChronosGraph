@@ -550,7 +550,7 @@ export default function Arena() {
                     />{" "}
                     Apply Python snippet overlay
                   </label>
-                  <label htmlFor="python-patch">Editable Python snippet</label>
+                  <label htmlFor="python-patch">Editable Python snippet or single-file git diff</label>
                   <textarea
                     id="python-patch"
                     className="mono"
@@ -562,7 +562,7 @@ export default function Arena() {
                   />
                   <p className="field-note">
                     Additive imports, definitions and conservatively resolved
-                    calls. Parsed, never executed. Unresolved calls are
+                    calls. Diffs must match captured source at the ingested revision. Parsed, never executed. Unresolved calls are
                     reported, not guessed.
                   </p>
                 </details>

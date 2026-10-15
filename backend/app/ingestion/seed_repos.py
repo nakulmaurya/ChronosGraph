@@ -196,7 +196,8 @@ def seed_single_repo(tenant, force_reset=False, policy_file=None):
     files=[{**item['file'],'pagerank':ranks[item['file']['path']], 'source_revision':revision,
             'source_url':f"https://github.com/{repo}/blob/{revision}/{item['file']['path']}"} for item in items]
     graph.query('''UNWIND $rows AS r MERGE (f:File {path:r.path}) SET f.name=r.name,f.loc=r.loc,
-    f.sha256=r.sha256,f.pagerank=r.pagerank,f.pagerank_method='iterative_import_pagerank',
+    f.sha256=r.sha256,f.source_text=r.source_text,f.source_chars=r.source_chars,
+    f.source_utf8_bytes=r.source_utf8_bytes,f.pagerank=r.pagerank,f.pagerank_method='iterative_import_pagerank',
     f.source_revision=r.source_revision,f.source_url=r.source_url''',{'rows':files})
     for label,key in [('Class','classes'),('Function','functions')]:
         # Labels are fixed internal constants. All source values are parameterized.
@@ -244,6 +245,8 @@ def seed_single_repo(tenant, force_reset=False, policy_file=None):
             if path in (issue.get('body') or ''):
                 graph.query('''MATCH (i:Issue {number:$number}),(f:File {path:$path}) MERGE (i)-[r:AFFECTS]->(f)
                 SET r.evidence='literal_path_in_issue_body',r.verified=false''',{'number':issue['number'],'path':path})
+    from app.ingestion.repo_rules import enrich_repository
+    enrich_repository(graph,source,revision,f'https://github.com/{repo}',paths)
     policies=load_policies(graph,source,revision,policy_file) if policy_file else ensure_demo_policies(graph)
     return {'repository':repo,'revision':revision,
             'nodes':graph.query('MATCH (n) RETURN count(n)').result_set[0][0],

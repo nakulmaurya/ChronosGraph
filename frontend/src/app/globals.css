@@ -1493,3 +1493,13 @@ dd {
 .cypher-drawer[open] {
   flex-shrink: 0;
 }
+
+.utility-card { border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin: 12px 0; }
+.copy-payload pre, .utility-card pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 260px; overflow: auto; font-size: 11px; }
+.copy-payload { min-width: 0; }
+
+.utility-card { font-size: 12px; line-height: 1.45; }
+.utility-card p { margin: 8px 0; }
+.utility-card > .copy-payload pre { max-height: 72px; }
+.utility-card > details { margin-top: 10px; }
+.copy-payload > .button { padding: 7px 10px; font-size: 11px; }
