@@ -7,10 +7,15 @@ from app.ingestion.seed_repos import resolve_call
 SOURCE = 'AST_PATCH_SIMULATION'
 
 
-def parse_patch(code, path):
+def parse_patch(code, path, original=None):
     if len(code) > 32000:
         raise HTTPException(422, 'Python patch is limited to 32000 characters')
+    from app.services.unified_patch import patch_source
+    code, semantics = patch_source(code, path, original)
+    if len(code) > 1000000:
+        raise HTTPException(422, 'Reconstructed Python source exceeds 1000000 characters')
     item = parse_python_source(code, path)
+    item['patch_semantics'] = semantics
     if item['errors']:
         raise HTTPException(422, {'message': 'Invalid Python patch', 'errors': item['errors']})
     if sum(len(item[k]) for k in ('functions', 'classes', 'imports', 'calls')) > 500:
@@ -72,10 +77,10 @@ def apply_patch(graph, item, simulation):
           SET r.source_type=$source,r.simulation_id=$simulation,r.resolution='conservative_static' ''',
           {'caller': call['caller'], 'target': target, 'line': call['line'], 'source': SOURCE, 'simulation': simulation})
     graph.query('''MATCH (f:File {path:$path}) SET f.patch_source_type=$source,
-      f.patch_semantics='ADDITIVE_SNIPPET_OVERLAY',f.patch_sha256=$sha,
+      f.patch_semantics=$semantics,f.patch_sha256=$sha,
       f.patch_imports=$imports,f.patch_resolved_calls=$calls,f.patch_unresolved_calls=$unresolved,
       f.patch_call_targets=$targets,f.patch_unresolved_expressions=$expressions''',
-      {'path': path, 'source': SOURCE, 'sha': item['file']['sha256'], 'imports': sorted(imports),
+      {'path': path, 'source': SOURCE, 'semantics': item['patch_semantics'], 'sha': item['file']['sha256'], 'imports': sorted(imports),
        'calls': len(resolved), 'unresolved': len(unresolved), 'targets': [t for _, t in resolved],
        'expressions': json.dumps(unresolved)})
     return set(imports) | {target.split(':', 1)[0] for _, target in resolved}

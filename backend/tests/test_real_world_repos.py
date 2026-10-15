@@ -292,3 +292,152 @@ def test_external_ast_patch_is_real_and_clone_isolated(client, external):
     assert target['metadata']['patch_source_type']=='AST_PATCH_SIMULATION'
     assert data['sandbox_cleaned_up'] and data['recommended_reviewers']
     assert snapshot_stats(tenant)==before
+
+# T-07: real source/diff, static test candidates and deterministic payload size.
+def test_t07_strict_diff_reconstruction_and_unicode():
+    from app.services.unified_patch import patch_source
+    from fastapi import HTTPException
+    original = 'def café():\n    return "☕"\n'
+    patch = '--- a/pkg.py\n+++ b/pkg.py\n@@ -1,2 +1,2 @@\n def café():\n-    return "☕"\n+    return "茶"\n'
+    body, semantics = patch_source(patch,'pkg.py',original)
+    assert body == original.replace('☕','茶') and semantics.startswith('VALIDATED_UNIFIED_DIFF')
+    for bad in [patch.replace('a/pkg.py','a/other.py'),patch.replace('-1,2','-1,3'),patch+'--- a/other.py\n']:
+        with pytest.raises(HTTPException): patch_source(bad,'pkg.py',original)
+    with pytest.raises(HTTPException): patch_source(patch,'pkg.py',None)
+    with pytest.raises(HTTPException): patch_source(patch,'pkg.py','different\n')
+    assert patch_source('x = 1\n','pkg.py')[0]=='x = 1\n'
+    assert patch_source('@@ -0,0 +1 @@\n+x=1\n','pkg.py','')[0]=='x=1\n'
+    assert patch_source('@@ -1 +0,0 @@\n-x=1\n','pkg.py','x=1\n')[0]==''
+    assert patch_source('@@ -1 +1 @@\n-x=1\n\\ No newline at end of file\n+x=2\n\\ No newline at end of file\n','pkg.py','x=1')[0]=='x=2'
+
+
+def test_t07_diff_audit_test_candidates_and_cleanup(client,ingested):
+    import difflib
+    tenant,_,root = ingested
+    graph=db_manager.get_graph(tenant)
+    graph.query('''MATCH (f:File {path:'src/pkg/a.py'})
+        CREATE (t:File {path:'tests/test_a.py',source_type:'E2E_TEST_FIXTURE'})-[:IMPORTS]->(f)
+        CREATE (:File {path:'tests/test_unrelated.py',source_type:'E2E_TEST_FIXTURE'})''')
+    source=(root/'src/pkg/a.py').read_text()
+    diff=''.join(difflib.unified_diff(source.splitlines(True),source.replace('return 1','return 2').splitlines(True),
+        fromfile='a/src/pkg/a.py',tofile='b/src/pkg/a.py'))
+    before=set(db_manager.list_tenant_graphs())
+    response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':['src/pkg/a.py'],'proposed_code_patch':diff})
+    assert response.status_code==200,response.text
+    data=response.json()
+    assert data['sandbox_cleaned_up'] and set(db_manager.list_tenant_graphs())==before
+    assert data['impacted_test_files']==['tests/test_a.py'] and data['total_repo_test_files']==2
+    assert data['test_suite_reduction_pct']==50 and data['recommended_pytest_command']=='pytest -- tests/test_a.py'
+    assert any('helper' in s for s in data['patch_symbols_analyzed'])
+    assert data['test_selection_basis']=='BOUNDED_STATIC_CANDIDATES_NOT_SAFE_SKIP_PROOF'
+    assert all('source_text' not in n['metadata'] for n in data['subgraph']['nodes'])
+    assert graph.ro_query("MATCH (n {source_type:'AST_PATCH_SIMULATION'}) RETURN count(n)").result_set[0][0]==0
+    bad=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':['src/pkg/a.py'],
+        'proposed_code_patch':diff.replace('return 1','return 999')})
+    assert bad.status_code==422 and set(db_manager.list_tenant_graphs())==before
+
+
+def test_t07_empty_selection_recommends_full_suite(client,ingested):
+    tenant,_,_=ingested
+    data=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':['src/pkg/a.py']}).json()
+    assert data['impacted_test_files']==[] and data['recommended_pytest_command']=='pytest'
+    assert data['total_repo_test_files']==0 and data['test_suite_reduction_pct']==0
+
+
+def test_t07_context_sizes_exact_and_warm_baseline_preserved(client,ingested):
+    tenant,_,root=ingested
+    body={'tenant_graph':tenant,'issue_description':'Inspect src/pkg/a.py','execution_mode':'cold_multi_agent'}
+    cold=client.post('/api/v1/track2/investigate',json=body)
+    assert cold.status_code==200,cold.text
+    data=cold.json()
+    assert data['context_measurement_status']=='MEASURED_SOURCE_CHARS_DIV_4'
+    sources=[(root/p).read_text() for p in data['context_candidate_files']]
+    assert data['raw_files_context_chars']==sum(len(s) for s in sources)
+    assert data['raw_files_context_bytes']==sum(len(s.encode('utf-8')) for s in sources)
+    assert data['raw_files_context_tokens']==data['raw_files_context_chars']//4
+    preview=data['compiled_context_slice_preview']
+    assert data['compiled_slice_context_tokens']==len(preview)//4
+    assert data['compiled_slice_context_bytes']==len(preview.encode('utf-8'))
+    assert json.loads(preview)['target']=='src/pkg/a.py'
+    assert data['model_calls']==data['tokens_used']==data['token_savings_pct']==0
+    warm=client.post('/api/v1/track2/investigate',json={**body,'execution_mode':'compiled_playbook'})
+    assert warm.status_code==200,warm.text
+    for field in ['raw_files_context_tokens','compiled_context_slice_preview','context_candidate_files','context_token_reduction_pct']:
+        assert warm.json()[field]==data[field]
+    assert data['total_steps_executed']==5 and warm.json()['total_steps_executed']==3
+
+
+def test_t07_missing_source_sizes_never_uses_loc(ingested):
+    from app.services.context_slice import measure_context
+    tenant,_,_=ingested
+    graph=db_manager.get_graph(tenant)
+    graph.query("MATCH (f:File {path:'src/pkg/a.py'}) REMOVE f.source_chars")
+    result=measure_context(tenant,'src/pkg/a.py',['src/pkg/b.py'])
+    assert result['context_measurement_status']=='SOURCE_SIZES_UNAVAILABLE'
+    assert result['raw_files_context_tokens']==result['raw_files_context_bytes']==result['context_token_reduction_pct']==0
+    assert result['compiled_context_slice_preview']
+
+
+def test_t07_repository_extraction_is_source_linked_and_preserves_demo(client,ingested):
+    from app.ingestion.repo_rules import extract_rules,enrich_repository
+    tenant,_,root=ingested
+    (root/'pyproject.toml').write_text('[project]\nrequires-python = ">=3.11"\n[tool.mypy]\nstrict = true\n')
+    (root/'AGENTS.md').write_text('Queries must be read-only.\nSome nice Python code.\n```\nTests must never run.\n```\n')
+    records=extract_rules(root,[])
+    assert len(records)==3 and all(r['source_line']>=1 for r in records)
+    graph=db_manager.get_graph(tenant)
+    before=graph.ro_query("MATCH (d:Decision {source_type:'DEMO_POLICY_SCENARIO'}) RETURN count(d)").result_set
+    count=enrich_repository(graph,root,'a'*40,'https://github.com/example/repo',[])
+    assert count==3 and enrich_repository(graph,root,'a'*40,'https://github.com/example/repo',[])==3
+    assert graph.ro_query("MATCH (d:Decision {source_type:'REPO_EXTRACTED_RULE'}) RETURN count(d)").result_set[0][0]==3
+    assert graph.ro_query("MATCH (d:Decision {source_type:'DEMO_POLICY_SCENARIO'}) RETURN count(d)").result_set==before
+    response=client.post('/api/v1/track3/ask-brain',json={'tenant_graph':tenant,'question':'Python requirements','file_path':'src/pkg/a.py'})
+    assert response.status_code==200,response.text
+    constraints=response.json()['repository_constraints']
+    assert len(constraints)==3 and all('#L' in r['source_url'] for r in constraints)
+    assert all(r['status']=='EXTRACTED' for r in constraints)
+
+
+def test_t07_utf8_source_accounting_and_missing_diff_baseline(client,ingested):
+    from app.ingestion.ast_parser import parse_python_source
+    from app.services.context_slice import measure_context
+    tenant,_,_=ingested
+    text='def café():\n    return "☕"\n'
+    item=parse_python_source(text,'unicode.py')['file']
+    assert item['source_chars']==len(text) and item['source_utf8_bytes']==len(text.encode('utf-8'))
+    graph=db_manager.get_graph(tenant)
+    graph.query('MATCH (f:File {path:$path}) SET f.source_chars=$chars,f.source_utf8_bytes=$bytes',
+        {'path':'src/pkg/a.py','chars':len(text),'bytes':len(text.encode('utf-8'))})
+    result=measure_context(tenant,'src/pkg/a.py',[])
+    assert result['raw_files_context_chars']==len(text) and result['raw_files_context_bytes']==len(text.encode('utf-8'))
+    graph.query("MATCH (f:File {path:'src/pkg/a.py'}) REMOVE f.source_text")
+    before=set(db_manager.list_tenant_graphs())
+    response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':['src/pkg/a.py'],
+        'proposed_code_patch':'@@ -1 +1 @@\n-x=1\n+x=2\n'})
+    assert response.status_code==422 and set(db_manager.list_tenant_graphs())==before
+
+
+def test_t07_pytest_path_quoting_and_modified_test_included(client,ingested):
+    import shlex
+    tenant,_,_=ingested
+    path="tests/test_a; echo unsafe.py"
+    db_manager.get_graph(tenant).query('CREATE (:File {path:$path,source_type:\'E2E_TEST_FIXTURE\'})',{'path':path})
+    response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':[path]})
+    assert response.status_code==200,response.text
+    data=response.json()
+    assert data['impacted_test_files']==[path]
+    assert shlex.split(data['recommended_pytest_command'])==['pytest','--',path]
+
+
+def test_t07_utility_enrichment_idempotent_and_revision_guard(ingested):
+    from app.ingestion.ingest_repo import enrich_utility
+    tenant,_,root=ingested
+    first=enrich_utility(str(root),tenant)
+    before=snapshot_stats(tenant)
+    assert enrich_utility(str(root),tenant)==first
+    assert snapshot_stats(tenant)==before and first['measured_files']==5
+    graph=db_manager.get_graph(tenant)
+    graph.query("MATCH (f:File {path:'src/pkg/a.py'}) SET f.sha256='mismatched'")
+    with pytest.raises(ValueError,match='hash mismatch'):
+        enrich_utility(str(root),tenant)
+    assert snapshot_stats(tenant)==before

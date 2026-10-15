@@ -75,3 +75,9 @@ No existing response field names changed. Warm backend telemetry remains 3
 executed actions; historical cold branches are labeled frontend-only evidence.
 Sequential integrator review accepted the code scope after 61 backend, 10 frontend
 and 20 live production UI checks on Docker FalkorDB. See T-06 report/review.
+
+## T-07 utility extension
+Baseline main `3c27b39` includes merged T-06. Assignment `tasks/assignments/T-07.md`.
+Additive contracts only; no fixed 90% claim, no safe-test-skipping guarantee and no
+billed-token savings claim. Extracted source constraints remain distinct from
+local override governance. Video work is deferred by the user.

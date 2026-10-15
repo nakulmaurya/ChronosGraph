@@ -12,6 +12,7 @@ from fastapi import HTTPException
 from app.db.client import db_manager
 from app.db.queries import CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH
 from app.models import InvestigationRunRequest, InvestigationRunResponse, BlindAgentComparison
+from app.services.context_slice import measure_context
 from app.services.common import (tenant_exists, bounded_text, read, rows, fingerprint,
                                  graph_payload, LOCKS)
 
@@ -86,7 +87,7 @@ def _run_locked(tenant,issue,mode):
           YIELD node,score MATCH (node)-[:COMPILED_AS]->(p:ProceduralPlaybook)
           WHERE node.pattern_text=$issue AND p.fingerprint=$version
           RETURN p.id AS id,p.compiled_steps_json AS steps,p.cold_duration_ms AS cold_ms,
-          p.target_path AS path,score ORDER BY p.created_at DESC LIMIT 1''',
+          p.target_path AS path,p.context_measurement_json AS context,score ORDER BY p.created_at DESC LIMIT 1''',
           {'embedding':signature,'issue':issue,'version':version})
         if not found:
             raise HTTPException(409,'No exact, current playbook found. Run cold_multi_agent first; overrides invalidate old playbooks.')
@@ -120,6 +121,14 @@ def _run_locked(tenant,issue,mode):
           {'agent':'Verifier','tool':'verify_policy','params':{'path':target},'dead_end':False,'summary':'Verify an active governing policy exists'},
         ])
         playbook_id='playbook_'+uuid.uuid4().hex
+    if warm:
+        context = json.loads(found[0]['context']) if found[0].get('context') else measure_context(tenant,target,[target])
+        if not found[0].get('context'):
+            context['context_measurement_status'] = 'LEGACY_PLAYBOOK_NO_COLD_BASELINE'
+            context['raw_files_context_tokens'] = context['raw_files_context_chars'] = context['raw_files_context_bytes'] = 0
+            context['context_token_reduction_pct'] = 0.0
+    else:
+        context = measure_context(tenant,target,[s['params']['path'] for s in plan])
     observations=[]
     for step in plan:
         data,elapsed=_execute(tenant,step)
@@ -143,17 +152,17 @@ def _run_locked(tenant,issue,mode):
         db_manager.query(tenant,'''MATCH (inv:Investigation {id:$inv})
           CREATE (a:AnomalySignature {id:$signature,pattern_text:$issue,embedding:vecf32($embedding)})
           CREATE (p:ProceduralPlaybook {id:$id,compiled_steps_json:$steps,fingerprint:$version,
-            cold_duration_ms:$duration,target_path:$path,created_at:$now,tokens_used:0,
+            cold_duration_ms:$duration,target_path:$path,created_at:$now,tokens_used:0,context_measurement_json:$context,
             benchmark_status:'TOKEN_SAVINGS_UNMEASURED_NO_MODEL',source_type:'DETERMINISTIC_POLICY_TRIAGE'})
           CREATE (a)-[:COMPILED_AS]->(p) CREATE (inv)-[:COMPILED]->(p)''',
           {'inv':inv_id,'signature':'sig_'+uuid.uuid4().hex,'issue':issue,'embedding':signature,
            'id':playbook_id,'steps':json.dumps(retained),'version':version,'duration':duration,
-           'path':target,'now':int(time.time()*1000)})
+           'path':target,'context':json.dumps(context),'now':int(time.time()*1000)})
         # Include actual persistence overhead in wall time, without sleeps or multipliers.
         duration=round((time.perf_counter()-started)*1000,3)
         db_manager.query(tenant,'MATCH (p:ProceduralPlaybook {id:$id}) SET p.cold_duration_ms=$duration',
                          {'id':playbook_id,'duration':duration})
-    return InvestigationRunResponse(investigation_id=inv_id,execution_mode=mode,
+    return InvestigationRunResponse(investigation_id=inv_id,execution_mode=mode,**context,
       root_cause_summary=f'Policy-triage goal verified for {target}. This does not establish a runtime bug cause or fix. Scout/Historian/Verifier are deterministic role tools, not LLM agents. No model called: token savings are unmeasured (numeric 0 is a contract sentinel).',
       total_steps_executed=len(observations),pruned_golden_steps=len(retained),tokens_used=0,
       duration_ms=duration,token_savings_pct=0.0,

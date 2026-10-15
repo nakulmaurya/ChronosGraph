@@ -93,3 +93,14 @@
 - User amendment: demo script, voiceover, generator and recording explicitly deferred.
 - Gate: local + Docker-backed VM tests, production build/live smoke, zero hygiene
   findings, report and integration. Never substitute local native tests for VM evidence.
+
+### T-07 — Real-world utility (video deferred)
+- Status: DONE (code/UI; video deferred)
+- Roles: builder + integrator (sequential self-review).
+- Branch: `build/t07-real-world-utility-and-demo`; baseline `3c27b39`.
+- Assignment: `tasks/assignments/T-07.md`.
+- Scope: validated unified Python diffs, bounded static pytest candidates, exact
+  source-size context-slice comparison, source-linked repository constraints and
+  top-inspector utility cards. Preserve T-06 layout and existing interfaces.
+- Gates: Docker backend, frontend unit/type/build, production live smoke, hygiene,
+  report and self-review before merge. Video/narration/recording explicitly deferred.

@@ -181,3 +181,50 @@ The inspector compares observed baselines with each result. Replay visualizes
 actual **historical cold** dead ends dimmed and explicitly not replayed; backend
 step counts and replay subgraphs still describe only the three executed actions.
 Demo recording/narration upgrades are deferred to a later task.
+
+### T-07: real-world utility (no model calls)
+
+- Track 1 accepts a Python snippet or **single-file unified diff**. Diffs are
+  reconstructed only when hunk offsets/context match the captured source at the
+  ingested revision; multi-file patches, additions/deletions and renames return
+  422. The resulting AST is an **additive clone overlay**: old edges are retained,
+  so this is conservative static impact evidence, not complete source replacement
+  or execution. Requests are bounded to 32,000 characters / 500 AST observations;
+  reconstructed source is bounded to 1,000,000 characters.
+- The copy-ready pytest command selects reachable test-file **candidates** using
+  the bounded three-hop import/call graph, including modified tests. The percentage
+  is a static candidate-file reduction, **not proof that other tests are safe to
+  skip**. Dynamic imports, fixtures, plugins and non-Python dependencies can be
+  absent. Run full-suite CI as the safety gate. Empty selection recommends `pytest`.
+- Track 2 returns an actual compact JSON AST-signature / active-policy /
+  source-linked-constraint / commit-author slice. Comparison uses exact Unicode
+  character and UTF-8 byte lengths from captured candidate sources, with `chars // 4`
+  **token equivalents**, not tokenizer counts or billed tokens. This compares a
+  counterfactual full-file payload with a focused slice, not the bytes read by
+  the graph tools and not equivalent semantic content. Tiny inputs can expand.
+  Warm runs preserve the original cold baseline; `tokens_used`, `token_savings_pct`
+  and `model_calls` remain zero. Missing source sizes are explicit, never inferred
+  from LOC. Signature/policy/constraint caps and truncation are in the preview.
+- Ingestion extracts concrete pyproject constraints and explicit normative
+  engineering lines from README/AGENTS/CLAUDE/module docstrings. `REPO_EXTRACTED_RULE`
+  records include path, line, revision and scope. They are **source-revision facts**,
+  not promoted to local ACTIVE/SUPERSEDED override governance; demo policies remain
+  intact. Track 3 displays both separately. No source text is exposed in generic
+  visual graph payloads.
+
+Existing snapshots need explicit revision/hash-checked enrichment (no reset):
+
+```bash
+cd backend
+python -m app.ingestion.ingest_repo --source /path/to/pinned/repo \
+  --tenant repo_your_repository --ref FULL_MATCHING_REVISION --enrich-utility
+```
+
+Fresh CLI ingestion and the original two-repository seeder capture source sizes
+and extracted rules automatically. Enrichment adds metadata/constraints once;
+subsequent enrichment is idempotent. Run enrichment before testing reseed
+idempotency against a pre-T-07 database. Repository-constraint changes invalidate
+existing playbook fingerprints; rerun cold triage. Use a single local writer
+process; cross-process online migration/transaction isolation is not guaranteed.
+
+T-07 deliberately does not update or record the demo video.

@@ -137,3 +137,16 @@ empty git status. See `tasks/reports/T-05-evidence/final-integration/merge-recei
 and `merged-main-hygiene.json`. These are observed merge-time receipts; the final
 chat supplies the later main head after committing this receipt and repeats the
 clean checkout/health scan. No product code changed during closure.
+
+## T-07 utility extension (video deferred)
+
+Branch `build/t07-real-world-utility-and-demo`, baseline `3c27b39` (merged T-06).
+See `tasks/assignments/T-07.md` and the T-07 report/review for final gates.
+Use `--enrich-utility` only with a matching pinned revision; never reset a source
+graph to enable measurements. Existing playbooks need cold re-verification after
+constraint fingerprint changes. Exact source Unicode/UTF-8 lengths are captured,
+not guessed from LOC; generic graph payloads omit full source text.
+Static pytest candidates do not authorize skipping full-suite CI. Context-token
+equivalents are `chars // 4`, not model tokens or billed savings. Repository
+constraints are source facts, separate from local override governance.
+Demo script, voiceover, generator and recording remain untouched.

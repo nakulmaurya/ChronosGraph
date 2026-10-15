@@ -81,7 +81,9 @@ def fingerprint(tenant: str) -> str:
     # Includes source and current rule state, so overrides invalidate cached playbooks.
     state, _ = read(tenant, '''MATCH (f:File) OPTIONAL MATCH (d:Decision {status:'ACTIVE'})-[:GOVERNS]->(f)
     RETURN f.path AS path,f.sha256 AS sha,d.id AS policy,d.rule AS rule ORDER BY path,policy''')
-    return hashlib.sha256(json.dumps(state, sort_keys=True).encode()).hexdigest()
+    constraints, _ = read(tenant,"""MATCH (d:Decision {source_type:'REPO_EXTRACTED_RULE'})
+        RETURN d.id AS id,d.rule AS rule,d.source_revision AS revision ORDER BY id""")
+    return hashlib.sha256(json.dumps({'files':state,'repository_constraints':constraints}, sort_keys=True).encode()).hexdigest()
 
 
 def graph_payload(tenant: str, paths=None, investigation_id=None, cypher='', elapsed=0.0,
@@ -108,7 +110,7 @@ def graph_payload(tenant: str, paths=None, investigation_id=None, cypher='', ela
         query_ms += patch_ms
     nodes = {}
     for row in records:
-        node = row[0]; p = dict(node.properties)
+        node = row[0]; p = {k:v for k,v in node.properties.items() if k != 'source_text'}
         p.pop('embedding', None)
         label = node.labels[0] if node.labels else 'Node'
         status = p.get('status', 'DEFAULT')

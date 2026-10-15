@@ -60,6 +60,12 @@ class SandboxAuditResponse(BaseModel):
     sandbox_cleaned_up: bool
     risk_level: Literal["LOW", "MEDIUM", "HIGH", "CRITICAL_POLICY_VIOLATION"]
     impacted_files: List[str]
+    impacted_test_files: List[str] = Field(default_factory=list)
+    total_repo_test_files: int = 0
+    test_suite_reduction_pct: float = 0.0
+    recommended_pytest_command: str = "pytest"
+    patch_symbols_analyzed: List[str] = Field(default_factory=list)
+    test_selection_basis: str = "BOUNDED_STATIC_CANDIDATES_NOT_SAFE_SKIP_PROOF"
     impacted_functions: List[str]
     active_decisions_triggered: List[Dict[str, Any]]
     recommended_reviewers: List[Dict[str, Any]]
@@ -83,6 +89,7 @@ class PolicyOverrideRequest(BaseModel):
 
 
 class PolicyLineageResponse(BaseModel):
+    repository_constraints: List[Dict[str, Any]] = Field(default_factory=list)
     file_path: str
     active_decisions: List[Dict[str, Any]]
     superseded_decisions: List[Dict[str, Any]]
@@ -100,6 +107,17 @@ class InvestigationRunRequest(BaseModel):
 class InvestigationRunResponse(BaseModel):
     investigation_id: str
     execution_mode: str
+    raw_files_context_tokens: int = 0
+    compiled_slice_context_tokens: int = 0
+    context_token_reduction_pct: float = 0.0
+    raw_files_context_chars: int = 0
+    raw_files_context_bytes: int = 0
+    compiled_slice_context_chars: int = 0
+    compiled_slice_context_bytes: int = 0
+    context_measurement_status: str = "SOURCE_SIZES_UNAVAILABLE"
+    context_candidate_files: List[str] = Field(default_factory=list)
+    compiled_context_slice_preview: str = ""
+    model_calls: int = 0
     root_cause_summary: str
     total_steps_executed: int
     pruned_golden_steps: int

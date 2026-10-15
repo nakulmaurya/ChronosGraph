@@ -43,6 +43,12 @@ export interface Baseline {
   duration_ms: number;
 }
 export interface Audit {
+  impacted_test_files?: string[];
+  total_repo_test_files?: number;
+  test_suite_reduction_pct?: number;
+  recommended_pytest_command?: string;
+  patch_symbols_analyzed?: string[];
+  test_selection_basis?: string;
   sandbox_graph_name: string;
   sandbox_clone_time_ms: number;
   sandbox_cleaned_up: boolean;
@@ -55,6 +61,7 @@ export interface Audit {
   subgraph: Subgraph;
 }
 export interface Brain {
+  repository_constraints?: RecordData[];
   file_path: string;
   active_decisions: RecordData[];
   superseded_decisions: RecordData[];
@@ -63,6 +70,15 @@ export interface Brain {
   subgraph: Subgraph;
 }
 export interface Investigation {
+  raw_files_context_tokens?: number;
+  compiled_slice_context_tokens?: number;
+  context_token_reduction_pct?: number;
+  raw_files_context_bytes?: number;
+  compiled_slice_context_bytes?: number;
+  context_measurement_status?: string;
+  compiled_context_slice_preview?: string;
+  context_candidate_files?: string[];
+  model_calls?: number;
   investigation_id: string;
   execution_mode: string;
   root_cause_summary: string;

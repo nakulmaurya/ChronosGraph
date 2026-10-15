@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { comparison } from "@/lib/comparison";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { ms, safeUrl, text, timestamp } from "@/lib/api";
@@ -70,28 +71,67 @@ export function BaselineCard({ baseline }: { baseline: Baseline | undefined }) {
     </section>
   );
 }
-export function ComparisonStrip({
-  result,
-  cold,
-}: {
-  result: Result | null;
-  cold: Investigation | null;
+function CopyPayload({ value, label }: { value: string; label: string }) {
+  const [status, setStatus] = useState("");
+  return (
+    <div className="copy-payload">
+      <pre>{value}</pre>
+      <button type="button" className="button" onClick={async () => {
+        try { await navigator.clipboard.writeText(value); setStatus("Copied"); }
+        catch { setStatus("Clipboard unavailable — select and copy the text above"); }
+      }}>{label}</button>
+      <span role="status">{status}</span>
+    </div>
+  );
+}
+export function ComparisonStrip({ result, cold }: {
+  result: Result | null; cold: Investigation | null;
 }) {
   if (!result) return null;
   const values = comparison(result, cold);
   return (
-    <section
-      className="comparison-strip"
-      aria-label="Shallow Baseline vs. ChronosGraph"
-    >
-      <h3>Shallow Baseline vs. ChronosGraph</h3>
+    <section className="comparison-strip" aria-label="Shallow Baseline vs. ChronosGraph">
+      <h3>⚡ Real-World Optimization &amp; Baseline Comparison</h3>
       <div className="comparison-pills">
         <p className="comparison-baseline">{values.left}</p>
         <p className="comparison-connected">{values.right}</p>
       </div>
+      {result.kind === "audit" && (
+        <div className="utility-card" data-testid="test-impact-plan">
+          <strong>Selective CI Test Runner: {result.data.impacted_test_files?.length ?? 0}/{result.data.total_repo_test_files ?? 0} test files</strong>
+          <p>{result.data.test_suite_reduction_pct ?? 0}% outside static candidate selection. Not guaranteed safe to skip.</p>
+          {!result.data.impacted_test_files?.length && <p>No reachable tests: full-suite fallback.</p>}
+          <CopyPayload value={result.data.recommended_pytest_command || "pytest"} label="Copy pytest command" />
+          <details>
+            <summary>Selection limits and AST symbols</summary>
+            <p>Three-hop evidence can miss dynamic imports, fixtures, plugins and runtime dependencies. Full-suite CI remains the safety gate.</p>
+            <pre>{result.data.patch_symbols_analyzed?.join("\n") || "No submitted patch symbols."}</pre>
+          </details>
+        </div>
+      )}
+      {result.kind === "memory" && (
+        <div className="utility-card" data-testid="context-compression">
+          <strong>MCP Context Compression</strong>
+          {result.data.context_measurement_status === "MEASURED_SOURCE_CHARS_DIV_4" ? <>
+            <p>{result.data.raw_files_context_tokens} raw → {result.data.compiled_slice_context_tokens} slice token equivalents ({result.data.context_token_reduction_pct}% reduction)</p>
+            <p>{result.data.raw_files_context_bytes} → {result.data.compiled_slice_context_bytes} UTF-8 bytes</p>
+          </> : <p>Source baseline unavailable: enrich the snapshot, then rerun cold triage.</p>}
+          <p>Unicode chars ÷ 4, rounded down. 0 external LLM calls.</p>
+          <details>
+            <summary>Measurement basis and limits</summary>
+            <p>Deterministic MCP context-window compression: full candidate files vs. shortestPath AST+policy slice. Not tokenizer counts or billed savings.</p>
+            <p>Counterfactual full-file payload, not source text read by the five graph tools. The focused slice omits bodies, imports and non-target files; it is not a semantics-preserving replacement. Negative reduction means the slice is larger.</p>
+          </details>
+          {!!result.data.compiled_context_slice_preview && <details>
+            <summary>Actual compiled MCP context slice</summary>
+            <CopyPayload value={result.data.compiled_context_slice_preview} label="Copy context slice" />
+          </details>}
+        </div>
+      )}
     </section>
   );
 }
+
 function Link({ url }: { url: unknown }) {
   const href = safeUrl(url);
   return href ? (
@@ -285,6 +325,13 @@ export function ResultInspector({
     const d = result.data;
     return (
       <>
+        <section className="inspector-section" data-testid="repository-constraints"><h3>Repository-extracted constraints</h3>
+          <p>Source-revision facts, separate from local ACTIVE/SUPERSEDED overrides.</p>
+          {d.repository_constraints?.length ? d.repository_constraints.map((p,i) => <article className="policy" key={i}>
+            <Provenance value={p.source_type} /><p>{text(p.rule)}</p>
+            <p>{text(p.source_path)}:{text(p.source_line)} · {text(p.scope)}</p><Link url={p.source_url} />
+          </article>) : <p>No concrete constraints extracted from this snapshot.</p>}
+        </section>
         <section className="inspector-section">
           <span className="eyebrow">BI-TEMPORAL RULEBOOK</span>
           <h3>Current truth. Full history.</h3>

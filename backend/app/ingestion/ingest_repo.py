@@ -243,6 +243,8 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies):
         batch(graph, '''UNWIND $rows AS r MATCH (f:File {path:r.path})
           SET f.pagerank=r.score,f.pagerank_method='native_falkordb_pagerank_normalized' ''',
           [{'path':path,'score':score/total} for path,score in ranking])
+        from app.ingestion.repo_rules import enrich_repository
+        extracted_rules = enrich_repository(graph,root,revision,origin,paths)
         linked = append_history(graph,history,origin,known)
         policy_paths = []
         if seed_demo_policies:
@@ -259,7 +261,7 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies):
           m.unresolved_calls=$unresolved,m.seeded_policy_files=$paths,m.ingested_at=$now''',
           {'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time())})
         return {**snapshot_stats(tenant),'repository':repository,'source_revision':revision,
-            'resolved_calls':len(calls),'unresolved_calls':unresolved,'parse_errors':errors,
+            'extracted_repository_rules':extracted_rules,'resolved_calls':len(calls),'unresolved_calls':unresolved,'parse_errors':errors,
             'history_records':len(history),'history_file_links':linked,'policy_files':policy_paths,
             'pagerank_method':'native_falkordb_pagerank_normalized',
             'ownership_limit':'Bounded Git author evidence, not verified maintainers or exhaustive ownership.'}
@@ -288,19 +290,53 @@ def backfill_history(source, tenant, ref=None, file_paths=None):
             'file_paths':file_paths or [],'source_type':'GIT_COMMIT_HISTORY'}
 
 
+def enrich_utility(source, tenant, ref=None):
+    """Append exact source measurements/rules to a matching snapshot, never reset it."""
+    from app.services.common import tenant_exists, tenant_lock
+    tenant_exists(tenant)
+    with writer_locks(source,tenant):
+        root, revision, origin, _ = repository_source(source,ref)
+        graph = db_manager.get_graph(tenant)
+        files = graph.ro_query('MATCH (f:File) RETURN f.path,f.sha256,f.source_revision').result_set
+        if not files or any(r[2]!=revision for r in files):
+            raise ValueError('Utility enrichment must match every File source revision')
+        items = []
+        for path, sha, _ in files:
+            p = root/path
+            if p.is_symlink() or not p.is_file() or not p.resolve().is_relative_to(root.resolve()):
+                raise ValueError('Unsafe or missing snapshot file')
+            item = parse_python_file(p,relative_to=root)['file']
+            if item['sha256']!=sha:
+                raise ValueError('Source hash mismatch; no utility metadata written')
+            items.append(item)
+        with tenant_lock(tenant):
+            batch(graph,"""UNWIND $rows AS r MATCH (f:File {path:r.path})
+                SET f.source_text=r.source_text,f.source_chars=r.source_chars,f.source_utf8_bytes=r.source_utf8_bytes""",items)
+            from app.ingestion.repo_rules import enrich_repository
+            count = enrich_repository(graph,root,revision,origin,[r[0] for r in files])
+        return {'tenant_graph':tenant,'source_revision':revision,'measured_files':len(items),'extracted_rules':count}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source',required=True)
     parser.add_argument('--tenant',required=True)
     parser.add_argument('--ref')
     parser.add_argument('--seed-demo-policies',action='store_true')
+    parser.add_argument('--enrich-utility',action='store_true',help='Append exact source sizes and source-linked constraints to a matching snapshot')
     parser.add_argument('--backfill-history',action='store_true',help='Append history to an existing graph, never replace it')
     parser.add_argument('--history-path',action='append',help='Path-targeted history for explicit backfill only')
     args = parser.parse_args()
     if args.history_path and not args.backfill_history:
         parser.error('--history-path requires --backfill-history')
-    result = (backfill_history(args.source,args.tenant,args.ref,args.history_path) if args.backfill_history else
-              ingest_repo(args.source,args.tenant,args.ref,args.seed_demo_policies))
+    if args.enrich_utility and args.backfill_history:
+        parser.error('Choose one enrichment mode')
+    if args.enrich_utility:
+        result = enrich_utility(args.source,args.tenant,args.ref)
+    elif args.backfill_history:
+        result = backfill_history(args.source,args.tenant,args.ref,args.history_path)
+    else:
+        result = ingest_repo(args.source,args.tenant,args.ref,args.seed_demo_policies)
     print(json.dumps(result,indent=2))
 
 

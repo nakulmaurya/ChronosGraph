@@ -18,6 +18,8 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
     result: dict[str, Any] = {
         "file": {"path": path, "name": Path(path).name,
                  "loc": len(source_code.splitlines()),
+                 "source_text": source_code, "source_chars": len(source_code),
+                 "source_utf8_bytes": len(source_code.encode('utf-8')),
                  "sha256": hashlib.sha256(source_code.encode()).hexdigest()},
         "classes": [], "functions": [], "imports": [], "calls": [], "errors": [],
     }
@@ -103,6 +105,7 @@ def parse_python_file(file_path: str | Path, *, relative_to: str | Path | None =
     """Respect Python encoding declarations; never import downloaded source."""
     path = Path(file_path)
     with tokenize.open(path) as stream:
+        stream.reconfigure(newline='')
         source = stream.read()
     label = path.relative_to(relative_to).as_posix() if relative_to else path.as_posix()
     return parse_python_source(source, label)
