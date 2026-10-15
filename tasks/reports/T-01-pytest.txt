@@ -25,39 +25,7 @@ tests/test_ingestion_live.py::test_real_sandbox_isolation_and_exception_cleanup 
 tests/test_ingestion_live.py::test_read_only_discovery_rejects_writes PASSED [ 80%]
 tests/test_ingestion_live.py::test_vector_index_and_search_are_real PASSED [ 85%]
 tests/test_ingestion_live.py::test_pagerank_is_computed_and_normalized PASSED [ 90%]
-tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_falkordb_py] FAILED [ 95%]
-tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_graphrag_sdk] FAILED [100%]
+tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_falkordb_py] PASSED [ 95%]
+tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_graphrag_sdk] PASSED [100%]
 
-=================================== FAILURES ===================================
-___ test_t01_required_policy_chains_have_curated_evidence[repo_falkordb_py] ____
-
-tenant = 'repo_falkordb_py'
-
-    @pytest.mark.parametrize('tenant', list(REPOS))
-    def test_t01_required_policy_chains_have_curated_evidence(tenant):
-        """An intentional acceptance gate: do not fabricate history to make it pass."""
-        graph=db_manager.get_graph(tenant)
-        count=graph.ro_query("MATCH (:Decision {status:'ACTIVE'})-[:SUPERSEDED]->(:Decision {status:'SUPERSEDED'}) RETURN count(*)").result_set[0][0]
->       assert count>=4, 'T-01 requires curated decision chains; none were invented from PR titles'
-E       AssertionError: T-01 requires curated decision chains; none were invented from PR titles
-E       assert 0 >= 4
-
-tests/test_ingestion_live.py:87: AssertionError
-___ test_t01_required_policy_chains_have_curated_evidence[repo_graphrag_sdk] ___
-
-tenant = 'repo_graphrag_sdk'
-
-    @pytest.mark.parametrize('tenant', list(REPOS))
-    def test_t01_required_policy_chains_have_curated_evidence(tenant):
-        """An intentional acceptance gate: do not fabricate history to make it pass."""
-        graph=db_manager.get_graph(tenant)
-        count=graph.ro_query("MATCH (:Decision {status:'ACTIVE'})-[:SUPERSEDED]->(:Decision {status:'SUPERSEDED'}) RETURN count(*)").result_set[0][0]
->       assert count>=4, 'T-01 requires curated decision chains; none were invented from PR titles'
-E       AssertionError: T-01 requires curated decision chains; none were invented from PR titles
-E       assert 0 >= 4
-
-tests/test_ingestion_live.py:87: AssertionError
-=========================== short test summary info ============================
-FAILED tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_falkordb_py]
-FAILED tests/test_ingestion_live.py::test_t01_required_policy_chains_have_curated_evidence[repo_graphrag_sdk]
-========================= 2 failed, 19 passed in 1.53s =========================
+============================== 21 passed in 1.61s ==============================

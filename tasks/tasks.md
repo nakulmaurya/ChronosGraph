@@ -6,15 +6,15 @@
 ## Milestones (vertical slices)
 | Milestone | User-visible proof | Dependencies | Status |
 |---|---|---|---|
-| M1 — Open-Source Multigraph Seeder & AST Engine | `repo_falkordb_py` & `repo_graphrag_sdk` populated with AST, PRs, Contributors & `SUPERSEDED` Decisions | Baseline DB client | ASSIGNED |
-| M2 — 3-Track Core Services, FastMCP & E2E Pytest | All `/api/v1/*` routes, `GRAPH.COPY` sandbox, `shortestPath` compiler & `pytest` green | M1 | TODO |
+| M1 — Open-Source Multigraph Seeder & AST Engine | `repo_falkordb_py` & `repo_graphrag_sdk` populated with AST, PRs, Contributors & `SUPERSEDED` Decisions | Baseline DB client | DONE |
+| M2 — 3-Track Core Services, FastMCP & E2E Pytest | All `/api/v1/*` routes, `GRAPH.COPY` sandbox, `shortestPath` compiler & `pytest` green | M1 | IN_PROGRESS |
 | M3 — Next.js Live Agent Arena & Flight Recorder UI | Split-screen Blind vs. ChronosGraph Arena + React Flow canvas running on port 3000/3001 | M2 | TODO |
 | M4 — Polish, Demo Script & Blog Benchmark Export | End-to-end smoke check + blog markdown table output | M3 | TODO |
 
 ## Tasks
 
 ### T-01 — Implement AST Parser & Dual Open-Source Repo Seeder (`FalkorDB/falkordb-py` & `FalkorDB/GraphRAG-SDK`)
-- Status: ASSIGNED
+- Status: DONE
 - Assigned agent: Builder (Notion Agent)
 - Assignment packet: `tasks/assignments/T-01.md`
 - Goal / user impact: Hydrate FalkorDB with realistic, high-density structural and bi-temporal data for two real FalkorDB open-source repos plus a working Python `ast` parser.
@@ -29,7 +29,7 @@
   - Integration: `python -m app.ingestion.seed_repos` prints node and edge counts for both tenant graphs.
 
 ### T-02 — Implement Track 1, 2 & 3 Services, FastMCP Server, FastAPI Routes & E2E Pytest Suite
-- Status: TODO
+- Status: IN_PROGRESS
 - Assigned agent: Builder (Notion Agent)
 - Assignment packet: `tasks/assignments/T-02.md`
 - Goal / user impact: Complete backend execution engine for Track 1 (`sandbox_auditor.py`), Track 2 (`memory_compiler.py`), Track 3 (`company_brain.py`), FastMCP (`mcp_server/server.py`), FastAPI (`main.py`), and pass 100% of E2E tests (`tests/test_e2e_graph.py`).

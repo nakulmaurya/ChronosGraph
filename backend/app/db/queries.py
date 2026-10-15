@@ -88,7 +88,7 @@ RETURN new_d.id AS created_decision_id, size(old_decisions) AS superseded_count
 CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH = """
 MATCH (inv:Investigation {id: $investigation_id})-[:HAS_STATE]->(start:StateNode {state_type: 'START'})
 MATCH (inv)-[:HAS_STATE]->(goal:StateNode {state_type: 'VERIFIED_GOAL'})
-MATCH golden_path = shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal))
+WITH inv, shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal)) AS golden_path
 WITH inv, golden_path,
      [rel IN relationships(golden_path) | {
        agent: rel.agent_name,

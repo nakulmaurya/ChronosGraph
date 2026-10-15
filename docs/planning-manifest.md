@@ -1,6 +1,6 @@
 # Planning Manifest — ChronosGraph
 
-> Contract version: v1.0 | Updated: 2026-10-15 | Status: READY_FOR_BUILD | Mode: planner (Brain) → builder (Notion Agent) → reviewer (Brain via GitHub)
+> Contract version: v1.1 | Updated: 2026-10-15 | Status: READY_FOR_BUILD | Mode: planner (Brain) → builder (Notion Agent) → reviewer (Brain via GitHub)
 
 ## Authority and baseline
 - Project/repository: `chronosgraph` (GitHub Canvas bridged by Nakul Arvind Maurya)
@@ -36,3 +36,9 @@
 | Target Open-Source Repos | Pre-warm `FalkorDB/falkordb-py` and `FalkorDB/GraphRAG-SDK` for instant `<2s` judge verification | CONFIRMED | Verify in `T-01` |
 | Offline Embedding Reliability | Use deterministic 768-dim trigram projection in `FalkorDBManager.embed_text` so vector indexes work with zero API key friction | CONFIRMED | Verify in `T-01` & `T-02` |
 | Scroll-Stopper Visual Hook | Include `BlindAgentComparison` in every API response and render Side-by-Side Live Arena in UI | CONFIRMED | Verify in `T-02` & `T-03` |
+
+## v1.1 — Approved CR-001
+
+Principal Architect approval supplied by Nakul in chat. Approved: WITH-clause shortestPath fix, backend packaging correction, and explicit DEMO_POLICY_SCENARIO history anchored to real source files and contextual PRs. Demo PR anchors are not historical policy attribution.
+
+T-01 verification: 21/21 tests pass on real native FalkorDB 4.18.3. Editable package installation succeeds. Preserve the actual archive digest separately from the older planner label. T-02 is authorized; T-03 remains gated on Principal Architect review.

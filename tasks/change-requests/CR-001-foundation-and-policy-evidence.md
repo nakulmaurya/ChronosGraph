@@ -1,6 +1,8 @@
 # CR-001 — Foundation compatibility and policy evidence
 
-Status: CHANGES_REQUESTED (awaiting Principal Architect / Nakul approval)
+Status: APPROVED — applied under planning manifest v1.1
+
+Approval: Principal Architect via Nakul, explicit chat instruction. Canonical decision: CR-001.md. The original findings below are retained as historical context.
 Owner: Builder; no locked contracts changed.
 
 ## 1. shortestPath compilation

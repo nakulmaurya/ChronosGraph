@@ -108,6 +108,51 @@ def load_policies(graph, source, revision, filename):
     return len(rows)
 
 
+
+def ensure_demo_policies(graph):
+    """CR-001 approved fictional policies. Context PRs are NOT policy provenance."""
+    paths = {
+        'repo_falkordb_py': [
+            ('falkordb/graph.py','Graph.query','Unbounded query execution is allowed.','Agent queries must specify a bounded timeout.'),
+            ('falkordb/asyncio/graph.py','Graph.ro_query','Exploratory agent reads may mutate state.','Exploratory agent reads must use read-only queries.'),
+            ('falkordb/query_result.py','module_root','Unknown result types may be silently dropped.','Unknown result types must produce an explicit diagnostic.'),
+            ('falkordb/falkordb.py','module_root','A request may choose any graph name.','Application requests must use an approved tenant graph.')],
+        'repo_graphrag_sdk': [
+            ('graphrag_sdk/src/graphrag_sdk/core/connection.py','module_root','Connections may wait without an upper bound.','Connections must use a bounded timeout.'),
+            ('graphrag_sdk/src/graphrag_sdk/storage/graph_store.py','module_root','Agent discovery may use write queries.','Agent discovery must use read-only graph queries.'),
+            ('graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py','module_root','Documents may be ingested without source identifiers.','Every ingested document must retain source provenance.'),
+            ('graphrag_sdk/src/graphrag_sdk/retrieval/router.py','module_root','Superseded decisions may be treated as current.','Retrieval must distinguish active and superseded decisions.')]
+    }
+    prs=graph.ro_query('MATCH (p:PullRequest) RETURN p.number,p.url ORDER BY p.number').result_set
+    now=int(time.time())
+    for index,(path,scope,old_rule,new_rule) in enumerate(paths[graph.name]):
+        count=graph.ro_query('MATCH (f:File {path:$path}) RETURN count(f)',{'path':path}).result_set[0][0]
+        if count!=1 or not prs:
+            raise ValueError(f'Demo policy must anchor to a real File and PullRequest: {path}')
+        pr_num,pr_url=prs[index%len(prs)]
+        pair=f'demo_{graph.name}_{index}'
+        if graph.ro_query('MATCH (d:Decision {id:$id}) RETURN count(d)',{'id':pair+'_active'}).result_set[0][0]:
+            continue  # Never revert a later live override while re-seeding.
+        for suffix,status,rule,valid_from,valid_to in [
+            ('old','SUPERSEDED',old_rule,now-7200,now-3600),
+            ('active','ACTIVE',new_rule,now-3600,0)]:
+            graph.query("""MATCH (f:File {path:$path}),(p:PullRequest {number:$pr})
+            CREATE (d:Decision {id:$id,scope_symbol:$scope,rule:$rule,
+              rationale:'Fictional policy scenario approved by the project owner; not an upstream policy.',
+              source_type:'DEMO_POLICY_SCENARIO',source_url:$source,context_pr_url:$pr_url,
+              status:$status,valid_from:$vf,valid_to:$vt,recorded_at:$now,
+              recorded_from:$now,recorded_to:0,time_basis:'DEMO_SCENARIO_CLOCK',
+              embedding:vecf32($embedding)})
+            CREATE (d)-[:GOVERNS]->(f)
+            CREATE (d)-[:SCENARIO_CONTEXT {not_historical_attribution:true}]->(p)""",
+            {'path':path,'pr':pr_num,'id':pair+'_'+suffix,'scope':scope,'rule':rule,
+             'source':'https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py',
+             'pr_url':pr_url,'status':status,'vf':valid_from,'vt':valid_to,'now':now,
+             'embedding':db_manager.embed_text(rule)})
+        graph.query('MATCH (a:Decision {id:$active}),(o:Decision {id:$old}) MERGE (a)-[:SUPERSEDED]->(o)',
+                    {'active':pair+'_active','old':pair+'_old'})
+    return graph.ro_query("MATCH (d:Decision {source_type:'DEMO_POLICY_SCENARIO'}) RETURN count(d)").result_set[0][0]
+
 def seed_single_repo(tenant, force_reset=False, policy_file=None):
     if tenant not in REPOS:
         raise ValueError('Unknown tenant')
@@ -199,13 +244,13 @@ def seed_single_repo(tenant, force_reset=False, policy_file=None):
             if path in (issue.get('body') or ''):
                 graph.query('''MATCH (i:Issue {number:$number}),(f:File {path:$path}) MERGE (i)-[r:AFFECTS]->(f)
                 SET r.evidence='literal_path_in_issue_body',r.verified=false''',{'number':issue['number'],'path':path})
-    policies=load_policies(graph,source,revision,policy_file)
+    policies=load_policies(graph,source,revision,policy_file) if policy_file else ensure_demo_policies(graph)
     return {'repository':repo,'revision':revision,
             'nodes':graph.query('MATCH (n) RETURN count(n)').result_set[0][0],
             'edges':graph.query('MATCH ()-[r]->() RETURN count(r)').result_set[0][0],
             'pagerank_method':rank_method,'files':len(files),'functions':len(definitions),'resolved_calls':len(calls),
             'unresolved_calls':unresolved,'policies':policies,
-            'policy_status':'CURATED_INPUT_LOADED' if policies else 'AWAITING_CURATED_POLICY_EVIDENCE',
+            'policy_status':('CURATED_INPUT_LOADED' if policy_file else 'APPROVED_DEMO_POLICY_SCENARIOS') if policies else 'AWAITING_CURATED_POLICY_EVIDENCE',
             'graph_write_ms':round((time.perf_counter()-start)*1000,2)}
 
 
