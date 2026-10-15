@@ -17,6 +17,7 @@ import {
   Workflow,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { replayEvidence } from "@/lib/graph";
 import { ApiError, API_BASE, ms, request } from "@/lib/api";
 import type {
   Audit,
@@ -30,6 +31,7 @@ import type {
 import {
   Badge,
   BaselineCard,
+  ComparisonStrip,
   NodeInspector,
   ResultInspector,
 } from "./Evidence";
@@ -62,6 +64,11 @@ export default function Arena() {
   const [stale, setStale] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
   const [pr, setPr] = useState("");
+  const [patchCode, setPatchCode] = useState("");
+  const [patchEnabled, setPatchEnabled] = useState(false);
+  const [graphOwner, setGraphOwner] = useState("");
+  const [graphContext, setGraphContext] = useState("Source overview");
+  const overviewCache = useRef(new Map<string, Subgraph>());
   const [description, setDescription] = useState("");
   const [issue, setIssue] = useState("");
   const [file, setFile] = useState("");
@@ -120,7 +127,12 @@ export default function Arena() {
     if (!tenant) return;
     tenantRef.current = tenant;
     setResult(null);
-    setGraph(null);
+    const cached = overviewCache.current.get(tenant);
+    if (cached) {
+      setGraph(cached);
+      setGraphOwner(tenant);
+      setGraphContext("Source overview");
+    }
     setSelected(null);
     setCold(null);
     setCompiledIssue("");
@@ -130,6 +142,16 @@ export default function Arena() {
     setRationale("");
     setConfirmed(false);
     const entry = catalog.find((t) => t.tenant_graph === tenant);
+    setPatchEnabled(false);
+    const module = (entry?.preset_files[0] || "example.py")
+      .replace(/^.*?src\//, "")
+      .replace(/\.py$/, "")
+      .replace(/\//g, ".");
+    setPatchCode(
+      tenant === "repo_falkordb_py"
+        ? "from falkordb.query_result import __parse_string\n\ndef parse_response(value, graph):\n    return __parse_string(value, graph)\n"
+        : `import ${module} as repository_module\n\ndef bounded_timeout(seconds):\n    return max(1, seconds)\n\ndef proposed_timeout(seconds):\n    return bounded_timeout(seconds)\n`,
+    );
     setFiles(entry?.preset_files.slice(0, 1) || []);
     setFile(entry?.preset_files[0] || "");
     setIssue(
@@ -142,7 +164,12 @@ export default function Arena() {
       controller.signal,
     )
       .then((g) => {
-        if (id === sequence.current) setGraph(g);
+        if (id === sequence.current) {
+          overviewCache.current.set(tenant, g);
+          setGraph(g);
+          setGraphOwner(tenant);
+          setGraphContext("Source overview");
+        }
       })
       .catch((e) => {
         if (!controller.signal.aborted && id === sequence.current)
@@ -162,7 +189,7 @@ export default function Arena() {
     setTrack(id);
     setResult(null);
     setSelected(null);
-    setGraph(null);
+    // Keep this tenant’s last evidence visible until a new action completes.
     setError("");
     setNotice("");
   }
@@ -197,6 +224,7 @@ export default function Arena() {
             modified_files: files,
             pr_number: pr ? Number(pr) : null,
             proposed_description: description,
+            proposed_code_patch: patchEnabled ? patchCode : null,
           }
         : kind === "brain"
           ? { tenant_graph: tenant, question, file_path: file || null }
@@ -229,7 +257,21 @@ export default function Arena() {
             ? { kind: "brain", data: data as Brain }
             : { kind: "memory", data: data as Investigation };
       setResult(next);
-      setGraph(data.subgraph);
+      setGraph(
+        kind === "replay" && cold
+          ? replayEvidence(data.subgraph, cold.subgraph)
+          : data.subgraph,
+      );
+      setGraphOwner(requestedTenant);
+      setGraphContext(
+        kind === "audit"
+          ? "Track 1 audit"
+          : kind === "cold"
+            ? "Track 2 cold investigation"
+            : kind === "replay"
+              ? "Track 2 replay + historical cold evidence (not re-executed)"
+              : "Track 3 policy lineage",
+      );
       if (kind === "cold") {
         setCold(data as Investigation);
         setCompiledIssue(issue.trim());
@@ -271,6 +313,9 @@ export default function Arena() {
       if (id === sequence.current) setLoading("");
     }
   }
+  useEffect(() => {
+    document.querySelector(".results-panel")?.scrollTo({ top: 0 });
+  }, [result]);
   function changeFile(path: string) {
     setFile(path);
     setConfirmed(false);
@@ -288,7 +333,7 @@ export default function Arena() {
           </span>
           <span>
             Chronos<span className="brand-light">Graph</span>
-            <small>FLIGHT RECORDER / v1.2</small>
+            <small>FLIGHT RECORDER / CONTRACT V1.3</small>
           </span>
         </a>
         <div className="tenant-control">
@@ -435,13 +480,19 @@ export default function Arena() {
                 <select
                   id="pr"
                   value={pr}
-                  onChange={(e) => setPr(e.target.value)}
+                  onChange={(e) => {
+                    setPr(e.target.value);
+                    if (e.target.value) setFiles([]);
+                  }}
                   disabled={busy}
                 >
                   <option value="">Choose files manually</option>
                   {current?.pull_requests.map((p) => (
                     <option key={p.number} value={p.number}>
-                      {p.record_kind === "COMMIT" ? `Git ${p.commit_sha?.slice(0, 8)}` : `#${p.number}`} · {p.title}
+                      {p.record_kind === "COMMIT"
+                        ? `Git ${p.commit_sha?.slice(0, 8)}`
+                        : `#${p.number}`}{" "}
+                      · {p.title}
                     </option>
                   ))}
                 </select>
@@ -472,8 +523,10 @@ export default function Arena() {
                   </div>
                 </fieldset>
                 <p className="field-note">
-                  Explicit files take priority. Clear all selected files to use
-                  a PR’s ingested Python files.
+                  Selecting a PR/commit uses its ingested changed Python files.
+                  Explicit checkboxes take priority. The optional snippet
+                  overlays the first selected file; it is not fetched commit
+                  diff content.
                 </p>
                 <label htmlFor="description">
                   Proposed change <span>context only</span>
@@ -486,6 +539,33 @@ export default function Arena() {
                   placeholder="Describe the change being assessed"
                   disabled={busy}
                 />
+                <details className="patch-editor">
+                  <summary>Proposed Python patch (AST-parsed in clone)</summary>
+                  <label className="check-line">
+                    <input
+                      type="checkbox"
+                      checked={patchEnabled}
+                      onChange={(e) => setPatchEnabled(e.target.checked)}
+                      disabled={busy}
+                    />{" "}
+                    Apply Python snippet overlay
+                  </label>
+                  <label htmlFor="python-patch">Editable Python snippet</label>
+                  <textarea
+                    id="python-patch"
+                    className="mono"
+                    value={patchCode}
+                    maxLength={32000}
+                    spellCheck={false}
+                    onChange={(e) => setPatchCode(e.target.value)}
+                    disabled={busy}
+                  />
+                  <p className="field-note">
+                    Additive imports, definitions and conservatively resolved
+                    calls. Parsed, never executed. Unresolved calls are
+                    reported, not guessed.
+                  </p>
+                </details>
                 <button
                   className="button primary"
                   type="submit"
@@ -496,8 +576,9 @@ export default function Arena() {
                   <ArrowRight size={15} />
                 </button>
                 <p className="field-note">
-                  Labeled synthetic dependency scenario. No source diff is
-                  executed.
+                  {patchEnabled
+                    ? "AST_PATCH_SIMULATION · additive snippet overlay inside the clone only."
+                    : "SIMULATED_PR_DEPENDENCY · enable the Python snippet for actual AST-parsed dependencies."}
                 </p>
               </form>
             )}
@@ -687,13 +768,24 @@ export default function Arena() {
           </div>
         </aside>
         <section className="canvas-panel" aria-label="Graph flight recorder">
-          <GraphCanvas graph={graph} onSelect={setSelected} />
+          <p className="canvas-context" role="status">
+            {graphOwner && graphOwner !== tenant
+              ? `Loading selected repository · previous evidence: ${catalog.find((t) => t.tenant_graph === graphOwner)?.repository || graphOwner}`
+              : `${current?.repository || "Connecting"} · ${graphContext}`}
+          </p>
+          <GraphCanvas
+            graph={graph}
+            onSelect={(n) => {
+              if (graphOwner === tenant) setSelected(n);
+            }}
+          />
         </section>
         <aside className="results-panel" aria-label="Results and provenance">
           <div className="panel-heading">
             <span className="eyebrow">03 / EVIDENCE INSPECTOR</span>
             <ShieldCheck size={16} />
           </div>
+          <ComparisonStrip result={result} cold={cold} />
           {error && result && (
             <p className="retained-result-note">
               Previous successful result retained below. The latest request

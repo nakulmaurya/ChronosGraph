@@ -1,3 +1,4 @@
+import { comparison } from "@/lib/comparison";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { ms, safeUrl, text, timestamp } from "@/lib/api";
 import type {
@@ -66,6 +67,28 @@ export function BaselineCard({ baseline }: { baseline: Baseline | undefined }) {
         Controlled graph queries, not an LLM benchmark or proof of a production
         outage.
       </p>
+    </section>
+  );
+}
+export function ComparisonStrip({
+  result,
+  cold,
+}: {
+  result: Result | null;
+  cold: Investigation | null;
+}) {
+  if (!result) return null;
+  const values = comparison(result, cold);
+  return (
+    <section
+      className="comparison-strip"
+      aria-label="Shallow Baseline vs. ChronosGraph"
+    >
+      <h3>Shallow Baseline vs. ChronosGraph</h3>
+      <div className="comparison-pills">
+        <p className="comparison-baseline">{values.left}</p>
+        <p className="comparison-connected">{values.right}</p>
+      </div>
     </section>
   );
 }
@@ -141,7 +164,9 @@ export function Owners({ owners }: { owners: RecordData[] }) {
             <Link
               url={
                 o.url ||
-                (text(o.login).startsWith("git:") ? undefined : `https://github.com/${encodeURIComponent(text(o.login))}`)
+                (text(o.login).startsWith("git:")
+                  ? undefined
+                  : `https://github.com/${encodeURIComponent(text(o.login))}`)
               }
             />
             <dl>
@@ -158,13 +183,13 @@ export function Owners({ owners }: { owners: RecordData[] }) {
         ))
       ) : (
         <p className="empty-note">
-          No PR/commit-file contributor link in the ingested snapshot. This does not mean
-          the file has no maintainer.
+          No PR/commit-file contributor link in the ingested snapshot. This does
+          not mean the file has no maintainer.
         </p>
       )}
       <p className="disclaimer">
-        Ranked from bounded PR/review or git-commit file links, not definitive ownership.
-        Git authors are not verified GitHub maintainers.
+        Ranked from bounded PR/review or git-commit file links, not definitive
+        ownership. Git authors are not verified GitHub maintainers.
       </p>
     </section>
   );
@@ -210,6 +235,9 @@ export function ResultInspector({
     );
   if (result.kind === "audit") {
     const d = result.data;
+    const patch = d.subgraph.nodes.find(
+      (n) => n.metadata.patch_source_type === "AST_PATCH_SIMULATION",
+    );
     return (
       <>
         <section className="inspector-section">
@@ -227,9 +255,18 @@ export function ResultInspector({
           <p className="disclaimer">
             Static potential impact, not code execution or an outage prediction.
           </p>
-          <Provenance value="SIMULATED_PR_DEPENDENCY" />
+          <Provenance
+            value={patch ? "AST_PATCH_SIMULATION" : "SIMULATED_PR_DEPENDENCY"}
+          />
+          {patch && (
+            <p className="patch-summary">
+              {text(patch.metadata.patch_resolved_calls)} resolved calls ·{" "}
+              {text(patch.metadata.patch_unresolved_calls)} unresolved calls.
+              Additive snippet overlay on {patch.title}.
+            </p>
+          )}
           <p className="subtle">
-            Synthetic changes exist only in the disposable clone.
+            Proposed dependencies exist only in the disposable clone.
           </p>
           <StringList title="Impacted files" values={d.impacted_files} />
           <StringList

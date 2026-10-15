@@ -89,6 +89,46 @@ try {
   await page.getByText("VERIFIED", { exact: true }).waitFor();
   await shot("01-sandbox-desktop");
   mark("Track 1 live audit, impacted nodes and verified sandbox cleanup");
+  // T-06: real commit selection supplies file scope; submitted snippet is separate.
+  const commit = JSON.parse(
+    execFileSync(
+      process.env.BACKEND_PYTHON || "python3",
+      [
+        "-c",
+        "import json;from app.services.common import read;print(json.dumps(read('repo_falkordb_py', 'MATCH (p:PullRequest)-[:MODIFIES]->(f:File) RETURN p.number AS number,f.path AS path ORDER BY coalesce(p.committed_at,p.merged_at,0) DESC LIMIT 1')[0][0]))",
+      ],
+      { cwd: path.resolve("../backend"), encoding: "utf8" },
+    ),
+  );
+  await page.locator("#pr").selectOption(String(commit.number));
+  assert.equal(await page.locator("fieldset input:checked").count(), 0);
+  await page.locator(".patch-editor summary").click();
+  await page.getByLabel("Apply Python snippet overlay").check();
+  await page
+    .locator("#python-patch")
+    .fill(
+      "def t06_helper():\n    return 1\ndef t06_patch():\n    return t06_helper()\n",
+    );
+  const patched = await action("Run GRAPH.COPY audit", "/track1/sandbox-audit");
+  assert.ok(
+    patched.subgraph.nodes.some(
+      (n) => n.metadata.patch_source_type === "AST_PATCH_SIMULATION",
+    ),
+  );
+  assert.equal(patched.sandbox_cleaned_up, true);
+  await page.locator(".comparison-strip").waitFor();
+  const stripBox = await page.locator(".comparison-strip").boundingBox();
+  assert.ok(stripBox && stripBox.y + stripBox.height < 1050);
+  await shot("t06-ast-patch-comparison");
+  mark(
+    "Real commit scope, AST snippet editor, clone cleanup and above-fold audit comparison",
+  );
+  await page.getByLabel("Apply Python snippet overlay").uncheck();
+  await page.locator(".patch-editor summary").click();
+  await page.locator("#pr").selectOption("");
+  await page.locator("fieldset input[type=checkbox]").first().check();
+  // Restore the original audit for existing full-payload count assertions.
+  await action("Run GRAPH.COPY audit", "/track1/sandbox-audit");
   await page.getByRole("button", { name: "Fit graph", exact: true }).click();
   await page.locator(".react-flow__node").first().click();
   await page.getByText("SELECTED NODE", { exact: true }).waitFor();
@@ -126,6 +166,11 @@ try {
     .click();
   mark("Full API payload remains accessible behind focused graph view");
   await page.getByRole("button", { name: /TRACK 02/ }).click();
+  assert.ok((await page.locator(".react-flow__node").count()) > 0);
+  assert.equal(await page.locator(".canvas-empty").count(), 0);
+  mark(
+    "Track navigation retains clearly labeled real evidence without a blank canvas",
+  );
   const scenario = `UI smoke policy review falkordb/graph.py ${Date.now()}`;
   await page.locator("#scenario").fill(scenario);
   assert.equal(
@@ -153,7 +198,24 @@ try {
     warm_actions: warm.total_steps_executed,
   });
   await page.getByText("40% fewer actions", { exact: true }).waitFor();
+  assert.equal(
+    await page.locator(".historical-evidence.status-DEAD_END").count(),
+    2,
+  );
+  assert.ok(
+    await page
+      .locator(".historical-evidence")
+      .first()
+      .evaluate((e) => getComputedStyle(e).opacity === "0.38"),
+  );
+  assert.match(
+    await page.locator(".comparison-strip").textContent(),
+    /shortestPath Replay: 3 verified actions/,
+  );
   await shot("04-memory-replay");
+  mark(
+    "Replay keeps two dimmed historical cold branches, actual cyan path and measured comparison",
+  );
   mark(
     "Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry",
   );
@@ -230,6 +292,10 @@ try {
       original.active_decisions[0].scope_symbol,
   );
   await page.locator(".policy details").first().locator("summary").click();
+  assert.match(
+    await page.locator(".comparison-strip").textContent(),
+    /Oldest-Doc Baseline: Returns SUPERSEDED rule/,
+  );
   await shot("06-policy-lineage");
   mark("Track 3 active/superseded policies, times, scope and provenance");
   await page.locator(".override-form>summary").click();
@@ -347,18 +413,29 @@ try {
     "390px mobile layouts: all three tracks and MCP dialog, no page overflow",
   );
   // Opt-in live external repositories, in addition to the unchanged 15 baseline checks.
-  const externalTenants = (process.env.REAL_WORLD_TENANTS || "").split(",").filter(Boolean);
-  const catalog = externalTenants.length ? await (await fetch(API + "/tenants")).json() : [];
+  const externalTenants = (process.env.REAL_WORLD_TENANTS || "")
+    .split(",")
+    .filter(Boolean);
+  const catalog = externalTenants.length
+    ? await (await fetch(API + "/tenants")).json()
+    : [];
   await page.setViewportSize({ width: 1560, height: 1050 });
   for (const tenant of externalTenants) {
     const entry = catalog.find((t) => t.tenant_graph === tenant);
-    assert.ok(entry && entry.preset_files.length, `Registered policy-backed tenant ${tenant}`);
+    assert.ok(
+      entry && entry.preset_files.length,
+      `Registered policy-backed tenant ${tenant}`,
+    );
     await page.locator("#tenant").selectOption(tenant);
-    await page.waitForFunction(() => !document.querySelector("#tenant").disabled);
+    await page.waitForFunction(
+      () => !document.querySelector("#tenant").disabled,
+    );
     await page.getByRole("button", { name: /TRACK 03/ }).click();
     await page.locator("#policy-file").selectOption(entry.preset_files[0]);
     const policy = await action("Read current policy", "/track3/ask-brain");
-    assert.ok(policy.active_decisions.length && policy.superseded_decisions.length);
+    assert.ok(
+      policy.active_decisions.length && policy.superseded_decisions.length,
+    );
     await page.getByRole("button", { name: /TRACK 01/ }).click();
     const boxes = page.locator('fieldset input[type="checkbox"]');
     for (const box of await boxes.all()) await box.uncheck();
@@ -367,16 +444,31 @@ try {
     assert.equal(audit.sandbox_cleaned_up, true);
     assert.ok(audit.recommended_reviewers.length);
     await page.getByRole("button", { name: /TRACK 02/ }).click();
-    await page.locator("#scenario").fill(`Review policy ${entry.preset_files[0]} ${Date.now()}`);
+    await page
+      .locator("#scenario")
+      .fill(`Review policy ${entry.preset_files[0]} ${Date.now()}`);
     const cold = await action("Run #1 · Cold triage", "/track2/investigate");
-    const warm = await action("Run #2 · Compiled replay", "/track2/investigate");
+    const warm = await action(
+      "Run #2 · Compiled replay",
+      "/track2/investigate",
+    );
     assert.equal(cold.total_steps_executed, 5);
     assert.equal(warm.total_steps_executed, 3);
-    assert.equal(warm.subgraph.nodes.filter((n) => n.status === "DEAD_END").length, 0);
-    measurements.push({ tenant, clone_ms: audit.sandbox_clone_time_ms, cold_ms: cold.duration_ms, warm_ms: warm.duration_ms });
+    assert.equal(
+      warm.subgraph.nodes.filter((n) => n.status === "DEAD_END").length,
+      0,
+    );
+    measurements.push({
+      tenant,
+      clone_ms: audit.sandbox_clone_time_ms,
+      cold_ms: cold.duration_ms,
+      warm_ms: warm.duration_ms,
+    });
     await noOverflow();
     await shot(`external-${tenant}`);
-    mark(`External ${tenant}: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay`);
+    mark(
+      `External ${tenant}: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay`,
+    );
   }
   assert.deepEqual(errors, []);
   mark("No uncaught browser errors");

@@ -105,3 +105,123 @@ test("focused view preserves policies, real edges, and full payload", () => {
   assert.equal(focus.edges.length, 1);
   assert.equal(graph.nodes.length, 26);
 });
+
+test("semantic lanes distinguish targets, impacts, active policy and history", () => {
+  const node = (id, label, status, metadata = {}) => ({
+    id,
+    label,
+    status,
+    metadata,
+  });
+  const graph = {
+    nodes: [
+      node("target", "File", "IMPACTED", { audit_target: true }),
+      node("fn", "Function", "IMPACTED"),
+      node("impact", "File", "IMPACTED"),
+      node("active", "Decision", "ACTIVE"),
+      node("old", "Decision", "SUPERSEDED"),
+      node("dead", "StateNode", "DEAD_END"),
+    ],
+  };
+  const p = placeNodes(graph);
+  assert.ok(p.get("target").x < p.get("fn").x);
+  assert.ok(p.get("fn").x < p.get("impact").x);
+  assert.equal(p.get("active").x, p.get("impact").x);
+  assert.ok(p.get("impact").x < p.get("old").x);
+  assert.notDeepEqual(p.get("old"), p.get("dead"));
+});
+
+test("replay shows actual historical cold branches without inventing edges or mutating telemetry", async () => {
+  const { replayEvidence } = await import("../src/lib/graph.ts");
+  const n = (id, label, status = "GOLDEN_PATH") => ({
+    id,
+    label,
+    status,
+    metadata: {},
+  });
+  const cold = {
+    nodes: [
+      n("ci", "Investigation"),
+      n("cs", "StateNode"),
+      n("cd", "StateNode", "DEAD_END"),
+      n("cg", "StateNode"),
+    ],
+    edges: [
+      { id: "c1", source: "ci", target: "cs" },
+      { id: "c2", source: "cs", target: "cd" },
+      { id: "c3", source: "cs", target: "cg" },
+    ],
+  };
+  const warm = {
+    nodes: [n("wi", "Investigation"), n("ws", "StateNode")],
+    edges: [{ id: "w1", source: "wi", target: "ws" }],
+  };
+  const result = replayEvidence(warm, cold);
+  assert.equal(result.nodes.find((n) => n.id === "cd").metadata.pruned, true);
+  assert.equal(
+    result.nodes.find((n) => n.id === "cs").metadata.replay_evidence_only,
+    true,
+  );
+  assert.ok(!result.nodes.some((n) => n.id === "cg"));
+  assert.deepEqual(
+    result.edges.map((e) => [e.id, e.source, e.target]),
+    [...warm.edges, ...cold.edges.slice(0, 2)].map((e) => [
+      e.id,
+      e.source,
+      e.target,
+    ]),
+  );
+  assert.equal(validEdges(result).length, result.edges.length);
+  assert.equal(warm.nodes.length, 2);
+});
+
+test("comparison uses observed values, not fixed benchmark numbers", async () => {
+  const { comparison } = await import("../src/lib/comparison.ts");
+  const cold = {
+    total_steps_executed: 5,
+    duration_ms: 90,
+    execution_mode: "cold_multi_agent",
+    pruned_golden_steps: 3,
+    agent_handoff_log: [{ dead_end: true }, { dead_end: true }],
+  };
+  const warm = {
+    ...cold,
+    total_steps_executed: 3,
+    duration_ms: 100,
+    execution_mode: "compiled_playbook",
+    latency_speedup_factor: 0.9,
+    agent_handoff_log: [{}, {}, {}],
+  };
+  const r = comparison({ kind: "memory", data: warm }, cold);
+  assert.match(r.left, /5 actions \(2 dead ends\)/);
+  assert.match(r.right, /40% fewer actions/);
+  assert.match(r.right, /0\.900×/); // slower replay is not hidden
+  assert.match(
+    comparison({ kind: "memory", data: cold }, cold).right,
+    /run replay to measure/,
+  );
+  assert.match(
+    comparison(
+      {
+        kind: "audit",
+        data: {
+          blind_agent_comparison: { missed_downstream_count: 7 },
+          impacted_files: ["a", "b"],
+          impacted_functions: ["x"],
+        },
+      },
+      null,
+    ).left,
+    /Missed 7/,
+  );
+  assert.match(
+    comparison(
+      {
+        kind: "brain",
+        data: { active_decisions: [], blind_agent_comparison: {} },
+      },
+      null,
+    ).right,
+    /No ACTIVE/,
+  );
+});

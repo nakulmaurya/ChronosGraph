@@ -1406,3 +1406,90 @@ dd {
   color: #fed7aa;
   font-size: 12px;
 }
+
+/* T-06: compact evidence above the fold; full baseline remains available. */
+.comparison-strip {
+  padding: 12px 14px;
+  border-bottom: 1px solid #334155;
+  background: #0a1726;
+}
+.comparison-strip h3 {
+  margin: 0 0 9px;
+  font-size: 12px;
+  color: #e2e8f0;
+}
+.comparison-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.comparison-pills p {
+  margin: 0;
+  padding: 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.comparison-baseline {
+  background: #341827;
+  color: #fecdd3;
+  border: 1px solid #80364f;
+}
+.comparison-connected {
+  background: #0c302d;
+  color: #a7f3d0;
+  border: 1px solid #1f7666;
+}
+.canvas-context {
+  margin: 0;
+  padding: 7px 20px;
+  font-size: 10px;
+  color: #a5cbd7;
+  background: #0b1725;
+  border-bottom: 1px solid #27354a;
+}
+.patch-editor {
+  margin: 14px 0;
+  border: 1px solid #334155;
+  padding: 10px;
+  border-radius: 6px;
+}
+.patch-editor summary {
+  font-size: 11px;
+  color: #a5f3fc;
+}
+.patch-editor textarea {
+  min-height: 160px;
+  font-size: 11px;
+  tab-size: 4;
+}
+.patch-editor .check-line {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+}
+.patch-editor input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.patch-summary {
+  font-size: 11px;
+  color: #a5f3fc;
+  overflow-wrap: anywhere;
+}
+.evidence-node.historical-evidence {
+  opacity: 0.38;
+  border-style: dashed;
+}
+.evidence-node.historical-evidence.status-DEAD_END {
+  border-color: #fb7185;
+}
+.canvas-panel:has(.cypher-drawer[open]) .graph-area {
+  min-height: 200px;
+}
+.cypher-drawer[open] {
+  flex-shrink: 0;
+}

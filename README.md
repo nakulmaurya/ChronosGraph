@@ -161,3 +161,23 @@ See [frontend setup/live smoke](frontend/README.md), [release evidence](tasks/re
 [technical article](docs/blog-post-falkordb.md) and [handoff](docs/handoff.md).
 **Local trusted-client demonstration only: no authentication, no production safety
 guarantee, no deployment or external publication. Release status: v1.3 accepted (53 backend tests, 7 frontend regression tests, and 17 live production Chromium checks verified).**
+
+## Optional AST snippet simulation (T-06)
+
+Track 1 accepts `proposed_code_patch` through REST and `simulate_pr_blast_radius`.
+The editable Python snippet is parsed, never executed, and overlays definitions,
+resolved imports and conservative calls on the **first selected file** inside
+GRAPH.COPY. Enable it in “Proposed Python patch (AST-parsed in clone)”. Selecting
+a real PR/git record scopes the audit to its ingested changed Python files.
+
+This is an **additive snippet overlay**, not a unified diff, full-file replacement,
+or a fetched commit patch. Existing snapshot edges remain. Ambiguous/dynamic or
+external calls are reported unresolved, not guessed. Input is limited to 32,000
+characters and 500 AST observations. Blank/omitted input retains the existing
+`SIMULATED_PR_DEPENDENCY` scenario. `AST_PATCH_SIMULATION` metadata and dependency
+counts remain inspectable on the target file; upstream graph data is not mutated.
+
+The inspector compares observed baselines with each result. Replay visualizes
+actual **historical cold** dead ends dimmed and explicitly not replayed; backend
+step counts and replay subgraphs still describe only the three executed actions.
+Demo recording/narration upgrades are deferred to a later task.

@@ -51,6 +51,7 @@ class SandboxAuditRequest(BaseModel):
     pr_number: Optional[int] = None
     modified_files: List[str] = Field(default_factory=list)
     proposed_description: str = ""
+    proposed_code_patch: Optional[str] = Field(default=None, max_length=32000)
 
 
 class SandboxAuditResponse(BaseModel):

@@ -66,3 +66,12 @@ audit aggregation are accepted additions. Models remain unchanged. Larger-repo c
 samples include 257.62 ms; do not generalize the old <250 ms two-tenant ceiling.
 Docker baseline 40/7/15 and T-05 53/7/17 checks are recorded in the T-05 report.
 See `tasks/reviews/T-05.md` for authority and preserved trust/verification limits.
+
+## T-06 — user-authorized code/UI extension
+
+The user approved optional clone-only AST snippets and evidence-first UI polish
+on `build/t06-wow-polish-and-demo`, with all video work explicitly deferred.
+No existing response field names changed. Warm backend telemetry remains 3
+executed actions; historical cold branches are labeled frontend-only evidence.
+Sequential integrator review accepted the code scope after 61 backend, 10 frontend
+and 20 live production UI checks on Docker FalkorDB. See T-06 report/review.

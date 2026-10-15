@@ -97,8 +97,17 @@ def graph_payload(tenant: str, paths=None, investigation_id=None, cypher='', ela
     else:
         selection = 'MATCH (n:File) RETURN n ORDER BY n.pagerank DESC LIMIT 50'
     result, query_ms = db_manager.ro_query(tenant, selection, params)
+    records = list(result.result_set)
+    if paths:
+        # Ensure newly parsed clone-only definitions remain inspectable even if
+        # the normal bounded function payload reaches its presentation limit.
+        patches, patch_ms = db_manager.ro_query(tenant, '''MATCH (f:File)-[:DEFINES]->(n)
+          WHERE f.path IN $paths AND n.source_type='AST_PATCH_SIMULATION'
+          RETURN n LIMIT 500''', params)
+        records = list(patches.result_set) + records
+        query_ms += patch_ms
     nodes = {}
-    for row in result.result_set:
+    for row in records:
         node = row[0]; p = dict(node.properties)
         p.pop('embedding', None)
         label = node.labels[0] if node.labels else 'Node'

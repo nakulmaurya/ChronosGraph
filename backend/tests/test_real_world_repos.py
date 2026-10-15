@@ -196,3 +196,99 @@ def test_external_five_fastmcp_tools_via_protocol(external):
         for ident in created: graph.query('MATCH (d:Decision {id:$id}) DETACH DELETE d',{'id':ident})
         for p in snapshot:
             graph.query('MATCH (d:Decision {id:$id}) SET d.status=$s,d.valid_to=$vt,d.recorded_to=$rt',{'id':p['id'],'s':p['status'],'vt':p.get('valid_to'),'rt':p.get('recorded_to')})
+
+
+def test_ast_patch_clone_only_imports_calls_and_no_execution(client, ingested, tmp_path):
+    from app.services.ast_patch import parse_patch, apply_patch
+    tenant, _, _ = ingested
+    sentinel = tmp_path / 'must-not-exist'
+    code = f'''from .a import helper
+raise RuntimeError("AST ONLY")
+open({str(sentinel)!r}, "w").write("must not run")
+def patched():
+    return helper()
+def caller():
+    return patched()
+'''
+    before = snapshot_stats(tenant)
+    with db_manager.ephemeral_sandbox(tenant) as (graph, name, _):
+        deps = apply_patch(graph, parse_patch(code, 'src/pkg/b.py'), 'test_patch')
+        assert 'src/pkg/a.py' in deps
+        assert graph.ro_query("MATCH (:File {path:'src/pkg/b.py'})-[r:IMPORTS]->(:File {path:'src/pkg/a.py'}) RETURN r.source_type").result_set == [['AST_PATCH_SIMULATION']]
+        links = graph.ro_query("MATCH (a:Function)-[r:CALLS {source_type:'AST_PATCH_SIMULATION'}]->(b:Function) RETURN a.qualified_name,b.qualified_name").result_set
+        assert ['src/pkg/b.py:patched','src/pkg/a.py:helper'] in links
+        assert ['src/pkg/b.py:caller','src/pkg/b.py:patched'] in links
+        assert not graph.ro_query("MATCH (n {source_type:'SIMULATED_PR_DEPENDENCY'}) RETURN n").result_set
+    assert name not in db_manager.list_tenant_graphs()
+    response = client.post('/api/v1/track1/sandbox-audit', json={'tenant_graph': tenant,
+        'modified_files': ['src/pkg/b.py'], 'proposed_code_patch': code})
+    assert response.status_code == 200, response.text
+    data = response.json()
+    target = next(n for n in data['subgraph']['nodes'] if n['title']=='src/pkg/b.py')
+    assert target['metadata']['patch_source_type']=='AST_PATCH_SIMULATION'
+    assert target['metadata']['patch_resolved_calls']==2
+    assert any(n['title']=='src/pkg/b.py:patched' for n in data['subgraph']['nodes'])
+    assert any(e['relationship']=='CALLS' for e in data['subgraph']['edges'])
+    assert target['metadata']['audit_target'] is True
+    assert data['sandbox_cleaned_up']
+    assert snapshot_stats(tenant)==before
+    assert not sentinel.exists()
+    assert not db_manager.get_graph(tenant).ro_query("MATCH (f:Function {qualified_name:'src/pkg/b.py:patched'}) RETURN f").result_set
+
+
+@pytest.mark.parametrize('code', ['def broken(:', 'x=1\n'*9000, '\n'.join(f'import unknown_{i}' for i in range(501))], ids=['syntax-error','oversized-input','too-many-observations'])
+def test_ast_patch_invalid_or_oversized_rejected_without_leaks(client, ingested, code):
+    tenant, _, _ = ingested
+    before = set(db_manager.list_tenant_graphs())
+    response = client.post('/api/v1/track1/sandbox-audit', json={'tenant_graph': tenant,
+        'modified_files': ['src/pkg/b.py'], 'proposed_code_patch': code})
+    assert response.status_code==422
+    assert set(db_manager.list_tenant_graphs())==before
+
+
+def test_ast_patch_unresolved_calls_and_legacy_blank_fallback(client, ingested):
+    tenant, _, _ = ingested
+    body={'tenant_graph':tenant, 'modified_files':['src/pkg/b.py']}
+    result=client.post('/api/v1/track1/sandbox-audit',json={**body,
+        'proposed_code_patch':'import external_unknown\ndef probe(obj):\n    return obj.helper()\n'}).json()
+    target=next(n for n in result['subgraph']['nodes'] if n['title']=='src/pkg/b.py')
+    assert target['metadata']['patch_resolved_calls']==0
+    assert target['metadata']['patch_unresolved_calls']==1
+    assert 'obj.helper' in target['metadata']['patch_unresolved_expressions']
+    for patch in [None, '', ' \n ']:
+        response=client.post('/api/v1/track1/sandbox-audit',json={**body,'proposed_code_patch':patch})
+        assert response.status_code==200
+        assert any(n['metadata'].get('source_type')=='SIMULATED_PR_DEPENDENCY' for n in response.json()['subgraph']['nodes'])
+
+
+def test_ast_patch_commit_scope_and_mcp_input(client, ingested):
+    tenant, _, _ = ingested
+    record=read(tenant,'MATCH (p:PullRequest)-[:MODIFIES]->(:File) RETURN p.number AS number LIMIT 1')[0][0]
+    code='def patch_helper():\n    return 1\ndef patch_caller():\n    return patch_helper()\n'
+    response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,
+        'pr_number':record['number'],'proposed_code_patch':code})
+    assert response.status_code==200, response.text
+    assert any(n['metadata'].get('patch_source_type')=='AST_PATCH_SIMULATION' for n in response.json()['subgraph']['nodes'])
+    async def check():
+        async with Client(mcp) as c:
+            r=await c.call_tool('simulate_pr_blast_radius',{'tenant_graph':tenant,
+                'modified_files':['src/pkg/b.py'],'proposed_code_patch':code})
+            assert not r.is_error
+            assert r.data['sandbox_cleaned_up']
+            assert any(n['metadata'].get('patch_source_type')=='AST_PATCH_SIMULATION' for n in r.data['subgraph']['nodes'])
+    asyncio.run(check())
+
+
+def test_external_ast_patch_is_real_and_clone_isolated(client, external):
+    tenant,path=external
+    before=snapshot_stats(tenant)
+    code='def t06_verified_helper():\n    return 1\ndef t06_verified_patch():\n    return t06_verified_helper()\n'
+    response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,
+        'modified_files':[path],'proposed_code_patch':code})
+    assert response.status_code==200,response.text
+    data=response.json()
+    target=next(n for n in data['subgraph']['nodes'] if n['metadata'].get('audit_target'))
+    assert target['metadata']['patch_resolved_calls']==1
+    assert target['metadata']['patch_source_type']=='AST_PATCH_SIMULATION'
+    assert data['sandbox_cleaned_up'] and data['recommended_reviewers']
+    assert snapshot_stats(tenant)==before

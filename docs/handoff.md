@@ -1,5 +1,15 @@
 # ChronosGraph Engineering Handoff
 
+## T-06 code/UI accepted (recording deferred)
+Branch `build/t06-wow-polish-and-demo`, base `013b66b`. Scope and compatibility
+semantics are in `tasks/assignments/T-06.md`. Python snippets are additive AST
+simulation inside disposable clones, not source replacement or fetched diffs.
+Frontend-only historical cold branches do not change backend replay telemetry.
+Docker VM verification: 61 backend tests, 10 frontend tests, typecheck/build,
+20 live UI checks, zero production audit/hygiene findings. See `tasks/reports/T-06.md`.
+User explicitly deferred all video/demo script/narration work. Do not overwrite
+or regenerate those artifacts as part of this code task.
+
 ## Current boundary
 Contract **v1.3**, additive T-05 acceptance supplied through the user bridge;
 prior v1.2 / approved CR-001 and CR-002 remain the historical baseline. T-01 and T-02 are merged. T-03 was

@@ -4,8 +4,8 @@ import { Copy, X } from "lucide-react";
 const tools = [
   [
     "simulate_pr_blast_radius",
-    "modified_files: string[], tenant_graph?, pr_number?, proposed_description?",
-    "Audit a disposable clone with labeled dependency simulations.",
+    "modified_files: string[], tenant_graph?, pr_number?, proposed_description?, proposed_code_patch?",
+    "Audit a disposable clone with optional AST-parsed Python snippet overlays.",
   ],
   [
     "query_bitemporal_decisions",
@@ -20,7 +20,7 @@ const tools = [
   [
     "find_true_code_owners",
     "file_path: string, tenant_graph?",
-    "Rank only PR-linked authors/reviewers in this snapshot.",
+    "Rank bounded PR/review and git-commit contributor evidence.",
   ],
   [
     "run_or_compile_playbook",
