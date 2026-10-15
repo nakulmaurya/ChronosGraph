@@ -1,0 +1,62 @@
+{
+  "method": "5 sequential localhost HTTP cold/warm pairs; no artificial sleeps or model calls",
+  "runs": [
+    {
+      "cold_ms": 10.003,
+      "warm_ms": 7.647,
+      "speedup": 1.308
+    },
+    {
+      "cold_ms": 9.769,
+      "warm_ms": 7.795,
+      "speedup": 1.253
+    },
+    {
+      "cold_ms": 9.634,
+      "warm_ms": 11.737,
+      "speedup": 0.821
+    },
+    {
+      "cold_ms": 14.819,
+      "warm_ms": 11.956,
+      "speedup": 1.239
+    },
+    {
+      "cold_ms": 15.789,
+      "warm_ms": 11.97,
+      "speedup": 1.319
+    }
+  ],
+  "median_speedup": 1.253,
+  "model_calls": 0,
+  "token_savings_status": "UNMEASURED",
+  "required_token_savings_pct": 75,
+  "required_speedup": 4,
+  "clone_measurements": [
+    {
+      "tenant": "repo_falkordb_py",
+      "clone_ms": 102.41
+    },
+    {
+      "tenant": "repo_falkordb_py",
+      "clone_ms": 99.42
+    },
+    {
+      "tenant": "repo_falkordb_py",
+      "clone_ms": 99.21
+    },
+    {
+      "tenant": "repo_graphrag_sdk",
+      "clone_ms": 119.79
+    },
+    {
+      "tenant": "repo_graphrag_sdk",
+      "clone_ms": 96.62
+    },
+    {
+      "tenant": "repo_graphrag_sdk",
+      "clone_ms": 98.38
+    }
+  ],
+  "sandbox_orphans": []
+}

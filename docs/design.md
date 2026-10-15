@@ -1,32 +1,41 @@
-# UX & Interface Design — The ChronosGraph Live Arena & Flight Recorder
+# Interface Design — ChronosGraph Flight Recorder
 
-> Related PRD: `docs/prd.md` | Target: `frontend/src/app/page.tsx`
+Version v1.2 / approved CR-002; replaces all earlier illustrative fake metrics.
 
-## 1. Visual Concept: "The LinkedIn Scroll-Stopper Arena"
-Instead of a passive dashboard, the UI is a **high-contrast dark-mode (`bg-slate-950 text-slate-100`) Engineering Arena & Flight Recorder** designed to make any viewer understand the value in 5 seconds:
-- **Top Header Bar:**
-  - **Brand & Status:** `ChronosGraph // FalkorDB Context & JIT Memory Engine` + live query latency badge (`1.8 ms`).
-  - **Multigraph Tenant Switcher:** Instant pill toggle between `FalkorDB/falkordb-py` and `FalkorDB/GraphRAG-SDK`.
-  - **Track Mode Selector:**
-    1. `🛡️ Track 1: GRAPH.COPY PR Crash-Test`
-    2. `⚡ Track 2: JIT Memory Race (shortestPath)`
-    3. `🧠 Track 3: Bi-Temporal Contradiction Shield`
-  - **MCP Connect Button:** Opens modal with copy-ready Cursor / Claude Code MCP JSON config.
+## Direction
+A precise, dark industrial graph workbench. Slate-950 canvas, slate-900 panels,
+subtle grid, monospace identifiers and timing, system sans headings. Cyan for
+connected paths, amber for impact, emerald for active rules, rose for superseded
+and pruned branches. Text labels always accompany color. No stock illustration,
+fake status lights, simulated counters or promotional outage verdicts.
 
-## 2. Three-Column Split Battlefield (`100vh`)
-1. **Left Column (340px) — Interactive Trigger Controls & Blind Agent Failure Card:**
-   - Context-sensitive scenario selector (e.g., real PR dropdown for Track 1, Bug Race trigger for Track 2, Live Policy Override form for Track 3).
-   - **🚨 Standard Blind Agent Card (Red/Rose border):** Displays `blind_agent_comparison` from the API response—showing how standard Vector RAG / static AST approves a breaking change, follows a `SUPERSEDED` rule, or burns `14,200 tokens (11.4s)` wandering through dead ends.
-2. **Center Column (Flex-1) — Interactive FalkorDB React Flow Canvas + Cypher Drawer:**
-   - Renders `subgraph.nodes` and `subgraph.edges` with automatic hierarchical layout:
-     - `SUPERSEDED` Decision Node: Red dashed border, `SUPERSEDED` badge, strikethrough rule text.
-     - `ACTIVE` Decision Node: Emerald glowing border, `ACTIVE INVARIANT` badge, clickable GitHub PR link.
-     - `IMPACTED` File/Function Node: Amber/Orange border showing PageRank criticality score.
-     - `DEAD_END` StateNode: Muted rose node marked `PRUNED BY SHORTESTPATH`.
-     - `GOLDEN_PATH` StateNode / Playbook: Animated cyan edges (`animated: true`) showing the compiled 2-step shortcut.
-   - **Bottom Collapsible Drawer:** Displays exact `subgraph.cypher_executed` and `execution_time_ms`.
-3. **Right Column (360px) — ChronosGraph Agent Verdict, Maintainer Centrality & ROI Meter:**
-   - **✅ ChronosGraph Verdict Card (Emerald/Cyan border):**
-     - Track 1: Shows `sandbox_clone_time_ms` (`~1.2ms`), `sandbox_cleaned_up: true`, blocked policy violations, and downstream impacted symbols.
-     - Track 2: **Live Token & Latency ROI Meter** comparing Cold Multi-Agent Run (`6 steps | 14,200 tokens | 11.4s`) vs. JIT Compiled Playbook (`2 steps | 1,650 tokens | 1.1s | 88.4% Saved`).
-     - Track 3: Bi-temporal decision timeline (`ACTIVE` <- `[:SUPERSEDED]` <- `Historical`) + Top 3 Maintainers ranked by PR/Review graph centrality (`@gkorland`, `@roi-lipman`, `@swilly22`).
+## Layout
+Header with brand, live connection/latency, tenant selector and MCP connect.
+Three track tabs beneath. Desktop: 300px controls/baseline / flexible graph / 320px
+results inspector. Each region scrolls internally. At tablet/mobile, stack controls,
+fixed-height graph and results in reading order, no horizontal page overflow.
+
+## Canvas and states
+Fit visible graph automatically after responses; interactive nodes and real edges,
+legend and counts, selectable node metadata. Status badges: ACTIVE, SUPERSEDED
+(dashed + struck text), IMPACTED, DEAD_END (PRUNED BY SHORTESTPATH), GOLDEN_PATH.
+Show a scoped/limited-view note rather than imply the full graph is rendered.
+Cypher drawer contains exact backend query and measured query milliseconds.
+
+## Truthful side-by-side telemetry
+Controlled baseline: actual one-hop or oldest-document results and explicit notes.
+ChronosGraph: actual clone cleanup, impact, policies and available PR-linked owners.
+Memory: 5 actions / 2 dead ends cold vs 3 actions / 0 dead ends replay, 40% fewer
+executions, actual durations/speedup. Deterministic policy-triage roles, zero models,
+zero model tokens; zero savings sentinel is not a measured token/cost benchmark.
+Keep DEMO_POLICY_SCENARIO, SIMULATED_PR_DEPENDENCY, DETERMINISTIC_POLICY_TRIAGE,
+CONTROLLED_ONE_HOP_BASELINE visible. Empty owners are explained, never fabricated.
+
+## Interaction and accessibility
+Labeled form fields and explicit mutation submit. Busy states prevent races; no
+stale tenant results. Errors are actionable and announced. Modal supports keyboard,
+Escape and focus restoration; copy control reports success/failure. Focus-visible
+outlines, reduced motion, accessible touch targets, readable contrast and text.
+Policy records expose validity/recorded timestamps and provenance with safe links.
+MCP config is a local template with editable absolute backend path, not a claim of
+an already installed external IDE connection. No authentication: localhost only.

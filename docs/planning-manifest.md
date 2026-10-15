@@ -1,6 +1,6 @@
 # Planning Manifest — ChronosGraph
 
-> Contract version: v1.1 | Updated: 2026-10-15 | Status: READY_FOR_BUILD | Mode: planner (Brain) → builder (Notion Agent) → reviewer (Brain via GitHub)
+> Contract version: v1.2 | Updated: 2026-10-15 | Status: READY_FOR_BUILD | Mode: planner (Brain) → builder (Notion Agent) → reviewer (Brain via GitHub)
 
 ## Authority and baseline
 - Project/repository: `chronosgraph` (GitHub Canvas bridged by Nakul Arvind Maurya)
@@ -42,3 +42,15 @@
 Principal Architect approval supplied by Nakul in chat. Approved: WITH-clause shortestPath fix, backend packaging correction, and explicit DEMO_POLICY_SCENARIO history anchored to real source files and contextual PRs. Demo PR anchors are not historical policy attribution.
 
 T-01 verification: 21/21 tests pass on real native FalkorDB 4.18.3. Editable package installation succeeds. Preserve the actual archive digest separately from the older planner label. T-02 is authorized; T-03 remains gated on Principal Architect review.
+
+## v1.2 — Approved CR-002: Deterministic Zero-Key Scientific Scope
+
+Principal Architect approval supplied by Nakul in the attached review. Current
+acceptance supersedes earlier illustrative token/outage claims in older documents:
+5 cold actions / 6 states / 2 dead ends -> 3 retained actions / 0 dead ends / 40%
+step reduction. No model calls; tokens_used=0 and token_savings_pct=0.0 are explicit
+sentinels, not LLM benchmarks. Measured replay speedup >1.0 and local clone <250 ms
+are tested without artificial timing. Keep current HTTP 409 scope guard. Baselines
+are controlled queries, policies and synthetic dependencies retain provenance.
+After 40/40 tests and integrator acceptance, T-02 may merge; T-03 is authorized on
+build/t03-frontend-arena. Stop at T-03 report; no T-04 or production deployment.

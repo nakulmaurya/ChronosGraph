@@ -1,0 +1,78 @@
+[
+  {
+    "tenant_graph": "repo_falkordb_py",
+    "repository": "FalkorDB/falkordb-py",
+    "node_count": 522,
+    "pull_requests": [
+      {
+        "number": 293,
+        "title": "build(deps): update urllib3 requirement from >=2.7.0 to >=2.8.0",
+        "url": "https://github.com/FalkorDB/falkordb-py/pull/293"
+      },
+      {
+        "number": 297,
+        "title": "build(deps-dev): bump ruff from 0.16.7 to 0.17.0",
+        "url": "https://github.com/FalkorDB/falkordb-py/pull/297"
+      },
+      {
+        "number": 298,
+        "title": "build(deps-dev): bump mypy from 2.3.1 to 2.4.0",
+        "url": "https://github.com/FalkorDB/falkordb-py/pull/298"
+      },
+      {
+        "number": 301,
+        "title": "build(deps): update zipp requirement from >=4.1.0 to >=4.1.1",
+        "url": "https://github.com/FalkorDB/falkordb-py/pull/301"
+      },
+      {
+        "number": 305,
+        "title": "chore(release): 1.8.0",
+        "url": "https://github.com/FalkorDB/falkordb-py/pull/305"
+      }
+    ],
+    "preset_files": [
+      "falkordb/asyncio/graph.py",
+      "falkordb/falkordb.py",
+      "falkordb/graph.py",
+      "falkordb/query_result.py"
+    ]
+  },
+  {
+    "tenant_graph": "repo_graphrag_sdk",
+    "repository": "FalkorDB/GraphRAG-SDK",
+    "node_count": 4260,
+    "pull_requests": [
+      {
+        "number": 274,
+        "title": "feat: agentic retrieval - graph-walk, skills, MCP server, and MultiPath path router",
+        "url": "https://github.com/FalkorDB/GraphRAG-SDK/pull/274"
+      },
+      {
+        "number": 275,
+        "title": "feat(ingestion): agentic per-document strategy selection",
+        "url": "https://github.com/FalkorDB/GraphRAG-SDK/pull/275"
+      },
+      {
+        "number": 307,
+        "title": "chore(deps-dev): bump the python-dependencies group across 1 directory with 2 updates",
+        "url": "https://github.com/FalkorDB/GraphRAG-SDK/pull/307"
+      },
+      {
+        "number": 341,
+        "title": "Feat/incremental dedup",
+        "url": "https://github.com/FalkorDB/GraphRAG-SDK/pull/341"
+      },
+      {
+        "number": 343,
+        "title": "perf: depend on falkordb[hiredis] for faster reply parsing",
+        "url": "https://github.com/FalkorDB/GraphRAG-SDK/pull/343"
+      }
+    ],
+    "preset_files": [
+      "graphrag_sdk/src/graphrag_sdk/core/connection.py",
+      "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+      "graphrag_sdk/src/graphrag_sdk/retrieval/router.py",
+      "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+    ]
+  }
+]

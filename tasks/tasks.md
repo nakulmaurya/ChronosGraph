@@ -7,8 +7,8 @@
 | Milestone | User-visible proof | Dependencies | Status |
 |---|---|---|---|
 | M1 — Open-Source Multigraph Seeder & AST Engine | `repo_falkordb_py` & `repo_graphrag_sdk` populated with AST, PRs, Contributors & `SUPERSEDED` Decisions | Baseline DB client | DONE |
-| M2 — 3-Track Core Services, FastMCP & E2E Pytest | All `/api/v1/*` routes, `GRAPH.COPY` sandbox, `shortestPath` compiler & `pytest` green | M1 | IN_PROGRESS |
-| M3 — Next.js Live Agent Arena & Flight Recorder UI | Split-screen Blind vs. ChronosGraph Arena + React Flow canvas running on port 3000/3001 | M2 | TODO |
+| M2 — 3-Track Core Services, FastMCP & E2E Pytest | All `/api/v1/*` routes, `GRAPH.COPY` sandbox, `shortestPath` compiler & `pytest` green | M1 | DONE |
+| M3 — Next.js Live Agent Arena & Flight Recorder UI | Controlled baseline + React Flow canvas on port 3001 | M2 | IN_PROGRESS |
 | M4 — Polish, Demo Script & Blog Benchmark Export | End-to-end smoke check + blog markdown table output | M3 | TODO |
 
 ## Tasks
@@ -29,7 +29,7 @@
   - Integration: `python -m app.ingestion.seed_repos` prints node and edge counts for both tenant graphs.
 
 ### T-02 — Implement Track 1, 2 & 3 Services, FastMCP Server, FastAPI Routes & E2E Pytest Suite
-- Status: IN_PROGRESS
+- Status: DONE
 - Assigned agent: Builder (Notion Agent)
 - Assignment packet: `tasks/assignments/T-02.md`
 - Goal / user impact: Complete backend execution engine for Track 1 (`sandbox_auditor.py`), Track 2 (`memory_compiler.py`), Track 3 (`company_brain.py`), FastMCP (`mcp_server/server.py`), FastAPI (`main.py`), and pass 100% of E2E tests (`tests/test_e2e_graph.py`).
@@ -39,11 +39,11 @@
 - Acceptance criteria:
   - [ ] `sandbox_auditor.py` forks via `ephemeral_sandbox`, computes blast radius + `BlindAgentComparison`, and leaves 0 leaked `sandbox_pr_*` graphs.
   - [ ] `company_brain.py` serves hybrid vector + Cypher lineage (`ro_query`) and live `CYPHER_SUPERSEDE_DECISION` overrides.
-  - [ ] `memory_compiler.py` executes 6-state multi-agent trajectory (with 2 `DEAD_END` branches), prunes via `shortestPath` into a `ProceduralPlaybook`, and achieves `>=75%` token reduction in `compiled_playbook` mode.
+  - [ ] `memory_compiler.py` executes 6-state multi-agent trajectory (with 2 `DEAD_END` branches), prunes via `shortestPath` into a `ProceduralPlaybook`, and replays 3 actions vs 5 cold (40% fewer), removes both dead ends, with honest zero-model sentinels and measured local speedup >1.0.
   - [ ] `pytest -v` passes 100%.
 
 ### T-03 — Build Next.js "Live Agent Arena & Graph Flight Recorder" Frontend
-- Status: TODO
+- Status: IN_PROGRESS
 - Assigned agent: Builder (Notion Agent)
 - Assignment packet: `tasks/assignments/T-03.md`
 - Goal / user impact: Deliver the scroll-stopping dark-mode UI racing the Blind Baseline Agent against ChronosGraph alongside an interactive React Flow subgraph visualizer.
