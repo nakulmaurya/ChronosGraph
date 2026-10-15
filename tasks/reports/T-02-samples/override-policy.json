@@ -1,0 +1,243 @@
+{
+  "file_path": "falkordb/node.py",
+  "active_decisions": [
+    {
+      "id": "override_af6d5b688c6a4f2aacb8a7647d290e7f",
+      "scope_symbol": "module_root",
+      "rule": "Evidence-only revision: validate node property types before writes.",
+      "rationale": "Temporary test supersession, not an upstream rule. Removed after capture.",
+      "source_type": "LIVE_ARCHITECT_OVERRIDE",
+      "source_url": "chronosgraph://local-policy/override_af6d5b688c6a4f2aacb8a7647d290e7f",
+      "status": "ACTIVE",
+      "valid_from": 1792041722,
+      "valid_to": 0,
+      "author_handle": "lead-maintainer",
+      "recorded_from": 1792041722,
+      "recorded_to": 0,
+      "time_basis": "UNIX_EPOCH_SECONDS"
+    }
+  ],
+  "superseded_decisions": [
+    {
+      "id": "override_3b85be02a0bc49ed8bc5d10481bfbaa7",
+      "scope_symbol": "module_root",
+      "rule": "Evidence-only validation rule: preserve node property types.",
+      "rationale": "Temporary test policy, not an upstream rule. Removed after capture.",
+      "source_type": "LIVE_ARCHITECT_OVERRIDE",
+      "source_url": "chronosgraph://local-policy/override_3b85be02a0bc49ed8bc5d10481bfbaa7",
+      "status": "SUPERSEDED",
+      "valid_from": 1792041722,
+      "valid_to": 1792041722,
+      "author_handle": "lead-maintainer",
+      "recorded_from": 1792041722,
+      "recorded_to": 1792041722,
+      "time_basis": "UNIX_EPOCH_SECONDS"
+    }
+  ],
+  "top_experts": [],
+  "blind_agent_comparison": {
+    "verdict": "CONTROLLED_STALE_RULE",
+    "mistake_summary": "Controlled oldest-document baseline selected an obsolete rule. This is a deterministic comparison, not a measured LLM/RAG result. Demo policies are labeled; vectors are lexical hashes, not semantic embeddings.",
+    "obsolete_rule_followed": "Evidence-only validation rule: preserve node property types.",
+    "missed_downstream_count": 0,
+    "steps_taken": 1,
+    "tokens_burned": 0,
+    "duration_ms": 0.29
+  },
+  "subgraph": {
+    "nodes": [
+      {
+        "id": "24",
+        "label": "File",
+        "title": "falkordb/node.py",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/node.py",
+        "metadata": {
+          "path": "falkordb/node.py",
+          "name": "node.py",
+          "loc": 112,
+          "sha256": "446c5d3225d1bf1278e06e9132e43adae088053a94a53a1af9cc3c532e856a04",
+          "pagerank": 0.0101377600803971,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/node.py"
+        }
+      },
+      {
+        "id": "508",
+        "label": "Decision",
+        "title": "Evidence-only validation rule: preserve node property types.",
+        "subtitle": "LIVE_ARCHITECT_OVERRIDE",
+        "status": "SUPERSEDED",
+        "url": "chronosgraph://local-policy/override_3b85be02a0bc49ed8bc5d10481bfbaa7",
+        "metadata": {
+          "id": "override_3b85be02a0bc49ed8bc5d10481bfbaa7",
+          "scope_symbol": "module_root",
+          "rule": "Evidence-only validation rule: preserve node property types.",
+          "rationale": "Temporary test policy, not an upstream rule. Removed after capture.",
+          "source_type": "LIVE_ARCHITECT_OVERRIDE",
+          "source_url": "chronosgraph://local-policy/override_3b85be02a0bc49ed8bc5d10481bfbaa7",
+          "status": "SUPERSEDED",
+          "valid_from": 1792041722,
+          "valid_to": 1792041722,
+          "author_handle": "lead-maintainer",
+          "recorded_from": 1792041722,
+          "recorded_to": 1792041722,
+          "time_basis": "UNIX_EPOCH_SECONDS"
+        }
+      },
+      {
+        "id": "509",
+        "label": "Decision",
+        "title": "Evidence-only revision: validate node property types before writes.",
+        "subtitle": "LIVE_ARCHITECT_OVERRIDE",
+        "status": "ACTIVE",
+        "url": "chronosgraph://local-policy/override_af6d5b688c6a4f2aacb8a7647d290e7f",
+        "metadata": {
+          "id": "override_af6d5b688c6a4f2aacb8a7647d290e7f",
+          "scope_symbol": "module_root",
+          "rule": "Evidence-only revision: validate node property types before writes.",
+          "rationale": "Temporary test supersession, not an upstream rule. Removed after capture.",
+          "source_type": "LIVE_ARCHITECT_OVERRIDE",
+          "source_url": "chronosgraph://local-policy/override_af6d5b688c6a4f2aacb8a7647d290e7f",
+          "status": "ACTIVE",
+          "valid_from": 1792041722,
+          "valid_to": 0,
+          "author_handle": "lead-maintainer",
+          "recorded_from": 1792041722,
+          "recorded_to": 0,
+          "time_basis": "UNIX_EPOCH_SECONDS"
+        }
+      },
+      {
+        "id": "239",
+        "label": "Function",
+        "title": "falkordb/node.py:Node.__eq__",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/node.py:Node.__eq__",
+          "name": "__eq__",
+          "file_path": "falkordb/node.py",
+          "start_line": 82,
+          "end_line": 112,
+          "signature": "__eq__(self, rhs) -> bool",
+          "is_async": false
+        }
+      },
+      {
+        "id": "240",
+        "label": "Function",
+        "title": "falkordb/node.py:Node.__str__",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/node.py:Node.__str__",
+          "name": "__str__",
+          "file_path": "falkordb/node.py",
+          "start_line": 60,
+          "end_line": 80,
+          "signature": "__str__(self) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "241",
+        "label": "Function",
+        "title": "falkordb/node.py:Node.to_string",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/node.py:Node.to_string",
+          "name": "to_string",
+          "file_path": "falkordb/node.py",
+          "start_line": 43,
+          "end_line": 58,
+          "signature": "to_string(self) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "242",
+        "label": "Function",
+        "title": "falkordb/node.py:Node.__init__",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/node.py:Node.__init__",
+          "name": "__init__",
+          "file_path": "falkordb/node.py",
+          "start_line": 11,
+          "end_line": 41,
+          "signature": "__init__(self, node_id: Optional[int]=None, alias: Optional[str]='', labels: Optional[Union[str, List[str]]]=None, properties=None)",
+          "is_async": false
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "197",
+        "source": "24",
+        "target": "239",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "198",
+        "source": "24",
+        "target": "240",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "199",
+        "source": "24",
+        "target": "241",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "200",
+        "source": "24",
+        "target": "242",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "749",
+        "source": "508",
+        "target": "24",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "770",
+        "source": "509",
+        "target": "24",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "771",
+        "source": "509",
+        "target": "508",
+        "relationship": "SUPERSEDED",
+        "is_highlighted": false,
+        "is_pruned": false
+      }
+    ],
+    "cypher_executed": "\nCALL db.idx.vector.queryNodes('Decision', 'embedding', 4, vecf32($query_embedding))\nYIELD node AS d, score\nWHERE d.status = 'ACTIVE'\nMATCH (d)-[:GOVERNS]->(f:File)\nOPTIONAL MATCH (d)-[:SUPERSEDED]->(old_d:Decision)\nOPTIONAL MATCH (c:Contributor)-[:AUTHORED]->(pr:PullRequest)-[:MODIFIES]->(f)\nRETURN\n  d.id AS decision_id,\n  d.rule AS active_rule,\n  d.rationale AS rationale,\n  d.source_url AS source_url,\n  score AS vector_distance,\n  f.path AS governed_file,\n  old_d.id AS superseded_id,\n  old_d.rule AS superseded_rule,\n  collect(DISTINCT c.login)[0..3] AS maintainers\nORDER BY score ASC\n\n\nMATCH (f:File {path: $file_path})\nOPTIONAL MATCH (c:Contributor)-[r:AUTHORED|REVIEWED]->(pr:PullRequest)-[m:MODIFIES]->(f)\nWITH f, c, count(DISTINCT pr) AS pr_count, sum(coalesce(m.additions, 10) + coalesce(m.deletions, 5)) AS lines_touched, max(pr.merged_at) AS last_active\nORDER BY pr_count DESC, lines_touched DESC\nWITH f, collect(DISTINCT {\n  login: c.login,\n  name: c.name,\n  pr_count: pr_count,\n  lines_touched: lines_touched,\n  last_active: last_active\n})[0..3] AS top_experts\nOPTIONAL MATCH (active_d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(f)\nOPTIONAL MATCH (active_d)-[:SUPERSEDED]->(old_d:Decision)\nRETURN\n  f.path AS file_path,\n  top_experts,\n  collect(DISTINCT {\n    active_id: active_d.id,\n    active_rule: active_d.rule,\n    active_rationale: active_d.rationale,\n    active_url: active_d.source_url,\n    valid_from: active_d.valid_from,\n    superseded_id: old_d.id,\n    superseded_rule: old_d.rule,\n    superseded_url: old_d.source_url,\n    superseded_at: old_d.valid_to\n  }) AS decision_lineage\n",
+    "execution_time_ms": 7.75
+  }
+}

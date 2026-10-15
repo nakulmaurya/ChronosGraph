@@ -1,0 +1,6216 @@
+{
+  "sandbox_graph_name": "sandbox_pr_6d8e5fcc",
+  "sandbox_clone_time_ms": 22.99,
+  "sandbox_cleaned_up": true,
+  "risk_level": "HIGH",
+  "impacted_files": [
+    "falkordb/__init__.py",
+    "falkordb/asyncio/__init__.py",
+    "falkordb/asyncio/falkordb.py",
+    "falkordb/asyncio/graph.py",
+    "falkordb/falkordb.py",
+    "scenario_bae6a5c8d21a4d00a1f9676633152193",
+    "tests/test_async_graph.py",
+    "tests/test_close.py",
+    "tests/test_constraints.py",
+    "tests/test_copy.py",
+    "tests/test_db.py",
+    "tests/test_edge.py",
+    "tests/test_explain.py",
+    "tests/test_graph.py",
+    "tests/test_indices.py",
+    "tests/test_node.py",
+    "tests/test_path.py",
+    "tests/test_profile.py",
+    "tests/test_schema_refresh.py"
+  ],
+  "impacted_functions": [
+    "falkordb/graph.py:Graph._create_typed_index",
+    "falkordb/graph.py:Graph._drop_index",
+    "falkordb/graph.py:Graph._query",
+    "falkordb/graph.py:Graph.call_procedure",
+    "falkordb/graph.py:Graph.create_edge_fulltext_index",
+    "falkordb/graph.py:Graph.create_edge_mandatory_constraint",
+    "falkordb/graph.py:Graph.create_edge_range_index",
+    "falkordb/graph.py:Graph.create_edge_unique_constraint",
+    "falkordb/graph.py:Graph.create_edge_vector_index",
+    "falkordb/graph.py:Graph.create_node_fulltext_index",
+    "falkordb/graph.py:Graph.create_node_mandatory_constraint",
+    "falkordb/graph.py:Graph.create_node_range_index",
+    "falkordb/graph.py:Graph.create_node_unique_constraint",
+    "falkordb/graph.py:Graph.create_node_vector_index",
+    "falkordb/graph.py:Graph.drop_edge_fulltext_index",
+    "falkordb/graph.py:Graph.drop_edge_mandatory_constraint",
+    "falkordb/graph.py:Graph.drop_edge_range_index",
+    "falkordb/graph.py:Graph.drop_edge_unique_constraint",
+    "falkordb/graph.py:Graph.drop_edge_vector_index",
+    "falkordb/graph.py:Graph.drop_node_fulltext_index",
+    "falkordb/graph.py:Graph.drop_node_mandatory_constraint",
+    "falkordb/graph.py:Graph.drop_node_range_index",
+    "falkordb/graph.py:Graph.drop_node_unique_constraint",
+    "falkordb/graph.py:Graph.drop_node_vector_index",
+    "falkordb/graph.py:Graph.explain",
+    "falkordb/graph.py:Graph.list_constraints",
+    "falkordb/graph.py:Graph.list_indices",
+    "falkordb/graph.py:Graph.profile",
+    "falkordb/graph.py:Graph.query",
+    "falkordb/graph.py:Graph.ro_query",
+    "scenario_bae6a5c8d21a4d00a1f9676633152193:falkordb/graph.py:scenario_caller"
+  ],
+  "active_decisions_triggered": [
+    {
+      "id": "demo_repo_falkordb_py_0_active",
+      "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+      "rule": "Agent queries must specify a bounded timeout.",
+      "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+      "superseded_rule": "Unbounded query execution is allowed.",
+      "source_type": "DEMO_POLICY_SCENARIO"
+    }
+  ],
+  "recommended_reviewers": [],
+  "blind_agent_comparison": {
+    "verdict": "CONTROLLED_ONE_HOP_BASELINE",
+    "mistake_summary": "A measured one-hop query misses 14 real multi-hop files. Oldest-document policy baseline is separate. Synthetic clone-only dependency is excluded from this count. This is not an LLM test, an AST patch, policy violation proof, or outage prediction.",
+    "obsolete_rule_followed": "Unbounded query execution is allowed.",
+    "missed_downstream_count": 14,
+    "steps_taken": 2,
+    "tokens_burned": 0,
+    "duration_ms": 1.1099999999999999
+  },
+  "subgraph": {
+    "nodes": [
+      {
+        "id": "0",
+        "label": "File",
+        "title": "tests/test_schema_refresh.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_schema_refresh.py",
+        "metadata": {
+          "path": "tests/test_schema_refresh.py",
+          "name": "test_schema_refresh.py",
+          "loc": 39,
+          "sha256": "b2a0cb70ea9812f3f537e924fcd168ce33708c9811eaa11958bbfd6867359728",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_schema_refresh.py"
+        }
+      },
+      {
+        "id": "1",
+        "label": "File",
+        "title": "tests/test_profile.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_profile.py",
+        "metadata": {
+          "path": "tests/test_profile.py",
+          "name": "test_profile.py",
+          "loc": 41,
+          "sha256": "a7020bd127838b550765a1938004653d4733f3c4d6bcef3daee2d9c9909c46dc",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_profile.py"
+        }
+      },
+      {
+        "id": "2",
+        "label": "File",
+        "title": "tests/test_path.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_path.py",
+        "metadata": {
+          "path": "tests/test_path.py",
+          "name": "test_path.py",
+          "loc": 109,
+          "sha256": "e2cd92c07c50720099ead8d723e3420bca760df2641742bd82b666edd2233dcd",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_path.py"
+        }
+      },
+      {
+        "id": "3",
+        "label": "File",
+        "title": "tests/test_node.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_node.py",
+        "metadata": {
+          "path": "tests/test_node.py",
+          "name": "test_node.py",
+          "loc": 50,
+          "sha256": "631b15c9531d243e3cbcaf412278cad26e234b75dff9bab68aaa12e7ddba9277",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_node.py"
+        }
+      },
+      {
+        "id": "4",
+        "label": "File",
+        "title": "tests/test_indices.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_indices.py",
+        "metadata": {
+          "path": "tests/test_indices.py",
+          "name": "test_indices.py",
+          "loc": 291,
+          "sha256": "ab62d4ffbb95e823bd6584df1ad2c5496fafffaff9484d87bb1e4c2cd0286ae3",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_indices.py"
+        }
+      },
+      {
+        "id": "5",
+        "label": "File",
+        "title": "tests/test_graph.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_graph.py",
+        "metadata": {
+          "path": "tests/test_graph.py",
+          "name": "test_graph.py",
+          "loc": 551,
+          "sha256": "2a0e6dc6c0b79d89c08a283dd95b8163d318da9bca8d9b254e6eb836c32ac8e6",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_graph.py"
+        }
+      },
+      {
+        "id": "6",
+        "label": "File",
+        "title": "tests/test_explain.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_explain.py",
+        "metadata": {
+          "path": "tests/test_explain.py",
+          "name": "test_explain.py",
+          "loc": 82,
+          "sha256": "e2b6f08e2ed840f579bb60bde7889bc09a980a928cd31a6f4f8cd641fa546d74",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_explain.py"
+        }
+      },
+      {
+        "id": "7",
+        "label": "File",
+        "title": "tests/test_edge.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_edge.py",
+        "metadata": {
+          "path": "tests/test_edge.py",
+          "name": "test_edge.py",
+          "loc": 57,
+          "sha256": "101904a59b4bb5cc32d28f39eeb8f7b79c6ec326168f9c3d76f890aa0eaac77d",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_edge.py"
+        }
+      },
+      {
+        "id": "8",
+        "label": "File",
+        "title": "tests/test_db.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_db.py",
+        "metadata": {
+          "path": "tests/test_db.py",
+          "name": "test_db.py",
+          "loc": 319,
+          "sha256": "a0d610a7f5983db9d0b05d8c664bd9ab8df8d84346f4e12e8666239c0e3be350",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_db.py"
+        }
+      },
+      {
+        "id": "9",
+        "label": "File",
+        "title": "tests/test_copy.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_copy.py",
+        "metadata": {
+          "path": "tests/test_copy.py",
+          "name": "test_copy.py",
+          "loc": 64,
+          "sha256": "a7619e28628d181102f9366176ee7c10ec4fb5f36f8cf508050a6b676b219d1a",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_copy.py"
+        }
+      },
+      {
+        "id": "10",
+        "label": "File",
+        "title": "tests/test_constraints.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_constraints.py",
+        "metadata": {
+          "path": "tests/test_constraints.py",
+          "name": "test_constraints.py",
+          "loc": 45,
+          "sha256": "24f424294f0825f94320ca0a5cb4d6e91b0f854f3547c2d7b35caa03ec6b39fe",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_constraints.py"
+        }
+      },
+      {
+        "id": "11",
+        "label": "File",
+        "title": "tests/test_close.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_close.py",
+        "metadata": {
+          "path": "tests/test_close.py",
+          "name": "test_close.py",
+          "loc": 83,
+          "sha256": "4e444a48f46dc2b6df96b9ee4e45ca59763282ae6a3e25634c1bed8b7e126e29",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_close.py"
+        }
+      },
+      {
+        "id": "14",
+        "label": "File",
+        "title": "tests/test_async_graph.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_async_graph.py",
+        "metadata": {
+          "path": "tests/test_async_graph.py",
+          "name": "test_async_graph.py",
+          "loc": 590,
+          "sha256": "36b039e7110ad7dae993de4e35eefbfae4b7d6ce3e19027b35f7d1cf9716709f",
+          "pagerank": 0.00172142207156867,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/tests/test_async_graph.py"
+        }
+      },
+      {
+        "id": "27",
+        "label": "File",
+        "title": "falkordb/graph.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/graph.py",
+        "metadata": {
+          "path": "falkordb/graph.py",
+          "name": "graph.py",
+          "loc": 795,
+          "sha256": "a14f09fb7322d3e7e2e808d97f4103e460a62c39212d9fb76769223227e85036",
+          "pagerank": 0.00564479734748602,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/graph.py"
+        }
+      },
+      {
+        "id": "28",
+        "label": "File",
+        "title": "falkordb/falkordb.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/falkordb.py",
+        "metadata": {
+          "path": "falkordb/falkordb.py",
+          "name": "falkordb.py",
+          "loc": 353,
+          "sha256": "4c6a378f658dc67507c662181716d50168a0a7730ae88f212cdb6a9dc0126f90",
+          "pagerank": 0.00386551208794117,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/falkordb.py"
+        }
+      },
+      {
+        "id": "35",
+        "label": "File",
+        "title": "falkordb/asyncio/graph.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/asyncio/graph.py",
+        "metadata": {
+          "path": "falkordb/asyncio/graph.py",
+          "name": "graph.py",
+          "loc": 771,
+          "sha256": "a5a1b935dba21c268a2c276faa3d3c6867864393026cfcfcf6c429ea1b9b2293",
+          "pagerank": 0.00491768261417747,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/asyncio/graph.py"
+        }
+      },
+      {
+        "id": "36",
+        "label": "File",
+        "title": "falkordb/asyncio/falkordb.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/asyncio/falkordb.py",
+        "metadata": {
+          "path": "falkordb/asyncio/falkordb.py",
+          "name": "falkordb.py",
+          "loc": 335,
+          "sha256": "90312239c9a9febad019c5f77d59e5465aecf57892baa0efc21bb1d74cf30768",
+          "pagerank": 0.00956100318580866,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/asyncio/falkordb.py"
+        }
+      },
+      {
+        "id": "38",
+        "label": "File",
+        "title": "falkordb/asyncio/__init__.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/asyncio/__init__.py",
+        "metadata": {
+          "path": "falkordb/asyncio/__init__.py",
+          "name": "__init__.py",
+          "loc": 1,
+          "sha256": "a2ec416e60f5d79d0726428b4ad00f005ed1b5d1af2e8eb1504cd4223195734b",
+          "pagerank": 0.00879332143813372,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/asyncio/__init__.py"
+        }
+      },
+      {
+        "id": "40",
+        "label": "File",
+        "title": "falkordb/__init__.py",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/__init__.py",
+        "metadata": {
+          "path": "falkordb/__init__.py",
+          "name": "__init__.py",
+          "loc": 8,
+          "sha256": "f71e5db454b2e5f05f38809089820548404fb828c15d57795be7540d335fce65",
+          "pagerank": 0.0146459266543388,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/__init__.py"
+        }
+      },
+      {
+        "id": "508",
+        "label": "File",
+        "title": "scenario_bae6a5c8d21a4d00a1f9676633152193",
+        "subtitle": "SIMULATED_PR_DEPENDENCY",
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "path": "scenario_bae6a5c8d21a4d00a1f9676633152193",
+          "source_type": "SIMULATED_PR_DEPENDENCY",
+          "description": "Synthetic proposed dependency, not an ingested upstream file"
+        }
+      },
+      {
+        "id": "458",
+        "label": "Decision",
+        "title": "Unbounded query execution is allowed.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "SUPERSEDED",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_0_old",
+          "scope_symbol": "Graph.query",
+          "rule": "Unbounded query execution is allowed.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/293",
+          "status": "SUPERSEDED",
+          "valid_from": 1792033497,
+          "valid_to": 1792037097,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "459",
+        "label": "Decision",
+        "title": "Agent queries must specify a bounded timeout.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "ACTIVE",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_0_active",
+          "scope_symbol": "Graph.query",
+          "rule": "Agent queries must specify a bounded timeout.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/293",
+          "status": "ACTIVE",
+          "valid_from": 1792037097,
+          "valid_to": 0,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "464",
+        "label": "Decision",
+        "title": "A request may choose any graph name.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "SUPERSEDED",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_3_old",
+          "scope_symbol": "module_root",
+          "rule": "A request may choose any graph name.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/301",
+          "status": "SUPERSEDED",
+          "valid_from": 1792033497,
+          "valid_to": 1792037097,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "465",
+        "label": "Decision",
+        "title": "Application requests must use an approved tenant graph.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "ACTIVE",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_3_active",
+          "scope_symbol": "module_root",
+          "rule": "Application requests must use an approved tenant graph.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/301",
+          "status": "ACTIVE",
+          "valid_from": 1792037097,
+          "valid_to": 0,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "460",
+        "label": "Decision",
+        "title": "Exploratory agent reads may mutate state.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "SUPERSEDED",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_1_old",
+          "scope_symbol": "Graph.ro_query",
+          "rule": "Exploratory agent reads may mutate state.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/297",
+          "status": "SUPERSEDED",
+          "valid_from": 1792033497,
+          "valid_to": 1792037097,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "461",
+        "label": "Decision",
+        "title": "Exploratory agent reads must use read-only queries.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "ACTIVE",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_1_active",
+          "scope_symbol": "Graph.ro_query",
+          "rule": "Exploratory agent reads must use read-only queries.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/297",
+          "status": "ACTIVE",
+          "valid_from": 1792037097,
+          "valid_to": 0,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "61",
+        "label": "Function",
+        "title": "tests/test_schema_refresh.py:test_sync_query_refreshes_schema_on_version_mismatch",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_schema_refresh.py:test_sync_query_refreshes_schema_on_version_mismatch",
+          "name": "test_sync_query_refreshes_schema_on_version_mismatch",
+          "file_path": "tests/test_schema_refresh.py",
+          "start_line": 28,
+          "end_line": 39,
+          "signature": "test_sync_query_refreshes_schema_on_version_mismatch()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "62",
+        "label": "Function",
+        "title": "tests/test_schema_refresh.py:test_async_query_awaits_schema_refresh_on_version_mismatch",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_schema_refresh.py:test_async_query_awaits_schema_refresh_on_version_mismatch",
+          "name": "test_async_query_awaits_schema_refresh_on_version_mismatch",
+          "file_path": "tests/test_schema_refresh.py",
+          "start_line": 12,
+          "end_line": 25,
+          "signature": "test_async_query_awaits_schema_refresh_on_version_mismatch()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "63",
+        "label": "Function",
+        "title": "tests/test_profile.py:test_cartesian_product_profile",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_profile.py:test_cartesian_product_profile",
+          "name": "test_cartesian_product_profile",
+          "file_path": "tests/test_profile.py",
+          "start_line": 28,
+          "end_line": 41,
+          "signature": "test_cartesian_product_profile(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "64",
+        "label": "Function",
+        "title": "tests/test_profile.py:test_profile",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_profile.py:test_profile",
+          "name": "test_profile",
+          "file_path": "tests/test_profile.py",
+          "start_line": 14,
+          "end_line": 25,
+          "signature": "test_profile(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "65",
+        "label": "Function",
+        "title": "tests/test_profile.py:client",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_profile.py:client",
+          "name": "client",
+          "file_path": "tests/test_profile.py",
+          "start_line": 9,
+          "end_line": 11,
+          "signature": "client(request)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "66",
+        "label": "Function",
+        "title": "tests/test_path.py:test_str_with_edge_id",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_str_with_edge_id",
+          "name": "test_str_with_edge_id",
+          "file_path": "tests/test_path.py",
+          "start_line": 96,
+          "end_line": 109,
+          "signature": "test_str_with_edge_id()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "67",
+        "label": "Function",
+        "title": "tests/test_path.py:test_str_with_none_edge_id",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_str_with_none_edge_id",
+          "name": "test_str_with_none_edge_id",
+          "file_path": "tests/test_path.py",
+          "start_line": 79,
+          "end_line": 93,
+          "signature": "test_str_with_none_edge_id()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "68",
+        "label": "Function",
+        "title": "tests/test_path.py:test_compare",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_compare",
+          "name": "test_compare",
+          "file_path": "tests/test_path.py",
+          "start_line": 63,
+          "end_line": 76,
+          "signature": "test_compare()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "69",
+        "label": "Function",
+        "title": "tests/test_path.py:test_nodes_and_edges",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_nodes_and_edges",
+          "name": "test_nodes_and_edges",
+          "file_path": "tests/test_path.py",
+          "start_line": 36,
+          "end_line": 60,
+          "signature": "test_nodes_and_edges()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "70",
+        "label": "Function",
+        "title": "tests/test_path.py:test_wrong_flows",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_wrong_flows",
+          "name": "test_wrong_flows",
+          "file_path": "tests/test_path.py",
+          "start_line": 24,
+          "end_line": 33,
+          "signature": "test_wrong_flows()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "71",
+        "label": "Function",
+        "title": "tests/test_path.py:test_new_empty_path",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_new_empty_path",
+          "name": "test_new_empty_path",
+          "file_path": "tests/test_path.py",
+          "start_line": 15,
+          "end_line": 21,
+          "signature": "test_new_empty_path()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "72",
+        "label": "Function",
+        "title": "tests/test_path.py:test_init",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_path.py:test_init",
+          "name": "test_init",
+          "file_path": "tests/test_path.py",
+          "start_line": 6,
+          "end_line": 12,
+          "signature": "test_init()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "73",
+        "label": "Function",
+        "title": "tests/test_node.py:test_comparision",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_node.py:test_comparision",
+          "name": "test_comparision",
+          "file_path": "tests/test_node.py",
+          "start_line": 37,
+          "end_line": 50,
+          "signature": "test_comparision()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "74",
+        "label": "Function",
+        "title": "tests/test_node.py:test_stringify",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_node.py:test_stringify",
+          "name": "test_stringify",
+          "file_path": "tests/test_node.py",
+          "start_line": 27,
+          "end_line": 34,
+          "signature": "test_stringify(fixture)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "75",
+        "label": "Function",
+        "title": "tests/test_node.py:test_to_string",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_node.py:test_to_string",
+          "name": "test_to_string",
+          "file_path": "tests/test_node.py",
+          "start_line": 17,
+          "end_line": 24,
+          "signature": "test_to_string(fixture)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "76",
+        "label": "Function",
+        "title": "tests/test_node.py:fixture",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_node.py:fixture",
+          "name": "fixture",
+          "file_path": "tests/test_node.py",
+          "start_line": 7,
+          "end_line": 14,
+          "signature": "fixture()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "77",
+        "label": "Function",
+        "title": "tests/test_indices.py:test_edge_index_drop",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_indices.py:test_edge_index_drop",
+          "name": "test_edge_index_drop",
+          "file_path": "tests/test_indices.py",
+          "start_line": 234,
+          "end_line": 291,
+          "signature": "test_edge_index_drop(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "78",
+        "label": "Function",
+        "title": "tests/test_indices.py:test_node_index_drop",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_indices.py:test_node_index_drop",
+          "name": "test_node_index_drop",
+          "file_path": "tests/test_indices.py",
+          "start_line": 174,
+          "end_line": 231,
+          "signature": "test_node_index_drop(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "79",
+        "label": "Function",
+        "title": "tests/test_indices.py:test_edge_index_creation",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_indices.py:test_edge_index_creation",
+          "name": "test_edge_index_creation",
+          "file_path": "tests/test_indices.py",
+          "start_line": 98,
+          "end_line": 171,
+          "signature": "test_edge_index_creation(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "80",
+        "label": "Function",
+        "title": "tests/test_indices.py:test_node_index_creation",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_indices.py:test_node_index_creation",
+          "name": "test_node_index_creation",
+          "file_path": "tests/test_indices.py",
+          "start_line": 22,
+          "end_line": 95,
+          "signature": "test_node_index_creation(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "81",
+        "label": "Function",
+        "title": "tests/test_indices.py:client",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_indices.py:client",
+          "name": "client",
+          "file_path": "tests/test_indices.py",
+          "start_line": 16,
+          "end_line": 19,
+          "signature": "client(request)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "82",
+        "label": "Function",
+        "title": "tests/test_indices.py:Index.__init__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_indices.py:Index.__init__",
+          "name": "__init__",
+          "file_path": "tests/test_indices.py",
+          "start_line": 8,
+          "end_line": 12,
+          "signature": "__init__(self, raw_response)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "83",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_explain",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_explain",
+          "name": "test_explain",
+          "file_path": "tests/test_graph.py",
+          "start_line": 511,
+          "end_line": 551,
+          "signature": "test_explain(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "84",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_execution_plan",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_execution_plan",
+          "name": "test_execution_plan",
+          "file_path": "tests/test_graph.py",
+          "start_line": 475,
+          "end_line": 508,
+          "signature": "test_execution_plan(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "85",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_cache_sync",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_cache_sync",
+          "name": "test_cache_sync",
+          "file_path": "tests/test_graph.py",
+          "start_line": 403,
+          "end_line": 472,
+          "signature": "test_cache_sync(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "86",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_multi_label",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_multi_label",
+          "name": "test_multi_label",
+          "file_path": "tests/test_graph.py",
+          "start_line": 379,
+          "end_line": 400,
+          "signature": "test_multi_label(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "87",
+        "label": "Function",
+        "title": "tests/test_graph.py:_test_list_keys",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:_test_list_keys",
+          "name": "_test_list_keys",
+          "file_path": "tests/test_graph.py",
+          "start_line": 356,
+          "end_line": 376,
+          "signature": "_test_list_keys(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "88",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_read_only_query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_read_only_query",
+          "name": "test_read_only_query",
+          "file_path": "tests/test_graph.py",
+          "start_line": 347,
+          "end_line": 353,
+          "signature": "test_read_only_query(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "89",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_query_timeout",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_query_timeout",
+          "name": "test_query_timeout",
+          "file_path": "tests/test_graph.py",
+          "start_line": 333,
+          "end_line": 344,
+          "signature": "test_query_timeout(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "90",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_slowlog",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_slowlog",
+          "name": "test_slowlog",
+          "file_path": "tests/test_graph.py",
+          "start_line": 321,
+          "end_line": 329,
+          "signature": "test_slowlog(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "91",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_cached_execution",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_cached_execution",
+          "name": "test_cached_execution",
+          "file_path": "tests/test_graph.py",
+          "start_line": 311,
+          "end_line": 318,
+          "signature": "test_cached_execution(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "92",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_optional_match",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_optional_match",
+          "name": "test_optional_match",
+          "file_path": "tests/test_graph.py",
+          "start_line": 287,
+          "end_line": 308,
+          "signature": "test_optional_match(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "93",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_stringify_query_result",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_stringify_query_result",
+          "name": "test_stringify_query_result",
+          "file_path": "tests/test_graph.py",
+          "start_line": 243,
+          "end_line": 284,
+          "signature": "test_stringify_query_result(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "94",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_index_response",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_index_response",
+          "name": "test_index_response",
+          "file_path": "tests/test_graph.py",
+          "start_line": 228,
+          "end_line": 240,
+          "signature": "test_index_response(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "95",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_point",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_point",
+          "name": "test_point",
+          "file_path": "tests/test_graph.py",
+          "start_line": 211,
+          "end_line": 225,
+          "signature": "test_point(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "96",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_map",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_map",
+          "name": "test_map",
+          "file_path": "tests/test_graph.py",
+          "start_line": 184,
+          "end_line": 208,
+          "signature": "test_map(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "97",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_param_invalid_keys_rejected",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_param_invalid_keys_rejected",
+          "name": "test_param_invalid_keys_rejected",
+          "file_path": "tests/test_graph.py",
+          "start_line": 164,
+          "end_line": 181,
+          "signature": "test_param_invalid_keys_rejected(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "98",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_param_non_identifier_keys",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_param_non_identifier_keys",
+          "name": "test_param_non_identifier_keys",
+          "file_path": "tests/test_graph.py",
+          "start_line": 116,
+          "end_line": 161,
+          "signature": "test_param_non_identifier_keys(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "99",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_param",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_param",
+          "name": "test_param",
+          "file_path": "tests/test_graph.py",
+          "start_line": 106,
+          "end_line": 113,
+          "signature": "test_param(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "100",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_vector",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_vector",
+          "name": "test_vector",
+          "file_path": "tests/test_graph.py",
+          "start_line": 96,
+          "end_line": 103,
+          "signature": "test_vector(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "101",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_path",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_path",
+          "name": "test_path",
+          "file_path": "tests/test_graph.py",
+          "start_line": 80,
+          "end_line": 93,
+          "signature": "test_path(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "102",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_array_functions",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_array_functions",
+          "name": "test_array_functions",
+          "file_path": "tests/test_graph.py",
+          "start_line": 60,
+          "end_line": 77,
+          "signature": "test_array_functions(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "103",
+        "label": "Function",
+        "title": "tests/test_graph.py:test_graph_creation",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:test_graph_creation",
+          "name": "test_graph_creation",
+          "file_path": "tests/test_graph.py",
+          "start_line": 23,
+          "end_line": 57,
+          "signature": "test_graph_creation(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "104",
+        "label": "Function",
+        "title": "tests/test_graph.py:client",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:client",
+          "name": "client",
+          "file_path": "tests/test_graph.py",
+          "start_line": 17,
+          "end_line": 20,
+          "signature": "client(request)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "105",
+        "label": "Function",
+        "title": "tests/test_graph.py:quote_param_ref",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_graph.py:quote_param_ref",
+          "name": "quote_param_ref",
+          "file_path": "tests/test_graph.py",
+          "start_line": 9,
+          "end_line": 13,
+          "signature": "quote_param_ref(key: str) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "106",
+        "label": "Function",
+        "title": "tests/test_explain.py:test_merge",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_explain.py:test_merge",
+          "name": "test_merge",
+          "file_path": "tests/test_explain.py",
+          "start_line": 69,
+          "end_line": 82,
+          "signature": "test_merge(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "107",
+        "label": "Function",
+        "title": "tests/test_explain.py:test_cartesian_product_explain_three_way",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_explain.py:test_cartesian_product_explain_three_way",
+          "name": "test_cartesian_product_explain_three_way",
+          "file_path": "tests/test_explain.py",
+          "start_line": 48,
+          "end_line": 66,
+          "signature": "test_cartesian_product_explain_three_way(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "108",
+        "label": "Function",
+        "title": "tests/test_explain.py:test_cartesian_product_explain",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_explain.py:test_cartesian_product_explain",
+          "name": "test_cartesian_product_explain",
+          "file_path": "tests/test_explain.py",
+          "start_line": 32,
+          "end_line": 45,
+          "signature": "test_cartesian_product_explain(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "109",
+        "label": "Function",
+        "title": "tests/test_explain.py:test_explain",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_explain.py:test_explain",
+          "name": "test_explain",
+          "file_path": "tests/test_explain.py",
+          "start_line": 14,
+          "end_line": 29,
+          "signature": "test_explain(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "110",
+        "label": "Function",
+        "title": "tests/test_explain.py:client",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_explain.py:client",
+          "name": "client",
+          "file_path": "tests/test_explain.py",
+          "start_line": 9,
+          "end_line": 11,
+          "signature": "client(request)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "111",
+        "label": "Function",
+        "title": "tests/test_edge.py:test_comparision",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_edge.py:test_comparision",
+          "name": "test_comparision",
+          "file_path": "tests/test_edge.py",
+          "start_line": 46,
+          "end_line": 57,
+          "signature": "test_comparision()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "112",
+        "label": "Function",
+        "title": "tests/test_edge.py:test_stringify",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_edge.py:test_stringify",
+          "name": "test_stringify",
+          "file_path": "tests/test_edge.py",
+          "start_line": 25,
+          "end_line": 43,
+          "signature": "test_stringify()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "113",
+        "label": "Function",
+        "title": "tests/test_edge.py:test_to_string",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_edge.py:test_to_string",
+          "name": "test_to_string",
+          "file_path": "tests/test_edge.py",
+          "start_line": 15,
+          "end_line": 22,
+          "signature": "test_to_string()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "114",
+        "label": "Function",
+        "title": "tests/test_edge.py:test_init",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_edge.py:test_init",
+          "name": "test_init",
+          "file_path": "tests/test_edge.py",
+          "start_line": 6,
+          "end_line": 12,
+          "signature": "test_init()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "115",
+        "label": "Function",
+        "title": "tests/test_db.py:test_udf_flush",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_udf_flush",
+          "name": "test_udf_flush",
+          "file_path": "tests/test_db.py",
+          "start_line": 295,
+          "end_line": 319,
+          "signature": "test_udf_flush(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "116",
+        "label": "Function",
+        "title": "tests/test_db.py:test_udf_delete",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_udf_delete",
+          "name": "test_udf_delete",
+          "file_path": "tests/test_db.py",
+          "start_line": 262,
+          "end_line": 292,
+          "signature": "test_udf_delete(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "117",
+        "label": "Function",
+        "title": "tests/test_db.py:test_udf_list",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_udf_list",
+          "name": "test_udf_list",
+          "file_path": "tests/test_db.py",
+          "start_line": 217,
+          "end_line": 259,
+          "signature": "test_udf_list(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "118",
+        "label": "Function",
+        "title": "tests/test_db.py:test_udf_load",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_udf_load",
+          "name": "test_udf_load",
+          "file_path": "tests/test_db.py",
+          "start_line": 165,
+          "end_line": 214,
+          "signature": "test_udf_load(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "119",
+        "label": "Function",
+        "title": "tests/test_db.py:test_from_url_unix_socket_with_password",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_from_url_unix_socket_with_password",
+          "name": "test_from_url_unix_socket_with_password",
+          "file_path": "tests/test_db.py",
+          "start_line": 150,
+          "end_line": 162,
+          "signature": "test_from_url_unix_socket_with_password(mock_sentinel, mock_cluster)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "120",
+        "label": "Function",
+        "title": "tests/test_db.py:test_from_url_unix_socket",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_from_url_unix_socket",
+          "name": "test_from_url_unix_socket",
+          "file_path": "tests/test_db.py",
+          "start_line": 136,
+          "end_line": 145,
+          "signature": "test_from_url_unix_socket(mock_sentinel, mock_cluster)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "121",
+        "label": "Function",
+        "title": "tests/test_db.py:test_from_url",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_from_url",
+          "name": "test_from_url",
+          "file_path": "tests/test_db.py",
+          "start_line": 89,
+          "end_line": 131,
+          "signature": "test_from_url()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "122",
+        "label": "Function",
+        "title": "tests/test_db.py:test_connect_via_url",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_connect_via_url",
+          "name": "test_connect_via_url",
+          "file_path": "tests/test_db.py",
+          "start_line": 68,
+          "end_line": 86,
+          "signature": "test_connect_via_url()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "123",
+        "label": "Function",
+        "title": "tests/test_db.py:test_config",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_config",
+          "name": "test_config",
+          "file_path": "tests/test_db.py",
+          "start_line": 38,
+          "end_line": 65,
+          "signature": "test_config(client)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "124",
+        "label": "Function",
+        "title": "tests/test_db.py:test_driver_info_version",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:test_driver_info_version",
+          "name": "test_driver_info_version",
+          "file_path": "tests/test_db.py",
+          "start_line": 18,
+          "end_line": 35,
+          "signature": "test_driver_info_version(kwargs, expected_version)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "125",
+        "label": "Function",
+        "title": "tests/test_db.py:client",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_db.py:client",
+          "name": "client",
+          "file_path": "tests/test_db.py",
+          "start_line": 10,
+          "end_line": 11,
+          "signature": "client(request)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "126",
+        "label": "Function",
+        "title": "tests/test_copy.py:test_graph_copy",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_copy.py:test_graph_copy",
+          "name": "test_graph_copy",
+          "file_path": "tests/test_copy.py",
+          "start_line": 4,
+          "end_line": 64,
+          "signature": "test_graph_copy()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "127",
+        "label": "Function",
+        "title": "tests/test_constraints.py:test_create_existing_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_constraints.py:test_create_existing_constraint",
+          "name": "test_create_existing_constraint",
+          "file_path": "tests/test_constraints.py",
+          "start_line": 34,
+          "end_line": 45,
+          "signature": "test_create_existing_constraint()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "128",
+        "label": "Function",
+        "title": "tests/test_constraints.py:test_constraints",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_constraints.py:test_constraints",
+          "name": "test_constraints",
+          "file_path": "tests/test_constraints.py",
+          "start_line": 4,
+          "end_line": 31,
+          "signature": "test_constraints()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "129",
+        "label": "Function",
+        "title": "tests/test_close.py:test_cluster_conn_preserves_connection_kwargs",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_close.py:test_cluster_conn_preserves_connection_kwargs",
+          "name": "test_cluster_conn_preserves_connection_kwargs",
+          "file_path": "tests/test_close.py",
+          "start_line": 59,
+          "end_line": 83,
+          "signature": "test_cluster_conn_preserves_connection_kwargs()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "130",
+        "label": "Function",
+        "title": "tests/test_close.py:test_async_aclose_and_context_manager",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_close.py:test_async_aclose_and_context_manager",
+          "name": "test_async_aclose_and_context_manager",
+          "file_path": "tests/test_close.py",
+          "start_line": 41,
+          "end_line": 56,
+          "signature": "test_async_aclose_and_context_manager()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "131",
+        "label": "Function",
+        "title": "tests/test_close.py:test_sync_close_fallback_disconnect",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_close.py:test_sync_close_fallback_disconnect",
+          "name": "test_sync_close_fallback_disconnect",
+          "file_path": "tests/test_close.py",
+          "start_line": 25,
+          "end_line": 37,
+          "signature": "test_sync_close_fallback_disconnect()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "132",
+        "label": "Function",
+        "title": "tests/test_close.py:test_sync_context_manager_calls_close",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_close.py:test_sync_context_manager_calls_close",
+          "name": "test_sync_context_manager_calls_close",
+          "file_path": "tests/test_close.py",
+          "start_line": 11,
+          "end_line": 22,
+          "signature": "test_sync_context_manager_calls_close()",
+          "is_async": false
+        }
+      },
+      {
+        "id": "140",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_explain",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_explain",
+          "name": "test_explain",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 544,
+          "end_line": 590,
+          "signature": "test_explain()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "141",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_execution_plan",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_execution_plan",
+          "name": "test_execution_plan",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 501,
+          "end_line": 540,
+          "signature": "test_execution_plan()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "142",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_multi_label",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_multi_label",
+          "name": "test_multi_label",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 467,
+          "end_line": 497,
+          "signature": "test_multi_label()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "143",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_read_only_query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_read_only_query",
+          "name": "test_read_only_query",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 449,
+          "end_line": 463,
+          "signature": "test_read_only_query()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "144",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_query_timeout",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_query_timeout",
+          "name": "test_query_timeout",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 426,
+          "end_line": 445,
+          "signature": "test_query_timeout()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "145",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_slowlog",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_slowlog",
+          "name": "test_slowlog",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 403,
+          "end_line": 421,
+          "signature": "test_slowlog()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "146",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_cached_execution",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_cached_execution",
+          "name": "test_cached_execution",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 385,
+          "end_line": 399,
+          "signature": "test_cached_execution()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "147",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_optional_match",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_optional_match",
+          "name": "test_optional_match",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 352,
+          "end_line": 381,
+          "signature": "test_optional_match()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "148",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_stringify_query_result",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_stringify_query_result",
+          "name": "test_stringify_query_result",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 302,
+          "end_line": 348,
+          "signature": "test_stringify_query_result()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "149",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_index_response",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_index_response",
+          "name": "test_index_response",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 278,
+          "end_line": 298,
+          "signature": "test_index_response()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "150",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_point",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_point",
+          "name": "test_point",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 252,
+          "end_line": 274,
+          "signature": "test_point()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "151",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_map",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_map",
+          "name": "test_map",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 215,
+          "end_line": 248,
+          "signature": "test_map()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "152",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_param_invalid_keys_rejected",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_param_invalid_keys_rejected",
+          "name": "test_param_invalid_keys_rejected",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 192,
+          "end_line": 211,
+          "signature": "test_param_invalid_keys_rejected()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "153",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_param_non_identifier_keys",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_param_non_identifier_keys",
+          "name": "test_param_non_identifier_keys",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 143,
+          "end_line": 188,
+          "signature": "test_param_non_identifier_keys()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "154",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_param",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_param",
+          "name": "test_param",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 124,
+          "end_line": 139,
+          "signature": "test_param()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "155",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_path",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_path",
+          "name": "test_path",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 97,
+          "end_line": 120,
+          "signature": "test_path()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "156",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_array_functions",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_array_functions",
+          "name": "test_array_functions",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 66,
+          "end_line": 93,
+          "signature": "test_array_functions()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "157",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:test_graph_creation",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:test_graph_creation",
+          "name": "test_graph_creation",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 19,
+          "end_line": 62,
+          "signature": "test_graph_creation()",
+          "is_async": true
+        }
+      },
+      {
+        "id": "158",
+        "label": "Function",
+        "title": "tests/test_async_graph.py:quote_param_ref",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "tests/test_async_graph.py:quote_param_ref",
+          "name": "quote_param_ref",
+          "file_path": "tests/test_async_graph.py",
+          "start_line": 12,
+          "end_line": 15,
+          "signature": "quote_param_ref(key: str) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "254",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.list_constraints",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.list_constraints",
+          "name": "list_constraints",
+          "file_path": "falkordb/graph.py",
+          "start_line": 772,
+          "end_line": 795,
+          "signature": "list_constraints(self) -> List[Dict[str, object]]",
+          "is_async": false
+        }
+      },
+      {
+        "id": "255",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_mandatory_constraint",
+          "name": "drop_edge_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 761,
+          "end_line": 770,
+          "signature": "drop_edge_mandatory_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "256",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_mandatory_constraint",
+          "name": "drop_node_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 749,
+          "end_line": 759,
+          "signature": "drop_node_mandatory_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "257",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_unique_constraint",
+          "name": "drop_edge_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 735,
+          "end_line": 747,
+          "signature": "drop_edge_unique_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "258",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_unique_constraint",
+          "name": "drop_node_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 720,
+          "end_line": 733,
+          "signature": "drop_node_unique_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "259",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._drop_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._drop_constraint",
+          "name": "_drop_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 695,
+          "end_line": 718,
+          "signature": "_drop_constraint(self, constraint_type: str, entity_type: str, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "260",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_mandatory_constraint",
+          "name": "create_edge_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 679,
+          "end_line": 693,
+          "signature": "create_edge_mandatory_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "261",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_mandatory_constraint",
+          "name": "create_node_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 664,
+          "end_line": 677,
+          "signature": "create_node_mandatory_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "262",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_unique_constraint",
+          "name": "create_edge_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 639,
+          "end_line": 662,
+          "signature": "create_edge_unique_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "263",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_unique_constraint",
+          "name": "create_node_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 613,
+          "end_line": 637,
+          "signature": "create_node_unique_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "264",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._create_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._create_constraint",
+          "name": "_create_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 591,
+          "end_line": 611,
+          "signature": "_create_constraint(self, constraint_type: str, entity_type: str, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "265",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_vector_index",
+          "name": "create_edge_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 567,
+          "end_line": 589,
+          "signature": "create_edge_vector_index(self, relation: str, *properties, dim: int=0, similarity_function: str='euclidean') -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "266",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_fulltext_index",
+          "name": "create_edge_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 554,
+          "end_line": 565,
+          "signature": "create_edge_fulltext_index(self, relation: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "267",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_range_index",
+          "name": "create_edge_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 541,
+          "end_line": 552,
+          "signature": "create_edge_range_index(self, relation: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "268",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_vector_index",
+          "name": "create_node_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 517,
+          "end_line": 539,
+          "signature": "create_node_vector_index(self, label: str, *properties, dim: int=0, similarity_function: str='euclidean') -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "269",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_fulltext_index",
+          "name": "create_node_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 504,
+          "end_line": 515,
+          "signature": "create_node_fulltext_index(self, label: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "270",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_range_index",
+          "name": "create_node_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 491,
+          "end_line": 502,
+          "signature": "create_node_range_index(self, label: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "271",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._create_typed_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._create_typed_index",
+          "name": "_create_typed_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 444,
+          "end_line": 489,
+          "signature": "_create_typed_index(self, idx_type: str, entity_type: str, label: str, *properties: str, options=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "272",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.list_indices",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.list_indices",
+          "name": "list_indices",
+          "file_path": "falkordb/graph.py",
+          "start_line": 435,
+          "end_line": 442,
+          "signature": "list_indices(self) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "273",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_vector_index",
+          "name": "drop_edge_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 422,
+          "end_line": 433,
+          "signature": "drop_edge_vector_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "274",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_fulltext_index",
+          "name": "drop_edge_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 409,
+          "end_line": 420,
+          "signature": "drop_edge_fulltext_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "275",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_range_index",
+          "name": "drop_edge_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 396,
+          "end_line": 407,
+          "signature": "drop_edge_range_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "276",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_vector_index",
+          "name": "drop_node_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 383,
+          "end_line": 394,
+          "signature": "drop_node_vector_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "277",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_fulltext_index",
+          "name": "drop_node_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 370,
+          "end_line": 381,
+          "signature": "drop_node_fulltext_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "278",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_range_index",
+          "name": "drop_node_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 357,
+          "end_line": 368,
+          "signature": "drop_node_range_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "279",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._drop_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._drop_index",
+          "name": "_drop_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 323,
+          "end_line": 355,
+          "signature": "_drop_index(self, idx_type: str, entity_type: str, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "280",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.call_procedure",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.call_procedure",
+          "name": "call_procedure",
+          "file_path": "falkordb/graph.py",
+          "start_line": 279,
+          "end_line": 319,
+          "signature": "call_procedure(self, procedure: str, read_only: bool=True, args: Optional[List]=None, emit: Optional[List[str]]=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "281",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._build_params_header",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._build_params_header",
+          "name": "_build_params_header",
+          "file_path": "falkordb/graph.py",
+          "start_line": 247,
+          "end_line": 276,
+          "signature": "_build_params_header(self, params: Optional[dict]) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "282",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.explain",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.explain",
+          "name": "explain",
+          "file_path": "falkordb/graph.py",
+          "start_line": 227,
+          "end_line": 245,
+          "signature": "explain(self, query: str, params=None) -> ExecutionPlan",
+          "is_async": false
+        }
+      },
+      {
+        "id": "283",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.profile",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.profile",
+          "name": "profile",
+          "file_path": "falkordb/graph.py",
+          "start_line": 207,
+          "end_line": 225,
+          "signature": "profile(self, query: str, params=None) -> ExecutionPlan",
+          "is_async": false
+        }
+      },
+      {
+        "id": "284",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.slowlog_reset",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.slowlog_reset",
+          "name": "slowlog_reset",
+          "file_path": "falkordb/graph.py",
+          "start_line": 196,
+          "end_line": 205,
+          "signature": "slowlog_reset(self)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "285",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.slowlog",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.slowlog",
+          "name": "slowlog",
+          "file_path": "falkordb/graph.py",
+          "start_line": 176,
+          "end_line": 194,
+          "signature": "slowlog(self)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "286",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.delete",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.delete",
+          "name": "delete",
+          "file_path": "falkordb/graph.py",
+          "start_line": 163,
+          "end_line": 174,
+          "signature": "delete(self) -> None",
+          "is_async": false
+        }
+      },
+      {
+        "id": "287",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.copy",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.copy",
+          "name": "copy",
+          "file_path": "falkordb/graph.py",
+          "start_line": 149,
+          "end_line": 161,
+          "signature": "copy(self, clone: str)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "288",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.ro_query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.ro_query",
+          "name": "ro_query",
+          "file_path": "falkordb/graph.py",
+          "start_line": 127,
+          "end_line": 147,
+          "signature": "ro_query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "289",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.query",
+          "name": "query",
+          "file_path": "falkordb/graph.py",
+          "start_line": 105,
+          "end_line": 125,
+          "signature": "query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "290",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._query",
+          "name": "_query",
+          "file_path": "falkordb/graph.py",
+          "start_line": 55,
+          "end_line": 103,
+          "signature": "_query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None, read_only: bool=False) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "291",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.name",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.name",
+          "name": "name",
+          "file_path": "falkordb/graph.py",
+          "start_line": 44,
+          "end_line": 53,
+          "signature": "name(self) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "292",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.__init__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.__init__",
+          "name": "__init__",
+          "file_path": "falkordb/graph.py",
+          "start_line": 28,
+          "end_line": 41,
+          "signature": "__init__(self, client, name: str)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "293",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.udf_delete",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.udf_delete",
+          "name": "udf_delete",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 336,
+          "end_line": 353,
+          "signature": "udf_delete(self, lib: str)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "294",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.udf_flush",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.udf_flush",
+          "name": "udf_flush",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 319,
+          "end_line": 333,
+          "signature": "udf_flush(self)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "295",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.udf_list",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.udf_list",
+          "name": "udf_list",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 295,
+          "end_line": 316,
+          "signature": "udf_list(self, lib: Optional[str]=None, with_code: bool=False)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "296",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.udf_load",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.udf_load",
+          "name": "udf_load",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 266,
+          "end_line": 292,
+          "signature": "udf_load(self, name: str, script: str, replace: bool=False)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "297",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.__exit__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.__exit__",
+          "name": "__exit__",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 261,
+          "end_line": 263,
+          "signature": "__exit__(self, exc_type, exc_val, exc_tb) -> None",
+          "is_async": false
+        }
+      },
+      {
+        "id": "298",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.__enter__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.__enter__",
+          "name": "__enter__",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 256,
+          "end_line": 259,
+          "signature": "__enter__(self) -> 'FalkorDB'",
+          "is_async": false
+        }
+      },
+      {
+        "id": "299",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.close",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.close",
+          "name": "close",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 245,
+          "end_line": 254,
+          "signature": "close(self) -> None",
+          "is_async": false
+        }
+      },
+      {
+        "id": "300",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.config_set",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.config_set",
+          "name": "config_set",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 229,
+          "end_line": 243,
+          "signature": "config_set(self, name: str, value=None) -> None",
+          "is_async": false
+        }
+      },
+      {
+        "id": "301",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.config_get",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.config_get",
+          "name": "config_get",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 214,
+          "end_line": 227,
+          "signature": "config_get(self, name: str) -> Union[int, str]",
+          "is_async": false
+        }
+      },
+      {
+        "id": "302",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.list_graphs",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.list_graphs",
+          "name": "list_graphs",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 202,
+          "end_line": 212,
+          "signature": "list_graphs(self) -> List[str]",
+          "is_async": false
+        }
+      },
+      {
+        "id": "303",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.select_graph",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.select_graph",
+          "name": "select_graph",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 185,
+          "end_line": 200,
+          "signature": "select_graph(self, graph_id: str) -> Graph",
+          "is_async": false
+        }
+      },
+      {
+        "id": "304",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.from_url",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.from_url",
+          "name": "from_url",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 155,
+          "end_line": 183,
+          "signature": "from_url(cls, url: str, **kwargs) -> 'FalkorDB'",
+          "is_async": false
+        }
+      },
+      {
+        "id": "305",
+        "label": "Function",
+        "title": "falkordb/falkordb.py:FalkorDB.__init__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/falkordb.py:FalkorDB.__init__",
+          "name": "__init__",
+          "file_path": "falkordb/falkordb.py",
+          "start_line": 40,
+          "end_line": 152,
+          "signature": "__init__(self, host='localhost', port=6379, password=None, socket_timeout=None, socket_connect_timeout=None, socket_keepalive=None, socket_keepalive_options=None, connection_pool=None, unix_socket_path=None, encoding='utf-8', encoding_errors='strict', retry_on_error=None, ssl=False, ssl_keyfile=None, ssl_certfile=None, ssl_cert_reqs='required', ssl_ca_certs=None, ssl_ca_path=None, ssl_ca_data=None, ssl_check_hostname=False, ssl_password=None, ssl_validate_ocsp=False, ssl_validate_ocsp_stapled=False, ssl_ocsp_context=None, ssl_ocsp_expected_cert=None, max_connections=None, single_connection_client=False, health_check_interval=0, client_name=None, lib_name='FalkorDB', lib_version=None, username=None, retry=None, connect_func=None, credential_provider=None, protocol=2, cluster_error_retry_attempts=3, startup_nodes=None, require_full_coverage=False, reinitialize_steps=5, read_from_replicas=False, dynamic_startup_nodes=True, url=None, address_remap=None)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "379",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.list_constraints",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.list_constraints",
+          "name": "list_constraints",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 748,
+          "end_line": 771,
+          "signature": "list_constraints(self) -> List[Dict[str, object]]",
+          "is_async": true
+        }
+      },
+      {
+        "id": "380",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_mandatory_constraint",
+          "name": "drop_edge_mandatory_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 735,
+          "end_line": 746,
+          "signature": "drop_edge_mandatory_constraint(self, relation: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "381",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_mandatory_constraint",
+          "name": "drop_node_mandatory_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 723,
+          "end_line": 733,
+          "signature": "drop_node_mandatory_constraint(self, label: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "382",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_unique_constraint",
+          "name": "drop_edge_unique_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 707,
+          "end_line": 721,
+          "signature": "drop_edge_unique_constraint(self, relation: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "383",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_unique_constraint",
+          "name": "drop_node_unique_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 692,
+          "end_line": 705,
+          "signature": "drop_node_unique_constraint(self, label: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "384",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph._drop_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph._drop_constraint",
+          "name": "_drop_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 667,
+          "end_line": 690,
+          "signature": "_drop_constraint(self, constraint_type: str, entity_type: str, label: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "385",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_mandatory_constraint",
+          "name": "create_edge_mandatory_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 651,
+          "end_line": 665,
+          "signature": "create_edge_mandatory_constraint(self, relation: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "386",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_node_mandatory_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_node_mandatory_constraint",
+          "name": "create_node_mandatory_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 636,
+          "end_line": 649,
+          "signature": "create_node_mandatory_constraint(self, label: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "387",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_unique_constraint",
+          "name": "create_edge_unique_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 609,
+          "end_line": 634,
+          "signature": "create_edge_unique_constraint(self, relation: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "388",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_node_unique_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_node_unique_constraint",
+          "name": "create_node_unique_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 583,
+          "end_line": 607,
+          "signature": "create_node_unique_constraint(self, label: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "389",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph._create_constraint",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph._create_constraint",
+          "name": "_create_constraint",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 561,
+          "end_line": 581,
+          "signature": "_create_constraint(self, constraint_type: str, entity_type: str, label: str, *properties)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "390",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_vector_index",
+          "name": "create_edge_vector_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 536,
+          "end_line": 559,
+          "signature": "create_edge_vector_index(self, relation: str, *properties, dim: int=0, similarity_function: str='euclidean') -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "391",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_fulltext_index",
+          "name": "create_edge_fulltext_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 520,
+          "end_line": 534,
+          "signature": "create_edge_fulltext_index(self, relation: str, *properties) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "392",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_range_index",
+          "name": "create_edge_range_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 506,
+          "end_line": 518,
+          "signature": "create_edge_range_index(self, relation: str, *properties) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "393",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_node_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_node_vector_index",
+          "name": "create_node_vector_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 481,
+          "end_line": 504,
+          "signature": "create_node_vector_index(self, label: str, *properties, dim: int=0, similarity_function: str='euclidean') -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "394",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_node_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_node_fulltext_index",
+          "name": "create_node_fulltext_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 467,
+          "end_line": 479,
+          "signature": "create_node_fulltext_index(self, label: str, *properties) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "395",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.create_node_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.create_node_range_index",
+          "name": "create_node_range_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 453,
+          "end_line": 465,
+          "signature": "create_node_range_index(self, label: str, *properties) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "396",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index",
+          "name": "_create_typed_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 406,
+          "end_line": 451,
+          "signature": "_create_typed_index(self, idx_type: str, entity_type: str, label: str, *properties: str, options=None) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "397",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.list_indices",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.list_indices",
+          "name": "list_indices",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 397,
+          "end_line": 404,
+          "signature": "list_indices(self) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "398",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_vector_index",
+          "name": "drop_edge_vector_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 384,
+          "end_line": 395,
+          "signature": "drop_edge_vector_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "399",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_fulltext_index",
+          "name": "drop_edge_fulltext_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 371,
+          "end_line": 382,
+          "signature": "drop_edge_fulltext_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "400",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_edge_range_index",
+          "name": "drop_edge_range_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 358,
+          "end_line": 369,
+          "signature": "drop_edge_range_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "401",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_vector_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_vector_index",
+          "name": "drop_node_vector_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 345,
+          "end_line": 356,
+          "signature": "drop_node_vector_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "402",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_fulltext_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_fulltext_index",
+          "name": "drop_node_fulltext_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 332,
+          "end_line": 343,
+          "signature": "drop_node_fulltext_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "403",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_range_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.drop_node_range_index",
+          "name": "drop_node_range_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 319,
+          "end_line": 330,
+          "signature": "drop_node_range_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "404",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph._drop_index",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph._drop_index",
+          "name": "_drop_index",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 281,
+          "end_line": 317,
+          "signature": "_drop_index(self, idx_type: str, entity_type: str, label: str, attribute: str) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "405",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.call_procedure",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.call_procedure",
+          "name": "call_procedure",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 237,
+          "end_line": 277,
+          "signature": "call_procedure(self, procedure: str, read_only: bool=True, args: Optional[List]=None, emit: Optional[List[str]]=None) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "406",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.explain",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.explain",
+          "name": "explain",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 216,
+          "end_line": 234,
+          "signature": "explain(self, query: str, params=None) -> ExecutionPlan",
+          "is_async": true
+        }
+      },
+      {
+        "id": "407",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.profile",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.profile",
+          "name": "profile",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 196,
+          "end_line": 214,
+          "signature": "profile(self, query: str, params=None) -> ExecutionPlan",
+          "is_async": true
+        }
+      },
+      {
+        "id": "408",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.slowlog_reset",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.slowlog_reset",
+          "name": "slowlog_reset",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 185,
+          "end_line": 194,
+          "signature": "slowlog_reset(self)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "409",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.slowlog",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.slowlog",
+          "name": "slowlog",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 165,
+          "end_line": 183,
+          "signature": "slowlog(self)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "410",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.delete",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.delete",
+          "name": "delete",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 152,
+          "end_line": 163,
+          "signature": "delete(self) -> None",
+          "is_async": true
+        }
+      },
+      {
+        "id": "411",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.copy",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.copy",
+          "name": "copy",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 138,
+          "end_line": 150,
+          "signature": "copy(self, clone: str)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "412",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.ro_query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.ro_query",
+          "name": "ro_query",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 116,
+          "end_line": 136,
+          "signature": "ro_query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "413",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.query",
+          "name": "query",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 94,
+          "end_line": 114,
+          "signature": "query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "414",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph._query",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph._query",
+          "name": "_query",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 42,
+          "end_line": 92,
+          "signature": "_query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None, read_only: bool=False) -> QueryResult",
+          "is_async": true
+        }
+      },
+      {
+        "id": "415",
+        "label": "Function",
+        "title": "falkordb/asyncio/graph.py:AsyncGraph.__init__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph.__init__",
+          "name": "__init__",
+          "file_path": "falkordb/asyncio/graph.py",
+          "start_line": 29,
+          "end_line": 40,
+          "signature": "__init__(self, client, name: str)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "416",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.udf_delete",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.udf_delete",
+          "name": "udf_delete",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 318,
+          "end_line": 335,
+          "signature": "udf_delete(self, lib: str)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "417",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.udf_flush",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.udf_flush",
+          "name": "udf_flush",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 301,
+          "end_line": 315,
+          "signature": "udf_flush(self)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "418",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.udf_list",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.udf_list",
+          "name": "udf_list",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 277,
+          "end_line": 298,
+          "signature": "udf_list(self, lib: Optional[str]=None, with_code: bool=False)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "419",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.udf_load",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.udf_load",
+          "name": "udf_load",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 248,
+          "end_line": 274,
+          "signature": "udf_load(self, name: str, script: str, replace: bool=False)",
+          "is_async": true
+        }
+      },
+      {
+        "id": "420",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.__aexit__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.__aexit__",
+          "name": "__aexit__",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 242,
+          "end_line": 245,
+          "signature": "__aexit__(self, exc_type, exc_val, exc_tb) -> None",
+          "is_async": true
+        }
+      },
+      {
+        "id": "421",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.__aenter__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.__aenter__",
+          "name": "__aenter__",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 237,
+          "end_line": 240,
+          "signature": "__aenter__(self) -> 'FalkorDB'",
+          "is_async": true
+        }
+      },
+      {
+        "id": "422",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.aclose",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.aclose",
+          "name": "aclose",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 226,
+          "end_line": 235,
+          "signature": "aclose(self) -> None",
+          "is_async": true
+        }
+      },
+      {
+        "id": "423",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.config_set",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.config_set",
+          "name": "config_set",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 210,
+          "end_line": 224,
+          "signature": "config_set(self, name: str, value=None) -> None",
+          "is_async": true
+        }
+      },
+      {
+        "id": "424",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.config_get",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.config_get",
+          "name": "config_get",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 194,
+          "end_line": 208,
+          "signature": "config_get(self, name: str) -> Union[int, str]",
+          "is_async": true
+        }
+      },
+      {
+        "id": "425",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.list_graphs",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.list_graphs",
+          "name": "list_graphs",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 182,
+          "end_line": 192,
+          "signature": "list_graphs(self) -> List[str]",
+          "is_async": true
+        }
+      },
+      {
+        "id": "426",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.select_graph",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.select_graph",
+          "name": "select_graph",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 165,
+          "end_line": 180,
+          "signature": "select_graph(self, graph_id: str) -> AsyncGraph",
+          "is_async": false
+        }
+      },
+      {
+        "id": "427",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.from_url",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.from_url",
+          "name": "from_url",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 135,
+          "end_line": 163,
+          "signature": "from_url(cls, url: str, **kwargs) -> 'FalkorDB'",
+          "is_async": false
+        }
+      },
+      {
+        "id": "428",
+        "label": "Function",
+        "title": "falkordb/asyncio/falkordb.py:FalkorDB.__init__",
+        "subtitle": null,
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/asyncio/falkordb.py:FalkorDB.__init__",
+          "name": "__init__",
+          "file_path": "falkordb/asyncio/falkordb.py",
+          "start_line": 40,
+          "end_line": 132,
+          "signature": "__init__(self, host='localhost', port=6379, password=None, socket_timeout=None, socket_connect_timeout=None, socket_keepalive=None, socket_keepalive_options=None, connection_pool=None, unix_socket_path=None, encoding='utf-8', encoding_errors='strict', retry_on_error=None, ssl=False, ssl_keyfile=None, ssl_certfile=None, ssl_cert_reqs='required', ssl_ca_certs=None, ssl_ca_data=None, ssl_check_hostname=False, max_connections=None, single_connection_client=False, health_check_interval=0, client_name=None, lib_name='FalkorDB', lib_version=None, username=None, retry=None, connect_func=None, credential_provider=None, protocol=2, cluster_error_retry_attempts=3, startup_nodes=None, require_full_coverage=False, reinitialize_steps=5, read_from_replicas=False, address_remap=None)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "509",
+        "label": "Function",
+        "title": "scenario_bae6a5c8d21a4d00a1f9676633152193:falkordb/graph.py:scenario_caller",
+        "subtitle": "SIMULATED_PR_DEPENDENCY",
+        "status": "IMPACTED",
+        "url": null,
+        "metadata": {
+          "qualified_name": "scenario_bae6a5c8d21a4d00a1f9676633152193:falkordb/graph.py:scenario_caller",
+          "source_type": "SIMULATED_PR_DEPENDENCY"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "390",
+        "source": "0",
+        "target": "27",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "392",
+        "source": "0",
+        "target": "35",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "19",
+        "source": "0",
+        "target": "61",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "20",
+        "source": "0",
+        "target": "62",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "394",
+        "source": "1",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "21",
+        "source": "1",
+        "target": "63",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "22",
+        "source": "1",
+        "target": "64",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "23",
+        "source": "1",
+        "target": "65",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "395",
+        "source": "2",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "24",
+        "source": "2",
+        "target": "66",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "25",
+        "source": "2",
+        "target": "67",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "26",
+        "source": "2",
+        "target": "68",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "27",
+        "source": "2",
+        "target": "69",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "28",
+        "source": "2",
+        "target": "70",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "29",
+        "source": "2",
+        "target": "71",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "30",
+        "source": "2",
+        "target": "72",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "396",
+        "source": "3",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "31",
+        "source": "3",
+        "target": "73",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "32",
+        "source": "3",
+        "target": "74",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "33",
+        "source": "3",
+        "target": "75",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "34",
+        "source": "3",
+        "target": "76",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "397",
+        "source": "4",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "35",
+        "source": "4",
+        "target": "77",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "36",
+        "source": "4",
+        "target": "78",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "37",
+        "source": "4",
+        "target": "79",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "38",
+        "source": "4",
+        "target": "80",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "39",
+        "source": "4",
+        "target": "81",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "40",
+        "source": "4",
+        "target": "82",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "399",
+        "source": "5",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "41",
+        "source": "5",
+        "target": "83",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "42",
+        "source": "5",
+        "target": "84",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "43",
+        "source": "5",
+        "target": "85",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "44",
+        "source": "5",
+        "target": "86",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "45",
+        "source": "5",
+        "target": "87",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "46",
+        "source": "5",
+        "target": "88",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "47",
+        "source": "5",
+        "target": "89",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "48",
+        "source": "5",
+        "target": "90",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "49",
+        "source": "5",
+        "target": "91",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "50",
+        "source": "5",
+        "target": "92",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "51",
+        "source": "5",
+        "target": "93",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "52",
+        "source": "5",
+        "target": "94",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "53",
+        "source": "5",
+        "target": "95",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "54",
+        "source": "5",
+        "target": "96",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "55",
+        "source": "5",
+        "target": "97",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "56",
+        "source": "5",
+        "target": "98",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "57",
+        "source": "5",
+        "target": "99",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "58",
+        "source": "5",
+        "target": "100",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "59",
+        "source": "5",
+        "target": "101",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "60",
+        "source": "5",
+        "target": "102",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "61",
+        "source": "5",
+        "target": "103",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "62",
+        "source": "5",
+        "target": "104",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "63",
+        "source": "5",
+        "target": "105",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "401",
+        "source": "6",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "64",
+        "source": "6",
+        "target": "106",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "65",
+        "source": "6",
+        "target": "107",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "66",
+        "source": "6",
+        "target": "108",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "67",
+        "source": "6",
+        "target": "109",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "68",
+        "source": "6",
+        "target": "110",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "402",
+        "source": "7",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "69",
+        "source": "7",
+        "target": "111",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "70",
+        "source": "7",
+        "target": "112",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "71",
+        "source": "7",
+        "target": "113",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "72",
+        "source": "7",
+        "target": "114",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "403",
+        "source": "8",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "73",
+        "source": "8",
+        "target": "115",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "74",
+        "source": "8",
+        "target": "116",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "75",
+        "source": "8",
+        "target": "117",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "76",
+        "source": "8",
+        "target": "118",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "77",
+        "source": "8",
+        "target": "119",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "78",
+        "source": "8",
+        "target": "120",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "79",
+        "source": "8",
+        "target": "121",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "80",
+        "source": "8",
+        "target": "122",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "81",
+        "source": "8",
+        "target": "123",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "82",
+        "source": "8",
+        "target": "124",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "83",
+        "source": "8",
+        "target": "125",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "404",
+        "source": "9",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "84",
+        "source": "9",
+        "target": "126",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "405",
+        "source": "10",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "85",
+        "source": "10",
+        "target": "127",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "86",
+        "source": "10",
+        "target": "128",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "408",
+        "source": "11",
+        "target": "28",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "409",
+        "source": "11",
+        "target": "36",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "87",
+        "source": "11",
+        "target": "129",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "88",
+        "source": "11",
+        "target": "130",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "89",
+        "source": "11",
+        "target": "131",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "90",
+        "source": "11",
+        "target": "132",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "414",
+        "source": "14",
+        "target": "38",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "415",
+        "source": "14",
+        "target": "40",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "98",
+        "source": "14",
+        "target": "140",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "99",
+        "source": "14",
+        "target": "141",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "100",
+        "source": "14",
+        "target": "142",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "101",
+        "source": "14",
+        "target": "143",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "102",
+        "source": "14",
+        "target": "144",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "103",
+        "source": "14",
+        "target": "145",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "104",
+        "source": "14",
+        "target": "146",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "105",
+        "source": "14",
+        "target": "147",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "106",
+        "source": "14",
+        "target": "148",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "107",
+        "source": "14",
+        "target": "149",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "108",
+        "source": "14",
+        "target": "150",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "109",
+        "source": "14",
+        "target": "151",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "110",
+        "source": "14",
+        "target": "152",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "111",
+        "source": "14",
+        "target": "153",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "112",
+        "source": "14",
+        "target": "154",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "113",
+        "source": "14",
+        "target": "155",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "114",
+        "source": "14",
+        "target": "156",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "115",
+        "source": "14",
+        "target": "157",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "116",
+        "source": "14",
+        "target": "158",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "212",
+        "source": "27",
+        "target": "254",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "213",
+        "source": "27",
+        "target": "255",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "214",
+        "source": "27",
+        "target": "256",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "215",
+        "source": "27",
+        "target": "257",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "216",
+        "source": "27",
+        "target": "258",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "217",
+        "source": "27",
+        "target": "259",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "218",
+        "source": "27",
+        "target": "260",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "219",
+        "source": "27",
+        "target": "261",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "220",
+        "source": "27",
+        "target": "262",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "221",
+        "source": "27",
+        "target": "263",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "222",
+        "source": "27",
+        "target": "264",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "223",
+        "source": "27",
+        "target": "265",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "224",
+        "source": "27",
+        "target": "266",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "225",
+        "source": "27",
+        "target": "267",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "226",
+        "source": "27",
+        "target": "268",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "227",
+        "source": "27",
+        "target": "269",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "228",
+        "source": "27",
+        "target": "270",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "229",
+        "source": "27",
+        "target": "271",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "230",
+        "source": "27",
+        "target": "272",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "231",
+        "source": "27",
+        "target": "273",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "232",
+        "source": "27",
+        "target": "274",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "233",
+        "source": "27",
+        "target": "275",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "234",
+        "source": "27",
+        "target": "276",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "235",
+        "source": "27",
+        "target": "277",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "236",
+        "source": "27",
+        "target": "278",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "237",
+        "source": "27",
+        "target": "279",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "238",
+        "source": "27",
+        "target": "280",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "239",
+        "source": "27",
+        "target": "281",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "240",
+        "source": "27",
+        "target": "282",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "241",
+        "source": "27",
+        "target": "283",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "242",
+        "source": "27",
+        "target": "284",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "243",
+        "source": "27",
+        "target": "285",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "244",
+        "source": "27",
+        "target": "286",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "245",
+        "source": "27",
+        "target": "287",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "246",
+        "source": "27",
+        "target": "288",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "247",
+        "source": "27",
+        "target": "289",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "248",
+        "source": "27",
+        "target": "290",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "249",
+        "source": "27",
+        "target": "291",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "250",
+        "source": "27",
+        "target": "292",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "436",
+        "source": "28",
+        "target": "27",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "251",
+        "source": "28",
+        "target": "293",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "252",
+        "source": "28",
+        "target": "294",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "253",
+        "source": "28",
+        "target": "295",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "254",
+        "source": "28",
+        "target": "296",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "255",
+        "source": "28",
+        "target": "297",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "256",
+        "source": "28",
+        "target": "298",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "257",
+        "source": "28",
+        "target": "299",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "258",
+        "source": "28",
+        "target": "300",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "259",
+        "source": "28",
+        "target": "301",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "260",
+        "source": "28",
+        "target": "302",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "261",
+        "source": "28",
+        "target": "303",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "262",
+        "source": "28",
+        "target": "304",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "263",
+        "source": "28",
+        "target": "305",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "447",
+        "source": "35",
+        "target": "27",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "337",
+        "source": "35",
+        "target": "379",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "338",
+        "source": "35",
+        "target": "380",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "339",
+        "source": "35",
+        "target": "381",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "340",
+        "source": "35",
+        "target": "382",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "341",
+        "source": "35",
+        "target": "383",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "342",
+        "source": "35",
+        "target": "384",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "343",
+        "source": "35",
+        "target": "385",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "344",
+        "source": "35",
+        "target": "386",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "345",
+        "source": "35",
+        "target": "387",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "346",
+        "source": "35",
+        "target": "388",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "347",
+        "source": "35",
+        "target": "389",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "348",
+        "source": "35",
+        "target": "390",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "349",
+        "source": "35",
+        "target": "391",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "350",
+        "source": "35",
+        "target": "392",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "351",
+        "source": "35",
+        "target": "393",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "352",
+        "source": "35",
+        "target": "394",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "353",
+        "source": "35",
+        "target": "395",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "354",
+        "source": "35",
+        "target": "396",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "355",
+        "source": "35",
+        "target": "397",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "356",
+        "source": "35",
+        "target": "398",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "357",
+        "source": "35",
+        "target": "399",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "358",
+        "source": "35",
+        "target": "400",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "359",
+        "source": "35",
+        "target": "401",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "360",
+        "source": "35",
+        "target": "402",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "361",
+        "source": "35",
+        "target": "403",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "362",
+        "source": "35",
+        "target": "404",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "363",
+        "source": "35",
+        "target": "405",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "364",
+        "source": "35",
+        "target": "406",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "365",
+        "source": "35",
+        "target": "407",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "366",
+        "source": "35",
+        "target": "408",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "367",
+        "source": "35",
+        "target": "409",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "368",
+        "source": "35",
+        "target": "410",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "369",
+        "source": "35",
+        "target": "411",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "370",
+        "source": "35",
+        "target": "412",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "371",
+        "source": "35",
+        "target": "413",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "372",
+        "source": "35",
+        "target": "414",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "373",
+        "source": "35",
+        "target": "415",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "450",
+        "source": "36",
+        "target": "35",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "374",
+        "source": "36",
+        "target": "416",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "375",
+        "source": "36",
+        "target": "417",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "376",
+        "source": "36",
+        "target": "418",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "377",
+        "source": "36",
+        "target": "419",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "378",
+        "source": "36",
+        "target": "420",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "379",
+        "source": "36",
+        "target": "421",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "380",
+        "source": "36",
+        "target": "422",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "381",
+        "source": "36",
+        "target": "423",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "382",
+        "source": "36",
+        "target": "424",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "383",
+        "source": "36",
+        "target": "425",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "384",
+        "source": "36",
+        "target": "426",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "385",
+        "source": "36",
+        "target": "427",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "386",
+        "source": "36",
+        "target": "428",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "453",
+        "source": "38",
+        "target": "36",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "457",
+        "source": "40",
+        "target": "27",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "458",
+        "source": "40",
+        "target": "28",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "466",
+        "source": "98",
+        "target": "105",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "476",
+        "source": "153",
+        "target": "158",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "537",
+        "source": "254",
+        "target": "280",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "538",
+        "source": "255",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "539",
+        "source": "256",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "540",
+        "source": "257",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "541",
+        "source": "258",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "542",
+        "source": "260",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "543",
+        "source": "261",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "544",
+        "source": "262",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "545",
+        "source": "262",
+        "target": "267",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "546",
+        "source": "263",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "547",
+        "source": "263",
+        "target": "270",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "548",
+        "source": "265",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "549",
+        "source": "266",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "550",
+        "source": "267",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "551",
+        "source": "268",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "552",
+        "source": "269",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "553",
+        "source": "270",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "554",
+        "source": "271",
+        "target": "289",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "555",
+        "source": "272",
+        "target": "280",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "556",
+        "source": "273",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "557",
+        "source": "274",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "558",
+        "source": "275",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "559",
+        "source": "276",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "560",
+        "source": "277",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "561",
+        "source": "278",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "562",
+        "source": "279",
+        "target": "289",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "563",
+        "source": "280",
+        "target": "290",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "565",
+        "source": "282",
+        "target": "281",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "566",
+        "source": "283",
+        "target": "281",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "567",
+        "source": "288",
+        "target": "290",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "568",
+        "source": "289",
+        "target": "290",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "569",
+        "source": "290",
+        "target": "281",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "573",
+        "source": "297",
+        "target": "299",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "621",
+        "source": "379",
+        "target": "405",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "622",
+        "source": "380",
+        "target": "384",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "623",
+        "source": "381",
+        "target": "384",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "624",
+        "source": "382",
+        "target": "384",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "625",
+        "source": "383",
+        "target": "384",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "626",
+        "source": "385",
+        "target": "389",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "627",
+        "source": "386",
+        "target": "389",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "628",
+        "source": "387",
+        "target": "389",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "629",
+        "source": "387",
+        "target": "392",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "630",
+        "source": "388",
+        "target": "389",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "631",
+        "source": "388",
+        "target": "395",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "632",
+        "source": "390",
+        "target": "396",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "633",
+        "source": "391",
+        "target": "396",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "634",
+        "source": "392",
+        "target": "396",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "635",
+        "source": "393",
+        "target": "396",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "636",
+        "source": "394",
+        "target": "396",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "637",
+        "source": "395",
+        "target": "396",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "638",
+        "source": "396",
+        "target": "413",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "639",
+        "source": "397",
+        "target": "405",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "640",
+        "source": "398",
+        "target": "404",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "641",
+        "source": "399",
+        "target": "404",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "642",
+        "source": "400",
+        "target": "404",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "643",
+        "source": "401",
+        "target": "404",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "644",
+        "source": "402",
+        "target": "404",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "645",
+        "source": "403",
+        "target": "404",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "646",
+        "source": "404",
+        "target": "413",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "647",
+        "source": "405",
+        "target": "414",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "648",
+        "source": "412",
+        "target": "414",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "649",
+        "source": "413",
+        "target": "414",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "653",
+        "source": "420",
+        "target": "422",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "669",
+        "source": "458",
+        "target": "27",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "671",
+        "source": "459",
+        "target": "27",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "673",
+        "source": "459",
+        "target": "458",
+        "relationship": "SUPERSEDED",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "674",
+        "source": "460",
+        "target": "35",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "676",
+        "source": "461",
+        "target": "35",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "678",
+        "source": "461",
+        "target": "460",
+        "relationship": "SUPERSEDED",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "684",
+        "source": "464",
+        "target": "28",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "686",
+        "source": "465",
+        "target": "28",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "688",
+        "source": "465",
+        "target": "464",
+        "relationship": "SUPERSEDED",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "749",
+        "source": "508",
+        "target": "27",
+        "relationship": "IMPORTS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "770",
+        "source": "508",
+        "target": "509",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "771",
+        "source": "509",
+        "target": "254",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      }
+    ],
+    "cypher_executed": "\nMATCH (target:File)\nWHERE target.path IN $modified_files\nOPTIONAL MATCH (downstream:File)-[:IMPORTS*1..3]->(target)\nOPTIONAL MATCH (target)-[:DEFINES]->(fn_target:Function)<-[:CALLS*1..3]-(fn_down:Function)\nOPTIONAL MATCH (d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(target)\nOPTIONAL MATCH (d)-[:SUPERSEDED]->(old_d:Decision)\nOPTIONAL MATCH (open_issue:Issue {state: 'OPEN'})-[:AFFECTS]->(downstream)\nRETURN\n  target.path AS modified_file,\n  coalesce(target.pagerank, 0.15) AS criticality_score,\n  collect(DISTINCT downstream.path) AS impacted_files,\n  collect(DISTINCT fn_down.qualified_name) AS impacted_functions,\n  collect(DISTINCT {\n    id: d.id,\n    rule: d.rule,\n    rationale: d.rationale,\n    source_url: d.source_url,\n    superseded_rule: old_d.rule\n  }) AS active_decisions,\n  collect(DISTINCT {\n    number: open_issue.number,\n    title: open_issue.title,\n    url: open_issue.url\n  }) AS related_open_issues\n\n\nMATCH (f:File {path: $file_path})\nOPTIONAL MATCH (c:Contributor)-[r:AUTHORED|REVIEWED]->(pr:PullRequest)-[m:MODIFIES]->(f)\nWITH f, c, count(DISTINCT pr) AS pr_count, sum(coalesce(m.additions, 10) + coalesce(m.deletions, 5)) AS lines_touched, max(pr.merged_at) AS last_active\nORDER BY pr_count DESC, lines_touched DESC\nWITH f, collect(DISTINCT {\n  login: c.login,\n  name: c.name,\n  pr_count: pr_count,\n  lines_touched: lines_touched,\n  last_active: last_active\n})[0..3] AS top_experts\nOPTIONAL MATCH (active_d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(f)\nOPTIONAL MATCH (active_d)-[:SUPERSEDED]->(old_d:Decision)\nRETURN\n  f.path AS file_path,\n  top_experts,\n  collect(DISTINCT {\n    active_id: active_d.id,\n    active_rule: active_d.rule,\n    active_rationale: active_d.rationale,\n    active_url: active_d.source_url,\n    valid_from: active_d.valid_from,\n    superseded_id: old_d.id,\n    superseded_rule: old_d.rule,\n    superseded_url: old_d.source_url,\n    superseded_at: old_d.valid_to\n  }) AS decision_lineage\n",
+    "execution_time_ms": 84.84
+  }
+}

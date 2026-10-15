@@ -1,0 +1,219 @@
+{
+  "investigation_id": "inv_7d314a3b065c4ee6a27b5714b776e87a",
+  "execution_mode": "compiled_playbook",
+  "root_cause_summary": "Policy-triage goal verified for falkordb/graph.py. This does not establish a runtime bug cause or fix. Scout/Historian/Verifier are deterministic role tools, not LLM agents. No model called: token savings are unmeasured (numeric 0 is a contract sentinel).",
+  "total_steps_executed": 3,
+  "pruned_golden_steps": 3,
+  "tokens_used": 0,
+  "duration_ms": 8.425,
+  "token_savings_pct": 0.0,
+  "latency_speedup_factor": 1.579,
+  "agent_handoff_log": [
+    {
+      "agent": "Scout",
+      "tool": "inspect_target",
+      "params": {
+        "path": "falkordb/graph.py"
+      },
+      "dead_end": false,
+      "summary": "Locate selected target and definitions",
+      "duration_ms": 0.35,
+      "observation": [
+        {
+          "path": "falkordb/graph.py",
+          "functions": 39
+        }
+      ],
+      "tokens_used": 0,
+      "execution_provider": "DETERMINISTIC_READ_ONLY_TOOL"
+    },
+    {
+      "agent": "Historian",
+      "tool": "inspect_policies",
+      "params": {
+        "path": "falkordb/graph.py"
+      },
+      "dead_end": false,
+      "summary": "Retrieve current policy and replaced rules",
+      "duration_ms": 0.46,
+      "observation": [
+        {
+          "id": "demo_repo_falkordb_py_0_active",
+          "rule": "Agent queries must specify a bounded timeout.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "replaced_rules": [
+            "Unbounded query execution is allowed."
+          ]
+        }
+      ],
+      "tokens_used": 0,
+      "execution_provider": "DETERMINISTIC_READ_ONLY_TOOL"
+    },
+    {
+      "agent": "Verifier",
+      "tool": "verify_policy",
+      "params": {
+        "path": "falkordb/graph.py"
+      },
+      "dead_end": false,
+      "summary": "Verify an active governing policy exists",
+      "duration_ms": 0.28,
+      "observation": [
+        {
+          "active_count": 1
+        }
+      ],
+      "tokens_used": 0,
+      "execution_provider": "DETERMINISTIC_READ_ONLY_TOOL"
+    }
+  ],
+  "compiled_playbook_id": "playbook_5ae19767062944e58b530d2fdf06ced1",
+  "blind_agent_comparison": {
+    "verdict": "TOKEN_BENCHMARK_UNMEASURED_NO_MODEL",
+    "mistake_summary": "Controlled cold workflow has 5 read-only tool calls; shortestPath retains 3, not 2. Replay executes those 3 again. Wall-clock timing is measured, not guaranteed. No billed tokens or autonomous model benchmark exist.",
+    "obsolete_rule_followed": null,
+    "missed_downstream_count": 0,
+    "steps_taken": 5,
+    "tokens_burned": 0,
+    "duration_ms": 13.3
+  },
+  "subgraph": {
+    "nodes": [
+      {
+        "id": "532",
+        "label": "StateNode",
+        "title": "Policy triage start",
+        "subtitle": null,
+        "status": "GOLDEN_PATH",
+        "url": null,
+        "metadata": {
+          "id": "inv_7d314a3b065c4ee6a27b5714b776e87a:start",
+          "state_type": "START",
+          "title": "Policy triage start"
+        }
+      },
+      {
+        "id": "533",
+        "label": "StateNode",
+        "title": "Locate selected target and definitions",
+        "subtitle": "DETERMINISTIC_POLICY_TRIAGE",
+        "status": "GOLDEN_PATH",
+        "url": null,
+        "metadata": {
+          "id": "inv_7d314a3b065c4ee6a27b5714b776e87a:0",
+          "state_type": "INTERMEDIATE",
+          "title": "Locate selected target and definitions",
+          "tool_name": "inspect_target",
+          "observation_json": "[{\"path\": \"falkordb/graph.py\", \"functions\": 39}]",
+          "source_type": "DETERMINISTIC_POLICY_TRIAGE"
+        }
+      },
+      {
+        "id": "534",
+        "label": "StateNode",
+        "title": "Retrieve current policy and replaced rules",
+        "subtitle": "DETERMINISTIC_POLICY_TRIAGE",
+        "status": "GOLDEN_PATH",
+        "url": null,
+        "metadata": {
+          "id": "inv_7d314a3b065c4ee6a27b5714b776e87a:1",
+          "state_type": "INTERMEDIATE",
+          "title": "Retrieve current policy and replaced rules",
+          "tool_name": "inspect_policies",
+          "observation_json": "[{\"id\": \"demo_repo_falkordb_py_0_active\", \"rule\": \"Agent queries must specify a bounded timeout.\", \"source_type\": \"DEMO_POLICY_SCENARIO\", \"replaced_rules\": [\"Unbounded query execution is allowed.\"]}]",
+          "source_type": "DETERMINISTIC_POLICY_TRIAGE"
+        }
+      },
+      {
+        "id": "535",
+        "label": "StateNode",
+        "title": "Verify an active governing policy exists",
+        "subtitle": "DETERMINISTIC_POLICY_TRIAGE",
+        "status": "GOLDEN_PATH",
+        "url": null,
+        "metadata": {
+          "id": "inv_7d314a3b065c4ee6a27b5714b776e87a:2",
+          "state_type": "VERIFIED_GOAL",
+          "title": "Verify an active governing policy exists",
+          "tool_name": "verify_policy",
+          "observation_json": "[{\"active_count\": 1}]",
+          "source_type": "DETERMINISTIC_POLICY_TRIAGE"
+        }
+      },
+      {
+        "id": "531",
+        "label": "Investigation",
+        "title": "inv_7d314a3b065c4ee6a27b5714b776e87a",
+        "subtitle": "DETERMINISTIC_POLICY_TRIAGE",
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "id": "inv_7d314a3b065c4ee6a27b5714b776e87a",
+          "execution_mode": "compiled_playbook",
+          "source_type": "DETERMINISTIC_POLICY_TRIAGE",
+          "model_calls": 0
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "782",
+        "source": "531",
+        "target": "532",
+        "relationship": "HAS_STATE",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "783",
+        "source": "531",
+        "target": "533",
+        "relationship": "HAS_STATE",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "785",
+        "source": "531",
+        "target": "534",
+        "relationship": "HAS_STATE",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "787",
+        "source": "531",
+        "target": "535",
+        "relationship": "HAS_STATE",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "784",
+        "source": "532",
+        "target": "533",
+        "relationship": "ACTION_TAKEN",
+        "is_highlighted": true,
+        "is_pruned": false
+      },
+      {
+        "id": "786",
+        "source": "533",
+        "target": "534",
+        "relationship": "ACTION_TAKEN",
+        "is_highlighted": true,
+        "is_pruned": false
+      },
+      {
+        "id": "788",
+        "source": "534",
+        "target": "535",
+        "relationship": "ACTION_TAKEN",
+        "is_highlighted": true,
+        "is_pruned": false
+      }
+    ],
+    "cypher_executed": "\nMATCH (inv:Investigation {id: $investigation_id})-[:HAS_STATE]->(start:StateNode {state_type: 'START'})\nMATCH (inv)-[:HAS_STATE]->(goal:StateNode {state_type: 'VERIFIED_GOAL'})\nWITH inv, shortestPath((start)-[:ACTION_TAKEN*1..12]->(goal)) AS golden_path\nWITH inv, golden_path,\n     [rel IN relationships(golden_path) | {\n       agent: rel.agent_name,\n       tool: rel.tool_name,\n       cypher: rel.cypher_executed,\n       tokens: rel.tokens_used,\n       duration_ms: rel.duration_ms,\n       outcome: rel.outcome\n     }] AS compiled_steps,\n     [n IN nodes(golden_path) | n.id] AS golden_node_ids\nMATCH (inv)-[:HAS_STATE]->(s_all:StateNode)-[r_all:ACTION_TAKEN]->(s_next:StateNode)\nRETURN\n  compiled_steps,\n  golden_node_ids,\n  count(r_all) AS total_raw_steps,\n  sum(r_all.tokens_used) AS total_raw_tokens,\n  sum(r_all.duration_ms) AS total_raw_duration_ms,\n  size(compiled_steps) AS pruned_step_count\n",
+    "execution_time_ms": 2.98
+  }
+}

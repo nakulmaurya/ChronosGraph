@@ -1,0 +1,54 @@
+{
+  "sandbox-audit": {
+    "sandbox_graph_name": "sandbox_pr_6d8e5fcc",
+    "sandbox_clone_time_ms": 22.99,
+    "sandbox_cleaned_up": true,
+    "risk_level": "HIGH",
+    "impacted_file_count": 19,
+    "impacted_function_count": 31,
+    "recommended_reviewers": []
+  },
+  "override-policy": {
+    "file_path": "falkordb/node.py",
+    "active_decisions": [
+      {
+        "id": "override_af6d5b688c6a4f2aacb8a7647d290e7f",
+        "rule": "Evidence-only revision: validate node property types before writes.",
+        "status": "ACTIVE",
+        "source_type": "LIVE_ARCHITECT_OVERRIDE",
+        "valid_to": 0
+      }
+    ],
+    "superseded_decisions": [
+      {
+        "id": "override_3b85be02a0bc49ed8bc5d10481bfbaa7",
+        "rule": "Evidence-only validation rule: preserve node property types.",
+        "status": "SUPERSEDED",
+        "source_type": "LIVE_ARCHITECT_OVERRIDE",
+        "valid_to": 1792041722
+      }
+    ]
+  },
+  "investigate-cold": {
+    "investigation_id": "inv_04c0bc4b00d3425b810ae4088cd0aa46",
+    "execution_mode": "cold_multi_agent",
+    "total_steps_executed": 5,
+    "pruned_golden_steps": 3,
+    "tokens_used": 0,
+    "duration_ms": 13.3,
+    "token_savings_pct": 0.0,
+    "latency_speedup_factor": 1.0,
+    "compiled_playbook_id": "playbook_5ae19767062944e58b530d2fdf06ced1"
+  },
+  "investigate-compiled": {
+    "investigation_id": "inv_7d314a3b065c4ee6a27b5714b776e87a",
+    "execution_mode": "compiled_playbook",
+    "total_steps_executed": 3,
+    "pruned_golden_steps": 3,
+    "tokens_used": 0,
+    "duration_ms": 8.425,
+    "token_savings_pct": 0.0,
+    "latency_speedup_factor": 1.579,
+    "compiled_playbook_id": "playbook_5ae19767062944e58b530d2fdf06ced1"
+  }
+}

@@ -1,0 +1,1378 @@
+{
+  "file_path": "falkordb/graph.py",
+  "active_decisions": [
+    {
+      "id": "demo_repo_falkordb_py_0_active",
+      "scope_symbol": "Graph.query",
+      "rule": "Agent queries must specify a bounded timeout.",
+      "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+      "source_type": "DEMO_POLICY_SCENARIO",
+      "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+      "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/293",
+      "status": "ACTIVE",
+      "valid_from": 1792037097,
+      "valid_to": 0,
+      "recorded_at": 1792040697,
+      "recorded_from": 1792040697,
+      "recorded_to": 0,
+      "time_basis": "DEMO_SCENARIO_CLOCK"
+    }
+  ],
+  "superseded_decisions": [
+    {
+      "id": "demo_repo_falkordb_py_0_old",
+      "scope_symbol": "Graph.query",
+      "rule": "Unbounded query execution is allowed.",
+      "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+      "source_type": "DEMO_POLICY_SCENARIO",
+      "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+      "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/293",
+      "status": "SUPERSEDED",
+      "valid_from": 1792033497,
+      "valid_to": 1792037097,
+      "recorded_at": 1792040697,
+      "recorded_from": 1792040697,
+      "recorded_to": 0,
+      "time_basis": "DEMO_SCENARIO_CLOCK"
+    }
+  ],
+  "top_experts": [],
+  "blind_agent_comparison": {
+    "verdict": "CONTROLLED_STALE_RULE",
+    "mistake_summary": "Controlled oldest-document baseline selected an obsolete rule. This is a deterministic comparison, not a measured LLM/RAG result. Demo policies are labeled; vectors are lexical hashes, not semantic embeddings.",
+    "obsolete_rule_followed": "Unbounded query execution is allowed.",
+    "missed_downstream_count": 0,
+    "steps_taken": 1,
+    "tokens_burned": 0,
+    "duration_ms": 0.48
+  },
+  "subgraph": {
+    "nodes": [
+      {
+        "id": "27",
+        "label": "File",
+        "title": "falkordb/graph.py",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/graph.py",
+        "metadata": {
+          "path": "falkordb/graph.py",
+          "name": "graph.py",
+          "loc": 795,
+          "sha256": "a14f09fb7322d3e7e2e808d97f4103e460a62c39212d9fb76769223227e85036",
+          "pagerank": 0.00564479734748602,
+          "pagerank_method": "native_falkordb_pagerank",
+          "source_revision": "31f63f44a5745b9bec65969a1db706906718cb82",
+          "source_url": "https://github.com/FalkorDB/falkordb-py/blob/31f63f44a5745b9bec65969a1db706906718cb82/falkordb/graph.py"
+        }
+      },
+      {
+        "id": "458",
+        "label": "Decision",
+        "title": "Unbounded query execution is allowed.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "SUPERSEDED",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_0_old",
+          "scope_symbol": "Graph.query",
+          "rule": "Unbounded query execution is allowed.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/293",
+          "status": "SUPERSEDED",
+          "valid_from": 1792033497,
+          "valid_to": 1792037097,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "459",
+        "label": "Decision",
+        "title": "Agent queries must specify a bounded timeout.",
+        "subtitle": "DEMO_POLICY_SCENARIO",
+        "status": "ACTIVE",
+        "url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+        "metadata": {
+          "id": "demo_repo_falkordb_py_0_active",
+          "scope_symbol": "Graph.query",
+          "rule": "Agent queries must specify a bounded timeout.",
+          "rationale": "Fictional policy scenario approved by the project owner; not an upstream policy.",
+          "source_type": "DEMO_POLICY_SCENARIO",
+          "source_url": "https://github.com/nakulmaurya/ChronosGraph/blob/main/backend/app/ingestion/seed_repos.py",
+          "context_pr_url": "https://github.com/FalkorDB/falkordb-py/pull/293",
+          "status": "ACTIVE",
+          "valid_from": 1792037097,
+          "valid_to": 0,
+          "recorded_at": 1792040697,
+          "recorded_from": 1792040697,
+          "recorded_to": 0,
+          "time_basis": "DEMO_SCENARIO_CLOCK"
+        }
+      },
+      {
+        "id": "254",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.list_constraints",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.list_constraints",
+          "name": "list_constraints",
+          "file_path": "falkordb/graph.py",
+          "start_line": 772,
+          "end_line": 795,
+          "signature": "list_constraints(self) -> List[Dict[str, object]]",
+          "is_async": false
+        }
+      },
+      {
+        "id": "255",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_mandatory_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_mandatory_constraint",
+          "name": "drop_edge_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 761,
+          "end_line": 770,
+          "signature": "drop_edge_mandatory_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "256",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_mandatory_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_mandatory_constraint",
+          "name": "drop_node_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 749,
+          "end_line": 759,
+          "signature": "drop_node_mandatory_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "257",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_unique_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_unique_constraint",
+          "name": "drop_edge_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 735,
+          "end_line": 747,
+          "signature": "drop_edge_unique_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "258",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_unique_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_unique_constraint",
+          "name": "drop_node_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 720,
+          "end_line": 733,
+          "signature": "drop_node_unique_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "259",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._drop_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._drop_constraint",
+          "name": "_drop_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 695,
+          "end_line": 718,
+          "signature": "_drop_constraint(self, constraint_type: str, entity_type: str, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "260",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_mandatory_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_mandatory_constraint",
+          "name": "create_edge_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 679,
+          "end_line": 693,
+          "signature": "create_edge_mandatory_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "261",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_mandatory_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_mandatory_constraint",
+          "name": "create_node_mandatory_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 664,
+          "end_line": 677,
+          "signature": "create_node_mandatory_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "262",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_unique_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_unique_constraint",
+          "name": "create_edge_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 639,
+          "end_line": 662,
+          "signature": "create_edge_unique_constraint(self, relation: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "263",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_unique_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_unique_constraint",
+          "name": "create_node_unique_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 613,
+          "end_line": 637,
+          "signature": "create_node_unique_constraint(self, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "264",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._create_constraint",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._create_constraint",
+          "name": "_create_constraint",
+          "file_path": "falkordb/graph.py",
+          "start_line": 591,
+          "end_line": 611,
+          "signature": "_create_constraint(self, constraint_type: str, entity_type: str, label: str, *properties)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "265",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_vector_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_vector_index",
+          "name": "create_edge_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 567,
+          "end_line": 589,
+          "signature": "create_edge_vector_index(self, relation: str, *properties, dim: int=0, similarity_function: str='euclidean') -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "266",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_fulltext_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_fulltext_index",
+          "name": "create_edge_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 554,
+          "end_line": 565,
+          "signature": "create_edge_fulltext_index(self, relation: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "267",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_edge_range_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_edge_range_index",
+          "name": "create_edge_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 541,
+          "end_line": 552,
+          "signature": "create_edge_range_index(self, relation: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "268",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_vector_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_vector_index",
+          "name": "create_node_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 517,
+          "end_line": 539,
+          "signature": "create_node_vector_index(self, label: str, *properties, dim: int=0, similarity_function: str='euclidean') -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "269",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_fulltext_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_fulltext_index",
+          "name": "create_node_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 504,
+          "end_line": 515,
+          "signature": "create_node_fulltext_index(self, label: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "270",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.create_node_range_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.create_node_range_index",
+          "name": "create_node_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 491,
+          "end_line": 502,
+          "signature": "create_node_range_index(self, label: str, *properties) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "271",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._create_typed_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._create_typed_index",
+          "name": "_create_typed_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 444,
+          "end_line": 489,
+          "signature": "_create_typed_index(self, idx_type: str, entity_type: str, label: str, *properties: str, options=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "272",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.list_indices",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.list_indices",
+          "name": "list_indices",
+          "file_path": "falkordb/graph.py",
+          "start_line": 435,
+          "end_line": 442,
+          "signature": "list_indices(self) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "273",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_vector_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_vector_index",
+          "name": "drop_edge_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 422,
+          "end_line": 433,
+          "signature": "drop_edge_vector_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "274",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_fulltext_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_fulltext_index",
+          "name": "drop_edge_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 409,
+          "end_line": 420,
+          "signature": "drop_edge_fulltext_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "275",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_edge_range_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_edge_range_index",
+          "name": "drop_edge_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 396,
+          "end_line": 407,
+          "signature": "drop_edge_range_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "276",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_vector_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_vector_index",
+          "name": "drop_node_vector_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 383,
+          "end_line": 394,
+          "signature": "drop_node_vector_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "277",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_fulltext_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_fulltext_index",
+          "name": "drop_node_fulltext_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 370,
+          "end_line": 381,
+          "signature": "drop_node_fulltext_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "278",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.drop_node_range_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.drop_node_range_index",
+          "name": "drop_node_range_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 357,
+          "end_line": 368,
+          "signature": "drop_node_range_index(self, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "279",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._drop_index",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._drop_index",
+          "name": "_drop_index",
+          "file_path": "falkordb/graph.py",
+          "start_line": 323,
+          "end_line": 355,
+          "signature": "_drop_index(self, idx_type: str, entity_type: str, label: str, attribute: str) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "280",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.call_procedure",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.call_procedure",
+          "name": "call_procedure",
+          "file_path": "falkordb/graph.py",
+          "start_line": 279,
+          "end_line": 319,
+          "signature": "call_procedure(self, procedure: str, read_only: bool=True, args: Optional[List]=None, emit: Optional[List[str]]=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "281",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._build_params_header",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._build_params_header",
+          "name": "_build_params_header",
+          "file_path": "falkordb/graph.py",
+          "start_line": 247,
+          "end_line": 276,
+          "signature": "_build_params_header(self, params: Optional[dict]) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "282",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.explain",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.explain",
+          "name": "explain",
+          "file_path": "falkordb/graph.py",
+          "start_line": 227,
+          "end_line": 245,
+          "signature": "explain(self, query: str, params=None) -> ExecutionPlan",
+          "is_async": false
+        }
+      },
+      {
+        "id": "283",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.profile",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.profile",
+          "name": "profile",
+          "file_path": "falkordb/graph.py",
+          "start_line": 207,
+          "end_line": 225,
+          "signature": "profile(self, query: str, params=None) -> ExecutionPlan",
+          "is_async": false
+        }
+      },
+      {
+        "id": "284",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.slowlog_reset",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.slowlog_reset",
+          "name": "slowlog_reset",
+          "file_path": "falkordb/graph.py",
+          "start_line": 196,
+          "end_line": 205,
+          "signature": "slowlog_reset(self)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "285",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.slowlog",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.slowlog",
+          "name": "slowlog",
+          "file_path": "falkordb/graph.py",
+          "start_line": 176,
+          "end_line": 194,
+          "signature": "slowlog(self)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "286",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.delete",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.delete",
+          "name": "delete",
+          "file_path": "falkordb/graph.py",
+          "start_line": 163,
+          "end_line": 174,
+          "signature": "delete(self) -> None",
+          "is_async": false
+        }
+      },
+      {
+        "id": "287",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.copy",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.copy",
+          "name": "copy",
+          "file_path": "falkordb/graph.py",
+          "start_line": 149,
+          "end_line": 161,
+          "signature": "copy(self, clone: str)",
+          "is_async": false
+        }
+      },
+      {
+        "id": "288",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.ro_query",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.ro_query",
+          "name": "ro_query",
+          "file_path": "falkordb/graph.py",
+          "start_line": 127,
+          "end_line": 147,
+          "signature": "ro_query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "289",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.query",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.query",
+          "name": "query",
+          "file_path": "falkordb/graph.py",
+          "start_line": 105,
+          "end_line": 125,
+          "signature": "query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "290",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph._query",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph._query",
+          "name": "_query",
+          "file_path": "falkordb/graph.py",
+          "start_line": 55,
+          "end_line": 103,
+          "signature": "_query(self, q: str, params: Optional[Dict[str, object]]=None, timeout: Optional[int]=None, read_only: bool=False) -> QueryResult",
+          "is_async": false
+        }
+      },
+      {
+        "id": "291",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.name",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.name",
+          "name": "name",
+          "file_path": "falkordb/graph.py",
+          "start_line": 44,
+          "end_line": 53,
+          "signature": "name(self) -> str",
+          "is_async": false
+        }
+      },
+      {
+        "id": "292",
+        "label": "Function",
+        "title": "falkordb/graph.py:Graph.__init__",
+        "subtitle": null,
+        "status": "DEFAULT",
+        "url": null,
+        "metadata": {
+          "qualified_name": "falkordb/graph.py:Graph.__init__",
+          "name": "__init__",
+          "file_path": "falkordb/graph.py",
+          "start_line": 28,
+          "end_line": 41,
+          "signature": "__init__(self, client, name: str)",
+          "is_async": false
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "212",
+        "source": "27",
+        "target": "254",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "213",
+        "source": "27",
+        "target": "255",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "214",
+        "source": "27",
+        "target": "256",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "215",
+        "source": "27",
+        "target": "257",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "216",
+        "source": "27",
+        "target": "258",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "217",
+        "source": "27",
+        "target": "259",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "218",
+        "source": "27",
+        "target": "260",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "219",
+        "source": "27",
+        "target": "261",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "220",
+        "source": "27",
+        "target": "262",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "221",
+        "source": "27",
+        "target": "263",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "222",
+        "source": "27",
+        "target": "264",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "223",
+        "source": "27",
+        "target": "265",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "224",
+        "source": "27",
+        "target": "266",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "225",
+        "source": "27",
+        "target": "267",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "226",
+        "source": "27",
+        "target": "268",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "227",
+        "source": "27",
+        "target": "269",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "228",
+        "source": "27",
+        "target": "270",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "229",
+        "source": "27",
+        "target": "271",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "230",
+        "source": "27",
+        "target": "272",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "231",
+        "source": "27",
+        "target": "273",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "232",
+        "source": "27",
+        "target": "274",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "233",
+        "source": "27",
+        "target": "275",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "234",
+        "source": "27",
+        "target": "276",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "235",
+        "source": "27",
+        "target": "277",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "236",
+        "source": "27",
+        "target": "278",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "237",
+        "source": "27",
+        "target": "279",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "238",
+        "source": "27",
+        "target": "280",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "239",
+        "source": "27",
+        "target": "281",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "240",
+        "source": "27",
+        "target": "282",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "241",
+        "source": "27",
+        "target": "283",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "242",
+        "source": "27",
+        "target": "284",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "243",
+        "source": "27",
+        "target": "285",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "244",
+        "source": "27",
+        "target": "286",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "245",
+        "source": "27",
+        "target": "287",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "246",
+        "source": "27",
+        "target": "288",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "247",
+        "source": "27",
+        "target": "289",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "248",
+        "source": "27",
+        "target": "290",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "249",
+        "source": "27",
+        "target": "291",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "250",
+        "source": "27",
+        "target": "292",
+        "relationship": "DEFINES",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "537",
+        "source": "254",
+        "target": "280",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "538",
+        "source": "255",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "539",
+        "source": "256",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "540",
+        "source": "257",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "541",
+        "source": "258",
+        "target": "259",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "542",
+        "source": "260",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "543",
+        "source": "261",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "544",
+        "source": "262",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "545",
+        "source": "262",
+        "target": "267",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "546",
+        "source": "263",
+        "target": "264",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "547",
+        "source": "263",
+        "target": "270",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "548",
+        "source": "265",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "549",
+        "source": "266",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "550",
+        "source": "267",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "551",
+        "source": "268",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "552",
+        "source": "269",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "553",
+        "source": "270",
+        "target": "271",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "554",
+        "source": "271",
+        "target": "289",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "555",
+        "source": "272",
+        "target": "280",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "556",
+        "source": "273",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "557",
+        "source": "274",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "558",
+        "source": "275",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "559",
+        "source": "276",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "560",
+        "source": "277",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "561",
+        "source": "278",
+        "target": "279",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "562",
+        "source": "279",
+        "target": "289",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "563",
+        "source": "280",
+        "target": "290",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "565",
+        "source": "282",
+        "target": "281",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "566",
+        "source": "283",
+        "target": "281",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "567",
+        "source": "288",
+        "target": "290",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "568",
+        "source": "289",
+        "target": "290",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "569",
+        "source": "290",
+        "target": "281",
+        "relationship": "CALLS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "669",
+        "source": "458",
+        "target": "27",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "671",
+        "source": "459",
+        "target": "27",
+        "relationship": "GOVERNS",
+        "is_highlighted": false,
+        "is_pruned": false
+      },
+      {
+        "id": "673",
+        "source": "459",
+        "target": "458",
+        "relationship": "SUPERSEDED",
+        "is_highlighted": false,
+        "is_pruned": false
+      }
+    ],
+    "cypher_executed": "\nCALL db.idx.vector.queryNodes('Decision', 'embedding', 4, vecf32($query_embedding))\nYIELD node AS d, score\nWHERE d.status = 'ACTIVE'\nMATCH (d)-[:GOVERNS]->(f:File)\nOPTIONAL MATCH (d)-[:SUPERSEDED]->(old_d:Decision)\nOPTIONAL MATCH (c:Contributor)-[:AUTHORED]->(pr:PullRequest)-[:MODIFIES]->(f)\nRETURN\n  d.id AS decision_id,\n  d.rule AS active_rule,\n  d.rationale AS rationale,\n  d.source_url AS source_url,\n  score AS vector_distance,\n  f.path AS governed_file,\n  old_d.id AS superseded_id,\n  old_d.rule AS superseded_rule,\n  collect(DISTINCT c.login)[0..3] AS maintainers\nORDER BY score ASC\n\n\nMATCH (f:File {path: $file_path})\nOPTIONAL MATCH (c:Contributor)-[r:AUTHORED|REVIEWED]->(pr:PullRequest)-[m:MODIFIES]->(f)\nWITH f, c, count(DISTINCT pr) AS pr_count, sum(coalesce(m.additions, 10) + coalesce(m.deletions, 5)) AS lines_touched, max(pr.merged_at) AS last_active\nORDER BY pr_count DESC, lines_touched DESC\nWITH f, collect(DISTINCT {\n  login: c.login,\n  name: c.name,\n  pr_count: pr_count,\n  lines_touched: lines_touched,\n  last_active: last_active\n})[0..3] AS top_experts\nOPTIONAL MATCH (active_d:Decision {status: 'ACTIVE'})-[:GOVERNS]->(f)\nOPTIONAL MATCH (active_d)-[:SUPERSEDED]->(old_d:Decision)\nRETURN\n  f.path AS file_path,\n  top_experts,\n  collect(DISTINCT {\n    active_id: active_d.id,\n    active_rule: active_d.rule,\n    active_rationale: active_d.rationale,\n    active_url: active_d.source_url,\n    valid_from: active_d.valid_from,\n    superseded_id: old_d.id,\n    superseded_rule: old_d.rule,\n    superseded_url: old_d.source_url,\n    superseded_at: old_d.valid_to\n  }) AS decision_lineage\n",
+    "execution_time_ms": 13.06
+  }
+}
