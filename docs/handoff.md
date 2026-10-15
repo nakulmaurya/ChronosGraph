@@ -1,38 +1,83 @@
 # ChronosGraph Engineering Handoff
 
-Current contract: v1.2 (approved CR-001 and CR-002)
-T-01 merged via PR #1 at 1caa513; T-02 passed 40/40 tests under v1.2 and is accepted
-for merge. Next authorized work: T-03, branch build/t03-frontend-arena, after merge.
-Stop at T-03 report; no frontend merge or production deployment authorized.
+## Current boundary
+Contract **v1.2**, approved CR-001 and CR-002. T-01 and T-02 are merged. T-03 was
+accepted by the Principal Architect and merged via **PR #3** at
+`a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7` (includes product commit `25ed5c0` and
+acceptance record `c332ea2`). The Principal Architect accepted T-04 at `d47c035`
+through the user bridge. M1–M4 and T-01–T-04 are DONE under the accepted v1.2 scope.
+Final polish and merge into main are authorized; merge receipt follows after execution.
+Deployment, external publication and submission are not performed or authorized here.
 
-## Run locally
+## Deliverables and ownership
+- `README.md`: architecture, one-command local startup, exact track/query/REST/MCP/UI
+  judge matrix and historical provenance/telemetry.
+- `docs/blog-post-falkordb.md`: complete technical article; 1,200–1,800 words.
+- `docs/demo-video-script.md`: exact 2:45 recording plan; no video was recorded.
+- `docs/release-checklist.md`: Phase 6 verification, trust boundaries and NOT RUN gates.
+- `tasks/reports/T-04.md` and `T-04-evidence/`: builder/integrator evidence.
+- `scripts/start-local.sh`, `run-falkordblite.py`, `check-release-hygiene.py`: minimal
+  local startup/verification and read-only hygiene helpers. No backend contract changes.
+
+## Run and verify
 ```bash
-docker compose up -d
-cd backend
-pip install -e .
-python -m app.ingestion.seed_repos
-pytest -v
-uvicorn app.main:app --host 127.0.0.1 --port 8000
-# separate terminal for MCP:
-python -m app.mcp_server.server
-# after frontend exists:
-cd frontend
-npm ci
-npm run build
-npm run dev -- --port 3001
+# New ephemeral local Docker database plus API/UI (Docker path NOT RUN here):
+bash scripts/start-local.sh
+# Compatible native wheel alternative (platform-dependent):
+bash scripts/start-local.sh --db native
+# Verification against an explicitly trusted existing FalkorDB:
+bash scripts/start-local.sh --db existing --verify-only
+# Individual frontend commands; package scripts already select port 3001:
+(cd frontend && npm test && npm run typecheck && npm run build)
+(cd frontend && npm run dev)
+# Separate MCP stdio process after installing backend and seeding FalkorDB:
+(cd backend && ../.venv/bin/python -m app.mcp_server.server)
 ```
+Python 3.11+, Node 24+, Bash/npm/network required. Use `VENV_DIR` for an installed
+alternative environment. UI is `http://127.0.0.1:3001`; API `/health` is on port 8000.
+The MCP modal is a configuration template, not an installed IDE integration.
 
-This environment verified native FalkorDB 4.18.3 via embedded package; Docker was
-unavailable. No host system changes, paid services, credentials or source caches
-are in the repository. For exact runtime versions and evidence see tasks/reports/.
+This workspace verified native FalkorDB **4.18.3** using falkordblite **0.10.0**,
+Redis **8.6.2**, and a process-local compatibility loader. No Docker binary exists
+here. The native helper passed on isolated port 6381; existing-DB verification
+passed 40 backend tests, 7 frontend tests, typecheck and production build. The
+complete fresh evidence, including live-smoke retry history, is in the T-04 report.
 
-## Scientific scope
-5 cold tool actions / 6 states / 2 dead ends -> 3 replay actions / 0 dead ends,
-40% fewer tool executions. No LLM calls or token savings benchmark. Labels must
-remain visible: DEMO_POLICY_SCENARIO, SIMULATED_PR_DEPENDENCY,
-DETERMINISTIC_POLICY_TRIAGE and CONTROLLED_ONE_HOP_BASELINE. Scope guard returns
-409 on incompatible policies. Localhost, trusted-user, single-process use only.
+## Scientific scope and known limits
+Historical source/public-GitHub layers are **458/669** and **4,252/6,251** nodes/edges.
+Each tenant initially adds **8/20** fictional demo policy nodes/edges. Live counts
+also include persisted investigations/playbooks. Code revisions are pinned, but
+cached public GitHub metadata is an ingestion-time snapshot, not revision-pinned.
 
-Historical v1.1 red-test report remains as evidence, superseded by approved v1.2.
-The old archive label 68957811d3a5ba99 was not the actual input ZIP digest; actual
-SHA-256 is 24624e61ca49734efa026705c022a0b5fb22b6d57a9eb14fd7e2e6dc4097b785.
+Cold triage: **6 states / 5 tool actions / 2 dead ends**; replay: **3 actions / 0 dead
+ends**, hence **40% fewer tool executions**. Scout/Historian/Verifier are deterministic
+roles. No external model is called. Zero tokens/percentages are unmeasured sentinels,
+not a token-savings benchmark. Wall-clock speedup can be below 1×. Vectors are lexical
+hashes. Synthetic clone dependencies do not execute a diff or prove an outage.
+
+Keep `DEMO_POLICY_SCENARIO`, `SIMULATED_PR_DEPENDENCY`, `DETERMINISTIC_POLICY_TRIAGE`
+and `CONTROLLED_ONE_HOP_BASELINE` visible. Confirmed overrides retain superseded
+history and invalidate old playbooks; fresh cold triage is required. Incompatible
+file/scope policies return HTTP 409. This is a localhost trusted-user single-process
+demo with no production authentication or safety guarantee. See release checklist.
+
+## Published integrity checkpoint
+The pack was published at `a165abcdb49bff19641c93eddb7625b7afb7ee00`; all 21 changed
+files matched fetched GitHub bytes and the checkout was clean. A post-publication
+scan covered 129 tracked files / 142 reachable text blobs with zero matched findings,
+zero test fixtures and no sandbox/test graph leaks. This follow-up records the result;
+final chat identifies the latest branch head and repeats the clean status check.
+
+## Final acceptance and remaining human actions
+`tasks/reviews/T-04.md` records the user-supplied Principal Architect acceptance.
+The README starts directly from main; the article's release-checklist link targets main.
+The final integrator checks scoped hygiene and clean checkout after publishing and merge.
+
+Next human action: test the unverified Docker launcher locally. Then record the demo
+and publish/submit only after checking the event's actual rules and deadlines.
+The short 2:45 script does not include a mutating override; that is an optional
+longer take. Prize eligibility, publication and submission are not verified here.
+
+Historical v1.1 red-test report remains evidence, superseded by approved v1.2.
+The old archive label `68957811d3a5ba99` was not the actual input ZIP digest; actual
+SHA-256: `24624e61ca49734efa026705c022a0b5fb22b6d57a9eb14fd7e2e6dc4097b785`.

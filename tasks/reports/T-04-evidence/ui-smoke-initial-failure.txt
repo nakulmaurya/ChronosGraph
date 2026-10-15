@@ -1,0 +1,68 @@
+
+> chronosgraph-arena@0.1.0 test:e2e
+> node tests/live-smoke.mjs
+
+PASS Live tenant catalog and initial source graph
+PASS Track 1 live audit, impacted nodes and verified sandbox cleanup
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('.react-flow__node').first()
+    - locator resolved to <div tabindex="0" role="group" data-id="460" data-testid="rf__node-460" aria-roledescription="node" aria-describedby="react-flow__node-desc-1" class="react-flow__node react-flow__node-evidence nopan selectable draggable">…</div>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-1)"></rect> from <svg data-testid="rf__background" class="react-flow__background">…</svg> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-1)"></rect> from <svg data-testid="rf__background" class="react-flow__background">…</svg> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-1)"></rect> from <svg data-testid="rf__background" class="react-flow__background">…</svg> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+    at /vercel/sandbox/data/ChronosGraph/frontend/tests/live-smoke.mjs:93:51 {
+  log: [
+    "  - waiting for locator('.react-flow__node').first()",
+    '    - locator resolved to <div tabindex="0" role="group" data-id="460" data-testid="rf__node-460" aria-roledescription="node" aria-describedby="react-flow__node-desc-1" class="react-flow__node react-flow__node-evidence nopan selectable draggable">…</div>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is visible, enabled and stable',
+    '      - scrolling into view if needed',
+    '      - done scrolling',
+    '      - <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-1)"></rect> from <svg data-testid="rf__background" class="react-flow__background">…</svg> subtree intercepts pointer events',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is visible, enabled and stable',
+    '      - scrolling into view if needed',
+    '      - done scrolling',
+    '      - <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-1)"></rect> from <svg data-testid="rf__background" class="react-flow__background">…</svg> subtree intercepts pointer events',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    58 × waiting for element to be visible, enabled and stable',
+    '       - element is visible, enabled and stable',
+    '       - scrolling into view if needed',
+    '       - done scrolling',
+    '       - <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-1)"></rect> from <svg data-testid="rf__background" class="react-flow__background">…</svg> subtree intercepts pointer events',
+    '     - retrying click action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.14.1
