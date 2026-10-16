@@ -1,0 +1,91 @@
+{
+  "status": "REVIEWED_NOT_VENDORED",
+  "upstreams": [
+    {
+      "repo": "Aider-AI/aider",
+      "sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "license_hint": "Apache-2.0",
+      "files": [
+        "aider/repomap.py",
+        "LICENSE.txt"
+      ],
+      "review_scope": "Selected source files and license text, not full security audit",
+      "reviewed_license_assessment": "Apache-2.0 in inspected license text; transitive components still need review before adoption."
+    },
+    {
+      "repo": "cpburnz/python-pathspec",
+      "sha": "4f65e9d67cbe2dfc635794fc3da243f1c8aa1bfd",
+      "license_hint": "MIT",
+      "files": [
+        "LICENSING.md",
+        "pathspec/_backends/hyperscan/gitignore.py",
+        "pathspec/_backends/re2/gitignore.py",
+        "pathspec/_backends/simple/gitignore.py",
+        "pathspec/gitignore.py",
+        "pathspec/patterns/gitignore/spec.py",
+        "tests/test_06_gitignore.py",
+        "LICENSE-MIT",
+        "LICENSE-MPL-2.0"
+      ],
+      "review_scope": "Selected source files and license text, not full security audit",
+      "reviewed_license_assessment": "Mixed: pre-May-24-2026 code MPL-2.0-only; newer code MIT/MPL-2.0 dual licensed. Badge is insufficient."
+    },
+    {
+      "repo": "mksglu/context-mode",
+      "sha": "5f6298a9bdc480ebc7c88a29c9fbdf38ae2f8cb6",
+      "license_hint": "NOASSERTION",
+      "files": [
+        "LICENSE"
+      ],
+      "review_scope": "Selected source files and license text, not full security audit",
+      "reviewed_license_assessment": "Elastic License 2.0; no implementation reuse approved."
+    },
+    {
+      "repo": "sbdchd/codeowners",
+      "sha": "ad29fa77ce9726d97103cc49fbfcf4e295679034",
+      "license_hint": "MIT",
+      "files": [
+        "codeowners/__init__.py",
+        "LICENSE"
+      ],
+      "review_scope": "Selected source files and license text, not full security audit",
+      "reviewed_license_assessment": "MIT in inspected license text; transitive components still need review before adoption."
+    },
+    {
+      "repo": "tree-sitter/py-tree-sitter",
+      "sha": "2e556e540dd4ccce0e24c92d4413ef9ac85284a5",
+      "license_hint": "MIT",
+      "files": [
+        "LICENSE",
+        "tree_sitter/__init__.pyi"
+      ],
+      "review_scope": "Selected source files and license text, not full security audit",
+      "reviewed_license_assessment": "MIT in inspected license text; transitive components still need review before adoption."
+    },
+    {
+      "repo": "yamadashy/repomix",
+      "sha": "55c6de6aebde4c38877fbcaf005c4cc396bf6e2d",
+      "license_hint": "MIT",
+      "files": [
+        "src/cli/cliTokenBudget.ts",
+        "src/cli/reporters/tokenCountTreeReporter.ts",
+        "src/core/file/fileCollect.ts",
+        "src/core/git/gitCommand.ts",
+        "src/core/metrics/TokenCounter.ts",
+        "src/core/metrics/tokenCountCache.ts",
+        "src/core/metrics/tokenCounterFactory.ts",
+        "src/core/metrics/tokenEncodings.ts",
+        "src/core/security/filterOutUntrustedFiles.ts",
+        "src/core/security/securityCheck.ts",
+        "src/core/security/validateFileSafety.ts",
+        "src/core/security/workers/secretlint.d.ts",
+        "src/core/security/workers/securityCheckWorker.ts",
+        "src/core/tokenCount/buildTokenCountStructure.ts",
+        "src/core/tokenCount/types.ts",
+        "LICENSE"
+      ],
+      "review_scope": "Selected source files and license text, not full security audit",
+      "reviewed_license_assessment": "MIT in inspected license text; transitive components still need review before adoption."
+    }
+  ]
+}

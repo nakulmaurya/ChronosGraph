@@ -138,3 +138,25 @@ def test_tool_events_are_per_tenant_and_context_measurement_is_exact(client, ing
         r = client.get('/api/v1/context/locate', params={'tenant_graph': tenant, 'query': 'helper', 'budget_bytes': budget})
         assert r.status_code == 200, r.text
         assert len(r.content) == r.json()['payload_bytes'] <= budget
+
+
+def test_context_prioritizes_requested_symbol_beyond_first_five(client, ingested):
+    tenant, _, _ = ingested
+    graph = db_manager.get_graph(tenant)
+    path = 'src/pkg/many.py'
+    names = [f'decoy_{i}' for i in range(8)] + ['needle_target']
+    source = '\n'.join(f'def {name}():\n    return {i}\n' for i, name in enumerate(names))
+    graph.query('CREATE (:File {path:$path,source_text:$source,sha256:$sha,source_utf8_bytes:$size,pagerank:0})',
+                {'path': path, 'source': source, 'sha': hashlib.sha256(source.encode()).hexdigest(), 'size': len(source.encode())})
+    for i, name in enumerate(names):
+        graph.query('MATCH (f:File {path:$path}) CREATE (f)-[:DEFINES]->(:Function {name:$name,qualified_name:$qualified,signature:$signature,start_line:$line,end_line:$end})',
+                    {'path': path, 'name': name, 'qualified': path+':'+name,
+                     'signature': name+'()', 'line': i*3+1, 'end': i*3+2})
+    response = client.get('/api/v1/context/locate', params={'tenant_graph': tenant, 'query': 'needle_target', 'budget_bytes': 4096})
+    assert response.status_code == 200, response.text
+    data = response.json()
+    entry = next(e for e in data['entry_points'] if e['path'] == path)
+    assert entry['symbols'][0]['name'] == path+':needle_target'
+    assert len(entry['symbols']) == 5
+    assert data['coverage']['truncated'] is True
+    assert data['payload_bytes'] == len(response.content) <= 4096
