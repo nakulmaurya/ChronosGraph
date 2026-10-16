@@ -1,0 +1,28 @@
+PASS Live tenant catalog and initial source graph
+PASS Track 1 live audit, impacted nodes and verified sandbox cleanup
+PASS T-07 visible static test candidates, safe full-suite fallback and copyable pytest command
+PASS Real commit scope, AST snippet editor, clone cleanup and above-fold audit comparison
+PASS T-07 real unified diff matches captured source and is AST-parsed only in disposable clone
+PASS Interactive node selection, metadata and draggable positions
+PASS Exact backend Cypher drawer
+PASS Full API payload remains accessible behind focused graph view
+PASS Track navigation retains clearly labeled real evidence without a blank canvas
+PASS T-07 measured candidate-source bytes and persisted compiled MCP context slice; zero models
+PASS Replay keeps two dimmed historical cold branches, actual cyan path and measured comparison
+PASS Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry
+PASS Scenario changes invalidate replay availability
+PASS Backend stale-playbook refusal is surfaced and replay disabled
+PASS Track 3 active/superseded policies, times, scope and provenance
+PASS Explicit confirmed override writes real lineage and invalidates UI replay
+PASS Tenant switch clears results and loads SDK-specific policy data
+PASS MCP five-tool template, editable cwd, Escape and focus restoration
+PASS Network failure explains recovery without fake fallback data
+PASS 390px mobile layouts: all three tracks and MCP dialog, no page overflow
+PASS External repo_falkordb_code_graph: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay
+PASS External repo_mcp_python_sdk: tenant switch, current/history policy, clone cleanup/reviewers, 5-to-3 replay
+PASS T-08 brain lint and compact use live graph counts and LESSON recovery
+PASS T-08 live Obsidian note wikilinks, source ledger, bounded copied ResumeSnapshot and ZIP export
+PASS T-08 MCP platform guidance and actual portable-skill path clipboard
+PASS T-08 v1.4 HUD and 390px wiki modal without page overflow
+PASS No uncaught browser errors
+Local policy state restored

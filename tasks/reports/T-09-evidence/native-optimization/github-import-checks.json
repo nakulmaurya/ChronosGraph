@@ -1,0 +1,27 @@
+{
+  "checks": [
+    {
+      "check": "Blank fields prepare latest main import with an automatic unique saved name",
+      "status": "PASS"
+    },
+    {
+      "check": "Copied import is an opt-in local command, not a browser job",
+      "status": "PASS"
+    },
+    {
+      "check": "Credential/query URL forms and shell-expression branches are rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "Native repository catalog reload preserves the selected snapshot",
+      "status": "PASS"
+    },
+    {
+      "check": "390px guide fits without overflow; no external browser calls, mutations or runtime errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "mutations": [],
+  "external": []
+}

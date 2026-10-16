@@ -143,3 +143,8 @@
   command guide implemented; no hosted/private import job. Actual Click import
   and upstream Gitingest/GitDiagram trials recorded. Latest: 149 backend, 16 frontend,
   typecheck/build and 39 UI checks pass. T-09 remains IN_PROGRESS; main not merged.
+
+- T-09 docs-backed native optimization: ownership-key range indexes with readiness
+  checks, plan/result/GRAPH.COPY parity and reproducible measurement script.
+  Latest gates: 152 backend, 17 frontend, 39 UI pass. Existing graphs are not
+  auto-migrated; no main merge, status IN_PROGRESS.

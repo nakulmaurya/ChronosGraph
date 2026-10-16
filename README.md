@@ -335,3 +335,8 @@ GitHub Python imports. Selected blobs are verified against the Git tree before
 FalkorDB AST/IMPORTS/CALLS/PageRank indexing. No token or model dependency.
 See [public GitHub setup, upstream trials and security limits](docs/t09-public-github-import.md).
 Browser-triggered import jobs and private repositories are not implemented.
+
+### Native FalkorDB optimization
+
+CODEOWNERS imports now use targeted ownership-key range indexes, verified with
+native EXPLAIN/PROFILE. See [measurements and reproduction](docs/t09-falkordb-optimization.md).

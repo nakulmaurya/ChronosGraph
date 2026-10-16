@@ -1,0 +1,2 @@
+============================== 11 passed in 4.19s ==============================
+Raw verbose log retained on VM at ~/t09-evidence/native-optimization/focused.log.

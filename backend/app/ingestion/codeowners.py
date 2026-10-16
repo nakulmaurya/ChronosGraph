@@ -116,6 +116,8 @@ def index_codeowners(graph, root, revision, origin, known_paths, *, document=Non
       {'status': status, 'path': source_path, 'sha': sha, 'revision': revision,
        'url': url, 'invalid': invalid_count})
     if rows:
+        from app.db.ownership_indexes import ensure_ownership_indexes
+        ensure_ownership_indexes(graph)
         graph.query('''CREATE (:OwnershipSource {id:$sha,path:$path,sha256:$sha,
           source_revision:$revision,source_url:$url,source_type:'PINNED_CODEOWNERS'})''',
           {'sha': sha, 'path': source_path, 'revision': revision, 'url': url})

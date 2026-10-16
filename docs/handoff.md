@@ -15,12 +15,16 @@ cache and added two real public Issue records across accepted tenants; no produc
 code was deployed. Final runs use the original configured cache. Four-tenant
 Decision ledgers match exactly before/after; do not describe all shared data as unchanged.
 
-Latest public-GitHub CLI checkpoint: 149 backend tests (prior unchanged-backend run), 17 frontend tests, typecheck/build,
+Latest public-GitHub CLI checkpoint: 152 backend tests, 17 frontend tests, typecheck/build,
 24 legacy + 10 workbench + 5 intake-guide browser checks pass. Earlier receipts remain historical. Node 20.20.2/22.23.3 unit tests also pass; their
 Next startup smoke uses an artifact built on Node 24. Windows/macOS and autonomous
 external-agent A/B trials are NOT RUN. Final hygiene/publication receipts are in
 `tasks/reports/T-09-evidence/`; checkpoint self-review is not Architect acceptance.
 No video or paid models were used.
+
+**Native optimization:** CODEOWNERS ingestion ensures three targeted range indexes
+with readiness/error checks; native EXPLAIN/PROFILE and GRAPH.COPY parity verified.
+See `docs/t09-falkordb-optimization.md`. Existing snapshots are not auto-migrated.
 
 **New C slice:** pinned CODEOWNERS parser + graph relationships, read-only owners
 API/MCP context and workbench trace are implemented. See

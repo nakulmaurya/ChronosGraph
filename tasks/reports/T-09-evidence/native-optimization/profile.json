@@ -1,0 +1,122 @@
+{
+  "graph": "repo_test_80e507a84f4c4b1a85d6be1016b561aa",
+  "nodes_per_label": 2000,
+  "repeats": 41,
+  "model_calls": 0,
+  "checks": [
+    {
+      "label": "OwnershipSource",
+      "query": "MATCH (n:OwnershipSource {id:$value}) RETURN n.id",
+      "params": {
+        "value": "source_1999"
+      },
+      "before": {
+        "median_client_ms": 1.0196,
+        "plan": "Results\n    Project\n        Filter\n            Node By Label Scan | (n:OwnershipSource)",
+        "profile": [
+          "Results | Records produced: 1, Execution time: 0.000566 ms",
+          "    Project | Records produced: 1, Execution time: 0.001254 ms",
+          "        Filter | Records produced: 1, Execution time: 0.415711 ms",
+          "            Node By Label Scan | (n:OwnershipSource) | Records produced: 2000, Execution time: 0.190952 ms"
+        ],
+        "result": [
+          [
+            "source_1999"
+          ]
+        ]
+      },
+      "after": {
+        "median_client_ms": 0.5704,
+        "plan": "Results\n    Project\n        Node By Index Scan | (n:OwnershipSource)",
+        "profile": [
+          "Results | Records produced: 1, Execution time: 0.000296 ms",
+          "    Project | Records produced: 1, Execution time: 0.001225 ms",
+          "        Node By Index Scan | (n:OwnershipSource) | Records produced: 1, Execution time: 0.014049 ms"
+        ],
+        "result": [
+          [
+            "source_1999"
+          ]
+        ]
+      },
+      "median_speedup_ratio": 1.788
+    },
+    {
+      "label": "OwnershipRule",
+      "query": "MATCH (n:OwnershipRule {id:$value}) RETURN n.id",
+      "params": {
+        "value": "rule_1999"
+      },
+      "before": {
+        "median_client_ms": 0.9987,
+        "plan": "Results\n    Project\n        Filter\n            Node By Label Scan | (n:OwnershipRule)",
+        "profile": [
+          "Results | Records produced: 1, Execution time: 0.000375 ms",
+          "    Project | Records produced: 1, Execution time: 0.001053 ms",
+          "        Filter | Records produced: 1, Execution time: 0.322595 ms",
+          "            Node By Label Scan | (n:OwnershipRule) | Records produced: 2000, Execution time: 0.170652 ms"
+        ],
+        "result": [
+          [
+            "rule_1999"
+          ]
+        ]
+      },
+      "after": {
+        "median_client_ms": 0.5851,
+        "plan": "Results\n    Project\n        Node By Index Scan | (n:OwnershipRule)",
+        "profile": [
+          "Results | Records produced: 1, Execution time: 0.000345 ms",
+          "    Project | Records produced: 1, Execution time: 0.001347 ms",
+          "        Node By Index Scan | (n:OwnershipRule) | Records produced: 1, Execution time: 0.014532 ms"
+        ],
+        "result": [
+          [
+            "rule_1999"
+          ]
+        ]
+      },
+      "median_speedup_ratio": 1.707
+    },
+    {
+      "label": "DeclaredOwner",
+      "query": "MATCH (n:DeclaredOwner {name:$value}) RETURN n.name",
+      "params": {
+        "value": "@owner_1999"
+      },
+      "before": {
+        "median_client_ms": 0.9818,
+        "plan": "Results\n    Project\n        Filter\n            Node By Label Scan | (n:DeclaredOwner)",
+        "profile": [
+          "Results | Records produced: 1, Execution time: 0.000405 ms",
+          "    Project | Records produced: 1, Execution time: 0.000848 ms",
+          "        Filter | Records produced: 1, Execution time: 0.373308 ms",
+          "            Node By Label Scan | (n:DeclaredOwner) | Records produced: 2000, Execution time: 0.193029 ms"
+        ],
+        "result": [
+          [
+            "@owner_1999"
+          ]
+        ]
+      },
+      "after": {
+        "median_client_ms": 0.5598,
+        "plan": "Results\n    Project\n        Node By Index Scan | (n:DeclaredOwner)",
+        "profile": [
+          "Results | Records produced: 1, Execution time: 0.000433 ms",
+          "    Project | Records produced: 1, Execution time: 0.001365 ms",
+          "        Node By Index Scan | (n:DeclaredOwner) | Records produced: 1, Execution time: 0.011166 ms"
+        ],
+        "result": [
+          [
+            "@owner_1999"
+          ]
+        ]
+      },
+      "median_speedup_ratio": 1.754
+    }
+  ],
+  "scope": "Synthetic warm point lookups; not an end-to-end or agent benchmark",
+  "status": "PASS",
+  "fixture_graph_removed": true
+}
