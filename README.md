@@ -303,3 +303,11 @@ The previously accepted video is retained unchanged; this amendment excludes vid
 VM checkout: `/home/nakulmaurya13579/ChronosGraph-t08`; production target is loopback
 frontend 3000 and API 8001 after authorized integration. Prior checkout remains rollback.
 Publication/deployment receipts and gate evidence are in `tasks/reports/T-08.md`.
+
+
+## Open the already-running GCP demo
+With Google Cloud CLI installed and access to project `amazon-ml-509907`, run
+`bash scripts/connect-vm.sh` on your laptop. Keep that terminal open and browse
+http://127.0.0.1:3000; API docs are at http://127.0.0.1:8001/docs.
+The helper forwards loopback ports over SSH without exposing the app publicly.
+This connects to the existing VM; local setup above instead uses port 3001.

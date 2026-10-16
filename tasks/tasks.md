@@ -106,7 +106,7 @@
   report and self-review before merge. Video/narration/recording explicitly deferred.
 
 ### T-08 — Obsidian second brain and context mode
-- Status: DONE (implementation verified; GitHub publication pending authorization)
+- Status: DONE (verified, deployed and published to GitHub)
 - Branch: `build/t08-second-brain-context-mode`; baseline main `80b206d`.
 - Roles: builder + integrator, sequential self-review.
 - Assignment: `tasks/assignments/T-08.md`.

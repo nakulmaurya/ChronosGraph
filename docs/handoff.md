@@ -196,4 +196,13 @@ VM checkout: `/home/nakulmaurya13579/ChronosGraph-t08`; production target is loo
 frontend 3000 and API 8001 after authorized integration. Prior checkout remains rollback.
 Publication/deployment receipts and gate evidence are in `tasks/reports/T-08.md`.
 
-VM rollout verified from code commit `cfd17e1d0f8b8201b06f3a755cd2a8addbc7b9ed`: loopback 3000/8001, 27/27 production checks, four-tenant brain APIs PASS, zero post-rollout hygiene findings. GitHub push still requires device authorization.
+VM rollout verified from code commit `cfd17e1d0f8b8201b06f3a755cd2a8addbc7b9ed`: loopback 3000/8001, 27/27 production checks, four-tenant brain APIs PASS, zero post-rollout hygiene findings. GitHub publication completed after human approval; both main and feature refs remotely verified at 6924c5cae97fd06164618bea3ba9af3629e4ae18.
+
+
+### Open the running VM from your laptop
+Install Google Cloud CLI, then run `bash scripts/connect-vm.sh` **on your laptop**.
+The helper requests Google sign-in if necessary and forwards only laptop loopback
+ports 3000/8001 to VM loopback 3000/8001. Keep the terminal open, then browse
+http://127.0.0.1:3000 (UI) or http://127.0.0.1:8001/docs (API).
+Google Cloud access and GitHub sign-in are separate accounts/permissions.
+No public firewall ports are opened, and the helper does not restart the VM stack.
