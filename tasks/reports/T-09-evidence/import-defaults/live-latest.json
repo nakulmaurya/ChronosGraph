@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "generated_latest_command_executed": true,
+  "automatic_unique_tenant": "repo_github_616e0956f382480a9bfe03b7623a4453",
+  "repository": "pallets/click",
+  "source_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+  "files": 91,
+  "functions": 1847,
+  "fixture_removed": true
+}

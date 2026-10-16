@@ -8,13 +8,14 @@ Branch `build/t09-repo-workbench-and-trusted-memory`, base published main
 source/policy-bound reported findings and actual MCP activity are implemented.
 The five accepted MCP interfaces remain, with five additive tools.
 Four-view preview: loopback **3004/8004**, tmux `chronosgraph-t09-ui/api`.
-Accepted T-08 checkout, build and **3000/8001** services remain unchanged.
+Accepted T-08 checkout/build remain unchanged. At user request, old **3000/8001**
+services are now stopped; active T-09 preview is **3004/8004**.
 The initial GitHub-checkpoint backend run accidentally used the default source
 cache and added two real public Issue records across accepted tenants; no production
 code was deployed. Final runs use the original configured cache. Four-tenant
 Decision ledgers match exactly before/after; do not describe all shared data as unchanged.
 
-Latest public-GitHub CLI checkpoint: 149 backend tests, 16 frontend tests, typecheck/build,
+Latest public-GitHub CLI checkpoint: 149 backend tests (prior unchanged-backend run), 17 frontend tests, typecheck/build,
 24 legacy + 10 workbench + 5 intake-guide browser checks pass. Earlier receipts remain historical. Node 20.20.2/22.23.3 unit tests also pass; their
 Next startup smoke uses an artifact built on Node 24. Windows/macOS and autonomous
 external-agent A/B trials are NOT RUN. Final hygiene/publication receipts are in
@@ -32,7 +33,8 @@ See `docs/t09-local-workspaces.md`; not a public importer or live workspace watc
 
 **New C slice:** bounded public GitHub archive CLI inspect/import, commit/tree/blob
 verification, read-only intake receipt and command-only browser setup are implemented.
-See `docs/t09-public-github-import.md`. Gitingest and GitDiagram were evaluated on
+Blank commit hash resolves latest at CLI execution; blank branch uses main and
+blank saved-copy name generates a UUID. See `docs/t09-public-github-import.md`. Gitingest and GitDiagram were evaluated on
 Click; no upstream code, runtime package or model generation was added.
 
 **Resume at remaining milestone C:** queued browser/private import, mixed-file/

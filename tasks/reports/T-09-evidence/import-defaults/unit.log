@@ -1,0 +1,29 @@
+
+> chronosgraph-arena@0.1.0 test
+> node --import ./tests/register-typescript.mjs --test tests/*.test.mjs
+
+✔ public intake guide prepares inspect before confirmed import; no browser fetching (6.580165ms)
+✔ command builder rejects shell injection, private URL forms and revision expressions (2.079345ms)
+✔ blank fields use main, resolve latest at execution and generate a unique saved name (1.466384ms)
+✔ unsafe evidence links are never actionable (2.772779ms)
+✔ timestamps distinguish open intervals from real epoch seconds (0.794896ms)
+✔ measured timing and metadata formatting (0.51428ms)
+✔ graph layout preserves evidence identity and filters dangling edges (1.694723ms)
+✔ API preserves HTTP scope conflict details (56.113476ms)
+✔ API explains network failure without inventing data (0.621804ms)
+✔ focused view preserves policies, real edges, and full payload (0.837658ms)
+✔ semantic lanes distinguish targets, impacts, active policy and history (0.646832ms)
+✔ replay shows actual historical cold branches without inventing edges or mutating telemetry (1.942386ms)
+✔ comparison uses observed values, not fixed benchmark numbers (18.162287ms)
+✔ T-07 compatible responses retain measured baseline comparison (1.374196ms)
+✔ context query values remain encoded, not interpreted as extra parameters (2.872315ms)
+✔ byte labels use KiB and preserve sub-kibibyte measurements (0.600444ms)
+✔ final source map accepts additions, empty files, deletes; rejects malformed shapes (3.100023ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1629.965738

@@ -18,7 +18,7 @@ PYTHONPATH="$PWD/backend" .venv/bin/python -m app.ingestion.github_import inspec
 ```
 
 Inspect reads public GitHub metadata and prints `source_revision` and `tree_sha`.
-After confirming the exact returned 40-character commit SHA:
+For an explicitly pinned version, use the returned 40-character `source_revision`:
 
 ```bash
 CHRONOSGRAPH_ENABLE_PUBLIC_GITHUB_IMPORT=1 PYTHONPATH="$PWD/backend" \
@@ -27,7 +27,15 @@ CHRONOSGRAPH_ENABLE_PUBLIC_GITHUB_IMPORT=1 PYTHONPATH="$PWD/backend" \
   --tenant repo_click_snapshot_1 --expected-head YOUR_CONFIRMED_40_CHARACTER_SHA
 ```
 
-The placeholder must be replaced, not executed literally. Import refuses branch
+The placeholder must be replaced, not executed literally. In the browser guide,
+**Commit hash (optional)** may instead be left empty: the generated command runs
+inspect at execution time and passes that exact result into the pinned importer.
+An empty branch uses `main` (not automatic detection of a repository's default
+branch); change it to `master` or another branch when needed. An empty
+**Saved copy name (optional)** generates a unique `repo_github_` UUID at execution.
+On GitHub, find a full hash under repository → Commits → select a commit → copy
+full hash. Latest mode still creates an immutable graph and does not monitor it.
+Import refuses branch
 movement or an existing tenant. Click **Reload indexed repositories** and select
 the newly created snapshot. Use the usual workbench search, source coordinates,
 GRAPH.COPY impact preview, CODEOWNERS evidence and MCP context tools. A public
