@@ -194,3 +194,9 @@ def memory_recall(tenant_graph: str,query: str='',include_stale: bool=False,limi
 @app.get('/api/v1/activity')
 def agent_activity(tenant_graph: str,cursor: str | None=None,limit: int=50):
     return activity(tenant_graph,cursor,limit)
+
+
+@app.get('/api/v1/context/owners')
+def context_owners(tenant_graph: str, file_path: str):
+    from app.services.ownership import get_ownership
+    return get_ownership(tenant_graph, file_path)

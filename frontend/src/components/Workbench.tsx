@@ -11,6 +11,9 @@ type Entry = { path: string; sha256: string; revision: string; pagerank: number;
   symbols: { name: string; signature: string; start_line: number; end_line: number }[] };
 type Context = { entry_points: Entry[]; payload_bytes: number; payload_token_equivalents: number;
   related_importers: { path: string }[]; active_rules: { id: string; rule: string }[]; coverage: { truncated: boolean } };
+type Ownership = { status: string; source_document: { path: string | null; sha256: string | null; revision: string | null };
+  declarations: { file_path: string; owner: string | null; owner_kind: string | null; pattern: string; source_line: number }[];
+  truncated: boolean; invalid_rule_count: number };
 type Event = { id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
 type Finding = { id: string; summary: string; evidence_note: string; status: string; stale_reasons: string[] };
 type Memory = { findings: Finding[]; stale_findings_in_scan: number; has_more: boolean };
@@ -38,6 +41,7 @@ export default function Workbench() {
   const [patch, setPatch] = useState("");
   const [impact, setImpact] = useState<Impact | null>(null);
   const [brain, setBrain] = useState<Brain | null>(null);
+  const [ownership, setOwnership] = useState<Ownership | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [memory, setMemory] = useState<Memory | null>(null);
   const [summary, setSummary] = useState("");
@@ -86,7 +90,7 @@ export default function Workbench() {
   }, [tenant, view]);
   function chooseTenant(value: string) {
     operation.current?.abort(); tenantRef.current = value; setTenant(value); setBusy(false);
-    setContext(null); setSource(null); setImpact(null); setBrain(null); setEvents([]); setMemory(null);
+    setContext(null); setSource(null); setImpact(null); setBrain(null); setOwnership(null); setEvents([]); setMemory(null);
     setError(""); setNotice(""); setSummary(""); setNote(""); setPatch("");
     // Preserve and label previous graph until the new overview resolves.
   }
@@ -171,16 +175,31 @@ export default function Workbench() {
         </>}
         {view === 2 && <>
           <h2><ShieldCheck size={20} />Rules & contributors</h2><p>Keep current local policy separate from historical rules and bounded Git author evidence.</p>
-          <label>Target file<input disabled={busy} value={path} onChange={e => { setPath(e.target.value); setBrain(null); }} maxLength={1024} /></label>
+          <label>Target file<input disabled={busy} value={path} onChange={e => { setPath(e.target.value); setBrain(null); setOwnership(null); }} maxLength={1024} /></label>
           <button className="button primary" disabled={busy || !path || !tenant} onClick={() => void run<Brain>("/track3/ask-brain", setBrain,
             { tenant_graph: tenant, file_path: path, question: "Show current and superseded governing rules and commit contributors" })}>Inspect rules & contributors</button>
           {brain && <>
             <h3>ACTIVE local rules</h3>{brain.active_decisions.map((r, i) => <article className="wb-card" key={i}>{String(r.rule ?? r.active_rule ?? "")}</article>)}
             <JsonDetails label="Superseded history (not current instructions)" value={brain.superseded_decisions} />
             <JsonDetails label="Source-extracted constraints" value={brain.repository_constraints} />
-            <h3>Git contributors — not declared CODEOWNERS</h3><JsonDetails label="Source-linked contributors" value={brain.top_experts} />
-            <p>CODEOWNERS ingestion is not implemented in this preview.</p>
+            <h3>Git contributors — separate from declared CODEOWNERS</h3><JsonDetails label="Source-linked contributors" value={brain.top_experts} />
+
           </>}
+        </>}
+        {view === 2 && <>
+          <h3>Declared CODEOWNERS</h3>
+          <button className="button secondary" disabled={busy || !path || !tenant} onClick={() => void run<Ownership>(
+            `/context/owners?${queryString({ tenant_graph: tenant, file_path: path })}`, setOwnership)}>Trace declared owners</button>
+          {ownership && <section className="wb-card" aria-label="Declared owner evidence">
+            <p>{ownership.status}</p>
+            <p>File → matching rule → declared owner. Pinned commit evidence, not verified GitHub identity or access.</p>
+            {ownership.declarations.map((d, i) => <p key={i}><strong>{d.owner || "No declared owner (matching rule clears owners)"}</strong><br />
+              <code>{d.pattern}</code> · {ownership.source_document.path}:{d.source_line}</p>)}
+            {!ownership.declarations.length && <p>No matching declaration returned. Older snapshots may need ownership indexing in a new tenant.</p>}
+            {ownership.truncated && <p>Bounded owner selection; additional declarations omitted.</p>}
+            {!!ownership.invalid_rule_count && <p>{ownership.invalid_rule_count} unsupported or invalid rules skipped.</p>}
+            <JsonDetails label="Pinned CODEOWNERS source" value={ownership.source_document} />
+          </section>}
         </>}
         {view === 3 && <>
           <h2><Activity size={20} />Agent activity & memory</h2><p>Actual ChronosGraph MCP invocations only, refreshed every 2 seconds. Browser REST reads are not agent events.</p>
@@ -204,7 +223,9 @@ export default function Workbench() {
         <h2><Terminal size={20} />Connected evidence</h2>
         <p>{graphOwner && graphOwner !== tenant ? `Previous graph (${graphOwner}) retained while ${tenant} loads.` : current ? `${current.repository} · Pinned source overview (not the patch simulation)` : "Connecting to FalkorDB…"}</p>
         <div className="wb-graph"><GraphCanvas graph={graph} onSelect={node => {
-          if (graphOwner === tenant && node.label === "File") setPath(String(node.metadata.path || node.title));
+          if (!busy && graphOwner === tenant && node.label === "File") {
+            setPath(String(node.metadata.path || node.title)); setBrain(null); setOwnership(null);
+          }
         }} /></div>
         {source && <section className="wb-card"><h3>Focused symbol source</h3><p>{String(source.file_path)} · lines {String(source.start_line)}–{String(source.end_line)}</p>
           <pre>{String(source.source)}</pre><p>{source.truncated ? "Truncated at 8,000 UTF-8 bytes. Read the exact range locally for the rest." : "Complete symbol range from captured source."}</p>

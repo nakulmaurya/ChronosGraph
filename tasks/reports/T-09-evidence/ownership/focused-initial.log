@@ -1,0 +1,49 @@
+.....F............                                                       [100%]
+=================================== FAILURES ===================================
+__ test_actual_mcp_context_includes_graph_ownership_and_remains_byte_bounded ___
+
+owned_repo = ('repo_test_5aa9d1b4cc4544aa861f5c7665b85676', {'tenant_graph': 'repo_test_5aa9d1b4cc4544aa861f5c7665b85676', 'nodes':...ud0/git-source'), '* @default-owner\n/src/pkg/a.py @source-team/core @reviewer\n/src/pkg/b.py\n!*.py @not-supported\n')
+
+    def test_actual_mcp_context_includes_graph_ownership_and_remains_byte_bounded(owned_repo):
+        tenant, _, _, _ = owned_repo
+        async def run():
+            async with Client(mcp) as c:
+                result = await c.call_tool('locate_context', {'tenant_graph': tenant, 'query': 'helper', 'budget_bytes': 8192})
+                assert not result.is_error
+                data = result.data
+                assert any(d['owner'] == '@reviewer' for d in data['declared_ownership']['declarations'])
+                assert data['payload_bytes'] <= 8192
+                tiny = await c.call_tool('locate_context', {'tenant_graph': tenant, 'query': 'helper', 'budget_bytes': 2048})
+                assert not tiny.is_error and tiny.data['payload_bytes'] <= 2048
+                assert tiny.data['coverage']['truncated']
+>       asyncio.run(run())
+
+backend/tests/test_codeowners_graph.py:97:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/usr/lib/python3.13/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/usr/lib/python3.13/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run():
+        async with Client(mcp) as c:
+            result = await c.call_tool('locate_context', {'tenant_graph': tenant, 'query': 'helper', 'budget_bytes': 8192})
+            assert not result.is_error
+            data = result.data
+            assert any(d['owner'] == '@reviewer' for d in data['declared_ownership']['declarations'])
+            assert data['payload_bytes'] <= 8192
+            tiny = await c.call_tool('locate_context', {'tenant_graph': tenant, 'query': 'helper', 'budget_bytes': 2048})
+            assert not tiny.is_error and tiny.data['payload_bytes'] <= 2048
+>           assert tiny.data['coverage']['truncated']
+E           assert False
+
+backend/tests/test_codeowners_graph.py:96: AssertionError
+=========================== short test summary info ============================
+FAILED backend/tests/test_codeowners_graph.py::test_actual_mcp_context_includes_graph_ownership_and_remains_byte_bounded
+1 failed, 17 passed in 5.82s

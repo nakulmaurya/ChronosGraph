@@ -73,7 +73,9 @@ not falsely shown as a coding-agent tool invocation.
 
 ## Remaining milestones (not delivered)
 - Safe allowlisted local/public-GitHub connection, selected branch metadata,
-  mixed-file/Directory graph, JS/TS imports, docstrings, declared CODEOWNERS.
+  mixed-file/Directory graph, JS/TS imports and docstrings. Pinned CODEOWNERS
+  graph evidence is now implemented for newly ingested snapshots; old tenants
+  are not automatically backfilled.
 - Explicit incremental workspace sync, rename/deletion reconciliation, HEAD guard,
   source/policy freshness in every existing response, persistent-volume review.
 - Primary workbench promotion/connection UI, activity-driven graph highlights,
@@ -87,3 +89,15 @@ not falsely shown as a coding-agent tool invocation.
 The [fair external-agent A/B protocol](t09-agent-evaluation.md) is written, but its
 trials remain NOT RUN. A compact focused response is not a measured improvement
 over an ordinary agent's native search workflow.
+
+## Ownership checkpoint
+
+Rules & contributors now includes **Trace declared owners**. It follows native
+File / OwnershipRule / DeclaredOwner relationships and exposes the pinned
+CODEOWNERS path, line, commit and SHA-256. Declared owners are separate from Git
+contributors and do not establish verified identity or access. Unsupported rules
+are reported, not silently treated as full GitHub syntax support.
+
+Verification: 112 backend, 14 frontend, 24 legacy UI and 9 workbench UI checks
+passed; typecheck/build passed. See `tasks/reports/T-09.md` and the ownership
+evidence directory. Hackathon mapping: [alignment checklist](hackathon-alignment.md).

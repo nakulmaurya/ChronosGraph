@@ -1,5 +1,7 @@
 # ChronosGraph
 
+**Hackathon focus:** FalkorDB Graph Hacks — graph-driven coding-agent context, memory and traceable decisions. See [challenge alignment and submission gates](docs/hackathon-alignment.md).
+
 > **T-09 development checkpoint:** full-replacement Python diff sandbox, compact
 > context, source-bound reported findings and real MCP activity are available on
 > the isolated `/workbench` preview. Main production remains the accepted T-08.

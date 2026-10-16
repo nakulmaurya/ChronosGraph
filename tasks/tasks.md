@@ -127,3 +127,8 @@
 - First gate: true replacement diff sandbox with native deletion/rename/caller
   regressions. Preserve accepted interfaces and T-08 production. No video or paid
   agent benchmark; later milestones must report their actual verification status.
+
+- T-09 follow-up: declared CODEOWNERS slice implemented with pinned MIT parser,
+  native graph provenance, owners API/context and workbench trace. Latest gates:
+  112 backend / 14 frontend / 33 UI checks. Remaining C–E and release approval
+  still pending; status remains IN_PROGRESS.

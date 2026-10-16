@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "check": "Native compact context and exact symbol source render",
+      "status": "PASS"
+    },
+    {
+      "check": "Full replacement preview removes native import and call edges; cleanup verified",
+      "status": "PASS"
+    },
+    {
+      "check": "Native rule lineage and bounded contributors remain distinct from declared owners",
+      "status": "PASS"
+    },
+    {
+      "check": "Declared owner is traced through native graph rules to pinned source evidence",
+      "status": "PASS"
+    },
+    {
+      "check": "Real FastMCP protocol event is visible in a separate API/browser process",
+      "status": "PASS"
+    },
+    {
+      "check": "Browser saves and recalls explicitly agent-reported source-hash-bound findings",
+      "status": "PASS"
+    },
+    {
+      "check": "All four preview views fit 390px without horizontal page overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "Unsafe replacement paths fail closed with an actionable browser error",
+      "status": "PASS"
+    },
+    {
+      "check": "No browser runtime errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

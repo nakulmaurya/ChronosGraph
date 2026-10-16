@@ -1,5 +1,5 @@
 {
-  "status": "REVIEWED_NOT_VENDORED",
+  "status": "ONE_PINNED_MIT_COMPONENT_VENDORED_OTHERS_REVIEW_ONLY",
   "upstreams": [
     {
       "repo": "Aider-AI/aider",
@@ -49,7 +49,10 @@
         "LICENSE"
       ],
       "review_scope": "Selected source files and license text, not full security audit",
-      "reviewed_license_assessment": "MIT in inspected license text; transitive components still need review before adoption."
+      "reviewed_license_assessment": "MIT in inspected license text; transitive components still need review before adoption.",
+      "adoption": "Vendored unchanged parser in backend/app/_vendor/codeowners; separate original graph wrapper.",
+      "vendored_sha256": "2256c245eeeb256738677e7ab46db87e82e522e7885fcce49e3f89e6491f49d0",
+      "license_sha256": "5280d71d1347c836a717cfffa1239d92aae9fb78224eb964c0307d9141a91196"
     },
     {
       "repo": "tree-sitter/py-tree-sitter",

@@ -44,8 +44,15 @@ try {
   await page.getByLabel('Target file',{exact:true}).fill('src/pkg/a.py');
   await page.getByRole('button',{name:'Inspect rules & contributors',exact:true}).click();
   await page.getByRole('heading',{name:'ACTIVE local rules',exact:true}).waitFor();
-  assert.match(await page.locator('.wb-panel').first().innerText(),/not declared CODEOWNERS/);
+  assert.match(await page.locator('.wb-panel').first().innerText(),/separate from declared CODEOWNERS/);
   mark('Native rule lineage and bounded contributors remain distinct from declared owners');
+  await page.getByRole('button',{name:'Trace declared owners',exact:true}).click();
+  const owners = page.getByRole('region',{name:'Declared owner evidence',exact:true});
+  await owners.getByText('@fixture-reviewer',{exact:true}).waitFor();
+  assert.match(await owners.innerText(),/CODEOWNERS:2/);
+  await owners.getByText('Pinned CODEOWNERS source',{exact:true}).click();
+  assert.match(await owners.innerText(),/sha256/);
+  mark('Declared owner is traced through native graph rules to pinned source evidence');
   await page.screenshot({path:output+'/workbench-rules-desktop.png',fullPage:true});
   await page.getByRole('button',{name:'Activity & memory',exact:true}).click();
   await page.locator('.wb-card strong').filter({hasText:'locate_context'}).first().waitFor();

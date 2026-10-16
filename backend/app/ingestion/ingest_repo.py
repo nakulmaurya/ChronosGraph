@@ -245,6 +245,8 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies):
           [{'path':path,'score':score/total} for path,score in ranking])
         from app.ingestion.repo_rules import enrich_repository
         extracted_rules = enrich_repository(graph,root,revision,origin,paths)
+        from app.ingestion.codeowners import index_codeowners
+        declared_ownership = index_codeowners(graph,root,revision,origin,known)
         linked = append_history(graph,history,origin,known)
         policy_paths = []
         if seed_demo_policies:
@@ -261,6 +263,7 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies):
           m.unresolved_calls=$unresolved,m.seeded_policy_files=$paths,m.ingested_at=$now''',
           {'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time())})
         return {**snapshot_stats(tenant),'repository':repository,'source_revision':revision,
+            'declared_ownership':declared_ownership,
             'extracted_repository_rules':extracted_rules,'resolved_calls':len(calls),'unresolved_calls':unresolved,'parse_errors':errors,
             'history_records':len(history),'history_file_links':linked,'policy_files':policy_paths,
             'pagerank_method':'native_falkordb_pagerank_normalized',

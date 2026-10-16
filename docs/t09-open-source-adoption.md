@@ -4,8 +4,9 @@ Status: source review, not a guarantee of better agent outcomes or full T-09 com
 Roles: builder + integrator sequential self-review. No independent audit.
 
 Selected upstream files were downloaded as text at immutable commits listed in
-`t09-upstream-sources.json`. No upstream repository code was executed, installed,
-vendored or added as a dependency during this review. GitHub repository license
+`t09-upstream-sources.json`. The initial review executed/installed no upstream code. A subsequent authorized
+slice vendors the pinned MIT CODEOWNERS parser unchanged, with license and notices;
+its matching code is exercised by tests. Other upstreams remain review-only. GitHub repository license
 badges were checked against actual license text; badges alone are insufficient.
 
 ## Immediate measured improvement in our own implementation
@@ -72,8 +73,9 @@ Reviewed `CodeOwners`, `matching_line`, `matching_lines`, `of`, owner parsing an
 pattern translation in `codeowners/__init__.py`.
 Source: https://github.com/sbdchd/codeowners/blob/ad29fa77ce9726d97103cc49fbfcf4e295679034/codeowners/__init__.py
 
-**Pick:** evaluate a pinned Python dependency behind a small ownership adapter,
-not a new homegrown glob parser. Preserve matching pattern and source line.
+**Selected and implemented:** vendor the pinned MIT Python parser unchanged behind
+a bounded GitHub-subset adapter. Preserve matching pattern, source line, commit
+and hash in FalkorDB. See `THIRD_PARTY_NOTICES.md` and `hackathon-alignment.md`.
 **Where:** new `backend/app/ingestion/codeowners.py`, declared-owner evidence in
 context/rules UI, separate from Git author contribution history.
 **GitHub wrapper required:** choose `.github/CODEOWNERS`, root `CODEOWNERS`, then
@@ -163,5 +165,5 @@ review the exact license/dependencies, record copied files/modifications in
 THIRD_PARTY_NOTICES, preserve required notices and scan source/artifacts. No root
 project LICENSE was found in the local reviewed tree; choose/verify ChronosGraph's
 own distribution license rather than assuming GitHub publication grants one.
-No additional runtime dependency or upstream code is approved merely by appearing
-in this recommendation list.
+Only the explicitly selected MIT CODEOWNERS parser has been adopted. Other
+runtime dependencies or upstream code are not approved merely by appearing here.
