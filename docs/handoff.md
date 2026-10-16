@@ -10,8 +10,8 @@ The five accepted MCP interfaces remain, with five additive tools.
 Four-view preview: loopback **3004/8004**, tmux `chronosgraph-t09-ui/api`.
 Accepted T-08 checkout, build and **3000/8001** services remain unchanged.
 
-Latest ownership checkpoint: 112 backend tests, 14 frontend tests, typecheck/build,
-24 legacy and 9 workbench browser checks pass. Earlier receipts remain historical. Node 20.20.2/22.23.3 unit tests also pass; their
+Latest local-workspace checkpoint: 123 backend tests, 14 frontend tests, typecheck/build,
+24 legacy and 10 workbench browser checks pass. Earlier receipts remain historical. Node 20.20.2/22.23.3 unit tests also pass; their
 Next startup smoke uses an artifact built on Node 24. Windows/macOS and autonomous
 external-agent A/B trials are NOT RUN. Final hygiene/publication receipts are in
 `tasks/reports/T-09-evidence/`; checkpoint self-review is not Architect acceptance.
@@ -22,7 +22,11 @@ API/MCP context and workbench trace are implemented. See
 `docs/hackathon-alignment.md` and `THIRD_PARTY_NOTICES.md`. Old accepted snapshots
 are not automatically backfilled. Latest ownership receipts are in the T-09 report.
 
-**Resume at remaining milestone C:** safe importer/branch connection, mixed-file/Directory/
+**New C slice:** allowlisted trusted-local CLI connect/check/refresh, selected branch
+metadata, immutable new-snapshot reconciliation and read-only browser receipts.
+See `docs/t09-local-workspaces.md`; not a public importer or live workspace watcher.
+
+**Resume at remaining milestone C:** safe public importer, mixed-file/Directory/
 docstring/JS-TS indexing and explicit workspace sync. Current context
 is a pinned snapshot, not verified against uncommitted working-tree edits.
 Keep memory described as agent-reported evidence, not independently executed

@@ -1,0 +1,74 @@
+..............................................F..F...................... [ 58%]
+......................F............................                      [100%]
+=================================== FAILURES ===================================
+_ test_sandbox_clone_mutations_and_cleanup[repo_falkordb_py-falkordb/graph.py] _
+
+client = <starlette.testclient.TestClient object at 0x7f02f8f2c050>
+tenant = 'repo_falkordb_py', path = 'falkordb/graph.py'
+
+    @pytest.mark.parametrize('tenant,path',TENANTS.items())
+    def test_sandbox_clone_mutations_and_cleanup(client,tenant,path):
+        before,_=read(tenant,'MATCH (n) RETURN count(n) AS item_count')
+        graphs=set(db_manager.list_tenant_graphs())
+        response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':[path]})
+        assert response.status_code==200,response.text
+        data=response.json(); assert data['sandbox_cleaned_up']
+        assert data['sandbox_graph_name'] not in db_manager.list_tenant_graphs()
+        assert set(db_manager.list_tenant_graphs())==graphs
+        after,_=read(tenant,'MATCH (n) RETURN count(n) AS item_count')
+        assert before==after
+        assert 0 <= data['sandbox_clone_time_ms'] < 250
+        assert data['active_decisions_triggered'] and data['impacted_files'] and data['impacted_functions']
+>       assert all(d['source_type']=='DEMO_POLICY_SCENARIO' for d in data['active_decisions_triggered'])
+E       assert False
+E        +  where False = all(<generator object test_sandbox_clone_mutations_and_cleanup.<locals>.<genexpr> at 0x7f02f8edf6b0>)
+
+backend/tests/test_e2e_graph.py:90: AssertionError
+_ test_brain_returns_real_labeled_current_and_historical_policies[repo_falkordb_py-falkordb/graph.py] _
+
+client = <starlette.testclient.TestClient object at 0x7f02f8f2c050>
+tenant = 'repo_falkordb_py', path = 'falkordb/graph.py'
+
+    @pytest.mark.parametrize('tenant,path',TENANTS.items())
+    def test_brain_returns_real_labeled_current_and_historical_policies(client,tenant,path):
+        response=client.post('/api/v1/track3/ask-brain',json={'tenant_graph':tenant,'file_path':path,'question':'timeout policy'})
+        assert response.status_code==200,response.text
+        data=response.json(); assert data['file_path']==path
+        assert data['active_decisions'] and data['superseded_decisions']
+>       assert all(p['status']=='ACTIVE' and p['source_type']=='DEMO_POLICY_SCENARIO' for p in data['active_decisions'])
+E       assert False
+E        +  where False = all(<generator object test_brain_returns_real_labeled_current_and_historical_policies.<locals>.<genexpr> at 0x7f02f8dfd3c0>)
+
+backend/tests/test_e2e_graph.py:114: AssertionError
+_______________ test_t07_diff_audit_test_candidates_and_cleanup ________________
+
+client = <starlette.testclient.TestClient object at 0x7f02fab72580>
+ingested = ('repo_test_77b1b3e29d574159bc03b831d84aaab4', {'tenant_graph': 'repo_test_77b1b3e29d574159bc03b831d84aaab4', 'nodes':...functions': 4, ...}, PosixPath('/tmp/pytest-of-nakulmaurya13579/pytest-34/test_t07_diff_audit_test_candi0/git-source'))
+
+    def test_t07_diff_audit_test_candidates_and_cleanup(client,ingested):
+        import difflib
+        tenant,_,root = ingested
+        graph=db_manager.get_graph(tenant)
+        graph.query('''MATCH (f:File {path:'src/pkg/a.py'})
+            CREATE (t:File {path:'tests/test_a.py',source_type:'E2E_TEST_FIXTURE'})-[:IMPORTS]->(f)
+            CREATE (:File {path:'tests/test_unrelated.py',source_type:'E2E_TEST_FIXTURE'})''')
+        source=(root/'src/pkg/a.py').read_text()
+        diff=''.join(difflib.unified_diff(source.splitlines(True),source.replace('return 1','return 2').splitlines(True),
+            fromfile='a/src/pkg/a.py',tofile='b/src/pkg/a.py'))
+        before=set(db_manager.list_tenant_graphs())
+        response=client.post('/api/v1/track1/sandbox-audit',json={'tenant_graph':tenant,'modified_files':['src/pkg/a.py'],'proposed_code_patch':diff})
+        assert response.status_code==200,response.text
+        data=response.json()
+>       assert data['sandbox_cleaned_up'] and set(db_manager.list_tenant_graphs())==before
+E       AssertionError: assert (True and {'repo_falkor...b831d84aaab4'} == {'repo_falkor..._pr_45815603'}
+E
+E         Extra items in the right set:
+E         'sandbox_pr_45815603'
+E         Use -v to get more diff)
+
+backend/tests/test_real_world_repos.py:328: AssertionError
+=========================== short test summary info ============================
+FAILED backend/tests/test_e2e_graph.py::test_sandbox_clone_mutations_and_cleanup[repo_falkordb_py-falkordb/graph.py]
+FAILED backend/tests/test_e2e_graph.py::test_brain_returns_real_labeled_current_and_historical_policies[repo_falkordb_py-falkordb/graph.py]
+FAILED backend/tests/test_real_world_repos.py::test_t07_diff_audit_test_candidates_and_cleanup
+3 failed, 120 passed in 35.00s

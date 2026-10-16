@@ -72,12 +72,13 @@ configure the installed Python environment explicitly. Browser REST activity is
 not falsely shown as a coding-agent tool invocation.
 
 ## Remaining milestones (not delivered)
-- Safe allowlisted local/public-GitHub connection, selected branch metadata,
-  mixed-file/Directory graph, JS/TS imports and docstrings. Pinned CODEOWNERS
+- Public-GitHub connection, mixed-file/Directory graph, JS/TS imports and docstrings.
+  Allowlisted trusted-local CLI connection and selected branch metadata are implemented. Pinned CODEOWNERS
   graph evidence is now implemented for newly ingested snapshots; old tenants
   are not automatically backfilled.
-- Explicit incremental workspace sync, rename/deletion reconciliation, HEAD guard,
-  source/policy freshness in every existing response, persistent-volume review.
+- In-place incremental workspace sync, source/policy freshness in every existing
+  response and persistent-volume review. Explicit full new-snapshot refresh now
+  handles rename/deletion/addition with HEAD/base/clean-tree guards.
 - Primary workbench promotion/connection UI, activity-driven graph highlights,
   richer caller/owner drill-down, platform-specific startup validation.
 - Actual Windows/macOS verification. Node 20/22 test-loader compatibility is
@@ -101,3 +102,10 @@ are reported, not silently treated as full GitHub syntax support.
 Verification: 112 backend, 14 frontend, 24 legacy UI and 9 workbench UI checks
 passed; typecheck/build passed. See `tasks/reports/T-09.md` and the ownership
 evidence directory. Hackathon mapping: [alignment checklist](hackathon-alignment.md).
+
+## Local workspace connection checkpoint
+
+See [guarded local workspace commands](t09-local-workspaces.md). The toolbar now
+shows selected branch, pinned revision and a timestamped CLI check receipt. This
+is not live disk monitoring. Existing accepted snapshots are not connected or
+overwritten automatically. Connection/refresh mutations remain CLI-only.

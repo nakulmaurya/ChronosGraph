@@ -17,13 +17,14 @@ from app.db.client import db_manager
 from app.ingestion.ast_parser import parse_python_file, resolve_import
 from app.ingestion.seed_repos import CACHE, resolve_call
 from app.services.common import TENANT_PATTERN
+from app.ingestion.git_safety import git_command, git_environment
 
 EXCLUDED = {'.venv', 'venv', 'node_modules', '.git', 'build', 'dist', '__pycache__', '.tox', '.nox', '.source-cache'}
 
 
 def git(source, *args):
-    return subprocess.check_output(['git', '-c', 'core.hooksPath=/dev/null',
-        '-C', str(source), *args], timeout=300).decode('utf-8', errors='replace').rstrip('\n')
+    return subprocess.check_output([*git_command(), '-C', str(source), *args],
+        env=git_environment(), timeout=300).decode('utf-8', errors='replace').rstrip('\n')
 
 
 def repository_source(source: str, ref: str | None = None):
@@ -42,9 +43,8 @@ def repository_source(source: str, ref: str | None = None):
     cache = CACHE / 'dynamic' / hashlib.sha256(locator.encode()).hexdigest()[:24]
     cache.parent.mkdir(parents=True, exist_ok=True)
     if not cache.exists():
-        subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', '-c', 'protocol.allow=never',
-            '-c', 'protocol.https.allow=always', '-c', 'protocol.file.allow=always',
-            'clone', '--quiet', '--no-hardlinks', '--', locator, str(cache)], check=True, timeout=300)
+        subprocess.run([*git_command(), 'clone', '--quiet', '--no-hardlinks', '--',
+            locator, str(cache)], env=git_environment(), check=True, timeout=300)
     if ref:
         try:
             revision = git(cache, 'rev-parse', '--verify', '--end-of-options', ref+'^{commit}')
@@ -64,7 +64,7 @@ def repository_source(source: str, ref: str | None = None):
     except subprocess.CalledProcessError:
         origin = ''
     url = urlparse(origin)
-    origin = origin.removesuffix('.git').rstrip('/') if url.scheme == 'https' and not url.username and not url.password else ''
+    origin = origin.removesuffix('.git').rstrip('/') if url.scheme == 'https' and url.hostname and not url.username and not url.password and not url.query and not url.fragment else ''
     repository = urlparse(origin).path.strip('/') if origin else Path(locator).name
     return cache, revision, origin, repository
 
@@ -195,7 +195,7 @@ def ingest_repo(source: str, tenant: str, ref: str | None = None, seed_demo_poli
         return _ingest_repo(source, tenant, ref, seed_demo_policies)
 
 
-def _ingest_repo(source, tenant, ref, seed_demo_policies):
+def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=None, publish_ready=True):
     created = False
     try:
         if tenant in db_manager.list_tenant_graphs():
@@ -224,6 +224,8 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies):
           source_revision:$revision,status:'INGESTING',source_type:'GIT_AST_SNAPSHOT'})''',
           {'repository':repository,'url':origin,'revision':revision})
         created = True
+        if snapshot_metadata:
+            graph.query('MATCH (m:RepoMetadata) SET m += $metadata', {'metadata':snapshot_metadata})
         db_manager.ensure_indexes(tenant)
         batch(graph, '''UNWIND $rows AS r CREATE (f:File) SET f=r''',
             [{**item['file'],'source_revision':revision,'source_url':origin+'/blob/'+revision+'/'+item['file']['path'] if origin else '',
@@ -258,10 +260,11 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies):
             if not policy_paths:
                 policy_paths = [p for p,_ in sorted(ranking,key=lambda r:(-r[1],r[0]))[:min(4,max(0,len(paths)-2))]]
             demo_policies(graph,policy_paths)
-        graph.query('''MATCH (m:RepoMetadata) SET m.status='READY',m.pagerank_method='native_falkordb_pagerank_normalized',
+        graph.query('''MATCH (m:RepoMetadata) SET m.status=$status,m.pagerank_method='native_falkordb_pagerank_normalized',
           m.parse_errors_json=$errors,m.history_limit=40,m.history_scope='latest_commits_at_source_revision',
           m.unresolved_calls=$unresolved,m.seeded_policy_files=$paths,m.ingested_at=$now''',
-          {'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time())})
+          {'status':'READY' if publish_ready else 'VALIDATING_WORKSPACE',
+           'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time())})
         return {**snapshot_stats(tenant),'repository':repository,'source_revision':revision,
             'declared_ownership':declared_ownership,
             'extracted_repository_rules':extracted_rules,'resolved_calls':len(calls),'unresolved_calls':unresolved,'parse_errors':errors,

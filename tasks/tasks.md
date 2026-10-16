@@ -132,3 +132,9 @@
   native graph provenance, owners API/context and workbench trace. Latest gates:
   112 backend / 14 frontend / 33 UI checks. Remaining C–E and release approval
   still pending; status remains IN_PROGRESS.
+
+- T-09 next C slice: guarded local CLI connections, selected branch metadata,
+  explicit freshness check and non-overwriting full new-snapshot refresh. Public
+  import and incremental sync remain pending; T-09 remains IN_PROGRESS.
+- Latest local-workspace receipts: 123 backend, 14 frontend and 34 UI checks;
+  backend/browser gates serialized after retaining a shared-test interference failure.

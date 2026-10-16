@@ -9,6 +9,7 @@ import hashlib
 import re
 import subprocess
 from app._vendor.codeowners import CodeOwners
+from app.ingestion.git_safety import git_command, git_environment
 
 SOURCE_PATHS = ('.github/CODEOWNERS', 'CODEOWNERS', 'docs/CODEOWNERS')
 MAX_BYTES, MAX_LINES = 65536, 2000
@@ -53,7 +54,7 @@ def parse_rules(text):
 
 
 def _git_bytes(root, *args):
-    return subprocess.check_output(['git', '-c', 'core.hooksPath=/dev/null', '-C', str(root), *args], timeout=30)
+    return subprocess.check_output([*git_command(), '-C', str(root), *args], env=git_environment(), timeout=30)
 
 
 def committed_document(root, revision):

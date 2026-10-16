@@ -53,7 +53,9 @@ The wrapper is a bounded subset, not guaranteed full GitHub parser parity.
 Old accepted graph snapshots are **not** automatically rewritten. They return
 `NOT_INDEXED_IN_THIS_SNAPSHOT`; a new CLI-ingested tenant reports indexed,
 absent, partial or unsupported source status. Working-tree freshness remains
-unchecked. No public importer, GitHub login or destructive backfill is added.
+unchecked. No public importer, GitHub login or destructive backfill is added. A later local
+workspace slice adds allowlisted CLI connections and explicit new-snapshot refresh
+without changing accepted tenants; see `t09-local-workspaces.md`.
 
 ## Judge-facing demonstration priorities
 

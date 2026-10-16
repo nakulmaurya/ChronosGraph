@@ -320,3 +320,10 @@ With Google Cloud CLI installed and access to project `amazon-ml-509907`, run
 http://127.0.0.1:3000; API docs are at http://127.0.0.1:8001/docs.
 The helper forwards loopback ports over SSH without exposing the app publicly.
 This connects to the existing VM; local setup above instead uses port 3001.
+
+### T-09 local workspace preview
+
+The isolated workbench now has guarded local Git connection/check/refresh commands
+and timestamped branch/snapshot metadata. See [local workspace instructions](docs/t09-local-workspaces.md).
+Refresh creates a new graph and preserves old findings; it is not yet a public
+GitHub importer, incremental in-place sync or a live filesystem watcher.

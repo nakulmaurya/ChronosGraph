@@ -14,6 +14,8 @@ type Context = { entry_points: Entry[]; payload_bytes: number; payload_token_equ
 type Ownership = { status: string; source_document: { path: string | null; sha256: string | null; revision: string | null };
   declarations: { file_path: string; owner: string | null; owner_kind: string | null; pattern: string; source_line: number }[];
   truncated: boolean; invalid_rule_count: number };
+type Snapshot = { source_revision: string | null; selected_branch: string | null; connection_kind: string;
+  parent_snapshot: string | null; last_check: { status: string; checked_at: number | null; observed_revision: string | null; dirty: boolean | null; reasons: string[] } };
 type Event = { id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
 type Finding = { id: string; summary: string; evidence_note: string; status: string; stale_reasons: string[] };
 type Memory = { findings: Finding[]; stale_findings_in_scan: number; has_more: boolean };
@@ -33,6 +35,8 @@ export default function Workbench() {
   const [view, setView] = useState(0);
   const [graph, setGraph] = useState<Subgraph | null>(null);
   const [graphOwner, setGraphOwner] = useState("");
+  const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
+  const [snapshotError, setSnapshotError] = useState("");
   const [query, setQuery] = useState("");
   const [context, setContext] = useState<Context | null>(null);
   const [source, setSource] = useState<Record<string, unknown> | null>(null);
@@ -63,6 +67,10 @@ export default function Workbench() {
     if (!tenant) return;
     const ctrl = new AbortController();
     setPath(current?.preset_files[0] || "");
+    setSnapshot(null); setSnapshotError("");
+    request<Snapshot>(`/workspace/snapshot?${queryString({ tenant_graph: tenant })}`, ctrl.signal).then(data => {
+      if (tenantRef.current === tenant && !ctrl.signal.aborted) setSnapshot(data);
+    }).catch(e => { if (!ctrl.signal.aborted) setSnapshotError(e.message); });
     request<Subgraph>(`/subgraph?${queryString({ tenant_graph: tenant })}`, ctrl.signal).then(data => {
       if (tenantRef.current !== tenant) return;
       setGraph(data); setGraphOwner(tenant);
@@ -90,6 +98,7 @@ export default function Workbench() {
   }, [tenant, view]);
   function chooseTenant(value: string) {
     operation.current?.abort(); tenantRef.current = value; setTenant(value); setBusy(false);
+    setSnapshot(null); setSnapshotError("");
     setContext(null); setSource(null); setImpact(null); setBrain(null); setOwnership(null); setEvents([]); setMemory(null);
     setError(""); setNotice(""); setSummary(""); setNote(""); setPatch("");
     // Preserve and label previous graph until the new overview resolves.
@@ -129,7 +138,15 @@ export default function Workbench() {
       <label>Indexed repository<select aria-label="Workbench repository" value={tenant} onChange={e => chooseTenant(e.target.value)} disabled={!catalog.length}>
         {catalog.map(t => <option key={t.tenant_graph} value={t.tenant_graph}>{t.repository}</option>)}
       </select></label>
-      <p><strong>Pinned source snapshot</strong><br />Workspace sync and repository connection UI are the next milestone. 0 external model calls.</p>
+      <div role="region" aria-label="Snapshot connection evidence">
+        <p><strong>{snapshot?.selected_branch ? `Branch: ${snapshot.selected_branch}` : "Pinned source snapshot"}</strong><br />
+          {snapshot?.source_revision && <><code>{snapshot.source_revision.slice(0, 12)}</code> · </>}
+          {snapshot ? snapshot.last_check.status.replaceAll("_", " ") : snapshotError ? "Metadata unavailable" : "Loading snapshot metadata…"}
+          {snapshot?.last_check.checked_at && <><br />Checked {new Date(snapshot.last_check.checked_at * 1000).toLocaleString()}</>}</p>
+        {snapshotError && <p role="alert">Snapshot metadata unavailable: {snapshotError}</p>}
+        <p>Last explicit check only—not live workspace monitoring. Connect and refresh use the local CLI; refresh creates a new snapshot.</p>
+        {snapshot && <JsonDetails label="Branch & freshness evidence" value={snapshot} />}
+      </div>
     </div>
     <nav className="wb-nav" aria-label="Workbench views">{views.map((name, i) => <button key={name}
       className={view === i ? "selected" : ""} aria-current={view === i ? "page" : undefined}

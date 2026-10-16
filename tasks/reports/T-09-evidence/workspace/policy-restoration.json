@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "decision_ledger_restored": true,
+  "before_sha256": "b9fb730f35b29b197e0f73099b927e8142e65d39fb571ef9141aa2dbc2e53552",
+  "after_sha256": "b9fb730f35b29b197e0f73099b927e8142e65d39fb571ef9141aa2dbc2e53552"
+}

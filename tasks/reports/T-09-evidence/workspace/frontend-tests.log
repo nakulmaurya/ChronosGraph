@@ -1,0 +1,26 @@
+
+> chronosgraph-arena@0.1.0 test
+> node --import ./tests/register-typescript.mjs --test tests/*.test.mjs
+
+✔ unsafe evidence links are never actionable (2.031905ms)
+✔ timestamps distinguish open intervals from real epoch seconds (0.750353ms)
+✔ measured timing and metadata formatting (0.327353ms)
+✔ graph layout preserves evidence identity and filters dangling edges (6.727036ms)
+✔ API preserves HTTP scope conflict details (67.981795ms)
+✔ API explains network failure without inventing data (0.97519ms)
+✔ focused view preserves policies, real edges, and full payload (1.218105ms)
+✔ semantic lanes distinguish targets, impacts, active policy and history (0.550908ms)
+✔ replay shows actual historical cold branches without inventing edges or mutating telemetry (2.388219ms)
+✔ comparison uses observed values, not fixed benchmark numbers (15.655557ms)
+✔ T-07 compatible responses retain measured baseline comparison (1.457861ms)
+✔ context query values remain encoded, not interpreted as extra parameters (1.471434ms)
+✔ byte labels use KiB and preserve sub-kibibyte measurements (0.329911ms)
+✔ final source map accepts additions, empty files, deletes; rejects malformed shapes (1.656225ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1031.572232

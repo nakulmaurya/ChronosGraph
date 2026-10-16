@@ -200,3 +200,11 @@ def agent_activity(tenant_graph: str,cursor: str | None=None,limit: int=50):
 def context_owners(tenant_graph: str, file_path: str):
     from app.services.ownership import get_ownership
     return get_ownership(tenant_graph, file_path)
+
+
+from app.services.workspace import workspace_snapshot
+
+
+@app.get('/api/v1/workspace/snapshot')
+def workspace_snapshot_metadata(tenant_graph: str):
+    return workspace_snapshot(tenant_graph)

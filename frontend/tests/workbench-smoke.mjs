@@ -21,6 +21,16 @@ try {
   await page.goto(FRONTEND+'/workbench');
   await page.getByLabel('Workbench repository').selectOption(tenant);
   await page.getByRole('heading',{name:'Repo map & search',exact:true}).waitFor();
+  const snapshotEvidence=page.getByRole('region',{name:'Snapshot connection evidence',exact:true});
+  await snapshotEvidence.getByText(/MATCHED AT CHECK/).waitFor();
+  assert.match(await snapshotEvidence.innerText(),/Branch:/);
+  assert.match(await snapshotEvidence.innerText(),/not live workspace monitoring/);
+  await snapshotEvidence.getByText('Branch & freshness evidence',{exact:true}).click();
+  assert.match(await snapshotEvidence.innerText(),/ALLOWLISTED_LOCAL_GIT/);
+  assert.ok(await snapshotEvidence.locator('pre').evaluate(el => el.clientHeight <= 242),'Snapshot details must remain bounded');
+  mark('Selected branch and timestamped CLI freshness are visible without claiming live sync');
+  await page.screenshot({path:output+'/workbench-snapshot-desktop.png',fullPage:true});
+  await snapshotEvidence.getByText('Branch & freshness evidence',{exact:true}).click();
   await page.getByLabel('Search repository').fill('helper');
   await page.getByRole('button',{name:'Locate context',exact:true}).click();
   await page.locator('.wb-symbol').first().waitFor();

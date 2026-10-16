@@ -1589,3 +1589,9 @@ dd {
 .wb-graph { display: flex; flex-direction: column; height: 600px; }
 .wb-graph .graph-area { min-height: 260px; }
 .wb-graph .canvas-heading, .wb-graph .graph-toolbar, .wb-graph .graph-legend { flex-shrink: 0; }
+
+.wb-toolbar > [role="region"] { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.wb-toolbar > [role="region"] p + p { margin-top: 8px; }
+
+.wb-toolbar { align-items: flex-start; }
+.wb-toolbar .wb-details pre { max-height: 240px; overflow: auto; }
