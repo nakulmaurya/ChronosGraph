@@ -138,3 +138,8 @@
   import and incremental sync remain pending; T-09 remains IN_PROGRESS.
 - Latest local-workspace receipts: 123 backend, 14 frontend and 34 UI checks;
   backend/browser gates serialized after retaining a shared-test interference failure.
+
+- T-09 public-intake C slice: opt-in bounded public GitHub archive CLI and browser
+  command guide implemented; no hosted/private import job. Actual Click import
+  and upstream Gitingest/GitDiagram trials recorded. Latest: 149 backend, 16 frontend,
+  typecheck/build and 39 UI checks pass. T-09 remains IN_PROGRESS; main not merged.

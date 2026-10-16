@@ -1,0 +1,58 @@
+/** Real local browser/API checks. No route stubs, import jobs or model calls. */
+import { chromium } from '@playwright/test';
+import assert from 'node:assert/strict';
+import { mkdir,writeFile } from 'node:fs/promises';
+const frontend=process.env.FRONTEND_URL || 'http://127.0.0.1:3004';
+const output=process.env.EVIDENCE_DIR || '/tmp/chronosgraph-github-ui';
+await mkdir(output,{recursive:true});
+const checks=[],errors=[],mutations=[],external=[];
+const mark=name=>{checks.push({check:name,status:'PASS'});console.log('PASS '+name);};
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+try {
+  const context=await browser.newContext({viewport:{width:1560,height:1050},reducedMotion:'reduce'});
+  await context.grantPermissions(['clipboard-read','clipboard-write']);
+  const page=await context.newPage();
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('request',r=>{
+    if (!['GET','HEAD','OPTIONS'].includes(r.method())) mutations.push(r.url());
+    if (!['localhost','127.0.0.1'].includes(new URL(r.url()).hostname)) external.push(r.url());
+  });
+  await page.goto(frontend+'/workbench');
+  await page.getByLabel('Workbench repository').locator('option').first().waitFor({state:'attached'});
+  await page.getByText('Connect a public GitHub repository · local CLI setup',{exact:true}).click();
+  const panel=page.locator('.wb-import-guide');
+  await page.getByRole('button',{name:'Copy inspect command',exact:true}).click();
+  assert.match(await page.evaluate(()=>navigator.clipboard.readText()),/github_import inspect/);
+  assert.equal(await page.getByRole('button',{name:'Copy import command',exact:true}).isDisabled(),true);
+  mark('Setup prepares inspect command and requires explicit SHA before import command');
+  await page.getByLabel('Confirmed commit SHA',{exact:true}).fill('1'.repeat(40));
+  await page.getByLabel('New snapshot tenant',{exact:true}).fill('repo_manual_snapshot');
+  await page.getByRole('button',{name:'Copy import command',exact:true}).click();
+  assert.match(await page.evaluate(()=>navigator.clipboard.readText()),/CHRONOSGRAPH_ENABLE_PUBLIC_GITHUB_IMPORT=1/);
+  assert.match(await panel.innerText(),/Nothing has been imported by the browser/);
+  mark('Copied import is an opt-in local command, not a browser job');
+  await page.screenshot({path:output+'/github-guide-desktop.png',fullPage:true});
+  await page.getByLabel('Public GitHub repository URL').fill('https://github.com/pallets/click?token=untrusted');
+  await panel.getByRole('alert').waitFor();
+  assert.equal(await page.getByRole('button',{name:'Copy inspect command',exact:true}).count(),0);
+  await page.getByLabel('Public GitHub repository URL').fill('https://github.com/pallets/click');
+  await page.getByLabel('GitHub branch',{exact:true}).fill("main';touch /tmp/nope");
+  await panel.getByRole('alert').waitFor();
+  mark('Credential/query URL forms and shell-expression branches are rejected');
+  await page.getByLabel('GitHub branch',{exact:true}).fill('main');
+  const selected=await page.getByLabel('Workbench repository').inputValue();
+  const reloaded=page.waitForResponse(r=>r.url().endsWith('/api/v1/tenants')&&r.request().method()==='GET');
+  await page.getByRole('button',{name:'Reload indexed repositories',exact:true}).click();
+  assert.ok((await reloaded).ok());
+  await page.getByRole('button',{name:'Reload indexed repositories',exact:true}).waitFor();
+  assert.equal(await page.getByLabel('Workbench repository').inputValue(),selected);
+  mark('Native repository catalog reload preserves the selected snapshot');
+  await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await page.screenshot({path:output+'/github-guide-mobile.png',fullPage:true});
+  assert.deepEqual(mutations,[]);assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
+  mark('390px guide fits without overflow; no external browser calls, mutations or runtime errors');
+} finally {
+  await writeFile(output+'/github-import-checks.json',JSON.stringify({checks,errors,mutations,external},null,2));
+  await browser.close();
+}

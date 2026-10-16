@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "duration_seconds": 2.708,
+  "context": {
+    "payload_bytes": 4085,
+    "entries": [
+      "src/click/core.py",
+      "src/click/decorators.py",
+      "tests/test_basic.py"
+    ],
+    "coverage": {
+      "file_scan_limit": 10000,
+      "entry_limit": 3,
+      "symbols_per_file_limit": 5,
+      "related_limit": 12,
+      "rule_limit": 6,
+      "candidate_match_count": 25,
+      "truncated": true
+    }
+  },
+  "fixture_graph_removed": true
+}

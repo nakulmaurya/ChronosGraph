@@ -1,0 +1,22 @@
+Analyzing source, output will be written to '/data/t09-upstream-eval/click-digest.txt'...
+2026-10-16 19:27:48.962 | INFO     | gitingest.entrypoint:ingest_async:89 | Starting ingestion process | {"source":"https://github.com/pallets/click"}
+2026-10-16 19:27:48.962 | INFO     | gitingest.entrypoint:ingest_async:98 | Parsing remote repository | {"source":"https://github.com/pallets/click"}
+2026-10-16 19:27:49.100 | INFO     | gitingest.clone:clone_repo:59 | Starting git clone operation | {"url":"https://github.com/pallets/click","local_path":"/tmp/gitingest/a9b83b4c-e10a-460c-8262-caed4adb7c3d/pallets-click","partial_clone":false,"subpath":"/","branch":null,"tag":null,"commit":"2247b35ea1c47c727d7a06e51fa280e12a863ff6","include_submodules":false}
+2026-10-16 19:27:49.196 | INFO     | gitingest.clone:clone_repo:90 | Executing git clone operation | {"url":"<redacted>","local_path":"/tmp/gitingest/a9b83b4c-e10a-460c-8262-caed4adb7c3d/pallets-click"}
+2026-10-16 19:27:49.468 | INFO     | gitingest.clone:clone_repo:113 | Git clone completed successfully
+2026-10-16 19:27:49.604 | INFO     | gitingest.clone:_perform_post_clone_operations:166 | Checking out commit | {"commit":"2247b35ea1c47c727d7a06e51fa280e12a863ff6"}
+2026-10-16 19:27:49.623 | INFO     | gitingest.clone:clone_repo:127 | Git clone operation completed successfully | {"local_path":"/tmp/gitingest/a9b83b4c-e10a-460c-8262-caed4adb7c3d/pallets-click"}
+2026-10-16 19:27:49.623 | INFO     | gitingest.entrypoint:ingest_async:132 | Repository cloned, starting file processing
+2026-10-16 19:27:49.626 | INFO     | gitingest.entrypoint:ingest_async:140 | Processing files and generating output
+2026-10-16 19:27:49.626 | INFO     | gitingest.ingestion:ingest_query:44 | Starting file ingestion | {"slug":"pallets-click","subpath":"/","local_path":"/tmp/gitingest/a9b83b4c-e10a-460c-8262-caed4adb7c3d/pallets-click","max_file_size":10485760}
+2026-10-16 19:27:49.626 | INFO     | gitingest.ingestion:ingest_query:96 | Processing directory | {"directory_path":"/tmp/gitingest/a9b83b4c-e10a-460c-8262-caed4adb7c3d/pallets-click"}
+2026-10-16 19:27:50.076 | INFO     | gitingest.ingestion:ingest_query:109 | Directory processing completed | {"total_files":171,"total_directories":25,"total_size_bytes":1587061,"stats_total_files":171,"stats_total_size":1587061}
+2026-10-16 19:27:51.233 | INFO     | gitingest.entrypoint:ingest_async:147 | Ingestion completed successfully
+Analysis complete! Output written to: /data/t09-upstream-eval/click-digest.txt
+
+Summary:
+Repository: pallets/click
+Commit: 2247b35ea1c47c727d7a06e51fa280e12a863ff6
+Files analyzed: 171
+
+Estimated tokens: 442.8k

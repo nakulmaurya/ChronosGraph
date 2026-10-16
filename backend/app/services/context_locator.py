@@ -52,7 +52,11 @@ def locate_context(tenant_graph, query, budget_bytes=4096):
         for f in files:
             names = ' '.join(s['name'] or '' for s in f['symbols']).lower()
             path = f['path'].lower()
-            f['score'] = sum(3 * (t in path) + (t in names) for t in terms)
+            short_symbols = {(s['name'] or '').rsplit(':', 1)[-1].rsplit('.', 1)[-1].lower()
+                             for s in f['symbols'] if s['name']}
+            # A requested exact symbol is a stronger entry point than a filename
+            # containing the same word (e.g. Command vs test_command_decorators).
+            f['score'] = sum(6 * (t in short_symbols) + 3 * (t in path) + (t in names) for t in terms)
         matches = [f for f in files if f['score']]
         candidates = sorted(matches, key=lambda f: (-f['score'], -f['pagerank'], f['path']))[:3]
         entries = []

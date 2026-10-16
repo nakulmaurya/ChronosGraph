@@ -1,0 +1,21 @@
+PASS Selected branch and timestamped CLI freshness are visible without claiming live sync
+PASS Native compact context and exact symbol source render
+Connect a public GitHub repository · local CLI setup
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /IMPORTS/. Input:
+
+'Connect a public GitHub repository · local CLI setup'
+
+    at file:///home/nakulmaurya13579/ChronosGraph-t09/frontend/tests/workbench-smoke.mjs:50:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'Connect a public GitHub repository · local CLI setup',
+  expected: /IMPORTS/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.22.0

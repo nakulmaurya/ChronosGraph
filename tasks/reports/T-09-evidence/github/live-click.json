@@ -1,0 +1,97 @@
+{
+  "url": "https://github.com/pallets/click",
+  "tenant_graph": "repo_test_e6f476cabd1b4a10af3f37dcb880b332",
+  "model_calls": 0,
+  "started_at": 1792180083,
+  "pinned": {
+    "repository": "pallets/click",
+    "url": "https://github.com/pallets/click",
+    "selected_branch": "main",
+    "source_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+    "tree_sha": "6b26180d3cc76de6213a1e998f1eaf821e7f0f3f"
+  },
+  "cli_exit_code": 0,
+  "duration_seconds": 2.708,
+  "stats": {
+    "tenant_graph": "repo_test_e6f476cabd1b4a10af3f37dcb880b332",
+    "nodes": 2119,
+    "files": 91,
+    "functions": 1847,
+    "classes": 178,
+    "contributors": 0,
+    "indexed_records": 0,
+    "edges": 2741,
+    "repository": "pallets/click",
+    "source_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+    "declared_ownership": {
+      "status": "ABSENT_AT_PINNED_REVISION",
+      "source_path": "",
+      "matched_files": 0,
+      "invalid_rule_count": 0,
+      "diagnostics": [],
+      "basis": "Declared at pinned commit; GitHub identity/access not verified"
+    },
+    "extracted_repository_rules": 2,
+    "resolved_calls": 552,
+    "unresolved_calls": 5432,
+    "parse_errors": [],
+    "history_records": 0,
+    "history_file_links": 0,
+    "policy_files": [],
+    "pagerank_method": "native_falkordb_pagerank_normalized",
+    "ownership_limit": "Bounded Git author evidence, not verified maintainers or exhaustive ownership."
+  },
+  "metadata": [
+    {
+      "metadata": {
+        "repository": "pallets/click",
+        "source_url": "https://github.com/pallets/click",
+        "source_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+        "status": "READY",
+        "source_type": "GIT_AST_SNAPSHOT",
+        "connection_kind": "PUBLIC_GITHUB_ARCHIVE",
+        "selected_branch": "main",
+        "workspace_check_status": "PINNED_AT_IMPORT",
+        "workspace_checked_at": 1792180085,
+        "workspace_observed_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+        "import_tree_sha": "6b26180d3cc76de6213a1e998f1eaf821e7f0f3f",
+        "import_file_count": 178,
+        "import_archive_sha256": "566e398d2c892f253a892c53823cfd6661ad385f737c34979b8ba0584ef7b9d9",
+        "import_selected_blob_verification": "GIT_SHA1",
+        "import_model_calls": 0,
+        "ownership_index_status": "ABSENT_AT_PINNED_REVISION",
+        "ownership_source_path": "",
+        "ownership_source_sha256": "",
+        "ownership_source_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+        "ownership_source_url": "",
+        "ownership_invalid_rule_count": 0,
+        "pagerank_method": "native_falkordb_pagerank_normalized",
+        "parse_errors_json": "[]",
+        "history_limit": 0,
+        "history_scope": "NOT_FETCHED_GITHUB_ARCHIVE",
+        "unresolved_calls": 5432,
+        "seeded_policy_files": [],
+        "ingested_at": 1792180086
+      }
+    }
+  ],
+  "context": {
+    "payload_bytes": 4085,
+    "entries": [
+      "src/click/core.py",
+      "src/click/decorators.py",
+      "tests/test_basic.py"
+    ],
+    "coverage": {
+      "file_scan_limit": 10000,
+      "entry_limit": 3,
+      "symbols_per_file_limit": 5,
+      "related_limit": 12,
+      "rule_limit": 6,
+      "candidate_match_count": 25,
+      "truncated": true
+    }
+  },
+  "status": "PASS",
+  "fixture_graph_removed": true
+}

@@ -1,0 +1,5 @@
+PASS Setup prepares inspect command and requires explicit SHA before import command
+PASS Copied import is an opt-in local command, not a browser job
+PASS Credential/query URL forms and shell-expression branches are rejected
+PASS Native repository catalog reload preserves the selected snapshot
+PASS 390px guide fits without overflow; no external browser calls, mutations or runtime errors

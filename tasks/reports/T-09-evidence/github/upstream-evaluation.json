@@ -1,0 +1,30 @@
+{
+  "evaluation_repository": "https://github.com/pallets/click",
+  "gitingest": {
+    "upstream": "https://github.com/coderamp-labs/gitingest",
+    "commit": "4e259a02fe72115bee538271622f1234a81c8e1a",
+    "license": "MIT",
+    "license_sha256": "651354bf1adc1b53443ad641611e0831726bf5d3642188dc7adeac8a01eb686d",
+    "status": "PASS",
+    "files_analyzed": 171,
+    "source_commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+    "digest_bytes": 1617243,
+    "digest_sha256": "a637901cc28a8b88f3c5e204320be37f922b74f68d9004905e1b27c26271886d",
+    "upstream_estimated_tokens": "442.8k",
+    "installed_in": "ISOLATED_EVALUATION_VENV_NOT_APPLICATION"
+  },
+  "gitdiagram": {
+    "upstream": "https://github.com/ahmedkhaleel2004/gitdiagram",
+    "commit": "310e2e696b1953cec0e76560cad5e9cd7ca5d964",
+    "license": "MIT",
+    "license_sha256": "1f4d0e04838dd51ef52d70211fd17f86bad26b2f6518497098524bc05f61af15",
+    "trial": "https://gitdiagram.com/pallets/click.md",
+    "status": "EXISTING_ARCHITECTURE_READ",
+    "page_reported_updated": "2026-09-28",
+    "verified_graph_evidence": false,
+    "new_generation_requested": false
+  },
+  "upstream_code_copied": false,
+  "new_application_dependencies": false,
+  "model_calls_by_build": 0
+}

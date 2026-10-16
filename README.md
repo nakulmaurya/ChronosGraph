@@ -325,5 +325,13 @@ This connects to the existing VM; local setup above instead uses port 3001.
 
 The isolated workbench now has guarded local Git connection/check/refresh commands
 and timestamped branch/snapshot metadata. See [local workspace instructions](docs/t09-local-workspaces.md).
-Refresh creates a new graph and preserves old findings; it is not yet a public
-GitHub importer, incremental in-place sync or a live filesystem watcher.
+Refresh creates a new graph and preserves old findings; it is not incremental
+in-place sync or a live filesystem watcher.
+
+### T-09 public GitHub intake preview
+
+The workbench now prepares local CLI commands for bounded, commit-pinned public
+GitHub Python imports. Selected blobs are verified against the Git tree before
+FalkorDB AST/IMPORTS/CALLS/PageRank indexing. No token or model dependency.
+See [public GitHub setup, upstream trials and security limits](docs/t09-public-github-import.md).
+Browser-triggered import jobs and private repositories are not implemented.

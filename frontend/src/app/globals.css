@@ -1595,3 +1595,12 @@ dd {
 
 .wb-toolbar { align-items: flex-start; }
 .wb-toolbar .wb-details pre { max-height: 240px; overflow: auto; }
+
+/* Command-only public GitHub intake; no browser network mutation. */
+.wb-import-guide { margin-bottom: 20px; min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.wb-import-guide p { color: var(--muted); }
+.wb-import-guide > summary { cursor: pointer; font-weight: 650; color: var(--cyan, #67e8f9); }
+.wb-import-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.wb-import-guide pre { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%; }
+.wb-import-guide label { min-width: 0; }
+@media (max-width: 680px) { .wb-import-fields { grid-template-columns: 1fr; } }

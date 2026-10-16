@@ -9,9 +9,13 @@ source/policy-bound reported findings and actual MCP activity are implemented.
 The five accepted MCP interfaces remain, with five additive tools.
 Four-view preview: loopback **3004/8004**, tmux `chronosgraph-t09-ui/api`.
 Accepted T-08 checkout, build and **3000/8001** services remain unchanged.
+The initial GitHub-checkpoint backend run accidentally used the default source
+cache and added two real public Issue records across accepted tenants; no production
+code was deployed. Final runs use the original configured cache. Four-tenant
+Decision ledgers match exactly before/after; do not describe all shared data as unchanged.
 
-Latest local-workspace checkpoint: 123 backend tests, 14 frontend tests, typecheck/build,
-24 legacy and 10 workbench browser checks pass. Earlier receipts remain historical. Node 20.20.2/22.23.3 unit tests also pass; their
+Latest public-GitHub CLI checkpoint: 149 backend tests, 16 frontend tests, typecheck/build,
+24 legacy + 10 workbench + 5 intake-guide browser checks pass. Earlier receipts remain historical. Node 20.20.2/22.23.3 unit tests also pass; their
 Next startup smoke uses an artifact built on Node 24. Windows/macOS and autonomous
 external-agent A/B trials are NOT RUN. Final hygiene/publication receipts are in
 `tasks/reports/T-09-evidence/`; checkpoint self-review is not Architect acceptance.
@@ -26,8 +30,13 @@ are not automatically backfilled. Latest ownership receipts are in the T-09 repo
 metadata, immutable new-snapshot reconciliation and read-only browser receipts.
 See `docs/t09-local-workspaces.md`; not a public importer or live workspace watcher.
 
-**Resume at remaining milestone C:** safe public importer, mixed-file/Directory/
-docstring/JS-TS indexing and explicit workspace sync. Current context
+**New C slice:** bounded public GitHub archive CLI inspect/import, commit/tree/blob
+verification, read-only intake receipt and command-only browser setup are implemented.
+See `docs/t09-public-github-import.md`. Gitingest and GitDiagram were evaluated on
+Click; no upstream code, runtime package or model generation was added.
+
+**Resume at remaining milestone C:** queued browser/private import, mixed-file/
+Directory/docstring/JS-TS indexing and incremental workspace sync. Current context
 is a pinned snapshot, not verified against uncommitted working-tree edits.
 Keep memory described as agent-reported evidence, not independently executed
 verification. Keep graph labeled as source overview, not patch simulation.

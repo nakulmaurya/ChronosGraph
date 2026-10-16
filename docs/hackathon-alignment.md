@@ -94,3 +94,25 @@ Do not add another database, full agent framework or broad arbitrary-code runner
 just to claim integration. Prioritize safe import/freshness and a traceable real
 agent workflow, then UI polish. T-09 remains IN_PROGRESS; main/production are
 not authorized for merge/deploy by this alignment document.
+
+
+## Public GitHub intake checkpoint
+
+Tested Gitingest on `https://github.com/pallets/click` in an isolated environment;
+read GitDiagram's existing public Click architecture Markdown and reviewed both
+pinned MIT sources. No implementation copied, application dependency or model
+generation added. See `t09-public-github-import.md` and the upstream trial receipt.
+
+The resulting original public-intake slice verifies selected archive blobs at an
+explicit Git commit, then feeds the existing native FalkorDB graph pipeline.
+Exact-symbol entry scoring was improved after the real Click trial. The graph
+still decides compact source/context entry points and replacement-impact paths;
+neither a raw digest nor an AI architecture summary is promoted into verified
+CALLS/IMPORTS/policy edges. This supports the connected-data challenge rather
+than replacing our submission with a third-party wrapper.
+
+Intake is operator-opt-in local CLI only; the browser prepares commands/reloads
+catalog. Queued hosted import, private access and external-agent outcome trials
+remain out of this checkpoint. Earlier notes that no public importer was added
+describe the historical ownership/local-workspace slices, not this new CLI slice.
+Eligibility/timeline/registration/submission caveats above remain unchanged.

@@ -195,13 +195,16 @@ def ingest_repo(source: str, tenant: str, ref: str | None = None, seed_demo_poli
         return _ingest_repo(source, tenant, ref, seed_demo_policies)
 
 
-def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=None, publish_ready=True):
+def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=None, publish_ready=True, prepared_snapshot=None):
     created = False
     try:
         if tenant in db_manager.list_tenant_graphs():
             raise ValueError('Tenant already exists; use a new tenant name (no implicit destructive reset)')
-        root, revision, origin, repository = repository_source(source, ref)
-        paths = sorted(p for p in git(root, 'ls-files', '-z', '*.py').split('\0') if p and
+        if prepared_snapshot is None:
+            root, revision, origin, repository = repository_source(source, ref)
+        else:
+            root, revision, origin, repository = prepared_snapshot["source"]
+        paths = sorted(p for p in (git(root, 'ls-files', '-z', '*.py').split('\0') if prepared_snapshot is None else prepared_snapshot['paths']) if p and
             not any(part in EXCLUDED for part in Path(p).parts) and not (root/p).is_symlink())
         if not paths or len(paths) > 10000:
             raise ValueError('Require 1..10000 tracked Python files')
@@ -218,7 +221,7 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
                     calls.append({'source':call['caller'],'target':target,'line':call['line']})
                 else:
                     unresolved += 1
-        history = commit_history(root,revision)
+        history = commit_history(root,revision) if prepared_snapshot is None else []
         graph = db_manager.get_graph(tenant)
         graph.query('''CREATE (:RepoMetadata {repository:$repository,source_url:$url,
           source_revision:$revision,status:'INGESTING',source_type:'GIT_AST_SNAPSHOT'})''',
@@ -238,7 +241,11 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
           MERGE (a)-[:IMPORTS]->(b)''', imports)
         batch(graph, '''UNWIND $rows AS r MATCH (a:Function {qualified_name:r.source}),(b:Function {qualified_name:r.target})
           MERGE (a)-[c:CALLS {line:r.line}]->(b) SET c.resolution='conservative_static' ''', calls)
-        ranking = graph.ro_query("CALL algo.pageRank('File','IMPORTS') YIELD node,score RETURN node.path,score").result_set
+        # FalkorDB returns no rows for an absent relationship type. At this stage
+        # File-to-File edges are exclusively IMPORTS; NULL handles the edgeless
+        # File projection natively rather than inventing Python fallback scores.
+        relation = "'IMPORTS'" if imports else "NULL"
+        ranking = graph.ro_query(f"CALL algo.pageRank('File',{relation}) YIELD node,score RETURN node.path,score").result_set
         total = sum(score for _, score in ranking)
         if not ranking or total <= 0 or not all(math.isfinite(score) and score>=0 for _,score in ranking):
             raise ValueError('Native PageRank did not produce valid scores')
@@ -248,7 +255,8 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
         from app.ingestion.repo_rules import enrich_repository
         extracted_rules = enrich_repository(graph,root,revision,origin,paths)
         from app.ingestion.codeowners import index_codeowners
-        declared_ownership = index_codeowners(graph,root,revision,origin,known)
+        declared_ownership = index_codeowners(graph,root,revision,origin,known,
+            document=prepared_snapshot["ownership_document"] if prepared_snapshot else None)
         linked = append_history(graph,history,origin,known)
         policy_paths = []
         if seed_demo_policies:
@@ -261,10 +269,12 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
                 policy_paths = [p for p,_ in sorted(ranking,key=lambda r:(-r[1],r[0]))[:min(4,max(0,len(paths)-2))]]
             demo_policies(graph,policy_paths)
         graph.query('''MATCH (m:RepoMetadata) SET m.status=$status,m.pagerank_method='native_falkordb_pagerank_normalized',
-          m.parse_errors_json=$errors,m.history_limit=40,m.history_scope='latest_commits_at_source_revision',
+          m.parse_errors_json=$errors,m.history_limit=$history_limit,m.history_scope=$history_scope,
           m.unresolved_calls=$unresolved,m.seeded_policy_files=$paths,m.ingested_at=$now''',
           {'status':'READY' if publish_ready else 'VALIDATING_WORKSPACE',
-           'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time())})
+           'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time()),
+           'history_limit':40 if prepared_snapshot is None else 0,
+           'history_scope':'latest_commits_at_source_revision' if prepared_snapshot is None else 'NOT_FETCHED_GITHUB_ARCHIVE'})
         return {**snapshot_stats(tenant),'repository':repository,'source_revision':revision,
             'declared_ownership':declared_ownership,
             'extracted_repository_rules':extracted_rules,'resolved_calls':len(calls),'unresolved_calls':unresolved,'parse_errors':errors,

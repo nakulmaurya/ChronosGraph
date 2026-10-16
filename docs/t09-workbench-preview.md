@@ -109,3 +109,16 @@ See [guarded local workspace commands](t09-local-workspaces.md). The toolbar now
 shows selected branch, pinned revision and a timestamped CLI check receipt. This
 is not live disk monitoring. Existing accepted snapshots are not connected or
 overwritten automatically. Connection/refresh mutations remain CLI-only.
+
+
+## Public GitHub intake follow-up
+
+The expandable setup panel prepares inspect/import CLI commands; a confirmed SHA
+and new tenant are required for import. It never fetches a pasted URL or launches
+a job from the browser. Reload the native catalog after a successful local import.
+The read-only snapshot receipt shows `PUBLIC_GITHUB_ARCHIVE`, `PINNED_AT_IMPORT`,
+tree/archive hashes and no-history scope. Exact symbol entry matches now outrank
+incidental filename substrings, retaining native PageRank tie-breaks and byte caps.
+See `t09-public-github-import.md` for bounds, upstream trials and trust limits.
+Public CLI import is implemented; browser-run/private importer, mixed-language
+inventory and incremental synchronization remain pending.

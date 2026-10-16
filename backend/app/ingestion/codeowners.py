@@ -85,8 +85,10 @@ def committed_document(root, revision):
     return {'status': 'ABSENT_AT_PINNED_REVISION'}
 
 
-def index_codeowners(graph, root, revision, origin, known_paths):
-    document = committed_document(root, revision)
+def index_codeowners(graph, root, revision, origin, known_paths, *, document=None):
+    # Public archives supply a separately blob-hash-verified document; no synthetic Git history.
+    if document is None:
+        document = committed_document(root, revision)
     status = document['status']
     rows, diagnostics, invalid_count = [], [], 0
     if status == 'FOUND':

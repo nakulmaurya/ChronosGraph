@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Activity, ArrowLeft, GitBranch, Search, ShieldCheck, Terminal } from "lucide-react";
 import { request } from "@/lib/api";
+import GitHubImportGuide from "./GitHubImportGuide";
 import { finalStateInput, formatBytes, queryString } from "@/lib/workbench";
 import type { Brain, Subgraph, Tenant } from "@/lib/types";
 const GraphCanvas = dynamic(() => import("./GraphCanvas"), { ssr: false });
@@ -30,6 +31,8 @@ function JsonDetails({ value, label }: { value: unknown; label: string }) {
 }
 export default function Workbench() {
   const [catalog, setCatalog] = useState<Tenant[]>([]);
+  const [catalogLoading, setCatalogLoading] = useState(false);
+  const catalogReload = useRef<AbortController | null>(null);
   const [tenant, setTenant] = useState("");
   const tenantRef = useRef("");
   const [view, setView] = useState(0);
@@ -61,7 +64,7 @@ export default function Workbench() {
     request<Tenant[]>("/tenants", ctrl.signal).then(rows => {
       setCatalog(rows); tenantRef.current = rows[0]?.tenant_graph || ""; setTenant(tenantRef.current);
     }).catch(e => { if (!ctrl.signal.aborted) setError(e.message); });
-    return () => { ctrl.abort(); operation.current?.abort(); };
+    return () => { ctrl.abort(); operation.current?.abort(); catalogReload.current?.abort(); };
   }, []);
   useEffect(() => {
     if (!tenant) return;
@@ -96,6 +99,18 @@ export default function Workbench() {
     void poll();
     return () => { ctrl.abort(); clearTimeout(timer); };
   }, [tenant, view]);
+  async function reloadCatalog() {
+    catalogReload.current?.abort();
+    const ctrl = new AbortController(); catalogReload.current = ctrl; setCatalogLoading(true);
+    try {
+      const rows = await request<Tenant[]>("/tenants", ctrl.signal);
+      if (!ctrl.signal.aborted) {
+        setCatalog(rows);
+        if (!rows.some(row => row.tenant_graph === tenantRef.current)) chooseTenant(rows[0]?.tenant_graph || "");
+      }
+    } catch (e) { if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : "Repository reload failed"); }
+    finally { if (!ctrl.signal.aborted) setCatalogLoading(false); }
+  }
   function chooseTenant(value: string) {
     operation.current?.abort(); tenantRef.current = value; setTenant(value); setBusy(false);
     setSnapshot(null); setSnapshotError("");
@@ -134,6 +149,7 @@ export default function Workbench() {
       <div><span className="eyebrow">CHRONOSGRAPH · T-09 WORKBENCH PREVIEW</span><h1>Find the context. Keep the evidence.</h1></div>
       <Link href="/" className="button secondary"><ArrowLeft size={16} />Three-track demo & wiki</Link>
     </header>
+    <GitHubImportGuide reload={() => void reloadCatalog()} loading={catalogLoading} />
     <div className="wb-toolbar">
       <label>Indexed repository<select aria-label="Workbench repository" value={tenant} onChange={e => chooseTenant(e.target.value)} disabled={!catalog.length}>
         {catalog.map(t => <option key={t.tenant_graph} value={t.tenant_graph}>{t.repository}</option>)}

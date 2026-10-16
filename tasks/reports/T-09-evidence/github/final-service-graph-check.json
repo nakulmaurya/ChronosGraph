@@ -1,0 +1,10 @@
+{
+  "test_or_sandbox_graphs": [],
+  "ingesting_graphs": [],
+  "http_statuses": {
+    "3000/": 200,
+    "8001/health": 200,
+    "3004/workbench": 200,
+    "8004/health": 200
+  }
+}
