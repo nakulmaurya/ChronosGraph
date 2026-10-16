@@ -1,0 +1,80 @@
+TAP version 13
+# Subtest: unsafe evidence links are never actionable
+ok 1 - unsafe evidence links are never actionable
+  ---
+  duration_ms: 1.237016
+  ...
+# Subtest: timestamps distinguish open intervals from real epoch seconds
+ok 2 - timestamps distinguish open intervals from real epoch seconds
+  ---
+  duration_ms: 0.71365
+  ...
+# Subtest: measured timing and metadata formatting
+ok 3 - measured timing and metadata formatting
+  ---
+  duration_ms: 0.286193
+  ...
+# Subtest: graph layout preserves evidence identity and filters dangling edges
+ok 4 - graph layout preserves evidence identity and filters dangling edges
+  ---
+  duration_ms: 1.530122
+  ...
+# Subtest: API preserves HTTP scope conflict details
+ok 5 - API preserves HTTP scope conflict details
+  ---
+  duration_ms: 50.405935
+  ...
+# Subtest: API explains network failure without inventing data
+ok 6 - API explains network failure without inventing data
+  ---
+  duration_ms: 1.049092
+  ...
+# Subtest: focused view preserves policies, real edges, and full payload
+ok 7 - focused view preserves policies, real edges, and full payload
+  ---
+  duration_ms: 1.069403
+  ...
+# Subtest: semantic lanes distinguish targets, impacts, active policy and history
+ok 8 - semantic lanes distinguish targets, impacts, active policy and history
+  ---
+  duration_ms: 0.516646
+  ...
+# Subtest: replay shows actual historical cold branches without inventing edges or mutating telemetry
+ok 9 - replay shows actual historical cold branches without inventing edges or mutating telemetry
+  ---
+  duration_ms: 17.288896
+  ...
+# Subtest: comparison uses observed values, not fixed benchmark numbers
+ok 10 - comparison uses observed values, not fixed benchmark numbers
+  ---
+  duration_ms: 20.626802
+  ...
+# Subtest: T-07 compatible responses retain measured baseline comparison
+ok 11 - T-07 compatible responses retain measured baseline comparison
+  ---
+  duration_ms: 6.454029
+  ...
+# Subtest: context query values remain encoded, not interpreted as extra parameters
+ok 12 - context query values remain encoded, not interpreted as extra parameters
+  ---
+  duration_ms: 3.205523
+  ...
+# Subtest: byte labels use KiB and preserve sub-kibibyte measurements
+ok 13 - byte labels use KiB and preserve sub-kibibyte measurements
+  ---
+  duration_ms: 0.484374
+  ...
+# Subtest: final source map accepts additions, empty files, deletes; rejects malformed shapes
+ok 14 - final source map accepts additions, empty files, deletes; rejects malformed shapes
+  ---
+  duration_ms: 1.766039
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1641.790724

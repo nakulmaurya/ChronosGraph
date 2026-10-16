@@ -180,7 +180,7 @@ def test_external_five_fastmcp_tools_via_protocol(external):
     snapshot=[dict(r[0].properties) for r in originals]; created=[]
     async def exercise():
         async with Client(mcp) as c:
-            assert len(await c.list_tools())==5
+            assert len(await c.list_tools())==10
             a=await c.call_tool('simulate_pr_blast_radius',{'modified_files':[path],'tenant_graph':tenant});assert not a.is_error and a.data['sandbox_cleaned_up']
             b=await c.call_tool('query_bitemporal_decisions',{'question':'current rule','file_path':path,'tenant_graph':tenant});assert not b.is_error and b.data['active_decisions']
             o=await c.call_tool('find_true_code_owners',{'file_path':path,'tenant_graph':tenant});assert not o.is_error and o.data

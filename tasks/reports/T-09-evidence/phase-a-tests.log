@@ -1,0 +1,61 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /home/nakulmaurya13579/ChronosGraph-t09/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/nakulmaurya13579/ChronosGraph-t09/backend
+configfile: pyproject.toml
+plugins: platformdirs-4.13.0, anyio-4.15.1
+collecting ... collected 12 items
+
+backend/tests/test_diff_replacement.py::test_replacement_removes_edges_retains_before_impact_and_base FAILED [  8%]
+backend/tests/test_diff_replacement.py::test_removed_symbol_and_signature_report_inbound_callers FAILED [ 16%]
+backend/tests/test_diff_replacement.py::test_multifile_rename_delete_add_and_new_resolution PASSED [ 25%]
+backend/tests/test_diff_replacement.py::test_added_file_resolves_previously_unresolved_imports_and_calls PASSED [ 33%]
+backend/tests/test_diff_replacement.py::test_invalid_final_states_fail_closed[bodies0] PASSED [ 41%]
+backend/tests/test_diff_replacement.py::test_invalid_final_states_fail_closed[bodies1] PASSED [ 50%]
+backend/tests/test_diff_replacement.py::test_invalid_final_states_fail_closed[bodies2] PASSED [ 58%]
+backend/tests/test_diff_replacement.py::test_invalid_final_states_fail_closed[bodies3] PASSED [ 66%]
+backend/tests/test_diff_replacement.py::test_invalid_final_states_fail_closed[bodies4] PASSED [ 75%]
+backend/tests/test_diff_replacement.py::test_invalid_final_states_fail_closed[bodies5] PASSED [ 83%]
+backend/tests/test_diff_replacement.py::test_unified_diff_exact_baseline_and_deleted_test_not_recommended PASSED [ 91%]
+backend/tests/test_diff_replacement.py::test_pure_rename_overwrite_and_quoted_paths_rejected PASSED [100%]
+
+=================================== FAILURES ===================================
+________ test_replacement_removes_edges_retains_before_impact_and_base _________
+
+client = <starlette.testclient.TestClient object at 0x7fc2a78bb0e0>
+ingested = ('repo_test_7c4cd659ff9c427d8d622318c37518f7', {'tenant_graph': 'repo_test_7c4cd659ff9c427d8d622318c37518f7', 'nodes':...functions': 4, ...}, PosixPath('/tmp/pytest-of-nakulmaurya13579/pytest-21/test_replacement_removes_edges0/git-source'))
+
+    def test_replacement_removes_edges_retains_before_impact_and_base(client, ingested):
+        tenant, _, _ = ingested
+        before = digest(tenant)
+        graphs = set(db_manager.list_tenant_graphs())
+        # b previously imports/calls a.helper; replacement removes both.
+        r = client.post('/api/v1/diff/impact', json={'tenant_graph': tenant,
+            'file_bodies': {'src/pkg/b.py': 'def run():\n    return 42\n'}})
+>       assert r.status_code == 200, r.text
+E       AssertionError: {"detail":"FalkorDB operation failed; check local database logs"}
+E       assert 503 == 200
+E        +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+backend/tests/test_diff_replacement.py:27: AssertionError
+___________ test_removed_symbol_and_signature_report_inbound_callers ___________
+
+client = <starlette.testclient.TestClient object at 0x7fc29768dbd0>
+ingested = ('repo_test_b55a737affe14347be25bb7c2b49635c', {'tenant_graph': 'repo_test_b55a737affe14347be25bb7c2b49635c', 'nodes':...functions': 4, ...}, PosixPath('/tmp/pytest-of-nakulmaurya13579/pytest-21/test_removed_symbol_and_signat0/git-source'))
+
+    def test_removed_symbol_and_signature_report_inbound_callers(client, ingested):
+        tenant, _, _ = ingested
+        r = client.post('/api/v1/diff/impact', json={'tenant_graph': tenant, 'file_bodies': {
+            'src/pkg/a.py': 'def helper(required):\n    return required\n'}})
+        assert r.status_code == 200, r.text
+        d = r.json()
+        assert 'src/pkg/a.py:helper' in d['removed_or_signature_changed_symbols']
+        assert 'src/pkg/a.py:run' in d['removed_or_signature_changed_symbols']
+>       assert 'src/pkg/b.py:run' in d['potentially_broken_callers']
+E       AssertionError: assert 'src/pkg/b.py:run' in ['src/pkg/a.py:run']
+
+backend/tests/test_diff_replacement.py:44: AssertionError
+=========================== short test summary info ============================
+FAILED backend/tests/test_diff_replacement.py::test_replacement_removes_edges_retains_before_impact_and_base
+FAILED backend/tests/test_diff_replacement.py::test_removed_symbol_and_signature_report_inbound_callers
+========================= 2 failed, 10 passed in 6.35s =========================

@@ -1,5 +1,12 @@
 # ChronosGraph
 
+> **T-09 development checkpoint:** full-replacement Python diff sandbox, compact
+> context, source-bound reported findings and real MCP activity are available on
+> the isolated `/workbench` preview. Main production remains the accepted T-08.
+> See [preview interfaces, limits and tunnel instructions](docs/t09-workbench-preview.md).
+> Workspace sync/import/CODEOWNERS and fair external-agent evaluation remain pending.
+
+
 **A living context layer for coding agents: inspect connected impact, retrieve the current rule, and replay a verified investigation.**
 
 ChronosGraph extends an AST-style code graph with three connected mechanisms on
@@ -9,7 +16,7 @@ file/function/dependency graph conventions associated with `FalkorDB/code-graph`
 it is our own conservative Python AST implementation, not an integration with that package.
 
 ```text
-Next.js / React Flow console          Agent IDE via five-tool FastMCP stdio
+Next.js / React Flow console          Agent IDE via FastMCP stdio (5 core + 5 T-09)
                  \                    /
                   FastAPI + graph services
                  /            |            \
@@ -20,7 +27,7 @@ Next.js / React Flow console          Agent IDE via five-tool FastMCP stdio
 
 ## Start locally with one command
 
-Prerequisites: Git, Bash, Python 3.11+, Node.js 24+, npm, Docker, network access for
+Prerequisites: Git, Bash, Python 3.11+, Node.js 20.9+ (22 or 24 also supported), npm, Docker, network access for
 public source/dependency downloads, and free ports 6379/8000/3001. First-time setup
 can take minutes; “60-second verification” means inspecting an already-running demo.
 
@@ -60,7 +67,7 @@ UI tab names match the console; REST routes share `/api/v1`.
 **60-second inspection:** On `FalkorDB/falkordb-py`, audit `falkordb/graph.py` and
 check cleanup. Run cold/replay for `Review current policy for falkordb/graph.py`:
 observe 5→3 actions. Switch to `FalkorDB/GraphRAG-SDK`, read a preset file's current
-policy and its crossed-out history. Open **MCP config** to inspect all five tools.
+policy and its crossed-out history. Open **MCP config** to inspect ten tools (the five core interfaces plus five T-09 additions). See [platform setup](docs/t09-platform-setup.md) for Node and Windows/WSL boundaries.
 The [2:45 recording runbook](docs/demo-video-script.md) includes exact choreography.
 
 ## Provenance and measured telemetry

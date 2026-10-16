@@ -94,3 +94,18 @@ Do not promise fixed 95% reduction, faster wall time, permanent memory or safe s
   knowledge; layer 3 `_CLAUDE.md` and `SKILL.md` routes agent actions.
 - LESSON: Historical notes preserve evidence, not authority. Refresh current rules
   and exact-scenario fingerprints after recovery. No automatic PreCompact hook is installed.
+
+
+## T-09 development extension (only when connected to the T-09 server)
+- `locate_context` selects compact lexical/PageRank entry points. Use
+  `get_symbol_source` for exact source coordinates/hash before edits.
+- For a complete proposed change, use `simulate_diff_impact` with a unified diff
+  or explicit final-file map; legacy `simulate_pr_blast_radius` snippets are
+  additive overlays and cannot prove a dependency was removed.
+- `record_verified_finding` stores agent-reported evidence bound to caller-provided
+  indexed file SHA-256 values; it does not run verification commands. Recall with
+  `recall_task_memory`; stale evidence is not current guidance.
+- Pinned-index freshness is not workspace freshness. Until explicit sync is
+  implemented, verify working-tree source locally before acting on stored findings.
+- These calls emit real tool metadata to the local workbench. They do not expose
+  agent thoughts, private Read calls, raw prompts, patches or evidence notes.

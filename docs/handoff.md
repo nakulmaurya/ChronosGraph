@@ -1,5 +1,32 @@
 # ChronosGraph Engineering Handoff
 
+## T-09 current development checkpoint — IN_PROGRESS
+
+Branch `build/t09-repo-workbench-and-trusted-memory`, base published main
+`8927b7383f9a256f846d23a394ab0ae32c9383aa`, isolated checkout
+`~/ChronosGraph-t09`. True replacement diff sandbox, bounded context/symbol source,
+source/policy-bound reported findings and actual MCP activity are implemented.
+The five accepted MCP interfaces remain, with five additive tools.
+Four-view preview: loopback **3004/8004**, tmux `chronosgraph-t09-ui/api`.
+Accepted T-08 checkout, build and **3000/8001** services remain unchanged.
+
+103 backend tests, 14 frontend tests, typecheck/build, 24 legacy and 8 new browser
+checks pass at the checkpoint. Node 20.20.2/22.23.3 unit tests also pass; their
+Next startup smoke uses an artifact built on Node 24. Windows/macOS and autonomous
+external-agent A/B trials are NOT RUN. Final hygiene/publication receipts are in
+`tasks/reports/T-09-evidence/`; checkpoint self-review is not Architect acceptance.
+No video or paid models were used.
+
+**Resume at milestone C:** safe importer/branch connection, mixed-file/Directory/
+docstring/JS-TS indexing, CODEOWNERS and explicit workspace sync. Current context
+is a pinned snapshot, not verified against uncommitted working-tree edits.
+Keep memory described as agent-reported evidence, not independently executed
+verification. Keep graph labeled as source overview, not patch simulation.
+Do not mark T-09 DONE, merge main or deploy based on the partial checkpoint.
+See `tasks/assignments/T-09.md`, `tasks/reports/T-09.md`,
+`docs/t09-workbench-preview.md`, `docs/t09-platform-setup.md` and
+`docs/t09-agent-evaluation.md`. Remaining sections below are historical handoffs.
+
 ## T-06 code/UI accepted (recording deferred)
 Branch `build/t06-wow-polish-and-demo`, base `013b66b`. Scope and compatibility
 semantics are in `tasks/assignments/T-06.md`. Python snippets are additive AST

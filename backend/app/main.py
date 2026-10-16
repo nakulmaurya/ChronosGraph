@@ -32,7 +32,8 @@ app=FastAPI(title='ChronosGraph',version='0.2.0',lifespan=lifespan,
 app.add_middleware(CORSMiddleware,allow_origins=['http://localhost:3000','http://localhost:3001',
     'http://127.0.0.1:3000','http://127.0.0.1:3001',
     'http://localhost:3002','http://127.0.0.1:3002',
-    'http://localhost:3003','http://127.0.0.1:3003'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
+    'http://localhost:3003','http://127.0.0.1:3003',
+    'http://localhost:3004','http://127.0.0.1:3004'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
 
 
 @app.exception_handler(RedisError)
@@ -153,3 +154,43 @@ def brain_download(tenant_graph: str='repo_falkordb_py',file_path: str | None=No
     from fastapi.responses import Response
     return Response(brain_vault_zip(tenant_graph,file_path),media_type='application/zip',
         headers={'Content-Disposition':f'attachment; filename="{tenant_graph}-obsidian-vault.zip"'})
+
+
+from app.models import DiffImpactRequest
+from app.services.diff_impact import simulate_diff
+
+
+@app.post('/api/v1/diff/impact')
+def diff_impact(req: DiffImpactRequest):
+    return simulate_diff(req)
+
+
+from app.models import FindingRequest
+from app.services.context_locator import locate_context,symbol_source
+from app.services.task_memory import record_finding,recall_findings
+from app.services.agent_activity import activity
+
+
+@app.get('/api/v1/context/locate')
+def context_locate(tenant_graph: str,query: str,budget_bytes: int=4096):
+    return locate_context(tenant_graph,query,budget_bytes)
+
+
+@app.get('/api/v1/context/symbol-source')
+def context_symbol_source(tenant_graph: str,file_path: str,symbol_name: str):
+    return symbol_source(tenant_graph,file_path,symbol_name)
+
+
+@app.post('/api/v1/memory/findings')
+def memory_record(req: FindingRequest):
+    return record_finding(req)
+
+
+@app.get('/api/v1/memory/findings')
+def memory_recall(tenant_graph: str,query: str='',include_stale: bool=False,limit: int=10):
+    return recall_findings(tenant_graph,query,include_stale,limit)
+
+
+@app.get('/api/v1/activity')
+def agent_activity(tenant_graph: str,cursor: str | None=None,limit: int=50):
+    return activity(tenant_graph,cursor,limit)

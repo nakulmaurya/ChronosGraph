@@ -197,7 +197,8 @@ def test_five_mcp_tools_via_actual_inprocess_protocol(isolated_policy_file):
         async with Client(mcp) as c:
             tools=await c.list_tools()
             assert {t.name for t in tools}=={'simulate_pr_blast_radius','query_bitemporal_decisions',
-              'record_decision_override','find_true_code_owners','run_or_compile_playbook'}
+              'record_decision_override','find_true_code_owners','run_or_compile_playbook',
+                'simulate_diff_impact','locate_context','get_symbol_source','record_verified_finding','recall_task_memory'}
             args={'modified_files':['falkordb/graph.py']}
             audit=await c.call_tool('simulate_pr_blast_radius',args)
             assert not audit.is_error and audit.data['sandbox_cleaned_up']

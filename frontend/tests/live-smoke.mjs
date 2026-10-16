@@ -384,7 +384,7 @@ try {
   await page.getByRole("button", { name: "MCP config", exact: true }).click();
   const dialog = page.getByRole("dialog");
   await dialog.waitFor();
-  assert.equal(await dialog.locator(".tools-list article").count(), 5);
+  assert.equal(await dialog.locator(".tools-list article").count(), 10);
   await page.locator("#mcp-cwd").fill("/home/user/ChronosGraph/backend");
   assert.ok(
     (await dialog.locator("pre").textContent()).includes(

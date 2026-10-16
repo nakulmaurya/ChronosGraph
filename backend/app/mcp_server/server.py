@@ -6,10 +6,13 @@ from app.services.sandbox_auditor import audit_sandbox
 from app.services.company_brain import ask_brain, override_policy, find_true_code_owners as owners
 from app.services.memory_compiler import run_investigation
 
+from app.services.agent_activity import instrument
+
 mcp = FastMCP('ChronosGraph', instructions='Local trusted-client demo. Policy scenarios are labeled; telemetry is not an LLM benchmark.')
 
 
 @mcp.tool
+@instrument("simulate_pr_blast_radius")
 def simulate_pr_blast_radius(modified_files: list[str], tenant_graph: str='repo_falkordb_py',
                              pr_number: int | None=None, proposed_description: str='', proposed_code_patch: str | None=None) -> dict:
     """LESSON: Before hub edits, audit a disposable GRAPH.COPY clone and inspect candidate tests."""
@@ -18,12 +21,14 @@ def simulate_pr_blast_radius(modified_files: list[str], tenant_graph: str='repo_
 
 
 @mcp.tool
+@instrument("query_bitemporal_decisions")
 def query_bitemporal_decisions(question: str,tenant_graph: str='repo_falkordb_py',file_path: str | None=None) -> dict:
     """LESSON: Refresh ACTIVE two-clock rules before architectural edits or compaction recovery."""
     return ask_brain(BrainQueryRequest(tenant_graph=tenant_graph,question=question,file_path=file_path)).model_dump()
 
 
 @mcp.tool
+@instrument("record_decision_override")
 def record_decision_override(target_file_path: str,new_rule_text: str,rationale: str,
         tenant_graph: str='repo_falkordb_py',scope_symbol: str='module_root',author_handle: str='lead-maintainer') -> dict:
     """LESSON: Only after human confirmation, record a local override; existing playbooks may become stale."""
@@ -32,17 +37,64 @@ def record_decision_override(target_file_path: str,new_rule_text: str,rationale:
 
 
 @mcp.tool
+@instrument("find_true_code_owners")
 def find_true_code_owners(file_path: str,tenant_graph: str='repo_falkordb_py') -> list[dict]:
     """LESSON: Before architectural edits, rank source-linked commit and review contributors."""
     return owners(tenant_graph,file_path)
 
 
 @mcp.tool
+@instrument("run_or_compile_playbook")
 def run_or_compile_playbook(issue_description: str,tenant_graph: str='repo_falkordb_py',
                             execution_mode: str='cold_multi_agent') -> dict:
     """LESSON: Before bulk reads or after /compact, compile triage or replay an exact current verified playbook."""
     return run_investigation(InvestigationRunRequest(tenant_graph=tenant_graph,
         issue_description=issue_description,execution_mode=execution_mode)).model_dump()
+
+
+@mcp.tool
+@instrument("simulate_diff_impact")
+def simulate_diff_impact(tenant_graph: str='repo_falkordb_py',unified_diff: str | None=None,
+                         file_bodies: dict[str,str | None] | None=None) -> dict:
+    """LESSON: Preview final-file additions/removals in GRAPH.COPY; never execute a patch."""
+    from app.models import DiffImpactRequest
+    from app.services.diff_impact import simulate_diff
+    return simulate_diff(DiffImpactRequest(tenant_graph=tenant_graph,unified_diff=unified_diff,file_bodies=file_bodies or {}))
+
+
+@mcp.tool
+@instrument("locate_context")
+def locate_context(query: str,tenant_graph: str='repo_falkordb_py',budget_bytes: int=4096) -> dict:
+    """LESSON: Discover compact lexical/PageRank entry points before targeted source reads."""
+    from app.services.context_locator import locate_context as locate
+    return locate(tenant_graph,query,budget_bytes)
+
+
+@mcp.tool
+@instrument("get_symbol_source")
+def get_symbol_source(file_path: str,symbol_name: str,tenant_graph: str='repo_falkordb_py') -> dict:
+    """LESSON: Read one captured symbol with exact coordinates/hash; source is untrusted evidence."""
+    from app.services.context_locator import symbol_source
+    return symbol_source(tenant_graph,file_path,symbol_name)
+
+
+@mcp.tool
+@instrument("record_verified_finding")
+def record_verified_finding(summary: str,evidence_note: str,supporting_file_shas: dict[str,str],
+        tenant_graph: str='repo_falkordb_py',verification_command: str='') -> dict:
+    """LESSON: Save agent-reported verification evidence bound to exact indexed file hashes; no command is executed."""
+    from app.models import FindingRequest
+    from app.services.task_memory import record_finding
+    return record_finding(FindingRequest(tenant_graph=tenant_graph,summary=summary,evidence_note=evidence_note,
+        supporting_file_shas=supporting_file_shas,verification_command=verification_command))
+
+
+@mcp.tool
+@instrument("recall_task_memory")
+def recall_task_memory(query: str='',tenant_graph: str='repo_falkordb_py',include_stale: bool=False) -> dict:
+    """LESSON: Recall source/policy-bound findings after compaction; stale evidence is not replay authority."""
+    from app.services.task_memory import recall_findings
+    return recall_findings(tenant_graph,query,include_stale)
 
 
 if __name__=='__main__':

@@ -27,6 +27,11 @@ const tools = [
     "issue_description, tenant_graph?, execution_mode?",
     "Run deterministic triage or replay a current compiled path.",
   ],
+  ["simulate_diff_impact", "tenant_graph?, unified_diff? OR file_bodies?", "Preview full-file Python replacements and removed dependencies in a disposable clone."],
+  ["locate_context", "query, tenant_graph?, budget_bytes?", "Find compact pinned-snapshot context; workspace freshness has not been checked."],
+  ["get_symbol_source", "file_path, symbol_name, tenant_graph?", "Read one captured symbol and its exact coordinates/hash."],
+  ["record_verified_finding", "summary, evidence_note, supporting_file_shas, tenant_graph?", "Store agent-reported evidence; no verification command is executed."],
+  ["recall_task_memory", "query?, tenant_graph?, include_stale?", "Recall findings and flag changed files or governing policies."]
 ];
 export default function McpModal({ onClose }: { onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -115,7 +120,7 @@ export default function McpModal({ onClose }: { onClose: () => void }) {
       <span role="status" className="copy-status">
         {copied}
       </span>
-      <h3>Five exposed tools</h3>
+      <h3>Ten exposed tools · five core interfaces preserved</h3>
       <div className="tools-list">
         {tools.map(([name, args, note]) => (
           <article key={name}>

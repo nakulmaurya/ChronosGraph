@@ -118,3 +118,12 @@
 
 - Architect amendment: additive `/brain/*` three-layer vault and builder-first
   context folding; preserve accepted T-06/T-07. No additional video work.
+
+### T-09 — Repository workbench and trusted cross-session context
+- Status: IN_PROGRESS
+- Roles: builder + integrator (sequential self-review).
+- Branch: `build/t09-repo-workbench-and-trusted-memory`; baseline main `8927b73`.
+- Assignment: `tasks/assignments/T-09.md` (phases A–E).
+- First gate: true replacement diff sandbox with native deletion/rename/caller
+  regressions. Preserve accepted interfaces and T-08 production. No video or paid
+  agent benchmark; later milestones must report their actual verification status.

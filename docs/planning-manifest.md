@@ -95,3 +95,11 @@ T-08 amendment: original v1.4 accepted by Principal Architect; extend the same b
 with /brain wiki-slice, lint-and-compact, read-only three-layer ZIP, LESSON skill
 routing and builder-facing UI. No further video. Final publication and production
 rollout require the unchanged regression/hygiene gates and authenticated GitHub push.
+
+## T-09 — User-authorized workbench extension (IN_PROGRESS)
+The user supplied a repository-workbench/trusted-memory specification and directed
+“start work”. Apply its recommended selected-branch, Python-deep/mixed-file-light,
+local-daemon/MCP defaults in bounded slices (assignment T-09). The actual baseline
+is main `8927b73`, not the historical `013b66b`. Keep all accepted routes/features;
+new full replacement diffs must be separate from legacy additive snippets.
+Production remains T-08 until verified release approval. No video or paid runs.

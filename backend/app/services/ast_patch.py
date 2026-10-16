@@ -23,16 +23,9 @@ def parse_patch(code, path, original=None):
     return item
 
 
-def apply_patch(graph, item, simulation):
-    """Preserve existing snapshot edges; add only syntax-backed, resolved edges.
-
-    Source roots are aliases for lookup only. Multiple actual matches are never
-    guessed. Unresolved expressions are returned as evidence on the target file.
-    """
+def analyze_dependencies(item, known, definitions):
+    """Resolve syntax evidence against an explicit final file/symbol inventory."""
     path = item['file']['path']
-    known = {r[0] for r in graph.ro_query('MATCH (f:File) RETURN f.path').result_set}
-    definitions = {r[0] for r in graph.ro_query('MATCH (f:Function) RETURN f.qualified_name').result_set}
-    definitions.update(f['qualified_name'] for f in item['functions'])
     roots = {''}
     for p in known:
         if p.startswith('src/'):
@@ -59,6 +52,20 @@ def apply_patch(graph, item, simulation):
                     call_targets[index].add(aliases[actual_file] + ':' + symbol)
     resolved = [(call, next(iter(targets))) for call, targets in zip(item['calls'], call_targets) if len(targets) == 1]
     unresolved = [call['expression'] for call, targets in zip(item['calls'], call_targets) if len(targets) != 1]
+    return imports, resolved, unresolved
+
+
+def apply_patch(graph, item, simulation):
+    """Preserve existing snapshot edges; add only syntax-backed, resolved edges.
+
+    Source roots are aliases for lookup only. Multiple actual matches are never
+    guessed. Unresolved expressions are returned as evidence on the target file.
+    """
+    path = item['file']['path']
+    known = {r[0] for r in graph.ro_query('MATCH (f:File) RETURN f.path').result_set}
+    definitions = {r[0] for r in graph.ro_query('MATCH (f:Function) RETURN f.qualified_name').result_set}
+    definitions.update(f['qualified_name'] for f in item['functions'])
+    imports, resolved, unresolved = analyze_dependencies(item, known, definitions)
     for label, key in [('Class', 'classes'), ('Function', 'functions')]:
         for definition in item[key]:
             graph.query(f'''MATCH (f:File {{path:$path}})

@@ -7,7 +7,7 @@
     "build": "next build --webpack",
     "start": "next start -p 3001 --hostname 127.0.0.1",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --import ./tests/register-typescript.mjs --test tests/*.test.mjs",
     "test:e2e": "node tests/live-smoke.mjs"
   },
   "dependencies": {

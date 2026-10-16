@@ -17,6 +17,7 @@ import {
   Workflow,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { replayEvidence } from "@/lib/graph";
 import { ApiError, API_BASE, ms, request } from "@/lib/api";
 import type {
@@ -370,6 +371,7 @@ export default function Arena() {
           </button>
         </div>
       </header>
+      <div className="wb-entry"><Link href="/workbench">Open T-09 workbench preview →</Link></div>
       <nav className="trackbar" aria-label="Investigation tracks">
         {tracks.map((t) => (
           <button

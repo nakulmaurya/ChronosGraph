@@ -17,7 +17,7 @@ done
 case "$DB_MODE" in docker|native|existing);; *) echo 'Invalid database mode' >&2; exit 2;; esac
 command -v node >/dev/null
 command -v npm >/dev/null
-node -e 'if(Number(process.versions.node.split(".")[0])<24)process.exit(1)' || { echo 'Use Node.js 24+ (TypeScript test stripping)' >&2; exit 1; }
+node -e 'const [major,minor]=process.versions.node.split(".").map(Number);if(major<20||(major===20&&minor<9))process.exit(1)' || { echo 'Use Node.js 20.9+, 22 or 24 (Next.js runtime requirement)' >&2; exit 1; }
 VENV_DIR="${VENV_DIR:-$ROOT/.venv}"
 PY="$VENV_DIR/bin/python"
 LOGS="$(mktemp -d "${TMPDIR:-/tmp}/chronosgraph-local.XXXXXX")"

@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: unsafe evidence links are never actionable
+ok 1 - unsafe evidence links are never actionable
+  ---
+  duration_ms: 3.091001
+  type: 'test'
+  ...
+# Subtest: timestamps distinguish open intervals from real epoch seconds
+ok 2 - timestamps distinguish open intervals from real epoch seconds
+  ---
+  duration_ms: 1.466352
+  type: 'test'
+  ...
+# Subtest: measured timing and metadata formatting
+ok 3 - measured timing and metadata formatting
+  ---
+  duration_ms: 0.869224
+  type: 'test'
+  ...
+# Subtest: graph layout preserves evidence identity and filters dangling edges
+ok 4 - graph layout preserves evidence identity and filters dangling edges
+  ---
+  duration_ms: 2.545447
+  type: 'test'
+  ...
+# Subtest: API preserves HTTP scope conflict details
+ok 5 - API preserves HTTP scope conflict details
+  ---
+  duration_ms: 49.428524
+  type: 'test'
+  ...
+# Subtest: API explains network failure without inventing data
+ok 6 - API explains network failure without inventing data
+  ---
+  duration_ms: 0.612482
+  type: 'test'
+  ...
+# Subtest: focused view preserves policies, real edges, and full payload
+ok 7 - focused view preserves policies, real edges, and full payload
+  ---
+  duration_ms: 1.032558
+  type: 'test'
+  ...
+# Subtest: semantic lanes distinguish targets, impacts, active policy and history
+ok 8 - semantic lanes distinguish targets, impacts, active policy and history
+  ---
+  duration_ms: 0.499033
+  type: 'test'
+  ...
+# Subtest: replay shows actual historical cold branches without inventing edges or mutating telemetry
+ok 9 - replay shows actual historical cold branches without inventing edges or mutating telemetry
+  ---
+  duration_ms: 14.244578
+  type: 'test'
+  ...
+# Subtest: comparison uses observed values, not fixed benchmark numbers
+ok 10 - comparison uses observed values, not fixed benchmark numbers
+  ---
+  duration_ms: 25.061867
+  type: 'test'
+  ...
+# Subtest: T-07 compatible responses retain measured baseline comparison
+ok 11 - T-07 compatible responses retain measured baseline comparison
+  ---
+  duration_ms: 12.444296
+  type: 'test'
+  ...
+# Subtest: context query values remain encoded, not interpreted as extra parameters
+ok 12 - context query values remain encoded, not interpreted as extra parameters
+  ---
+  duration_ms: 4.458555
+  type: 'test'
+  ...
+# Subtest: byte labels use KiB and preserve sub-kibibyte measurements
+ok 13 - byte labels use KiB and preserve sub-kibibyte measurements
+  ---
+  duration_ms: 0.534361
+  type: 'test'
+  ...
+# Subtest: final source map accepts additions, empty files, deletes; rejects malformed shapes
+ok 14 - final source map accepts additions, empty files, deletes; rejects malformed shapes
+  ---
+  duration_ms: 2.532146
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1515.565768

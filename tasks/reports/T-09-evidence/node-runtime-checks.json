@@ -1,0 +1,14 @@
+[
+  {
+    "node": "v20.20.2",
+    "status": "PASS",
+    "http": 200,
+    "scope": "Next start with Node24-built artifact; /workbench HTML only"
+  },
+  {
+    "node": "v22.23.3",
+    "status": "PASS",
+    "http": 200,
+    "scope": "Next start with Node24-built artifact; /workbench HTML only"
+  }
+]

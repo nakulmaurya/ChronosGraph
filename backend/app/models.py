@@ -1,5 +1,5 @@
-from typing import Any, Dict, List, Literal, Optional
-from pydantic import BaseModel, Field
+from typing import Annotated, Any, Dict, List, Literal, Optional
+from pydantic import BaseModel, Field, model_validator
 
 
 class VisualNode(BaseModel):
@@ -137,3 +137,24 @@ class InvestigationRunResponse(BaseModel):
     compiled_playbook_id: Optional[str] = None
     blind_agent_comparison: BlindAgentComparison
     subgraph: GraphSubgraphPayload
+
+
+class DiffImpactRequest(BaseModel):
+    """Explicit final state; never changes legacy proposed_code_patch semantics."""
+    tenant_graph: str = "repo_falkordb_py"
+    unified_diff: Optional[str] = Field(default=None, max_length=128000)
+    file_bodies: Dict[str, Optional[str]] = Field(default_factory=dict, max_length=20)
+
+    @model_validator(mode="after")
+    def exactly_one_input(self):
+        if (self.unified_diff is not None) == bool(self.file_bodies):
+            raise ValueError("Provide exactly one of unified_diff or nonempty file_bodies (null deletes a file)")
+        return self
+
+
+class FindingRequest(BaseModel):
+    tenant_graph: str = "repo_falkordb_py"
+    summary: str = Field(min_length=1, max_length=500)
+    evidence_note: str = Field(min_length=1, max_length=2000)
+    supporting_file_shas: Dict[Annotated[str, Field(min_length=1, max_length=1024)], Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]] = Field(min_length=1, max_length=10)
+    verification_command: str = Field(default="", max_length=500)
