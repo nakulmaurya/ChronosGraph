@@ -1,0 +1,65 @@
+{
+  "session_id": "ses_eb5ba0e1dffeq1gvE027C6Z7cy",
+  "model_ids": [
+    "deepseek-v4.1-flash-free"
+  ],
+  "trace_sha256": "3a2067e9434939c403fa9bc3785466ec37bf908e213b5ecdf52c47b9bf42f1c6",
+  "tool_calls": [
+    {
+      "tool": "chronosgraph_inspect_repository_snapshot",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0"
+    },
+    {
+      "tool": "chronosgraph_check_proposal_decision",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "record": {
+        "id": "prop_a030b5b47d174f36a2de7c230002d6f8",
+        "status": "STALE_POLICY",
+        "proposal_hash": "0ad8f9bdae9c0d1bf205caf6d788313bf5ddab8cc628efd0a49f35740b18ac22",
+        "approved_proposal_hash": null
+      },
+      "potentially_broken_callers": [],
+      "executions": [
+        {
+          "id": "exec_f759c63719ce4d1b82defe780ef3d96c",
+          "exit_code": 0,
+          "provenance_kind": "LOCAL_WORKTREE_OBSERVED",
+          "command_executed": "pytest -- tests/test_orders.py"
+        }
+      ]
+    },
+    {
+      "tool": "chronosgraph_recall_task_memory",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "findings": [
+        {
+          "id": "finding_5e76a110ba66404e8fa17fda646a284d",
+          "status": "STALE",
+          "stale_reasons": [
+            "GOVERNING_POLICY_CHANGED"
+          ]
+        }
+      ]
+    },
+    {
+      "tool": "chronosgraph_locate_context",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0"
+    },
+    {
+      "tool": "chronosgraph_find_true_code_owners",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0"
+    }
+  ],
+  "final_answer": "## Status\n\n**Proposal `prop_a030b5b47d174f36a2de7c230002d6f8` \u2014 \"OpenCode coordinated discount rename\": `STALE_POLICY`**\n- Base revision matches the pinned snapshot (`c706d950...`), touched `core/pricing.py`, `services/checkout.py`.\n- A human decision exists, but not an approval: `decision_actor: BROWSER_OPERATOR` at `1792247291` reviewed it \u2014 status nonetheless resolved to `STALE_POLICY`, so it is **not executable**.\n- Reason it is stale: the governing policy changed. Its `governing_decision_ids` / impact summary cite `override_0352c7a7323b4d5b9e74652fff79c987` (\"preserve gold checkout behavior\"), while `locate_context` reports the currently ACTIVE rule as `override_692b91fd6f154805a42ca0dc57a38a54` (\"finance review now required for discount contract changes\", `LIVE_ARCHITECT_OVERRIDE`).\n\n**Memory recall (`include_stale=true`) confirms it:** finding `finding_5e76a110ba66404e8fa17fda646a284d` has `status: STALE`, `stale_reasons: [\"GOVERNING_POLICY_CHANGED\"]`, `stale_findings_in_scan: 1`.\n\n## Observed exit code & provenance (reported, not run by me)\n\n- Execution record `exec_f759c63719ce4d1b82defe780ef3d96c`; `command_executed: \"pytest -- tests/test_orders.py\"`; **observed exit_code: `0`**; output \"1 passed in 0.03s\".\n- Provenance: `runner_principal: TRUSTED_LOCAL_OPERATOR_RUNNER`, `provenance_kind: LOCAL_WORKTREE_OBSERVED`, `verification_status: CANDIDATE_TESTS_PASSED`, run against a disposable worktree at the same base revision. `sandbox_cleaned_up: true`.\n- Important: exit `0` is a candidate result on a throwaway worktree, recorded by that runner \u2014 it is **stale** because its governing policy changed, and I did not execute or verify anything myself. The pinned snapshot is unchanged (`dirty: false`, `freshness_is_live: false`).\n\n## Declared ownership vs. true Git contributors\n\n- **Declared CODEOWNERS** (from `locate_context`): `.github/CODEOWNERS` at the pinned commit (sha256 `2f79bb11...`), declaration `/core/pricing.py` \u2192 `@platform-team`. Basis is `DECLARED_AT_PINNED_COMMIT_NOT_VERIFIED_IDENTITY_OR_ACCESS` \u2014 a policy *declaration* only.\n- **True code owners** (from `find_true_code_owners`): Git commit history attributes `core/pricing.py` to login `git:0b5e246e4fe79b5a7e32` (\"Hero fixture\"), `identity_kind: GIT_AUTHOR_UNVERIFIED`, `pr_count: 1`, `lines_touched: 2`, source `GIT_COMMIT_HISTORY`.\n\nThese answer different questions: CODEOWNERS states who *should* review per repo policy; `find_true_code_owners` ranks who *actually* authored/reviewed from history, with unverified identity. No mutation or command execution was performed.",
+  "provenance": "ACTUAL_PROVIDER_MODEL_THROUGH_OFFICIAL_OPENCODE_NOT_SCRIPTED_TOOL_SELECTION"
+}

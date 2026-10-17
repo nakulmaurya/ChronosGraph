@@ -20,13 +20,23 @@ def symbol_source(tenant_graph, file_path, symbol_name):
         raise HTTPException(422, 'Captured source is unavailable; enrich the pinned snapshot')
     if hashlib.sha256(record['text'].encode('utf-8')).hexdigest() != record['sha']:
         raise HTTPException(409, 'Captured source hash mismatch')
-    parsed = parse_python_source(record['text'], file_path)
-    matches = [s for s in parsed['functions'] + parsed['classes']
-               if s['qualified_name'] == symbol_name or s['qualified_name'].split(':', 1)[1] == symbol_name or s['name'] == symbol_name]
-    if len(matches) != 1:
-        raise HTTPException(409 if matches else 404, 'Symbol is ambiguous; use qualified_name' if matches else 'Symbol not found')
-    symbol = matches[0]
-    source = ''.join(record['text'].splitlines(keepends=True)[symbol['start_line']-1:symbol['end_line']])
+    if symbol_name == '__module__':
+        # Explicit bounded captured-file read includes imports and module constants.
+        # It is not a filesystem read, resource template or executable instruction.
+        symbol = {'qualified_name': f'{file_path}:__module__', 'start_line': 1,
+                  'end_line': len(record['text'].splitlines()), 'signature': None}
+        source = record['text']
+    else:
+        parsed = parse_python_source(record['text'], file_path)
+        matches = [s for s in parsed['functions'] + parsed['classes']
+                   if s['qualified_name'] == symbol_name or s['qualified_name'].split(':', 1)[1] == symbol_name or s['name'] == symbol_name]
+        if len(matches) != 1:
+            available = ', '.join(s['name'] for s in (parsed['functions'] + parsed['classes'])[:20])
+            raise HTTPException(409 if matches else 404,
+                'Symbol is ambiguous; use qualified_name' if matches else
+                f'Symbol not found. Defined symbols: {available or "none"}. Use __module__ for bounded captured file source including imports.')
+        symbol = matches[0]
+        source = ''.join(record['text'].splitlines(keepends=True)[symbol['start_line']-1:symbol['end_line']])
     snippet = source.encode('utf-8')[:8000].decode('utf-8', errors='ignore')
     return {'tenant_graph': tenant, 'file_path': file_path, 'qualified_name': symbol['qualified_name'],
             'start_line': symbol['start_line'], 'end_line': symbol['end_line'], 'signature': symbol.get('signature'),

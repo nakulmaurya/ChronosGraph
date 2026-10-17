@@ -5,6 +5,10 @@ Date: 2026-10-17. Reviewed base: `2ce07d0`; follow-up UI fixes on
 using four role lenses followed by an adversarial second pass. It is **not** four
 independent people or a successfully delegated independent model review.
 
+**Subsequent evidence:** [OPENCODE-USER-01](../reports/OPENCODE-USER-01.md) resolves
+the provider diagnostic and witnesses an actual model-authored change lifecycle.
+The review below remains the record of what was known at FINAL-02.
+
 ## Method and boundaries
 
 Reviewed the default Command Center, proposal UI, API/MCP boundaries, lifecycle,

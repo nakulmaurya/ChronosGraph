@@ -10,3 +10,6 @@ dist/
 
 .source-cache/
 *.egg-info/
+
+# Machine-specific OpenCode paths/permissions; never commit local credentials.
+opencode.local.json

@@ -2,6 +2,7 @@
 import asyncio
 import hashlib
 import json
+import pytest
 from fastmcp import Client
 from app.db.client import db_manager
 from app.mcp_server.server import mcp
@@ -162,3 +163,74 @@ def test_context_prioritizes_requested_symbol_beyond_first_five(client, ingested
     assert len(entry['symbols']) == 5
     assert data['coverage']['truncated'] is True
     assert data['payload_bytes'] == len(response.content) <= 4096
+
+
+def test_module_source_includes_imports_and_hash(client, ingested):
+    tenant, _, _ = ingested
+    data = client.get('/api/v1/context/symbol-source', params={
+        'tenant_graph': tenant, 'file_path': 'src/pkg/a.py', 'symbol_name': '__module__'}).json()
+    original = db_manager.get_graph(tenant).ro_query(
+        'MATCH (f:File {path:$path}) RETURN f.source_text', {'path': 'src/pkg/a.py'}).result_set[0][0]
+    assert data['source'] == original
+    assert data['start_line'] == 1
+    assert data['source_sha256'] == hashlib.sha256(original.encode()).hexdigest()
+    assert data['qualified_name'].endswith(':__module__')
+    assert data['truncated'] is False
+
+
+def test_module_source_bounded_and_hash_checked(client, ingested):
+    tenant, _, _ = ingested
+    text = '#' + 'é' * 6000 + '\n'
+    graph = db_manager.get_graph(tenant)
+    graph.query('MATCH (f:File {path:$path}) SET f.source_text=$text, f.sha256=$sha',
+        {'path': 'src/pkg/a.py', 'text': text, 'sha': hashlib.sha256(text.encode()).hexdigest()})
+    params = {'tenant_graph': tenant, 'file_path': 'src/pkg/a.py', 'symbol_name': '__module__'}
+    response = client.get('/api/v1/context/symbol-source', params=params)
+    assert response.status_code == 200
+    data = response.json()
+    assert data['truncated'] and len(data['source'].encode()) <= 8000
+    assert data['source_bytes'] == len(text.encode())
+    assert data['returned_source_bytes'] == 7999
+    assert '\ufffd' not in data['source']
+    graph.query("MATCH (f:File {path:'src/pkg/a.py'}) SET f.sha256='invalid'")
+    assert client.get('/api/v1/context/symbol-source', params=params).status_code == 409
+
+
+def test_missing_symbol_explains_captured_module_read(client, ingested):
+    tenant, _, _ = ingested
+    response = client.get('/api/v1/context/symbol-source', params={
+        'tenant_graph': tenant, 'file_path': 'src/pkg/a.py', 'symbol_name': 'missing'})
+    assert response.status_code == 404
+    assert '__module__' in response.json()['detail']
+
+
+@pytest.mark.parametrize('text', ['', 'value = 1', 'value = 1\n'])
+def test_module_line_counts_for_empty_and_newline_edges(client, ingested, text):
+    tenant, _, _ = ingested
+    db_manager.get_graph(tenant).query(
+        'MATCH (f:File {path:$path}) SET f.source_text=$text, f.sha256=$sha',
+        {'path': 'src/pkg/a.py', 'text': text, 'sha': hashlib.sha256(text.encode()).hexdigest()})
+    response = client.get('/api/v1/context/symbol-source', params={
+        'tenant_graph': tenant, 'file_path': 'src/pkg/a.py', 'symbol_name': '__module__'})
+    assert response.status_code == 200
+    data = response.json()
+    assert data['source'] == text and not data['truncated']
+    assert data['end_line'] == len(text.splitlines())
+
+
+def test_ambiguous_symbol_still_requires_qualification(client, ingested):
+    tenant, _, _ = ingested
+    text = 'def duplicate():\n    return 1\ndef duplicate():\n    return 2\n'
+    db_manager.get_graph(tenant).query(
+        'MATCH (f:File {path:$path}) SET f.source_text=$text, f.sha256=$sha',
+        {'path': 'src/pkg/a.py', 'text': text, 'sha': hashlib.sha256(text.encode()).hexdigest()})
+    response = client.get('/api/v1/context/symbol-source', params={
+        'tenant_graph': tenant, 'file_path': 'src/pkg/a.py', 'symbol_name': 'duplicate'})
+    assert response.status_code == 409
+
+
+def test_parser_constructs_qualified_symbol_contract():
+    from app.ingestion.ast_parser import parse_python_source
+    parsed = parse_python_source('def f():\n    return 1\nclass C:\n    def method(self):\n        pass\n', 'module.py')
+    assert parsed['functions'] and parsed['classes']
+    assert all(':' in s['qualified_name'] for s in parsed['functions'] + parsed['classes'])

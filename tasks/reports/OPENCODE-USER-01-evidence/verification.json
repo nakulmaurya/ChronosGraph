@@ -1,0 +1,18 @@
+{
+  "backend": {
+    "passed": 311,
+    "failed": 0,
+    "skipped": 0,
+    "isolation": "disposable native DB copy"
+  },
+  "frontend_unit": {
+    "passed": 34
+  },
+  "typecheck": "passed",
+  "production_build": "passed",
+  "actual_model_browser_checks": 12,
+  "page_errors": 0,
+  "synthetic_root_map_p95_ms": 47.34,
+  "live_application_revision_unchanged": "46d150817dd5c6196e149e028a56498878b1a24d",
+  "scope": "Bounded trusted-local integration; not independent human acceptance or production readiness"
+}

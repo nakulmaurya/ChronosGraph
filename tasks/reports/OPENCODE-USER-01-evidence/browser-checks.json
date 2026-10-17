@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "Keyboard-accessible relationship table (1560)",
+    "Incomplete rename has real broken-caller evidence (1560)",
+    "Approve exact hash through browser operator endpoint",
+    "Observed worktree pytest exit and durable memory evidence",
+    "Activity and source-bound memory visible (1560)",
+    "Native shortestPath replay and compact note inside default UI",
+    "Keyboard-accessible relationship table (390)",
+    "Incomplete rename has real broken-caller evidence (390)",
+    "Activity and source-bound memory visible (390)",
+    "Native wikilink preview and ZIP download",
+    "Live policy override invalidates prior evidence",
+    "Captured base source unchanged after observed tests and override"
+  ],
+  "errors": [],
+  "kind": "REAL_NATIVE_API_STDIO_BROWSER_AND_OWNED_WORKTREE",
+  "hosted_model_agent": true,
+  "model_provenance": "OpenCode official DeepSeek v4.1 Flash free; actual model-authored proposals; automated browser operator on owned fixture, not a human user study"
+}

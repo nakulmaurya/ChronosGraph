@@ -9,11 +9,17 @@ an explicitly trusted local worktree, and retain evidence that expires when code
 or policy changes.
 
 **FINAL-01 release branch:** `build/final-hackathon-release`, built from `6048a29`.
-**Overall FINAL-01 status: NOT READY for unconditional submission; the free coding-model provider blocked the real-agent evaluation.**
-This README describes the release branch; main is not merged. The loopback-only VM
-preview now runs verified application commit `46d1508` with managed user services. [Current verification and remaining gates](tasks/reports/FINAL-01.md) ·
-[Critique-only readiness review](tasks/reviews/FINAL-02-persona-critique.md).
-[Follow-up fixes and deployment evidence](tasks/reports/FINAL-02.md).
+**Current bounded workflow: VERIFIED with a real OpenCode/DeepSeek agent.**
+The earlier deny-all diagnostic 403 was recovered with normal Build permissions
+(`bash: ask`). A real model authored coordinated proposals; browser approval,
+observed candidate pytest, fresh-session recall and policy-stale invalidation passed.
+This is not an unconditional production or submission-readiness claim.
+
+[OpenCode setup and user workflow](docs/opencode-integration.md) ·
+[Real-model verification and remaining gaps](tasks/reports/OPENCODE-USER-01.md) ·
+[Earlier four-persona review](tasks/reviews/FINAL-02-persona-critique.md).
+Main remains unmerged. The VM preview runs application `46d1508`; this follow-up
+source integration is not silently represented as that deployed runtime.
 
 ## Start locally
 
@@ -141,12 +147,12 @@ proposal was merged. Unknown execution outcomes stop retries for that proposal.
 
 ## Verified release checks
 
-- **295 backend tests**, zero failures/skips; **34 frontend unit tests**.
-- Typecheck and production build passed; **71 browser checks** across desktop/mobile.
+- **311 backend tests**, zero failures/skips; **34 frontend unit tests**.
+- Typecheck and production build passed; **71 historical browser checks** across desktop/mobile, plus a fresh **12-check actual-model lifecycle rerun** (not 12 new distinct features).
 - **15 MCP tools** with the discovery/guard exceptions described above.
-- Synthetic 5,000-file native root-map p95: **107.97 ms** in the final run; not a production SLA.
+- Synthetic 5,000-file native root-map p95: **47.34 ms** in the OpenCode integration run; not a production SLA.
 - Seven-day durable Redis import receipts, subject to configured database persistence.
-- Real scripted stdio and observed fixture pytest passed; hosted coding-model run blocked by provider HTTP 403.
+- Real OpenCode free-model MCP authoring, exact-hash browser approval, observed fixture pytest and fresh-session current/stale recall passed. The earlier deny-all permission configuration caused HTTP 403; see [setup and limitations](docs/opencode-integration.md).
 
 ## Reproduce verification
 

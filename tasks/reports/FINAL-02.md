@@ -2,6 +2,9 @@
 
 Base `2ce07d0`, branch `build/final-hackathon-release`.
 
+**Historical report:** the provider-blocked gate below was subsequently recovered
+and the actual model workflow verified in [OPENCODE-USER-01](OPENCODE-USER-01.md).
+
 ## Implemented after the four-persona review
 
 - Preserve proposal selection and review reason during refresh.

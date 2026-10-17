@@ -1,0 +1,111 @@
+{
+  "session_id": "ses_eb5beb0a8ffezl57uFbIc1TXU8",
+  "model_ids": [
+    "deepseek-v4.1-flash-free"
+  ],
+  "trace_sha256": "27673f6db274f4ecb9c5c5ff2ad0ca57c9326fea37c8200c444111263f21ecfe",
+  "tool_calls": [
+    {
+      "tool": "chronosgraph_discover_repositories",
+      "status": "completed",
+      "tenant_graph": null,
+      "expected_revision": null
+    },
+    {
+      "tool": "chronosgraph_inspect_repository_snapshot",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0"
+    },
+    {
+      "tool": "chronosgraph_locate_context",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0"
+    },
+    {
+      "tool": "chronosgraph_query_bitemporal_decisions",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0"
+    },
+    {
+      "tool": "chronosgraph_get_symbol_source",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "file_path": "core/pricing.py",
+      "symbol_name": "__module__"
+    },
+    {
+      "tool": "chronosgraph_get_symbol_source",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "file_path": "services/checkout.py",
+      "symbol_name": "__module__"
+    },
+    {
+      "tool": "chronosgraph_get_symbol_source",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "file_path": "api/orders.py",
+      "symbol_name": "__module__"
+    },
+    {
+      "tool": "chronosgraph_get_symbol_source",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "file_path": "tests/test_orders.py",
+      "symbol_name": "__module__"
+    },
+    {
+      "tool": "chronosgraph_propose_change_for_approval",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "record": {
+        "id": "prop_6b5541d2e680464f86266adb289a4bae",
+        "status": "PROPOSED",
+        "proposal_hash": "893f2807dd945929bd2487744f52a2d7110fc2165b19be67d358abfda4870f9c",
+        "approved_proposal_hash": null
+      },
+      "potentially_broken_callers": [
+        "services/checkout.py:checkout"
+      ],
+      "executions": []
+    },
+    {
+      "tool": "chronosgraph_propose_change_for_approval",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "record": {
+        "id": "prop_a030b5b47d174f36a2de7c230002d6f8",
+        "status": "PROPOSED",
+        "proposal_hash": "0ad8f9bdae9c0d1bf205caf6d788313bf5ddab8cc628efd0a49f35740b18ac22",
+        "approved_proposal_hash": null
+      },
+      "potentially_broken_callers": [],
+      "executions": []
+    },
+    {
+      "tool": "chronosgraph_check_proposal_decision",
+      "status": "completed",
+      "tenant_graph": "repo_test_1b708015526149219ac861bdbe0248dd",
+      "expected_revision": "c706d950259047216d693a3dc43c1d81de123ab0",
+      "record": {
+        "id": "prop_a030b5b47d174f36a2de7c230002d6f8",
+        "status": "PROPOSED",
+        "proposal_hash": "0ad8f9bdae9c0d1bf205caf6d788313bf5ddab8cc628efd0a49f35740b18ac22",
+        "approved_proposal_hash": null
+      },
+      "potentially_broken_callers": [],
+      "executions": []
+    }
+  ],
+  "final_answer": "Done. Stopped at PROPOSED \u2014 awaiting browser operator approval. No approval, execution, override, or test run performed.\n\n**Source read (exact):**\n- `core/pricing.py` (sha `3eb3f0b1\u2026`): `def calculate_discount(amount, tier): return amount * 0.9 if tier == \"gold\" else amount`\n- `services/checkout.py` (sha `17892d23\u2026`): `from core.pricing import calculate_discount` \u2192 `checkout` calls `calculate_discount(amount, \"gold\")`\n- `api/orders.py`: imports `checkout` (signature unchanged) \u2014 no rename needed\n- `tests/test_orders.py`: imports `place_order` \u2014 no rename needed\n\n**Incomplete proposal (detection demo)** `oc-user-incomplete-01`\n- proposal_id `prop_6b5541d2e680464f86266adb289a4bae`, hash `893f2807dd945929bd2487744f52a2d7110fc2165b19be67d358abfda4870f9c`\n- pricing-only rename \u2192 `potentially_broken_callers [\"services/checkout.py:checkout\"]`, removed CALLS edge to `calculate_discount`, `unresolved_calls: 1`\n\n**Corrected coordinated proposal** `oc-user-coordinated-01` (task title: OpenCode coordinated discount rename)\n- proposal_id `prop_a030b5b47d174f36a2de7c230002d6f8`\n- proposal_hash `0ad8f9bdae9c0d1bf205caf6d788313bf5ddab8cc628efd0a49f35740b18ac22`\n- touched_paths `core/pricing.py`, `services/checkout.py`; added CALLS edge `checkout \u2192 discounted_total`; `potentially_broken_callers: []`; `unresolved_calls: 0`; `removed_or_signature_changed_symbols [\"core/pricing.py:calculate_discount\"]`\n- candidate/impacted test: `tests/test_orders.py` (`impacted_test_files`); recommended command `pytest -- tests/test_orders.py` (not executed)\n- decision status: `PROPOSED` (governing rule `override_0352c7a7323b4d5b9e74652fff79c987` \"DEMO: preserve gold checkout behavior\"); `executions: []`\n\nAll hash/impact data is tool-reported; no tests were executed.",
+  "provenance": "ACTUAL_PROVIDER_MODEL_THROUGH_OFFICIAL_OPENCODE_NOT_SCRIPTED_TOOL_SELECTION"
+}

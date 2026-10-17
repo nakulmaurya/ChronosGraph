@@ -1,0 +1,38 @@
+{
+  "fixture": {
+    "tracked_files": 5000,
+    "python_files": 1000,
+    "functions": 1000,
+    "imports": 1000
+  },
+  "scope": "Synthetic single-client native DB reads; not import throughput, maximum size, runtime dispatch or production capacity",
+  "budget_p95_ms": 2000,
+  "samples_per_operation": 12,
+  "results": {
+    "root_map": {
+      "p50_ms": 45.62,
+      "p95_ms": 47.34,
+      "max_ms": 55.17
+    },
+    "folder_map": {
+      "p50_ms": 16.59,
+      "p95_ms": 17.25,
+      "max_ms": 17.63
+    },
+    "tail_exact_path_search": {
+      "p50_ms": 19.17,
+      "p95_ms": 20.95,
+      "max_ms": 22.26
+    },
+    "symbol_search_page": {
+      "p50_ms": 20.32,
+      "p95_ms": 21.59,
+      "max_ms": 21.97
+    },
+    "file_inspector": {
+      "p50_ms": 10.06,
+      "p95_ms": 11.23,
+      "max_ms": 11.9
+    }
+  }
+}
