@@ -1,5 +1,8 @@
 # T-09: upstream reuse decisions and improvement plan
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Status: source review, not a guarantee of better agent outcomes or full T-09 completion.
 Roles: builder + integrator sequential self-review. No independent audit.
 

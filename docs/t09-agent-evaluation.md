@@ -1,5 +1,8 @@
 # T-09 — fair external-agent evaluation protocol
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Status: **PROTOCOL ONLY — EXTERNAL RUNS NOT RUN**. No paid calls authorized.
 Native FastMCP protocol integration tests exercise real tools, not an autonomous
 Claude Code, Cursor or OpenCode coding task. They do not establish agent savings.

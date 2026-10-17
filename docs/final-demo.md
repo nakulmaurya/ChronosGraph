@@ -1,5 +1,19 @@
 # FINAL-01 narrated demo provenance
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
+## Latest full walkthrough
+
+A separate **23-minute, 21-chapter developer walkthrough** is now available with
+real UI actions, architecture/benchmark cards, paced actions and held screens,
+synthetic narration, captions and a complete transcript. See
+[full walkthrough](full-walkthrough.md). Its MCP proposal author is a scripted
+protocol client, not a live model. The independently verified real-model OpenCode
+workflow is documented in [OPENCODE-USER-01](../tasks/reports/OPENCODE-USER-01.md).
+
+The original short FINAL-01 recording described below remains historical media.
+
 The release video is a 3:20 screen recording of actual actions in the default
 Command Center against an owned native FalkorDB copy. It is not a slideshow of
 invented states, a hosted-model agent run, or an IDE integration certification.

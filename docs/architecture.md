@@ -1,5 +1,23 @@
 # Architecture — ChronosGraph
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
+## Current architecture — primary branch
+
+The default Next.js Command Center and FastMCP stdio interface share snapshot-bound
+FastAPI/FalkorDB services. Current product services include `context_locator.py`,
+`diff_impact.py`, `change_lifecycle.py`, `task_memory.py`, `agent_activity.py`,
+`ownership.py` and `company_brain.py`. Fifteen MCP tools expose discovery,
+source/context, proposals/decision checks/reports, policy and memory operations.
+Proposals use disposable GRAPH.COPY analysis; exact approval and observed trusted
+local execution remain separate steps. Redis mutation locks protect the lifecycle
+and policy writes; older process-local locks do not replace these guards.
+
+See [lifecycle contract](final-lifecycle.md), [current status](current-release.md)
+and [benchmark limits](../tasks/reports/BENCHMARK-REPORT.md). The v1.3 material below
+records the original architecture contract, not a restriction on later authorized work.
+
 > Scope: MVP + Hackathon 3-Track Sweep | Related PRD: `docs/prd.md` | Status: accepted
 
 ## v1.3 additive integration contract

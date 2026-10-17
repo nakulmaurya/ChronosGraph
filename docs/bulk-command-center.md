@@ -1,5 +1,8 @@
 # Bulk command-center milestone
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Status: **in progress**, on `build/bulk-command-center-readiness`. This is not the code running on main or the existing VM preview.
 
 ## Implemented in this milestone

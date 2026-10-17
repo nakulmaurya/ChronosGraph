@@ -1,5 +1,8 @@
 # T-09 — Guarded local Git connections and snapshot refresh
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 This is the **trusted-local CLI** portion of milestone C. It is not a public
 GitHub importer or a workspace-writing agent. Browser mutations/import controls,
 mixed-language inventory and in-place incremental sync remain pending.

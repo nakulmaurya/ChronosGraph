@@ -1,5 +1,8 @@
 # T-09 checkpoint — source replacement, context and reported memory
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 This branch is **IN_PROGRESS**, not a replacement production release. T-08 main
 and ports 3000/8001 remain untouched. No new video or paid model benchmark.
 

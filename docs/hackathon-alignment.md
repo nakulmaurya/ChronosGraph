@@ -1,5 +1,18 @@
 # ChronosGraph — FalkorDB Graph Hacks alignment
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
+## Current integrated demonstration
+
+All three capabilities are accessible from the default Command Center: Changes
+for proposal/approval/observed evidence, Agent activity for memory/playbook/recovery,
+and Ownership for declared owners, rules/overrides and vault export. Context and
+repository exploration support each workflow. See [current release](current-release.md)
+and [full walkthrough](full-walkthrough.md). The table below describes the earlier
+implementation slice; local observed execution is now a separate explicit opt-in,
+not an automatic action on imported public code.
+
 Authoritative challenge page reviewed for this implementation slice:
 https://www.wemakedevs.org/hackathons/falkordb#challenge
 

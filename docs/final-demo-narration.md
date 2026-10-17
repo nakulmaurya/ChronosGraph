@@ -1,5 +1,8 @@
 # FINAL-01 demo narration
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Synthetic voiceover transcript for the real 3:20 UI recording. Scripted MCP client; not a successful hosted-model evaluation.
 
 ## 0:00 — Connected code, not isolated files

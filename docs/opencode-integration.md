@@ -1,5 +1,8 @@
 # OpenCode + ChronosGraph: user workflow
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Tested with official OpenCode 1.19.3 and `opencode/deepseek-v4.1-flash-free`.
 A free model's availability and limits can change. Refresh the official catalog;
 do not assume a “Lite” alias or silently switch to a paid model.

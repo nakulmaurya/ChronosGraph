@@ -1,5 +1,8 @@
 # Product Requirements — ChronosGraph
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Version: v1.3 | T-05 accepted via user bridge; prior CR-001/CR-002 remain the v1.2 baseline
 
 ## Outcome and truthful scope

@@ -8,7 +8,12 @@ inspect a proposed change, approve its exact contents, observe candidate tests i
 an explicitly trusted local worktree, and retain evidence that expires when code
 or policy changes.
 
-**FINAL-01 release branch:** `build/final-hackathon-release`, built from `6048a29`.
+**Primary release branch: `main`.** The latest hackathon implementation,
+including FINAL-01 and FINAL-BENCHMARK-01, is integrated from
+`build/final-hackathon-release` (verified application baseline `479e987`).
+
+[Documentation index](docs/README.md) · [Current release status](docs/current-release.md) ·
+[Full walkthrough and media](docs/full-walkthrough.md)
 **Current bounded workflow: VERIFIED with a real OpenCode/DeepSeek agent.**
 The earlier deny-all diagnostic 403 was recovered with normal Build permissions
 (`bash: ask`). A real model authored coordinated proposals; browser approval,
@@ -18,8 +23,8 @@ This is not an unconditional production or submission-readiness claim.
 [OpenCode setup and user workflow](docs/opencode-integration.md) ·
 [Real-model verification and remaining gaps](tasks/reports/OPENCODE-USER-01.md) ·
 [Earlier four-persona review](tasks/reviews/FINAL-02-persona-critique.md).
-Main remains unmerged. The VM preview runs application `46d1508`; this follow-up
-source integration is not silently represented as that deployed runtime.
+The VM preview still runs application `46d1508`; publishing source to `main`
+does not deploy it. See [preview access](docs/preview-access.md).
 
 ## Measured real-source workflows
 
@@ -50,7 +55,7 @@ not witnessed FINAL-01 platform certification.
 ```sh
 git clone https://github.com/nakulmaurya/ChronosGraph.git
 cd ChronosGraph
-git checkout build/final-hackathon-release
+git checkout main
 bash scripts/start-local.sh
 # Optional, trusted local one-click public GitHub imports:
 CHRONOSGRAPH_ENABLE_BROWSER_IMPORT=1 bash scripts/start-local.sh
@@ -67,8 +72,10 @@ See [platform setup](docs/t09-platform-setup.md) and
 ### Import a repository without a terminal
 
 In a browser-import-enabled session, click **Import repository**, paste a public
-GitHub Python repository, and import. Branch defaults to `main`; an empty commit
-hash resolves the latest branch commit first and then imports that exact version.
+GitHub Python repository, and import. An empty branch resolves the repository
+default branch; an empty commit hash resolves its latest commit and then imports
+that exact version. An optional hash confirms the selected branch head, not an
+arbitrary historical revision.
 Each import creates a separate saved snapshot; old snapshots are never overwritten.
 Receipts are Redis-backed with seven-day retention, subject to the durability of
 your configured Redis storage. Imports do **not** execute repository code. Public

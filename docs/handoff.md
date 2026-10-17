@@ -1,5 +1,16 @@
 # ChronosGraph Engineering Handoff
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
+## Current handoff — integrated hackathon release
+
+The canonical source is now `main`, integrating `build/final-hackathon-release`
+through verified application baseline `479e987` plus documentation updates.
+Read [current release status](current-release.md), [benchmark evidence](../tasks/reports/BENCHMARK-REPORT.md)
+and [OpenCode verification](../tasks/reports/OPENCODE-USER-01.md) first.
+The old checkpoint narrative below is preserved as history, not current status.
+
 ## T-09 current development checkpoint — IN_PROGRESS
 
 Branch `build/t09-repo-workbench-and-trusted-memory`, base published main

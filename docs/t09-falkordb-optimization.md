@@ -1,5 +1,8 @@
 # T-09: docs-backed native FalkorDB ownership lookup optimization
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 ## Applied change
 
 The existing File/Function/Class and policy indexes remain unchanged. Pinned

@@ -1,5 +1,15 @@
 # From Connected Code to Approved Changes: Building a Source-Bound Memory Cockpit on FalkorDB
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
+## Publication status and current source
+
+The integrated implementation is on `main`; [current release status](current-release.md)
+and [benchmark report](../tasks/reports/BENCHMARK-REPORT.md) define its evidence and
+limitations. This is a repository article draft, not a claim of external publication
+or an awarded prize. A [full developer walkthrough](full-walkthrough.md) accompanies it.
+
 An AI coding assistant can understand a function and still misunderstand a change.
 The missing context might be three import hops away, inside a replaced architecture
 rule, or buried in the failed branches of yesterday's investigation. ChronosGraph

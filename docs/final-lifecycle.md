@@ -1,5 +1,8 @@
 # FINAL-01: exact proposals, observed tests, expiring evidence
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 ## Data and state
 
 `ChangeTask → ChangeAgentRun → ChangeProposal → HumanDecision`, with

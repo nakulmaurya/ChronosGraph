@@ -1,5 +1,8 @@
 # ChronosGraph T-08 — 2:45 second-brain demo runbook
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Record the actual local product, not a slide/mock response. Four indexed repository
 snapshots, truthful provenance badges and zero product model calls remain visible.
 Counts grow with recorded investigations. Never narrate fixed node counts, test-skip

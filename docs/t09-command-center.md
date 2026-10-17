@@ -1,5 +1,8 @@
 # T-09 developer command center — verified checkpoint
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 This supersedes the earlier CLI-only browser guide description for the **new** UI.
 T-09 remains IN_PROGRESS on `build/t09-repo-workbench-and-trusted-memory`;
 main is not merged. No new narrated video or external-model benchmark was made.

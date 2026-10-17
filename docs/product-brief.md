@@ -1,5 +1,8 @@
 # Product Brief — ChronosGraph
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Version v1.2 | Approved deterministic zero-key scientific scope (CR-002)
 
 ## Problem and audience

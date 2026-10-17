@@ -1,5 +1,8 @@
 # Planning Manifest — ChronosGraph
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 > Contract version: v1.3 | Status: T-01–T-05 ACCEPTED | Integration: PR #5 MERGED at `37f9540` | Historical planner→builder→reviewer records retained below.
 
 ## Authority and baseline

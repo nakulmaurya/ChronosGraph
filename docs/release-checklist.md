@@ -1,5 +1,21 @@
 # Release checklist — v1.3 accepted local demonstration
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
+## Current publication gate
+
+- Latest hackathon application and benchmark work integrated into `main`.
+- Setup instructions and current docs point to the primary branch.
+- Full historical gate: 333 backend / 34 frontend unit tests; typecheck/build;
+  118 browser check executions. See [exact scope](../tasks/reports/BENCHMARK-REPORT.md).
+- Benchmark acceptance is **NOT MET**; do not substitute a merge for readiness.
+- VM deployment, blog publication and organizer submission are separate actions.
+- Generated media is published as release assets, not source/build artifacts.
+
+The v1.3 and T-xx checklist below is historical evidence. See
+[current release status](current-release.md) for the integrated release.
+
 Contract v1.3; T-05 accepted through the user bridge. Historical v1.2 gates follow. T-03 is accepted and merged via
 PR #3 at `a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7`. The Principal Architect accepted
 T-04/M4 at `d47c035` through the user bridge. PR #4 merged the release into main

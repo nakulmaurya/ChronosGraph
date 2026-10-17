@@ -1,7 +1,11 @@
 # Verified loopback preview access
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 The current VM application release is `46d1508`. Later review receipts and test-only
-commits do not silently replace that runtime. Main remains unmerged.
+commits do not silently replace that runtime. The latest hackathon source is now
+in `main`; updating GitHub does not update these deployed services.
 
 ## Connect
 

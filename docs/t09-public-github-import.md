@@ -1,5 +1,8 @@
 # T-09 public GitHub intake — bounded CLI slice
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Status: implemented for explicit public Python repositories, not a hosted import
 service or full milestone-C acceptance. Main/production remain unchanged.
 

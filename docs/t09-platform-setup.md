@@ -1,5 +1,8 @@
 # T-09 platform and runtime boundaries
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 ## Runtime
 
 Frontend runtime minimum is **Node 20.9** (Next.js requirement); Node 22 and 24

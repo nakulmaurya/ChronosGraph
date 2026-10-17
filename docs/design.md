@@ -1,5 +1,8 @@
 # Interface Design — ChronosGraph Flight Recorder
 
+> Current source: `main`. See the [documentation index](README.md) and
+> [release status](current-release.md); dated checkpoint details below retain their original scope.
+
 Version v1.3 / accepted T-05; prior approved CR-002 replaces illustrative fake metrics.
 The tenant menu discovers registered repositories; the snapshot selector distinguishes
 Git commits from PRs. Reviewer names are bounded, unverified author evidence.
