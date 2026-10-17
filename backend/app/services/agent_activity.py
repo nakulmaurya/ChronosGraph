@@ -53,17 +53,25 @@ def instrument(tool_name):
                 paths = arguments.get('modified_files') or ([arguments['file_path']] if arguments.get('file_path') else [])
                 paths = paths or ([arguments['target_file_path']] if arguments.get('target_file_path') else [])
                 paths = paths or (result.get('changed_files', []) if isinstance(result, dict) else [])
+                paths = paths or (list(arguments.get('proposed_files', {})))
+                reasons = []
+                if success and tool_name == 'locate_context' and isinstance(result, dict):
+                    # Whitelisted structural evidence only: never query text, source or arguments.
+                    entries = result.get('entry_points', [])[:5]
+                    paths = paths or [entry.get('path', '') for entry in entries]
+                    reasons = [{'path': e.get('path'), 'basis': 'LEXICAL_MATCH_WITH_NATIVE_FILE_PAGERANK_TIEBREAK'} for e in entries]
+                    reasons += [{'path': r.get('path'), 'via': r.get('via', [])[:4], 'basis': 'RESOLVED_IMPORT_PATH'} for r in result.get('related_importers', [])[:5]]
                 paths = [p for p in paths[:20] if isinstance(p, str) and len(p) <= 1024
                          and not p.startswith(('/', '.')) and not any(ord(c) < 32 for c in p)]
                 try:
                     db_manager.query(tenant, '''CREATE (:AgentEvent {id:$id,timestamp:$now,
                         event_kind:'MCP_TOOL_CALL',tool_name:$tool,target_files:$paths,
                         duration_ms:$duration,outcome:$outcome,error_kind:$error,result_bytes:$bytes,
-                        summary:$summary,result_measurement_basis:'JSON_VALUE_UTF8_PROTOCOL_ENVELOPE_EXCLUDED',source_type:'OBSERVED_MCP_INVOCATION'})''',
+                        summary:$summary,selection_reasons_json:$reasons,result_measurement_basis:'JSON_VALUE_UTF8_PROTOCOL_ENVELOPE_EXCLUDED',source_type:'OBSERVED_MCP_INVOCATION'})''',
                         {'id': uuid.uuid4().hex, 'now': time.time_ns() // 1_000_000,
                          'tool': tool_name, 'paths': paths, 'duration': elapsed,
                          'outcome': 'SUCCESS' if success else 'ERROR', 'error': error_kind,
-                         'bytes': result_bytes, 'summary': tool_name + (' completed' if success else ' failed')})
+                         'reasons': json.dumps(reasons, separators=(',', ':'))[:8000], 'bytes': result_bytes, 'summary': tool_name + (' completed' if success else ' failed')})
                     # Per-tenant retained latest 500, plus a small concurrent-write window.
                     db_manager.query(tenant, '''MATCH (e:AgentEvent) WITH e ORDER BY e.timestamp DESC,e.id DESC
                         SKIP 500 DELETE e''')
@@ -91,8 +99,11 @@ def activity(tenant_graph, cursor=None, limit=50):
         RETURN e.id AS id,e.timestamp AS timestamp,e.tool_name AS tool_name,e.event_kind AS event_kind,
         e.target_files AS target_files,e.summary AS summary,e.duration_ms AS duration_ms,
         e.outcome AS outcome,e.error_kind AS error_kind,e.result_bytes AS result_bytes,
-        e.source_type AS source_type,e.result_measurement_basis AS result_measurement_basis ORDER BY timestamp DESC,id DESC LIMIT $limit''',
+        e.selection_reasons_json AS selection_reasons_json,e.source_type AS source_type,e.result_measurement_basis AS result_measurement_basis ORDER BY timestamp DESC,id DESC LIMIT $limit''',
         {'before': int(before), 'before_id': before_id, 'limit': limit})
+    for event in data:
+        try: event['selection_reasons'] = json.loads(event.pop('selection_reasons_json') or '[]')
+        except (ValueError, TypeError): event['selection_reasons'] = []
     return {'tenant_graph': tenant, 'events': data, 'retention_limit': 500,
             'next_cursor': str(data[-1]['timestamp'])+':'+data[-1]['id'] if len(data) == limit else None,
             'scope': 'Observed ChronosGraph MCP calls only; no external agent thoughts or private Read calls.'}

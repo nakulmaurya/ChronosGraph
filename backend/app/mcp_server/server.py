@@ -33,7 +33,7 @@ def record_decision_override(target_file_path: str,new_rule_text: str,rationale:
         tenant_graph: str='repo_falkordb_py',scope_symbol: str='module_root',author_handle: str='lead-maintainer', expected_revision: str | None=None) -> dict:
     """LESSON: Only after human confirmation, record a local override; existing playbooks may become stale."""
     return override_policy(PolicyOverrideRequest(tenant_graph=tenant_graph,target_file_path=target_file_path,
-        new_rule_text=new_rule_text,rationale=rationale,scope_symbol=scope_symbol,author_handle=author_handle)).model_dump()
+        new_rule_text=new_rule_text,rationale=rationale,scope_symbol=scope_symbol,author_handle=author_handle), expected_revision=expected_revision).model_dump()
 
 
 @mcp.tool
@@ -109,6 +109,36 @@ def inspect_repository_snapshot(tenant_graph: str, expected_revision: str) -> di
     """LESSON: Confirm the user's selected saved commit, then pass returned tool_arguments on every call. Does not install an IDE connection."""
     from app.services.agent_connection import inspect_repository_snapshot as inspect_snapshot
     return inspect_snapshot(tenant_graph, expected_revision)
+
+
+@mcp.tool
+@instrument("propose_change_for_approval")
+def propose_change_for_approval(tenant_graph: str, expected_revision: str, task_title: str,
+        proposed_files: dict[str, str | None], idempotency_key: str, client_id: str='mcp-agent') -> dict:
+    """Preview immutable replacements in GRAPH.COPY and wait for a human decision. Never apply code."""
+    from app.services.change_lifecycle import propose, ProposalInput
+    return propose(ProposalInput(tenant_graph=tenant_graph, expected_revision=expected_revision,
+        task_title=task_title, proposed_files=proposed_files, idempotency_key=idempotency_key, client_id=client_id))
+
+
+@mcp.tool
+@instrument("check_proposal_decision")
+def check_proposal_decision(tenant_graph: str, expected_revision: str, proposal_id: str) -> dict:
+    """Read exact human decision and fresh source/policy guards before external execution."""
+    from app.services.change_lifecycle import check
+    return check(tenant_graph, expected_revision, proposal_id)
+
+
+@mcp.tool
+@instrument("report_proposal_execution")
+def report_proposal_execution(tenant_graph: str, expected_revision: str, proposal_id: str,
+        proposal_hash: str, command_executed: str, exit_code: int, output_excerpt: str,
+        idempotency_key: str, create_finding_summary: str | None=None) -> dict:
+    """Store an UNVERIFIED external report, never claim locally observed execution or run a command."""
+    from app.services.change_lifecycle import report, ExecutionInput
+    return report(proposal_id, ExecutionInput(tenant_graph=tenant_graph,expected_revision=expected_revision,
+        proposal_hash=proposal_hash,command_executed=command_executed,exit_code=exit_code,
+        output_excerpt=output_excerpt,idempotency_key=idempotency_key,create_finding_summary=create_finding_summary))
 
 
 if __name__=='__main__':

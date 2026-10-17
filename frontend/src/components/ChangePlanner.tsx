@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
+import ChangeProposals from './ChangeProposals';
 import dynamic from 'next/dynamic';
 import { readDraft, saveDraft, type ChangeDraft } from '@/lib/change-drafts';
 import { request } from '@/lib/api';
@@ -45,6 +46,7 @@ export default function ChangePlanner({tenant,revision,path,onInspect}:{tenant:s
   }
   const diff=loaded?changedRegion(loaded.source,deleted?'':final):null;
   return <section className="cc-change-planner" aria-label="Selected file change planner">
+    <ChangeProposals tenant={tenant} revision={revision}/>
     <div className="cc-section-heading"><span className="cc-kicker">PLAN BEFORE YOU EDIT</span><h1>See the reach of a change.</h1><p>Start with a captured file. Compare your proposed source, then trace candidate impacts. Nothing is applied to your repository.</p></div>
     {draft&&<div className="cc-change-input"><p>Last proposal in this tab: <code>{draft.path}</code>. Bound to this saved commit; no preview results are restored.</p><button disabled={busy} onClick={()=>void load(draft)}>Resume saved draft</button></div>}
     {draftWarning&&<p role="status">{draftWarning}</p>}

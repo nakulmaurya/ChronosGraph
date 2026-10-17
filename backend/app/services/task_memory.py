@@ -52,7 +52,10 @@ def recall_findings(tenant_graph, query='', include_stale=False, limit=10):
             WHERE size($terms)=0 OR any(t IN $terms WHERE toLower(m.summary) CONTAINS t OR toLower(m.evidence_note) CONTAINS t)
             RETURN m.id AS id,m.summary AS summary,m.evidence_note AS evidence_note,
             m.file_shas_json AS hashes,m.policy_digest AS policy,m.created_at AS created_at,
-            m.verification_command AS verification_command,m.verification_basis AS verification_basis
+            m.verification_command AS verification_command,m.verification_basis AS verification_basis,
+            m.proposal_id AS proposal_id,m.execution_id AS execution_id,
+            m.base_revision AS base_revision,m.absent_base_files_json AS absent_base_files_json,m.supporting_files AS policy_paths,
+            m.governing_decision_ids_json AS governing_decision_ids_json,m.result_file_hashes_json AS result_file_hashes_json
             ORDER BY created_at DESC,id LIMIT 101''', {'terms': terms})
         more = len(values) > 100
         values = values[:100]
@@ -64,12 +67,19 @@ def recall_findings(tenant_graph, query='', include_stale=False, limit=10):
             reasons = []
             if hashes != {r['path']: r['sha'] for r in current}:
                 reasons.append('SUPPORTING_FILE_CHANGED_OR_MISSING')
-            if value.pop('policy') != policy_digest(tenant, list(hashes)):
+            absent = json.loads(value.pop('absent_base_files_json') or '[]')
+            if absent:
+                present, _ = read(tenant, 'MATCH (f) WHERE (f:File OR f:TrackedFile) AND f.path IN $paths RETURN f.path AS path LIMIT 1', {'paths': absent})
+                if present: reasons.append('ADDED_FILE_BASE_ABSENCE_CHANGED')
+            if value.get('base_revision'):
+                metadata, _ = read(tenant, 'MATCH (m:RepoMetadata) RETURN m.source_revision AS revision LIMIT 1')
+                if not metadata or metadata[0]['revision'] != value['base_revision']: reasons.append('SAVED_SNAPSHOT_CHANGED')
+            if value.pop('policy') != policy_digest(tenant, value.pop('policy_paths') or list(hashes)):
                 reasons.append('GOVERNING_POLICY_CHANGED')
             stale_count += bool(reasons)
             if reasons and not include_stale:
                 continue
-            result.append({**value, 'supporting_file_shas': hashes,
+            result.append({**value, 'supporting_file_shas': hashes, 'absent_base_files': absent,
                 'status': 'STALE' if reasons else 'CURRENT_AT_INDEXED_SNAPSHOT', 'stale_reasons': reasons})
         return {'tenant_graph': tenant, 'findings': result[:limit], 'stale_findings_in_scan': stale_count,
                 'scan_limit': 100, 'has_more': more or len(result) > limit,

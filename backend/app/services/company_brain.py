@@ -6,6 +6,7 @@ from app.db.client import db_manager
 from app.db.queries import (CYPHER_HYBRID_VECTOR_DECISION_SEARCH,
     CYPHER_FILE_OWNERSHIP_AND_LINEAGE, CYPHER_SUPERSEDE_DECISION)
 from app.models import (BrainQueryRequest, PolicyOverrideRequest, PolicyLineageResponse, BlindAgentComparison)
+from app.services.mutation_guard import mutation_guard, require_lease
 from app.services.common import (tenant_exists, check_file, bounded_text, read, graph_payload, LOCKS)
 
 
@@ -55,12 +56,15 @@ def ask_brain(req: BrainQueryRequest) -> PolicyLineageResponse:
                 elapsed=hybrid_ms+lineage_ms+policy_ms))
 
 
-def override_policy(req: PolicyOverrideRequest) -> PolicyLineageResponse:
+def override_policy(req: PolicyOverrideRequest, expected_revision=None) -> PolicyLineageResponse:
     tenant = tenant_exists(req.tenant_graph)
     check_file(tenant,req.target_file_path)
     bounded_text(req.new_rule_text,'new_rule_text'); bounded_text(req.rationale,'rationale')
     bounded_text(req.scope_symbol,'scope_symbol',256); bounded_text(req.author_handle,'author_handle',128)
-    with LOCKS[tenant]:
+    with mutation_guard(tenant) as lease:
+        if expected_revision is not None:
+            from app.services.agent_connection import require_snapshot
+            require_snapshot(tenant, expected_revision)
         active,_=read(tenant,'''MATCH (d:Decision {status:'ACTIVE'})-[:GOVERNS]->(:File {path:$path})
         RETURN d.scope_symbol AS scope''',{'path':req.target_file_path})
         # The locked canonical query supersedes ALL active decisions on a file.
@@ -69,15 +73,19 @@ def override_policy(req: PolicyOverrideRequest) -> PolicyLineageResponse:
             raise HTTPException(409,'Canonical override is file-wide. Match the existing scope; mixed-scope overrides require a contract change.')
         timestamp=int(time.time())
         ident='override_'+uuid.uuid4().hex
-        db_manager.query(tenant,CYPHER_SUPERSEDE_DECISION,{
+        require_lease(lease)
+        # Extend the canonical transaction: two clocks, provenance and dependent
+        # proposal invalidation commit together under the cross-process lease.
+        query = CYPHER_SUPERSEDE_DECISION.replace(
+            "old_d.valid_to = $timestamp", "old_d.valid_to = $timestamp, old_d.recorded_to = $timestamp")
+        query = query.replace("  id: $new_id,", "  id: $new_id, author_handle:$author, recorded_from:$timestamp, recorded_to:0, time_basis:'UNIX_EPOCH_SECONDS',")
+        query = query.replace("RETURN new_d.id AS created_decision_id", """WITH new_d,old_decisions
+            OPTIONAL MATCH (p:ChangeProposal) WHERE $file_path IN p.touched_paths
+            SET p.status='STALE_POLICY',p.approved_proposal_hash=null
+            RETURN new_d.id AS created_decision_id""")
+        db_manager.query(tenant,query,{
             'file_path':req.target_file_path,'scope_symbol':req.scope_symbol,
             'timestamp':timestamp,'new_id':ident,'new_rule':req.new_rule_text,
             'rationale':req.rationale,'source_url':'chronosgraph://local-policy/'+ident,
-            'embedding':db_manager.embed_text(req.new_rule_text)})
-        # Author and transaction-time provenance are written in the same in-process lock.
-        # Supersession itself above is one atomic Cypher query.
-        db_manager.query(tenant,'''MATCH (d:Decision {id:$id}) SET d.author_handle=$author,
-        d.recorded_from=$timestamp,d.recorded_to=0,d.time_basis='UNIX_EPOCH_SECONDS'
-        WITH d OPTIONAL MATCH (d)-[:SUPERSEDED]->(old:Decision) SET old.recorded_to=$timestamp''',
-            {'id':ident,'author':req.author_handle,'timestamp':timestamp})
+            'embedding':db_manager.embed_text(req.new_rule_text),'author':req.author_handle})
         return ask_brain(BrainQueryRequest(tenant_graph=tenant,question=req.new_rule_text,file_path=req.target_file_path))

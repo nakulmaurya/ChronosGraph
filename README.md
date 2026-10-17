@@ -1,368 +1,203 @@
 # ChronosGraph
 
-**Hackathon focus:** FalkorDB Graph Hacks — graph-driven coding-agent context, memory and traceable decisions. See [challenge alignment and submission gates](docs/hackathon-alignment.md).
+**A FalkorDB Change-Control Cockpit, Multi-Hop Context Layer, and Source-Bound Memory Engine for Coding Agents.**
 
-> **T-09 command-center checkpoint:** graph-first monochrome repository/file/function
-> exploration, change previews, indexed commit links, ownership and real MCP activity
-> now open at `/` and `/workbench`. The isolated VM preview also supports opt-in
-> **one-click public GitHub import**. Legacy demo: `/demo`; advanced tools:
-> `/workbench/tools`. [Open the preview and walkthrough](docs/t09-command-center.md).
-> T-09 remains IN_PROGRESS on its topic branch; main remains accepted T-08 code.
-> External-agent evaluation, broader language coverage and release approval are pending.
+Your coding agent sees a function. You need to see the connected consequences.
+ChronosGraph brings both into one monochrome command center: explore a repository,
+inspect a proposed change, approve its exact contents, observe candidate tests in
+an explicitly trusted local worktree, and retain evidence that expires when code
+or policy changes.
 
+**FINAL-01 release branch:** `build/final-hackathon-release`, built from `6048a29`.
+**Overall FINAL-01 status: NOT READY for unconditional submission; the free coding-model provider blocked the real-agent evaluation.**
+This README describes that branch, not an automatically updated main branch or VM
+preview. [Current verification and remaining gates](tasks/reports/FINAL-01.md) ·
+[Critique-only readiness review](tasks/reviews/FINAL-01-readiness.md).
 
-> **Bulk readiness work:** durable import recovery, tracked-file inventory, paged navigation/history and exact saved-version links are being verified on `build/bulk-command-center-readiness`. [Behavior, tests and remaining gaps](docs/bulk-command-center.md). This does not update main or the existing VM preview automatically.
+## Start locally
 
-**A living context layer for coding agents: inspect connected impact, retrieve the current rule, and replay a verified investigation.**
-
-ChronosGraph extends an AST-style code graph with three connected mechanisms on
-FalkorDB: disposable `GRAPH.COPY` sandboxes, bi-temporal `ACTIVE`/`SUPERSEDED` policy
-lineage, and `shortestPath` procedural playbooks. The parser follows familiar
-file/function/dependency graph conventions associated with `FalkorDB/code-graph`;
-it is our own conservative Python AST implementation, not an integration with that package.
-
-```text
-Next.js / React Flow console          Agent IDE via FastMCP stdio (5 core + 5 T-09)
-                 \                    /
-                  FastAPI + graph services
-                 /            |            \
-    GRAPH.COPY audit   shortestPath memory   policy lineage
-                  FalkorDB tenant graphs
-        falkordb-py                 GraphRAG-SDK
-```
-
-## Current quality work
-
-The unmerged quality stack now includes branch freshness, ordinary module call
-resolution, explicit call-coverage limits, tab-local proposal recovery and strict
-snapshot guards in newly generated MCP configurations. See
-[batch 05 status and verification](tasks/reports/Q-05-correctness.md).
-These changes do not complete durable import recovery or a connected-agent approval/execution lifecycle.
-Main and the VM preview are separate revisions; do not expect this stack there until explicitly merged/deployed.
-
-## Start locally with one command
-
-Prerequisites: Git, Bash, Python 3.11+, Node.js 20.9+ (22 or 24 also supported), npm, Docker, network access for
-public source/dependency downloads, and free ports 6379/8000/3001. First-time setup
-can take minutes; “60-second verification” means inspecting an already-running demo.
+Tested verification environment: **Linux, Python 3.13, Node 24, Docker, native
+FalkorDB**. Python 3.11+ / Node 20.9+ are launcher requirements, not a claim that
+all combinations were tested. On Windows use **WSL2 + Docker**; on macOS use
+Docker Desktop and the Bash launcher. macOS and WSL2 paths have setup guidance,
+not witnessed FINAL-01 platform certification.
 
 ```sh
 git clone https://github.com/nakulmaurya/ChronosGraph.git
 cd ChronosGraph
+git checkout build/final-hackathon-release
 bash scripts/start-local.sh
-```
-
-To enable public browser imports in a trusted local session, start with:
-
-```sh
+# Optional, trusted local one-click public GitHub imports:
 CHRONOSGRAPH_ENABLE_BROWSER_IMPORT=1 bash scripts/start-local.sh
 ```
 
-The UI/API default to 3001/8000. Set `CHRONOSGRAPH_UI_PORT` and
-`CHRONOSGRAPH_API_PORT` together if needed; the launcher sets the matching API URL
-and exact loopback UI origins. Advanced operators can restrict
-`CHRONOSGRAPH_UI_ORIGINS` to a comma-separated list of explicit loopback HTTP origins.
-No wildcard or non-loopback import origins are accepted. Browser imports remain
-opt-in; this is not multi-user authentication.
+Open **http://127.0.0.1:3001**. Defaults: API 8000, FalkorDB 6379. Install Git,
+Bash, Python, Node/npm and Docker first. Initial dependency downloads take minutes.
+The launcher owns its local processes/container; its demo DB is ephemeral. For an
+existing **dedicated** local DB use `--db existing`; do not point it at unrelated
+production data. Exact loopback UI origins are configured by the launcher.
+See [platform setup](docs/t09-platform-setup.md) and
+[durable deployment/import recovery](docs/bulk-command-center.md).
 
-Open **http://127.0.0.1:3001**. The launcher creates a local Python environment,
-installs locked frontend dependencies, starts an owned loopback-only Docker
-container, seeds both graphs and starts the API/UI. Ctrl-C stops its own processes;
-its database is **ephemeral**, not a persistent production store. No external model
-or paid credentials are needed. The legacy Compose file is unchanged; this launcher
-uses explicit loopback binding instead of its broader published ports.
+### Import a repository without a terminal
 
-Without Docker, use `bash scripts/start-local.sh --db native` to install/run
-`falkordblite==0.10.0` on a compatible platform, or `--db existing` for a trusted
-FalkorDB already on localhost:6379. Do not reuse an unrelated database.
-Native module/glibc compatibility is platform-dependent; the launcher never replaces
-host libraries. The native helper and existing-DB verification were tested originally. **The default
-Docker launcher and production-mode UI were subsequently verified on the Google Cloud
-test VM** (FalkorDB 4.22.1; [T-05 evidence](tasks/reports/T-05.md)). The legacy Compose
-path remains untested. See [release limits](docs/release-checklist.md).
+In a browser-import-enabled session, click **Import repository**, paste a public
+GitHub Python repository, and import. Branch defaults to `main`; an empty commit
+hash resolves the latest branch commit first and then imports that exact version.
+Each import creates a separate saved snapshot; old snapshots are never overwritten.
+Receipts are Redis-backed with seven-day retention, subject to the durability of
+your configured Redis storage. Imports do **not** execute repository code. Public
+archive imports do not fetch commit history; local Git ingestion can retain bounded
+commit-file history. Private repositories, symlinks/submodules and unsupported or
+oversized archives are refused rather than silently guessed.
 
-## Judge verification matrix
+## One workspace, three connected capabilities
 
-All query constants live in [backend/app/db/queries.py](backend/app/db/queries.py).
-UI tab names match the console; REST routes share `/api/v1`.
-
-| Track | Backend service | Exact query constant(s) | REST | FastMCP tool(s) | Exact UI action |
-| --- | --- | --- | --- | --- | --- |
-| 01 — Agents That Act on Connected Data | `backend/app/services/sandbox_auditor.py` | `CYPHER_BLAST_RADIUS_AUDIT`; `CYPHER_FILE_OWNERSHIP_AND_LINEAGE` | `POST /track1/sandbox-audit` | `simulate_pr_blast_radius` | Crash-test clone → **Run GRAPH.COPY audit** |
-| 02 — Agent Memory & Coordination | `backend/app/services/memory_compiler.py` | `CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH`; read-only tool queries in `TOOLS` | `POST /track2/investigate` | `run_or_compile_playbook` | Memory compiler → **Run #1 · Cold triage**, then **Run #2 · Compiled replay** |
-| 03 — Company Brain | `backend/app/services/company_brain.py` | `CYPHER_HYBRID_VECTOR_DECISION_SEARCH`; `CYPHER_FILE_OWNERSHIP_AND_LINEAGE`; `CYPHER_SUPERSEDE_DECISION` | `POST /track3/ask-brain`; `POST /track3/override-policy` | `query_bitemporal_decisions`; `find_true_code_owners`; `record_decision_override` | Time-travel rulebook → **Read current policy**; optional confirmed **Record policy override** |
-
-**60-second inspection:** On `FalkorDB/falkordb-py`, audit `falkordb/graph.py` and
-check cleanup. Run cold/replay for `Review current policy for falkordb/graph.py`:
-observe 5→3 actions. Switch to `FalkorDB/GraphRAG-SDK`, read a preset file's current
-policy and its crossed-out history. Open **MCP config** to inspect ten tools (the five core interfaces plus five T-09 additions). See [platform setup](docs/t09-platform-setup.md) for Node and Windows/WSL boundaries.
-The [2:45 recording runbook](docs/demo-video-script.md) includes exact choreography.
-
-## Provenance and measured telemetry
-
-| Layer / measurement | Verified meaning |
-| --- | --- |
-| `repo_falkordb_py` | Historical T-01 real-source/public-GitHub layer: **458 nodes / 669 edges**, 42 Python files, 371 functions; code revision `31f63f44a5745b9bec65969a1db706906718cb82`. |
-| `repo_graphrag_sdk` | Historical layer: **4,252 nodes / 6,251 edges**, 154 Python files, 3,364 functions; code revision `35e67a0b27fdcc7f2c28508b09e86169851a8187`. |
-| `DEMO_POLICY_SCENARIO` | Four fictional supersession pairs per tenant: **+8 nodes / +20 edges**, yielding initial totals 466/689 and 4,260/6,271. Contextual PR links are not upstream policy attribution. |
-| Public GitHub provenance | PR/review/issue/contributor records fetched and cached at ingestion; unlike code commits, this metadata snapshot is not pinned to those revisions. |
-| `SIMULATED_PR_DEPENDENCY` | Synthetic dependency/call nodes/edges exist only in the disposable clone. This is not source-diff execution or outage proof. |
-| `DETERMINISTIC_POLICY_TRIAGE` | 6 cold states / 5 actions, including 2 dead ends; compiled replay executes 3 verified actions, 0 dead ends: **40% fewer actions**. Roles are deterministic tools, not autonomous LLMs. |
-| `CONTROLLED_ONE_HOP_BASELINE` | Measured shallow graph-query comparison; not a general LLM/RAG evaluation. |
-| T-02 captured sandbox | **22.99 ms** clone, cleanup verified; separate clones ranged **96.62–119.79 ms**. Approved local ceiling: <250 ms, not a universal guarantee. |
-| T-02 captured replay | **13.300 ms cold / 8.425 ms warm = 1.579×**; five-pair median **1.253×**, including one slower warm run (**0.821×**). |
-| Model accounting | `tokens_used: 0`, `token_savings_pct: 0.0`: **unmeasured zero-model sentinels**, not token/cost savings. |
-
-Sources: [T-01](tasks/reports/T-01.md), [T-02 samples](tasks/reports/T-02-response-excerpts.json),
-[benchmark](tasks/reports/T-02-samples/benchmark.json), [T-03](tasks/reports/T-03.md).
-Live counts include later investigation/playbook records. Latency varies with load;
-the UI displays the actual factor even below 1. Owners reflect bounded PR/review or Git-commit file
-coverage; Git author identities are unverified, not definitive maintainers. Vectors are lexical hashes, not semantic model embeddings.
-
-## Ingest another Python Git repository (v1.3)
-
-With dependencies installed and a trusted FalkorDB running:
-
-```sh
-cd backend
-../.venv/bin/python -m app.ingestion.ingest_repo \
-  --source https://github.com/FalkorDB/code-graph \
-  --tenant repo_falkordb_code_graph --ref 2a7a52c0abb529c93e9f571e7358e097f1b76ab3 --seed-demo-policies
-../.venv/bin/python -m app.ingestion.ingest_repo \
-  --source https://github.com/modelcontextprotocol/python-sdk \
-  --tenant repo_mcp_python_sdk --ref 754254c08fe1c3eda18b69da3d336106fe8d72d6 --seed-demo-policies
+```text
+Coding client ── FastMCP stdio ──┐
+                                ├─ Snapshot guards ─ Graph services ─ FalkorDB
+Human ── Next.js Command Center ─┘                    │
+          Changes: review / approve                  ├─ GRAPH.COPY previews
+          Activity: memory / replay                  ├─ policy + ownership lineage
+          Ownership: decisions / export              └─ proposal / execution records
+                                                       │ explicit operator opt-in
+                                            trusted disposable Git worktree
+                                            actual bounded candidate pytest
 ```
 
-`--source` also accepts a local Git directory. It parses a separate checkout of the
-committed snapshot, not uncommitted files, and **never imports/executes downloaded
-Python**. Tracked `.py` files (1–10,000) exclude caches/build directories and symlinks.
-Conservative unresolved calls stay unresolved; invalid Python produces explicit
-file diagnostics. Unsupported encoding/I/O errors fail safely. This is a bounded
-trusted-local tool, not a hardened untrusted-repository ingestion service.
+FalkorDB is the primary graph store, not a decorative visualization: import/call
+traversals determine candidate impact, native PageRank breaks context ranking ties,
+`shortestPath` retains useful investigation actions, and current policy edges gate
+approval and memory reuse. Our scope-aware Python AST parser is our own conservative
+implementation; unresolved dynamic calls remain visible coverage limits.
 
-Existing tenants are refused, not overwritten. Use a fresh `repo_[a-z0-9_]+` name.
-Native `algo.pageRank` scores are normalized. `RepoMetadata.status=READY` registers
-new graphs; the catalog supplies files, counts and indexed PR/commit records.
-The UI discovers them on page load; refresh an already-open console after ingestion.
+## Hackathon judge verification matrix
 
-`GIT_COMMIT_HISTORY` identifies at most the latest 40 commits at the pinned snapshot,
-real author-to-commit and exact commit-to-current-file links. Commit records use the
-legacy `PullRequest` shape but are marked `record_kind=COMMIT` with negative numeric
-compatibility IDs, not invented GitHub PRs. `pr_count` is therefore a legacy count
-of evidence records, not exclusively PRs. Git author names are not authenticated
-GitHub handles; uncovered files legitimately have no recommendation.
+All primary actions below are at **`/` or `/workbench`**, without hunting through
+legacy routes. Select a Python file in **Repository** first. `/demo` remains a
+historical primitive explorer, not the default product flow.
 
-`--seed-demo-policies` adds fictional `DEMO_POLICY_SCENARIO` pairs, not upstream rules.
-It leaves two non-policy files for the fixed triage demonstration; tiny repositories
-may not support that topology. Without opt-in policies, source/ownership audits work
-but policy/replay features need applicable rules. Cross-process CLI locks protect
-source-cache checkouts and writers; API locks remain single-process demonstration locks.
+| Track | Command Center action | Service / real graph operation | Evidence to inspect |
+| --- | --- | --- | --- |
+| 01 — Agents That Act on Connected Data | **Changes** → pending proposal → approve exact hash → opt-in worktree tests | `diff_impact.py`: `GRAPH.COPY`, replacement AST, before/after `IMPORTS` and `CALLS`; `change_lifecycle.py`: durable task/run/proposal/decision/execution links | Broken callers, candidate pytest files, active rules and CODEOWNERS; actual exit/output and provenance |
+| 02 — Agent Memory & Coordination | **Agent activity** → source-bound findings → policy investigation/replay → recovery note | `context_locator.py`: bounded three-hop import paths + `algo.pageRank`; `task_memory.py`: source/policy fingerprints; `memory_compiler.py`: `CYPHER_COMPILE_PLAYBOOK_SHORTEST_PATH` | Real MCP stream, CURRENT vs STALE findings, observed 5→3 deterministic actions; actual ResumeSnapshot bytes |
+| 03 — Company Brain | **Ownership** → declared owners / separate contributors → policy override → wiki / ZIP | `ownership.py`: vendored CODEOWNERS matching; `company_brain.py`: ACTIVE/SUPERSEDED lineage, recorded/valid time, `vecf32` hybrid retrieval; `second_brain_wiki.py`: portable linked notes | Matching rule and line; provenance; superseded history; live invalidation; Obsidian vault |
+| Best Blog Post | [Technical article](docs/blog-post-falkordb.md) | Primitives, T-09/BULK-01/FINAL-01 implementation and explicit measurement boundaries | Reproducible code/query links and observed results, not token-savings speculation |
 
-Append-only, revision-checked ownership backfill (does not reset source or policies):
+Canonical primitive queries: [queries.py](backend/app/db/queries.py). Replacement
+queries and lifecycle writes live beside their services rather than pretending
+all operations share one canned audit query. Ownership means **declared matching
+CODEOWNERS**, not independently verified GitHub permissions. Git contributors are
+separate evidence, not a substitute for declared owners.
 
-```sh
-cd backend  # from repository root
-../.venv/bin/python -m app.ingestion.ingest_repo \
-  --source https://github.com/FalkorDB/falkordb-py --tenant repo_falkordb_py \
-  --ref 31f63f44a5745b9bec65969a1db706906718cb82 \
-  --backfill-history --history-path falkordb/graph.py
-```
+## Connect your coding client: 15 FastMCP tools
 
-See [T-05 measurements and verification](tasks/reports/T-05.md) and
-[Principal Architect acceptance](tasks/reviews/T-05.md). Contract v1.3 accepts dynamic
-repository support. Historical T-01/T-02 counts/timings above remain unchanged; the
-larger MCP SDK clone samples reached 257.62 ms, not a universal sub-250 ms guarantee.
-
-## Verify and connect an agent
-
-```sh
-# Against a trusted running local FalkorDB:
-bash scripts/start-local.sh --db existing --verify-only
-# Individual commands after installing dependencies:
-(cd backend && ../.venv/bin/python -m pytest -v)  # 53 with both external tenants; otherwise 47 pass + 6 explicit skips
-(cd frontend && npm test && npm run typecheck && npm run build)  # 7 tests + build
-(cd frontend && npm audit --omit=dev)
-.venv/bin/python scripts/check-release-hygiene.py
-```
-
-Use the header's **MCP config** modal or adapt this local stdio template:
+Use **Connect agent** to copy configuration and the selected tenant/revision
+handoff. The modal prepares a template; it does not install an IDE connection.
 
 ```json
-{"mcpServers":{"chronosgraph":{"command":"/absolute/path/ChronosGraph/.venv/bin/python","args":["-m","app.mcp_server.server"],"cwd":"/absolute/path/ChronosGraph/backend"}}}
+{"mcpServers":{"chronosgraph":{"command":"/absolute/path/ChronosGraph/.venv/bin/python","args":["-m","app.mcp_server.server"],"cwd":"/absolute/path/ChronosGraph/backend","env":{"CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD":"1"}}}}
 ```
 
-This is a template, not an installed IDE connection. Start/seed FalkorDB first.
-See [frontend setup/live smoke](frontend/README.md), [release evidence](tasks/reports/T-04.md),
-[technical article](docs/blog-post-falkordb.md) and [handoff](docs/handoff.md).
-**Local trusted-client demonstration only: no authentication, no production safety
-guarantee, no deployment or external publication. Release status: v1.3 accepted (53 backend tests, 7 frontend regression tests, and 17 live production Chromium checks verified).**
+1. `discover_repositories` — discover saved versions (not snapshot-bound by design).
+2. `inspect_repository_snapshot` — verify exact tenant/revision and return guard arguments.
+3. `locate_context` — bounded source context, real import paths and candidate tests.
+4. `get_symbol_source` — captured complete symbol range within limits.
+5. `simulate_diff_impact` — final replacement/deletion preview in GRAPH.COPY.
+6. `simulate_pr_blast_radius` — legacy bounded audit / optional snippet overlay.
+7. `query_bitemporal_decisions` — current and superseded policy evidence.
+8. `find_true_code_owners` — legacy-named contribution/ownership evidence interface.
+9. `record_decision_override` — explicit local policy replacement.
+10. `run_or_compile_playbook` — deterministic native shortestPath replay.
+11. `record_verified_finding` — records **agent-reported**, not independently observed evidence.
+12. `recall_task_memory` — source/policy freshness on recall.
+13. `propose_change_for_approval` — immutable bounded proposal and replacement preview.
+14. `check_proposal_decision` — exact current approval/stale state.
+15. `report_proposal_execution` — **unverified client report**, never host-observed proof.
 
-## Optional AST snippet simulation (T-06)
+All 13 operation tools accept revision guards; strict mode requires guards on the
+legacy operations. The three new lifecycle tools always require an exact revision.
+Discovery is necessarily before selection, so **not all 15 tools require a snapshot**.
+Carry `tenant_graph` and `expected_revision` on every operation, never a default tenant.
 
-Track 1 accepts `proposed_code_patch` through REST and `simulate_pr_blast_radius`.
-The editable Python snippet is parsed, never executed, and overlays definitions,
-resolved imports and conservative calls on the **first selected file** inside
-GRAPH.COPY. Enable it in “Proposed Python patch (AST-parsed in clone)”. Selecting
-a real PR/git record scopes the audit to its ingested changed Python files.
+## Approval and actual execution
 
-This is an **additive snippet overlay**, not a unified diff, full-file replacement,
-or a fetched commit patch. Existing snapshot edges remain. Ambiguous/dynamic or
-external calls are reported unresolved, not guessed. Input is limited to 32,000
-characters and 500 AST observations. Blank/omitted input retains the existing
-`SIMULATED_PR_DEPENDENCY` scenario. `AST_PATCH_SIMULATION` metadata and dependency
-counts remain inspectable on the target file; upstream graph data is not mutated.
+[Lifecycle details, API and trusted runner setup](docs/final-lifecycle.md).
 
-The inspector compares observed baselines with each result. Replay visualizes
-actual **historical cold** dead ends dimmed and explicitly not replayed; backend
-step counts and replay subgraphs still describe only the three executed actions.
-Demo recording/narration upgrades are deferred to a later task.
+A proposal is immutable. A coordinated revision is a **new proposal/key**; approval
+does not transfer to changed contents. The canonical SHA-256 binds tenant, base
+commit, base file hashes and proposed bodies. Same key/same content returns the
+existing record; different content returns 409. Shared per-tenant Redis mutation
+leases serialize policy, decision and execution writes across processes.
 
-### T-07: real-world utility (no model calls)
+Observed candidate tests are optional and **disabled by default**. Enable only for
+trusted local Git roots that you explicitly configure. A disposable worktree is
+**not a security sandbox**: pytest can execute repository code on the host. The
+runner does not merge, commit, push or change the saved base source. External MCP
+reports cannot mint `LOCAL_WORKTREE_OBSERVED` evidence. A verified finding binds the
+captured base and retains proposed result hashes separately; it does not claim the
+proposal was merged. Unknown execution outcomes stop retries for that proposal.
 
-- Track 1 accepts a Python snippet or **single-file unified diff**. Diffs are
-  reconstructed only when hunk offsets/context match the captured source at the
-  ingested revision; multi-file patches, additions/deletions and renames return
-  422. The resulting AST is an **additive clone overlay**: old edges are retained,
-  so this is conservative static impact evidence, not complete source replacement
-  or execution. Requests are bounded to 32,000 characters / 500 AST observations;
-  reconstructed source is bounded to 1,000,000 characters.
-- The copy-ready pytest command selects reachable test-file **candidates** using
-  the bounded three-hop import/call graph, including modified tests. The percentage
-  is a static candidate-file reduction, **not proof that other tests are safe to
-  skip**. Dynamic imports, fixtures, plugins and non-Python dependencies can be
-  absent. Run full-suite CI as the safety gate. Empty selection recommends `pytest`.
-- Track 2 returns an actual compact JSON AST-signature / active-policy /
-  source-linked-constraint / commit-author slice. Comparison uses exact Unicode
-  character and UTF-8 byte lengths from captured candidate sources, with `chars // 4`
-  **token equivalents**, not tokenizer counts or billed tokens. This compares a
-  counterfactual full-file payload with a focused slice, not the bytes read by
-  the graph tools and not equivalent semantic content. Tiny inputs can expand.
-  Warm runs preserve the original cold baseline; `tokens_used`, `token_savings_pct`
-  and `model_calls` remain zero. Missing source sizes are explicit, never inferred
-  from LOC. Signature/policy/constraint caps and truncation are in the preview.
-- Ingestion extracts concrete pyproject constraints and explicit normative
-  engineering lines from README/AGENTS/CLAUDE/module docstrings. `REPO_EXTRACTED_RULE`
-  records include path, line, revision and scope. They are **source-revision facts**,
-  not promoted to local ACTIVE/SUPERSEDED override governance; demo policies remain
-  intact. Track 3 displays both separately. No source text is exposed in generic
-  visual graph payloads.
+## Verified release checks
 
-Existing snapshots need explicit revision/hash-checked enrichment (no reset):
+- **295 backend tests**, zero failures/skips; **32 frontend unit tests**.
+- Typecheck and production build passed; **62 browser checks** across desktop/mobile.
+- **15 MCP tools** with the discovery/guard exceptions described above.
+- Synthetic 5,000-file native root-map p95: **107.97 ms** in the final run; not a production SLA.
+- Seven-day durable Redis import receipts, subject to configured database persistence.
+- Real scripted stdio and observed fixture pytest passed; hosted coding-model run blocked by provider HTTP 403.
 
-```bash
-cd backend
-python -m app.ingestion.ingest_repo --source /path/to/pinned/repo \
-  --tenant repo_your_repository --ref FULL_MATCHING_REVISION --enrich-utility
+## Reproduce verification
+
+After installing dependencies and preparing the dedicated four demo source graphs:
+
+```sh
+PYTHON_BIN="$PWD/.venv/bin/python" bash scripts/verify-quality-batch1.sh
+PYTHON_BIN="$PWD/.venv/bin/python" bash scripts/verify-change-planning-ui.sh
+PYTHON_BIN="$PWD/.venv/bin/python" bash scripts/verify-final-lifecycle-ui.sh
+(cd frontend && npm test && npm run typecheck && npm run build)
+PYTHONPATH=backend .venv/bin/python scripts/check-release-hygiene.py
 ```
 
-Fresh CLI ingestion and the original two-repository seeder capture source sizes
-and extracted rules automatically. Enrichment adds metadata/constraints once;
-subsequent enrichment is idempotent. Run enrichment before testing reseed
-idempotency against a pre-T-07 database. Repository-constraint changes invalidate
-existing playbook fingerprints; rerun cold triage. Use a single local writer
-process; cross-process online migration/transaction isolation is not guaranteed.
+The native scripts create **owned disposable database copies**; source graphs are
+read with Redis DUMP and never reseeded. Browser scripts use owned ports 3003/8005
+and clean their own services. Do not run frontend builds concurrently against the
+same `.next` directory. For the synthetic real-stdio walkthrough, use an **owned
+empty disposable** FalkorDB:
 
-T-07 deliberately does not update or record the demo video.
+```sh
+PYTHONPATH=backend:backend/tests FALKORDB_PORT=<owned-port> \
+ .venv/bin/python scripts/run-hero-lifecycle-demo.py \
+ --approve-fixture --output /tmp/chronos-hero-evidence.json
+```
 
-### T-08: Obsidian second brain and compaction recovery (contract v1.4)
+`--approve-fixture` preauthorizes our owned synthetic checkout only; it is not proof
+of a person reviewing a UI action or a hosted model choosing the fix. The browser
+lifecycle harness separately exercises actual UI approval, execution and invalidation.
 
-ChronosGraph's deterministic compiler turns the live tenant graph into `index.md`,
-`log.md` and linked `wiki/files`, `wiki/decisions`, `wiki/playbooks` and
-`wiki/contributors` notes. YAML frontmatter preserves tenant, label, status,
-PageRank and provenance. All wikilinks resolve to generated notes; backlinks are
-explicit. Lint distinguishes superseded policy history, dead-end state evidence,
-isolated files and stale playbooks. This is an inspired three-layer graph wiki,
-not LLM-authored synthesis, an Obsidian plugin, or an endorsement by Karpathy.
+Verified counts and exact evidence references are in [FINAL-01](tasks/reports/FINAL-01.md).
+The 5,000-file synthetic single-client navigation benchmark is not import throughput
+or a production capacity guarantee. Zero model calls means token savings are
+**unmeasured**, not that tokens were measured as saved.
 
-- `GET /api/v1/ctx/stats?tenant_graph=...&file_path=...` compares actual captured
-  UTF-8 source metadata with the exact serialized focused slice. Repository-wide
-  comparison and affected-file/cold-candidate comparisons are labeled separately.
-  `bytes // 4` and `chars // 4` are different estimates, never tokenizer counts.
-- `POST /api/v1/ctx/compile-wiki` accepts `tenant_graph`, optional `file_path`, and
-  `export` (default false); returns Markdown pages, lint and ResumeSnapshot.
-- `GET /api/v1/ctx/wiki-page?tenant_graph=...&page=index.md` reads only generated
-  keys; it is not an arbitrary filesystem reader.
-- `POST /api/v1/ctx/compact-snapshot` returns a bounded, under-2-KiB Markdown
-  excerpt: current target, connected symbols ranked by owning-file PageRank,
-  ACTIVE local policy excerpts, current-fingerprint retained playbook and bounded
-  commit-author evidence. Superseded rule text and dead-end tools are excluded;
-  refresh full policies before acting. It does not install PreCompact hooks.
-- `GET /api/v1/ctx/export?tenant_graph=...` downloads a ZIP with the generated
-  notes and ResumeSnapshot, without a server filesystem write.
+## Boundaries and open work
 
-Explicit `export: true` writes only under the server-controlled
-`CHRONOSGRAPH_VAULT_ROOT` (default `/tmp/chronosgraph-obsidian-vault`). The compiler
-refuses symlink/unmanaged destinations and creates immutable content-ID generation
-folders, never overwriting an existing personal vault. Open a generation as an
-Obsidian vault. The tenant's persistent `log.md` appends previously unseen source
-event IDs; older runs without timestamps are marked UNDATED, not assigned invented
-chronology. Source deletion cannot erase an already exported event. Export and
-ledger are designed for the local single-process app, not distributed concurrent
-writers or a crash-safe event store. Exported histories can contain obsolete policy
-text as explicitly historical notes; only ResumeSnapshot is current-only.
+- Trusted local/operator application, not authenticated multi-user change control.
+- Static Python reachability, not runtime/type compatibility proof or safe-skip permission.
+- Unsupported languages retain tracked-file visibility, not fabricated function graphs.
+- No hosted-model/IDE evaluation is implied by a scripted real FastMCP client.
+- Legacy routes keep compatibility; they have not all been redesigned or given identical guards.
+- Browser approval is a coordination record, not an OS restriction on external agents.
+- Policies in bundled demos/hero fixtures are explicitly fictional, not upstream rules.
+- Prize eligibility, organizer acceptance, publication and submission are owner actions;
+  preexisting foundation/event-period requirements need organizer confirmation.
 
-The HUD shows live measured source/slice sizes, a navigable wiki preview and copy/
-export controls. A focused lossy summary is not equivalent full source, and a
-repository-wide ratio does not claim the whole repository would otherwise be read.
-No fixed 95% savings, sub-4-KiB full audit response, safe test skipping or measured
-billed-token savings is promised. All five existing MCP tool names remain intact.
+## License and acknowledgements
 
-Portable client workflow: `skills/chronos-second-brain/SKILL.md`. Reference it from
-Claude Code / Cursor / Antigravity / OpenCode / Windsurf project instructions using
-the client's supported MCP configuration; no IDE integration is auto-installed.
-
-
-## T-08 builder-facing Second Brain + /compact Shield
-The existing five-tool MCP contract and `/api/v1/ctx/*` interfaces remain compatible.
-New read-only APIs:
-- `GET /api/v1/brain/wiki-slice?tenant_graph=...&file_path=...`: live YAML/wiki note,
-  AST signatures, three-hop static import/call candidates, current/history rules,
-  exact captured connected-source UTF-8/Unicode estimates and pytest candidates.
-- `POST /api/v1/brain/lint-and-compact` with tenant_graph and optional file_path:
-  observed rule/dead-end/stale-playbook counts, actual sandbox count and a bounded
-  `LESSON:` ResumeSnapshot. Recovery is manual, not an installed PreCompact hook.
-- `GET /api/v1/brain/obsidian-vault.zip?tenant_graph=...&file_path=...`: in-memory ZIP
-  with `raw/repo_snapshot_manifest.json`, `wiki/index.md`, `wiki/log.md`, file/rule/
-  playbook/contributor notes, `ResumeSnapshot.md`, `_CLAUDE.md` and `SKILL.md`.
-
-The header's **Obsidian Wiki & /compact Shield** opens live notes, `/brain-lint`,
-copyable recovery Markdown and the three-layer ZIP. `skills/chronos-second-brain/SKILL.md`
-routes Claude Code, Cursor, Antigravity/OpenCode and Windsurf through graph-first
-investigation without assuming every client automatically discovers the skill.
-Source notes remain untrusted evidence; policy writes require confirmation.
-The HUD compares connected captured source with the exact lossy wiki note, not raw
-repo totals or the entire HTTP envelope. Compression can be negative or unavailable;
-no fixed reduction, billed-token savings, safe test skips or zero-amnesia guarantee.
-The previously accepted video is retained unchanged; this amendment excludes video.
-
-VM checkout: `/home/nakulmaurya13579/ChronosGraph-t08`; production target is loopback
-frontend 3000 and API 8001 after authorized integration. Prior checkout remains rollback.
-Publication/deployment receipts and gate evidence are in `tasks/reports/T-08.md`.
-
-
-## Open the already-running GCP demo
-With Google Cloud CLI installed and access to project `amazon-ml-509907`, run
-`bash scripts/connect-vm.sh` on your laptop. Keep that terminal open and browse
-http://127.0.0.1:3000; API docs are at http://127.0.0.1:8001/docs.
-The helper forwards loopback ports over SSH without exposing the app publicly.
-This connects to the existing VM; local setup above instead uses port 3001.
-
-### T-09 local workspace preview
-
-The isolated workbench now has guarded local Git connection/check/refresh commands
-and timestamped branch/snapshot metadata. See [local workspace instructions](docs/t09-local-workspaces.md).
-Refresh creates a new graph and preserves old findings; it is not incremental
-in-place sync or a live filesystem watcher.
-
-### T-09 public GitHub intake preview
-
-The workbench now prepares local CLI commands for bounded, commit-pinned public
-GitHub Python imports. Selected blobs are verified against the Git tree before
-FalkorDB AST/IMPORTS/CALLS/PageRank indexing. No token or model dependency.
-See [public GitHub setup, upstream trials and security limits](docs/t09-public-github-import.md).
-Browser-triggered import jobs and private repositories are not implemented.
-
-### Native FalkorDB optimization
-
-CODEOWNERS imports now use targeted ownership-key range indexes, verified with
-native EXPLAIN/PROFILE. See [measurements and reproduction](docs/t09-falkordb-optimization.md).
+MIT, Copyright (c) 2026 Nakul Arvind Maurya. See [LICENSE](LICENSE) and
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), including the vendored
+`sbdchd/codeowners` matcher. FalkorDB, falkordb-py, GraphRAG-SDK, FastMCP,
+Next.js and React Flow provide the foundation. We did not import GitDiagram's
+LLM-generated architecture as verified call edges; our analysis remains pinned,
+source-derived and conservatively bounded. Earlier implementation reports remain
+historical evidence, not current readiness claims.

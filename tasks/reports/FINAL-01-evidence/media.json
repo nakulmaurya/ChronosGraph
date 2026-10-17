@@ -1,0 +1,33 @@
+{
+  "filename": "ChronosGraph-narrated-demo.mp4",
+  "sha256": "cb095872298e953dafb3b579fc4040396a344e6bed4080e73ed2afdd59985624",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1560,
+        "height": 1080
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio"
+      }
+    ],
+    "format": {
+      "duration": "200.000000",
+      "size": "5530976"
+    }
+  },
+  "audio_levels": [
+    "mean_volume: -23.5 dB",
+    "max_volume: -3.1 dB"
+  ],
+  "chapters": 8,
+  "screen_recording": "Real default Command Center, owned native fixture and actual subprocess pytest",
+  "narration": "Synthetic en-US-GuyNeural; transcript in docs/final-demo-narration.md",
+  "hosted_model_agent": false,
+  "recording_errors": []
+}

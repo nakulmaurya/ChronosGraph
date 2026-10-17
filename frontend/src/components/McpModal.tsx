@@ -34,7 +34,10 @@ const tools = [
   ["locate_context", "query, tenant_graph?, budget_bytes?", "Find compact pinned-snapshot context; workspace freshness has not been checked."],
   ["get_symbol_source", "file_path, symbol_name, tenant_graph?", "Read one captured symbol and its exact coordinates/hash."],
   ["record_verified_finding", "summary, evidence_note, supporting_file_shas, tenant_graph?", "Store agent-reported evidence; no verification command is executed."],
-  ["recall_task_memory", "query?, tenant_graph?, include_stale?", "Recall findings and flag changed files or governing policies."]
+  ["recall_task_memory", "query?, tenant_graph?, include_stale?", "Recall findings and flag changed files or governing policies."],
+  ["propose_change_for_approval", "tenant_graph, expected_revision, task_title, proposed_files, idempotency_key, client_id?", "Preview an immutable proposal and wait for the human decision."],
+  ["check_proposal_decision", "tenant_graph, expected_revision, proposal_id", "Check approval and current source/policy guards."],
+  ["report_proposal_execution", "tenant_graph, expected_revision, proposal_id, proposal_hash, command_executed, exit_code, output_excerpt, idempotency_key", "Store an unverified client execution report; never run commands or mint observed evidence."]
 ];
 export default function McpModal({ onClose, tenantGraph = "", sourceRevision = null }: { onClose: () => void; tenantGraph?: string; sourceRevision?: string | null }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -139,7 +142,7 @@ export default function McpModal({ onClose, tenantGraph = "", sourceRevision = n
       </section> : <p>Select a saved version with a known commit hash to prepare a guarded handoff.
         Discovery is still available; do not guess a commit or silently use the default repository.</p>}
       <h3>Available tools</h3>
-      <p>All ten existing operation tools also accept <code>expected_revision</code>.
+      <p>All thirteen operation tools accept <code>expected_revision</code>.
         Include it together with the selected <code>tenant_graph</code> on every call.
         The generated configuration requires both arguments on every operation. Other servers without strict mode retain legacy unguarded behavior; a preflight does not bind future calls automatically.</p>
       <div className="tools-list">

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ReactFlow, Background, Controls, MiniMap, MarkerType, Position, useReactFlow, ReactFlowProvider, useStore, type Node, type Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import type { RepositoryMap, FileDetail } from "@/lib/command-center";
@@ -9,10 +9,13 @@ function Fit({ identity }: { identity: string }) {
   useEffect(() => { const id = setTimeout(() => void flow.fitView({ padding: .2, maxZoom: 1 }), 80); return () => clearTimeout(id); }, [identity, flow, width, height]);
   return null;
 }
-export default function CommandGraph({ map, detail, functions, selected, onPick }: {
+export default function CommandGraph({ map, detail, functions, selected, onPick, table: controlledTable, setTable: onTableChange }: {
   map: RepositoryMap | null; detail: FileDetail | null; functions: boolean; selected: string;
+  table?: boolean; setTable?: (table: boolean) => void;
   onPick: (path: string, kind: string, symbol?: string) => void;
 }) {
+  const [localTable,setLocalTable]=useState(false);
+  const table=controlledTable??localTable, setTable=onTableChange??setLocalTable;
   const { nodes, edges } = useMemo(() => {
     const nodes: Node[] = []; const edges: Edge[] = [];
     const add = (id: string, title: string, subtitle: string, x: number, y: number, kind: string, path: string, symbol?: string) => {
@@ -41,8 +44,8 @@ export default function CommandGraph({ map, detail, functions, selected, onPick 
     }
     return { nodes, edges };
   }, [map,detail,functions,selected]);
-  return <ReactFlowProvider><ReactFlow nodes={nodes} edges={edges} fitView minZoom={.08} maxZoom={2} nodesDraggable={false} colorMode="dark"
+  return <><div className="cc-graph-mode" role="group" aria-label="Repository relationship view"><button aria-pressed={!table} onClick={()=>setTable(false)}>Graph</button><button aria-pressed={table} onClick={()=>setTable(true)}>Table</button></div>{table?<div className="cc-graph-table"><table><caption>Visible nodes and their outgoing relationships. Same bounded selection as the graph.</caption><thead><tr><th scope="col">File or symbol</th><th scope="col">Kind</th><th scope="col">Connections</th></tr></thead><tbody>{nodes.map(n=><tr key={n.id}><td><button onClick={()=>onPick(String(n.data.path),String(n.data.kind),n.data.symbol?String(n.data.symbol):undefined)}>{String(n.data.symbol||n.data.path)}</button></td><td>{String(n.data.kind)}</td><td>{edges.filter(e=>e.source===n.id).map(e=>`${e.label} → ${e.target}`).join('; ')||'No outgoing connections in this selection'}</td></tr>)}</tbody></table></div>:<ReactFlowProvider><ReactFlow nodes={nodes} edges={edges} fitView minZoom={.08} maxZoom={2} nodesDraggable={false} colorMode="dark"
     onNodeClick={(_, node) => onPick(String(node.data.path),String(node.data.kind),node.data.symbol ? String(node.data.symbol) : undefined)}
     proOptions={{ hideAttribution: false }}><Background color="#292929" gap={24} size={1}/><Controls showInteractive={false}/><MiniMap pannable zoomable nodeColor="#777" maskColor="rgba(0,0,0,.6)"/><Fit identity={`${map?.prefix}:${detail?.file.path}:${functions}:${nodes.length}`}/>
-  </ReactFlow><div className="cc-canvas-hint">Scroll to zoom · drag to explore · select a node to inspect</div></ReactFlowProvider>;
+  </ReactFlow><div className="cc-canvas-hint">Scroll to zoom · drag to explore · select a node to inspect</div></ReactFlowProvider>}</>;
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "receipt": "full-native-additions/backend-full.log",
+    "bytes": 105045,
+    "sha256": "bb53de4f2a053e9ae3afcfacf0ea5c3a47300bdaac8873fe7502602732fd88f2"
+  },
+  {
+    "receipt": "frontend-unit-release.log",
+    "bytes": 2751,
+    "sha256": "0e069d0eae099af3f76ce16c6f335bf39d17851951de8c2d56b177a23cb7a984"
+  },
+  {
+    "receipt": "typecheck-release.log",
+    "bytes": 54,
+    "sha256": "03965442f8f825e28ed55a3350ecc31ccb2b7708d8f5d0e9f68afe37f7f40afd"
+  },
+  {
+    "receipt": "hero-stdio.json",
+    "bytes": 44779,
+    "sha256": "747142ace2f1642eff60ef082ed46a40d1045130cd1aa4817de083185434a056"
+  },
+  {
+    "receipt": "lifecycle-ui-release/build.log",
+    "bytes": 781,
+    "sha256": "5564af4454ebdd0bd142adb6304564e062e00ad854df11bd30f197fdd4052208"
+  }
+]

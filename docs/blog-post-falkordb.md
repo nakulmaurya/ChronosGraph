@@ -1,16 +1,124 @@
-# Beyond Static ASTs: Building Disposable GRAPH.COPY Sandboxes, Bi-Temporal Policy Lineage, and Shortest-Path Playbooks on FalkorDB
+# From Connected Code to Approved Changes: Building a Source-Bound Memory Cockpit on FalkorDB
 
 An AI coding assistant can understand a function and still misunderstand a change.
 The missing context might be three import hops away, inside a replaced architecture
 rule, or buried in the failed branches of yesterday's investigation. ChronosGraph
 asks a narrower question than “can an agent fix everything?”: can a graph preserve
-those connections, test a counterfactual safely, and avoid repeating irrelevant work?
+those connections, inspect a counterfactual without changing the saved source, and avoid repeating irrelevant work?
 
 We built a local workbench on FalkorDB with three linked capabilities: disposable
 impact audits, status-aware policy history, and compiled investigation memory.
 The interesting result is not an extravagant token-savings claim. It is a small,
 inspectable system whose source facts, demo scenarios, and measurements remain
 separate from ingestion through the React Flow interface.
+
+## From a graph workbench to an agent–human change cockpit
+
+The first version demonstrated useful primitives. T-09 exposed a product gap:
+a developer still had to interpret technical panels instead of following a change.
+BULK-01 made imports durable and navigation honest. FINAL-01 connects those pieces
+into a narrow, inspectable lifecycle at the default Command Center—not a separate
+hackathon-only screen.
+
+Consider a small payments repository. `core/pricing.py` defines
+`calculate_discount`; `services/checkout.py` calls it; `api/orders.py` calls checkout;
+and `tests/test_orders.py` exercises the order. A fictional current architecture
+rule governs pricing, and `.github/CODEOWNERS` declares `@platform-team`.
+
+A real FastMCP client retrieves the captured symbol and a bounded multi-hop context
+package. Its first proposal renames the pricing function without updating checkout.
+The service copies the tenant graph, removes the replaced file's old analysis,
+parses the **complete final source**, rebuilds resolved imports/calls, and compares
+before/after dependencies. Checkout is flagged as a potentially broken caller.
+This is substantially different from adding snippet edges to an unchanged graph.
+
+The coordinated proposal changes both files. The obsolete call is gone, the new
+call resolves, and the same candidate order test remains reachable. Our correction
+does not wave away all signature changes: retained calls to changed signatures
+remain conservative flags because the parser is not a type checker. Unresolved
+calls and incomplete AST coverage are not interpreted as “no impact.”
+
+### Approval has to name something immutable
+
+`change_lifecycle.py` records task/run/proposal nodes directly in FalkorDB. A
+canonical SHA-256 binds tenant, base commit, touched base SHA-256 hashes, and final
+file bodies. Repeating the same request key and payload returns the existing
+proposal; reusing it for different content returns a conflict. Changing the proposal
+means creating a new immutable proposal, not silently transferring an old approval.
+
+The browser operator approves **that hash**. Before approval and execution, the
+service checks the saved revision, touched base hashes, and current governing
+policy fingerprint again. A shared per-tenant Redis lease serializes these writes
+with policy overrides across processes. Superseding a rule atomically preserves
+its history and clears approvals on touched proposals.
+
+### A passing report is not an observed test
+
+This distinction became the most important integration rule. An external client
+can report `exit_code: 0`, but it cannot label that report locally observed. The
+report remains `AGENT_REPORTED_UNVERIFIED` and does not promote a proposal into
+verified success.
+
+The separate opt-in runner accepts only an operator-configured, trusted local Git
+checkout whose identity and clean HEAD match the saved snapshot. It creates a
+throwaway worktree, checks base bytes, applies the approved replacements and runs
+only the candidate pytest paths, with a 30-second timeout, process-group cleanup
+and bounded output. It observes the actual subprocess exit code. **The worktree
+isolates file edits, not arbitrary host-side code effects**; tests still execute
+trusted repository code. A durable started-attempt marker prevents a lost response
+from automatically executing the same ambiguous proposal again.
+
+A passing observed run creates a finding linked to its proposal and execution.
+The finding fingerprints the unchanged captured base plus the governing policy,
+and stores proposed result hashes separately. It does not claim the source was
+merged, deployed, or rewritten in the saved graph. On a new MCP server session,
+recall returns the evidence as current at that snapshot. Override the pricing
+policy and recall marks it stale. Useful memory is not just persistence; it is
+persistence with an explicit invalidation condition.
+
+### Ownership, memory and history belong beside the graph
+
+The default interface now puts pending proposals under **Changes**, real MCP
+activity and source-bound findings under **Agent activity**, and ownership/policy
+operations under **Ownership**. The same activity tab runs the controlled five-action
+investigation and three-action native `shortestPath` replay, then prepares a measured
+`ResumeSnapshot.md` for manual context-reset recovery. The ownership tab previews
+linked notes and downloads an actual three-layer Obsidian vault ZIP.
+
+Declared ownership uses the licensed, vendored `sbdchd/codeowners` matcher: matching
+pattern, source line and declared handle are pinned evidence, not proof of GitHub
+permissions. Bounded Git commit-file authors/touch history remain separate. T-09's
+scope-aware Python resolution and BULK-01's independent tracked-file inventory keep
+unsupported-language visibility distinct from actual function analysis.
+
+Durable public-import receipts live in Redis for seven days; graph records and
+receipts survive process restarts only to the extent the configured database
+persistence survives. Public archive import never executes repository code or
+pretends to have fetched full history. Graph/Table views expose the same bounded
+selection, including a keyboard-navigable table rather than requiring everyone to
+operate a canvas.
+
+### What was actually exercised
+
+FINAL-01's full native regression run passed **295 backend tests with no skips**;
+27 are new lifecycle/activity cases, including real passing/failing worktree pytest,
+concurrent idempotency, stale source/policy rejection, HTTP intent checks and a
+fresh-process read of a durable proposal. Frontend unit, type and production-build
+gates and separate browser evidence are recorded in the release report. The
+scripted real-stdio hero client reconnects to a new server process; it is **not**
+a hosted-model or IDE-agent reasoning evaluation. Model-token savings remain
+unmeasured.
+
+The synthetic 5,000-file navigation fixture measures native single-client read
+operations, not import throughput. Timings, exact browser counts and final
+readiness are linked in [the FINAL-01 report](../tasks/reports/FINAL-01.md), rather
+than turning one fast sample into a production promise. This article is a draft
+for the side-prize submission; publication and organizer eligibility confirmation
+are separate owner actions.
+
+The remaining sections explain the original FalkorDB primitives and historical
+measurements. Their synthetic overlay experiments are not the new replacement-diff
+or observed-execution results.
 
 ## Start with real structure, not a convincing screenshot
 

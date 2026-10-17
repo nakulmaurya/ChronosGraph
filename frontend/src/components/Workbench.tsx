@@ -17,8 +17,8 @@ type Ownership = { status: string; source_document: { path: string | null; sha25
   truncated: boolean; invalid_rule_count: number };
 type Snapshot = { source_revision: string | null; selected_branch: string | null; connection_kind: string;
   parent_snapshot: string | null; last_check: { status: string; checked_at: number | null; observed_revision: string | null; dirty: boolean | null; reasons: string[] } };
-type Event = { target_files: string[]; id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
-type Finding = { id: string; summary: string; evidence_note: string; status: string; stale_reasons: string[] };
+type Event = { selection_reasons?:unknown[]; target_files: string[]; id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
+type Finding = { id: string; summary: string; evidence_note: string; status: string; stale_reasons: string[];verification_basis?:string;proposal_id?:string;supporting_file_shas?:Record<string,string>;absent_base_files?:string[];base_revision?:string;result_file_hashes_json?:string;governing_decision_ids_json?:string };
 type Memory = { findings: Finding[]; stale_findings_in_scan: number; has_more: boolean };
 type Impact = { changed_files: string[]; impacted_files: string[]; impacted_test_files: string[]; potentially_broken_callers: string[];
   added_dependencies: { relationship: string; source: string; target: string }[];
@@ -216,7 +216,7 @@ export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath
             { tenant_graph: tenant, file_path: path, question: "Show current and superseded governing rules and commit contributors" })}>Inspect rules & contributors</button>
           {brain && <>
             <h3>ACTIVE local rules</h3>{brain.active_decisions.map((r, i) => <article className="wb-card" key={i}>{String(r.rule ?? r.active_rule ?? "")}</article>)}
-            <JsonDetails label="Superseded history (not current instructions)" value={brain.superseded_decisions} />
+            <details className="wb-details"><summary>Superseded history (not current instructions)</summary>{brain.superseded_decisions.map((r,i)=><article className="wb-card" key={i}><s>{String(r.rule??r.old_rule??r.active_rule??"Historical rule")}</s><JsonDetails label="Validity and recorded evidence" value={r}/></article>)}</details>
             <JsonDetails label="Source-extracted constraints" value={brain.repository_constraints} />
             <h3>Git contributors — separate from declared CODEOWNERS</h3><JsonDetails label="Source-linked contributors" value={brain.top_experts} />
 
@@ -241,9 +241,9 @@ export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath
           <h2><Activity size={20} />Agent activity & memory</h2><p>Actual ChronosGraph MCP invocations only, refreshed every 2 seconds. Browser REST reads are not agent events.</p>
           {pollError && <p role="alert" className="wb-error">{pollError}</p>}
           {!events.length && <p>No recorded MCP calls for this repository. Connect the T-09 stdio server to an agent to populate this timeline.</p>}
-          {events.map(event => <article className="wb-card" key={event.id}><strong>{event.tool_name}</strong><p>{event.outcome} · {event.duration_ms.toFixed(2)} ms · {formatBytes(event.result_bytes)}</p><small>{new Date(event.timestamp).toLocaleString()}</small>{onInspect&&event.target_files?.map(p=><button className="cc-event-file" key={p} onClick={()=>onInspect(p)}>Inspect {p} →</button>)}</article>)}
-          <h3>Source-bound findings</h3><p>Agent-reported evidence is saved, not independently executed. Stale file hashes or governing policies flag it for review.</p>
-          {memory?.findings.map(f => <article className="wb-card" key={f.id}><strong>{f.summary}</strong><p>{f.status}{f.stale_reasons.length ? ` · ${f.stale_reasons.join(", ")}` : ""}</p><p>{f.evidence_note}</p></article>)}
+          {events.map(event => <article className="wb-card" key={event.id}><strong>{event.tool_name}</strong><p>{event.outcome} · {event.duration_ms.toFixed(2)} ms · {formatBytes(event.result_bytes)}</p><small>{new Date(event.timestamp).toLocaleString()}</small>{!!event.selection_reasons?.length&&<JsonDetails label="Why this context was selected" value={event.selection_reasons}/>}{onInspect&&event.target_files?.map(p=><button className="cc-event-file" key={p} onClick={()=>onInspect(p)}>Inspect {p} →</button>)}</article>)}
+          <h3>Source-bound findings</h3><p>Evidence labels distinguish unverified client reports from observed local worktree tests. Source hashes and governing policies determine freshness; saved source is not automatically changed.</p>
+          {memory?.findings.map(f => <article className="wb-card" key={f.id}><strong>{f.summary}</strong><p>{f.status}{f.stale_reasons.length ? ` · ${f.stale_reasons.join(", ")}` : ""}</p><p>{f.evidence_note}</p><small>{f.verification_basis||"AGENT_REPORTED_EVIDENCE_NOT_INDEPENDENTLY_EXECUTED"}</small>{f.proposal_id&&<p>Proposal: <code>{f.proposal_id}</code></p>}<JsonDetails label="Supporting source and policy evidence" value={{base_revision:f.base_revision,files:f.supporting_file_shas,absent_at_base:f.absent_base_files,proposed_result_hashes:f.result_file_hashes_json,decisions:f.governing_decision_ids_json}}/></article>)}
           {memory?.has_more && <p>Showing the latest bounded selection; use the memory API to query findings.</p>}
           <details><summary>Record a finding from the last context lookup</summary>
             <p>Evidence files: {(context?.entry_points || evidenceEntries).map(e => e.path).join(", ") || "Search for context first."}</p>

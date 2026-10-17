@@ -195,7 +195,7 @@ def simulate_diff(req):
         _validate_changes(changes, sources)
         changed_paths = sorted({p for old, new, _ in changes for p in (old, new) if p})
         old_items = {p: parse_python_source(text, p) for p, text in sources.items()}
-        _, before_dependencies = _semantic_dependencies(old_items)
+        before_resolved, before_dependencies = _semantic_dependencies(old_items)
         before_impact = _blast(base, changed_paths) | _source_impact(before_dependencies, changed_paths)
         final_sources = dict(sources)
         for old, new, text in changes:
@@ -209,7 +209,13 @@ def simulate_diff(req):
         old_symbols = {f['qualified_name']: (f['signature'], f['is_async']) for p, i in old_items.items() if p in changed_paths for f in i['functions']}
         new_symbols = {f['qualified_name']: (f['signature'], f['is_async']) for p, i in items.items() if p in changed_paths for f in i['functions']}
         broken_symbols = {name for name, sig in old_symbols.items() if new_symbols.get(name) != sig}
-        broken_callers = sorted({a for kind, a, b in before_dependencies if kind == 'CALLS' and b in broken_symbols})
+        # A coordinated replacement can remove the obsolete call expression itself.
+        # Retained expressions remain conservative warnings (no argument/type proof).
+        broken_callers = sorted({call['caller'] for _, calls, _ in before_resolved.values()
+            for call, target in calls if target in broken_symbols
+            if call['caller'].split(':', 1)[0] not in changed_paths or any(
+                new['caller'] == call['caller'] and new['expression'] == call['expression']
+                for new in items.get(call['caller'].split(':', 1)[0], {}).get('calls', []))})
         resolved, after_dependencies = _semantic_dependencies(items)
         simulation = 'diff_' + uuid.uuid4().hex
         with db_manager.ephemeral_sandbox(tenant) as (graph, name, clone_ms):

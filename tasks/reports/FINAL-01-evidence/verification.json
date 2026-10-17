@@ -1,0 +1,65 @@
+{
+  "release": "FINAL-01",
+  "base_commit": "6048a29820fd5ca57528181d9ffe5ce68fc417e3",
+  "branch": "build/final-hackathon-release",
+  "overall_verdict": "NOT_READY",
+  "scope": "Trusted-local automated fixture verification; not an independent model or security audit",
+  "backend": {
+    "passed": 295,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 68.62,
+    "new_lifecycle_activity_tests": 27,
+    "receipt": "full-native-additions/backend-full.log"
+  },
+  "frontend": {
+    "unit_passed": 32,
+    "unit_failed": 0,
+    "unit_skipped": 0,
+    "typecheck": "PASS",
+    "production_build": "PASS"
+  },
+  "browser": {
+    "passed": 62,
+    "page_errors": 0,
+    "groups": {
+      "change_planning": 18,
+      "recovery_injected_failures": 18,
+      "agent_setup": 4,
+      "bulk_inventory_link_import_recovery": 10,
+      "real_native_lifecycle": 12
+    },
+    "widths": [
+      1560,
+      390
+    ],
+    "hosted_model_agent": false
+  },
+  "mcp": {
+    "total_tools": 15,
+    "discovery_tools": 1,
+    "preflight_tools": 1,
+    "operation_tools": 13,
+    "scripted_real_stdio_hero": "PASS",
+    "reconnect_and_recall": "PASS",
+    "observed_candidate_pytest_exit_code": 0,
+    "policy_stale_invalidation": "PASS"
+  },
+  "coding_model_attempt": {
+    "client": "Official opencode-ai 1.19.3",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "result": "HTTP_403_FREE_TIER_ERROR_BEFORE_GENERATION",
+    "model_created_proposal": false,
+    "restriction_bypassed": false
+  },
+  "review": {
+    "four_persona_lenses": "SAME_ASSISTANT_REVIEW",
+    "independent_critique_agent": "NOT_WITNESSED"
+  },
+  "remaining": [
+    "Successful supported provider-backed coding-client evaluation",
+    "Independent critique-only review",
+    "Owner review, eligibility confirmation and publication/submission",
+    "Deliberate branch review/merge/deployment"
+  ]
+}

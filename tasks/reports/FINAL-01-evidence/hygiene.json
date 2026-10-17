@@ -1,0 +1,15 @@
+{
+  "tracked_files": 414,
+  "history_text_blobs_scanned": 655,
+  "forbidden_tracked_artifacts": [],
+  "credential_pattern_findings": [],
+  "orphan_test_or_sandbox_graphs": [],
+  "test_fixture_node_counts": {
+    "repo_falkordb_code_graph": 0,
+    "repo_falkordb_py": 0,
+    "repo_graphrag_sdk": 0,
+    "repo_mcp_python_sdk": 0
+  },
+  "git_status_entry_count": 38,
+  "scope_note": "Pattern scan of tracked working-tree text and unique reachable historical text blobs; not a guarantee, dependency audit or production security review."
+}

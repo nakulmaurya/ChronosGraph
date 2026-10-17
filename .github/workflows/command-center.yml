@@ -51,7 +51,7 @@ jobs:
           else:raise SystemExit('Native FalkorDB unavailable')
           PY
       - name: Native inventory, history and durable import regressions
-        run: python -m pytest backend/tests/test_bulk_navigation.py backend/tests/test_command_center.py backend/tests/test_import_jobs.py -v
+        run: python -m pytest backend/tests/test_bulk_navigation.py backend/tests/test_command_center.py backend/tests/test_import_jobs.py backend/tests/test_change_lifecycle.py -v
       - name: Crash recovery of receipt and graph
         run: PYTHON_BIN=$(command -v python) bash scripts/verify-database-persistence.sh
       - name: Cleanup owned service

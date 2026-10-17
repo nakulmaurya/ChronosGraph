@@ -255,3 +255,64 @@ def import_start(body: ImportRequest, request: Request):
 @app.get('/api/v1/imports/{ident}')
 def import_receipt(ident: str):
     return receipt(ident)
+
+
+# Exact-proposal lifecycle: trusted loopback operator UI, never public authentication.
+from app.services.change_lifecycle import (ProposalInput, DecisionInput, ExecutionInput,
+    propose, list_proposals, decide, report)
+
+
+def proposal_operator(request):
+    if (request.url.hostname not in ('localhost', '127.0.0.1')
+        or request.headers.get('origin') not in local_ui_origins()
+        or request.headers.get('x-chronosgraph-action') != 'proposal-operator'):
+        raise HTTPException(403, 'Use the configured loopback operator UI and explicit action header')
+
+
+@app.get('/api/v1/proposals')
+def proposal_list(tenant_graph: str, revision: str):
+    return list_proposals(tenant_graph, revision)
+
+
+@app.post('/api/v1/proposals')
+def proposal_create(body: ProposalInput, request: Request):
+    proposal_operator(request)
+    return propose(body, actor='BROWSER_OPERATOR')
+
+
+@app.post('/api/v1/proposals/{proposal_id}/decision')
+def proposal_decision(proposal_id: str, body: DecisionInput, request: Request):
+    proposal_operator(request)
+    return decide(proposal_id, body)
+
+
+@app.post('/api/v1/proposals/{proposal_id}/execution')
+def proposal_execution(proposal_id: str, body: ExecutionInput, request: Request):
+    proposal_operator(request)
+    return report(proposal_id, body)
+
+from app.services.worktree_runner import WorktreeInput, execute as execute_worktree, capabilities as runner_capabilities
+
+
+@app.get('/api/v1/proposals/runner-capabilities')
+def proposal_runner_capabilities(tenant_graph: str):
+    tenant_exists(tenant_graph)
+    return runner_capabilities(tenant_graph)
+
+
+@app.post('/api/v1/proposals/{proposal_id}/execute-disposable-worktree')
+def proposal_worktree_execution(proposal_id: str, body: WorktreeInput, request: Request):
+    proposal_operator(request)
+    return execute_worktree(proposal_id, body)
+
+from pydantic import BaseModel, Field
+
+
+class CommandPolicyInput(PolicyOverrideRequest):
+    expected_revision: str = Field(pattern=r'^[0-9a-f]{40}$')
+
+
+@app.post('/api/v1/command-center/policy-override')
+def command_policy(body: CommandPolicyInput, request: Request):
+    proposal_operator(request)
+    return override_policy(body, expected_revision=body.expected_revision)
