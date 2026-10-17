@@ -85,3 +85,18 @@ def test_t01_required_policy_chains_have_curated_evidence(tenant):
     graph=db_manager.get_graph(tenant)
     count=graph.ro_query("MATCH (:Decision {status:'ACTIVE'})-[:SUPERSEDED]->(:Decision {status:'SUPERSEDED'}) RETURN count(*)").result_set[0][0]
     assert count>=4, 'T-01 requires curated decision chains; none were invented from PR titles'
+
+
+@pytest.mark.parametrize('tenant', list(REPOS))
+def test_existing_seed_is_read_only_and_does_not_fetch_source(tenant, monkeypatch):
+    import subprocess
+    graph = db_manager.get_graph(tenant)
+    before = graph.ro_query('MATCH (n) RETURN id(n),properties(n) ORDER BY id(n)').result_set
+    def forbidden(*args, **kwargs):
+        pytest.fail('Existing snapshot reseeding must not fetch or parse repository source')
+    monkeypatch.setattr(subprocess, 'run', forbidden)
+    monkeypatch.setattr(subprocess, 'check_output', forbidden)
+    result = seed_single_repo(tenant)
+    assert result['snapshot_read_only'] is True
+    assert result['analysis_status'] == 'EXISTING_SNAPSHOT_PRESERVED_REIMPORT_FOR_NEW_ANALYZER'
+    assert graph.ro_query('MATCH (n) RETURN id(n),properties(n) ORDER BY id(n)').result_set == before

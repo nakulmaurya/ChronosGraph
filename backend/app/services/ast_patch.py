@@ -1,8 +1,8 @@
 """Bounded additive AST overlays. Never imports or executes submitted Python."""
 import json
 from fastapi import HTTPException
-from app.ingestion.ast_parser import parse_python_source, resolve_import
-from app.ingestion.seed_repos import resolve_call
+from app.ingestion.ast_parser import parse_python_source
+from app.ingestion.dependencies import analyze_dependencies
 
 SOURCE = 'AST_PATCH_SIMULATION'
 
@@ -23,36 +23,7 @@ def parse_patch(code, path, original=None):
     return item
 
 
-def analyze_dependencies(item, known, definitions):
-    """Resolve syntax evidence against an explicit final file/symbol inventory."""
-    path = item['file']['path']
-    roots = {''}
-    for p in known:
-        if p.startswith('src/'):
-            roots.add('src/')
-        if '/src/' in p:
-            roots.add(p.split('/src/', 1)[0] + '/src/')
-    imports = set()
-    call_targets = [set() for _ in item['calls']]
-    for root in roots:
-        aliases = {p[len(root):]: p for p in known if p.startswith(root)}
-        names = set(aliases)
-        alias_definitions = {d[len(root):] for d in definitions if d.startswith(root)}
-        for record in item['imports']:
-            # Relative imports resolve against the actual file path, even when
-            # absolute imports use a package's src-root alias.
-            lookup_path = path[len(root):] if path.startswith(root) else path
-            imports.update(aliases[p] for p in resolve_import(record, lookup_path, names))
-        for index, call in enumerate(item['calls']):
-            lookup = {**call, 'caller': call['caller'][len(root):] if call['caller'].startswith(root) else call['caller']}
-            candidate = resolve_call(lookup, item, names, alias_definitions)
-            if candidate:
-                actual_file, symbol = candidate.split(':', 1)
-                if actual_file in aliases:
-                    call_targets[index].add(aliases[actual_file] + ':' + symbol)
-    resolved = [(call, next(iter(targets))) for call, targets in zip(item['calls'], call_targets) if len(targets) == 1]
-    unresolved = [call['expression'] for call, targets in zip(item['calls'], call_targets) if len(targets) != 1]
-    return imports, resolved, unresolved
+
 
 
 def apply_patch(graph, item, simulation):

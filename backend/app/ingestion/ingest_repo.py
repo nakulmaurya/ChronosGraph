@@ -14,8 +14,9 @@ import time
 from pathlib import Path
 from urllib.parse import urlparse
 from app.db.client import db_manager
-from app.ingestion.ast_parser import parse_python_file, resolve_import
-from app.ingestion.seed_repos import CACHE, resolve_call
+from app.ingestion.ast_parser import parse_python_file
+from app.ingestion.seed_repos import CACHE
+from app.ingestion.dependencies import analyze_dependencies
 from app.services.common import TENANT_PATTERN
 from app.ingestion.git_safety import git_command, git_environment
 
@@ -125,14 +126,7 @@ def append_history(graph, records, origin: str, known: set[str]):
 
 
 def imports_for(item, known):
-    path = item['file']['path']
-    found = set()
-    for record in item['imports']:
-        found.update(resolve_import(record, path, known))
-        if not record['level']:
-            relative = {p[4:] for p in known if p.startswith('src/')}
-            found.update('src/'+p for p in resolve_import(record, path, relative))
-    return sorted(found - {path})
+    return sorted(analyze_dependencies(item, known, set())[0] - {item['file']['path']})
 
 
 def batch(graph, query, rows):
@@ -214,13 +208,10 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
         definitions = {f['qualified_name'] for item in items for f in item['functions']}
         imports, calls, unresolved = [], [], 0
         for item in items:
-            imports += [{'source':item['file']['path'],'target':p} for p in imports_for(item,known)]
-            for call in item['calls']:
-                target = resolve_call(call,item,known,definitions)
-                if target:
-                    calls.append({'source':call['caller'],'target':target,'line':call['line']})
-                else:
-                    unresolved += 1
+            targets, resolved, unknown = analyze_dependencies(item, known, definitions)
+            imports += [{'source':item['file']['path'],'target':p} for p in sorted(targets)]
+            calls += [{'source':call['caller'],'target':target,'line':call['line']} for call, target in resolved]
+            unresolved += len(unknown)
         history = commit_history(root,revision) if prepared_snapshot is None else []
         graph = db_manager.get_graph(tenant)
         graph.query('''CREATE (:RepoMetadata {repository:$repository,source_url:$url,

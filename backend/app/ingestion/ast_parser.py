@@ -29,9 +29,13 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
         result["errors"].append({"message": str(exc), "line": getattr(exc, "lineno", None)})
         return result
 
+    from app.ingestion.scope_bindings import collect_bindings
+    result["scope_bindings"] = collect_bindings(tree)
+
     class Extractor(ast.NodeVisitor):
         def __init__(self) -> None:
             self.scopes: list[tuple[str, str]] = []
+            self.dynamic_scope = 0
 
         def qualify(self, name: str) -> str:
             return f"{path}:{'.'.join([s[0] for s in self.scopes] + [name])}"
@@ -86,6 +90,17 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
                     "name": alias.name, "alias": alias.asname or alias.name,
                     "line": node.lineno, "scope": ".".join(s[0] for s in self.scopes)})
 
+        def visit_dynamic_scope(self, node) -> None:
+            self.dynamic_scope += 1
+            self.generic_visit(node)
+            self.dynamic_scope -= 1
+
+        visit_Lambda = visit_dynamic_scope
+        visit_ListComp = visit_dynamic_scope
+        visit_SetComp = visit_dynamic_scope
+        visit_DictComp = visit_dynamic_scope
+        visit_GeneratorExp = visit_dynamic_scope
+
         def visit_Call(self, node: ast.Call) -> None:
             caller = next((i for i in range(len(self.scopes)-1, -1, -1)
                            if self.scopes[i][1] == "function"), None)
@@ -96,6 +111,7 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
                     "callee_name": expression.split('.')[-1], "expression": expression,
                     "line": node.lineno,
                     "resolution": "unresolved_static_expression",
+                    "dynamic_scope": bool(self.dynamic_scope),
                 })
             self.generic_visit(node)
 

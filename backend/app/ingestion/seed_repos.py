@@ -10,8 +10,9 @@ import time
 from pathlib import Path
 from urllib.request import Request, urlopen
 from redis.exceptions import ResponseError
+from app.ingestion.dependencies import analyze_dependencies, resolve_call
 from app.db.client import db_manager
-from app.ingestion.ast_parser import parse_python_file, resolve_import
+from app.ingestion.ast_parser import parse_python_file
 
 REPOS = {'repo_falkordb_py': 'FalkorDB/falkordb-py', 'repo_graphrag_sdk': 'FalkorDB/GraphRAG-SDK'}
 PINNED_REVISIONS = {'repo_falkordb_py': '31f63f44a5745b9bec65969a1db706906718cb82',
@@ -34,29 +35,6 @@ def api(repo, suffix):
 
 def timestamp(value):
     return int(dt.datetime.fromisoformat(value.replace('Z','+00:00')).timestamp()) if value else 0
-
-
-def resolve_call(call, item, known, definitions):
-    """Only lexical, self/cls, and unambiguous explicitly imported calls are edges."""
-    path, scope = call['caller'].split(':',1)
-    parts, expr = scope.split('.'), call['expression']
-    candidates = []
-    if expr.startswith(('self.','cls.')) and len(parts)>1:
-        candidates.append(f"{path}:{'.'.join(parts[:-1])}.{expr.split('.',1)[1]}")
-    elif expr.isidentifier():
-        for depth in range(len(parts),-1,-1):
-            candidates.append(f"{path}:{'.'.join(parts[:depth]+[expr])}")
-    for imp in item['imports']:
-        if imp['scope'] and not scope.startswith(imp['scope']+'.'):
-            continue
-        head,*rest = expr.split('.')
-        if head != imp['alias'] or imp.get('name')=='*':
-            continue
-        for target in resolve_import(imp,path,known):
-            symbol='.'.join(([imp['name']] if imp.get('name') else [])+rest)
-            candidates.append(f'{target}:{symbol}')
-    matches=list(dict.fromkeys(c for c in candidates if c in definitions))
-    return matches[0] if len(matches)==1 else None
 
 
 def pagerank(paths, edges):
@@ -153,9 +131,36 @@ def ensure_demo_policies(graph):
                     {'active':pair+'_active','old':pair+'_old'})
     return graph.ro_query("MATCH (d:Decision {source_type:'DEMO_POLICY_SCENARIO'}) RETURN count(d)").result_set[0][0]
 
+def existing_snapshot_stats(tenant):
+    """Never silently rewrite a saved source graph with a newer analyzer."""
+    graph = db_manager.get_graph(tenant)
+    revisions = graph.ro_query('MATCH (f:File) RETURN DISTINCT f.source_revision').result_set
+    if not revisions or any(row[0] != PINNED_REVISIONS[tenant] for row in revisions):
+        raise ValueError('Existing graph is incomplete or has a different revision; use a new snapshot')
+    metadata = graph.ro_query('MATCH (m:RepoMetadata) RETURN m.status').result_set
+    if metadata and any(row[0] != 'READY' for row in metadata):
+        raise ValueError('Existing snapshot is not READY; explicit recovery is required')
+    counts = dict(graph.ro_query('MATCH (n) RETURN labels(n)[0],count(n)').result_set)
+    rank = graph.ro_query('MATCH (f:File) RETURN DISTINCT f.pagerank_method').result_set
+    return {'repository': REPOS[tenant], 'revision': PINNED_REVISIONS[tenant],
+            'nodes': sum(counts.values()),
+            'edges': graph.ro_query('MATCH ()-[r]->() RETURN count(r)').result_set[0][0],
+            'files': counts.get('File', 0), 'functions': counts.get('Function', 0),
+            'resolved_calls': graph.ro_query('MATCH ()-[r:CALLS]->() RETURN count(r)').result_set[0][0],
+            'unresolved_calls': None, 'policies': counts.get('Decision', 0),
+            'pagerank_method': rank[0][0] if len(rank) == 1 else 'MIXED_OR_UNRECORDED',
+            'policy_status': 'EXISTING_POLICIES_UNCHANGED', 'graph_write_ms': 0,
+            'snapshot_read_only': True,
+            'analysis_status': 'EXISTING_SNAPSHOT_PRESERVED_REIMPORT_FOR_NEW_ANALYZER'}
+
+
 def seed_single_repo(tenant, force_reset=False, policy_file=None):
     if tenant not in REPOS:
         raise ValueError('Unknown tenant')
+    if not force_reset and tenant in db_manager.list_tenant_graphs():
+        if policy_file:
+            raise ValueError('Existing snapshot cannot be reseeded with policy input; use an explicit policy workflow or reset')
+        return existing_snapshot_stats(tenant)
     repo=REPOS[tenant]; source=CACHE/repo.split('/')[-1]
     if not (source/'.git').is_dir():
         source.parent.mkdir(parents=True,exist_ok=True)
@@ -173,14 +178,10 @@ def seed_single_repo(tenant, force_reset=False, policy_file=None):
     known=set(paths); definitions={f['qualified_name'] for item in items for f in item['functions']}
     imports=[]; calls=[]; unresolved=0
     for item in items:
-        for imp in item['imports']:
-            imports.extend({'source':item['file']['path'],'target':p} for p in resolve_import(imp,item['file']['path'],known))
-        for call in item['calls']:
-            target=resolve_call(call,item,known,definitions)
-            if target:
-                calls.append({'source':call['caller'],'target':target,'line':call['line']})
-            else:
-                unresolved+=1
+        targets, resolved, unknown = analyze_dependencies(item, known, definitions)
+        imports.extend({'source':item['file']['path'],'target':p} for p in sorted(targets))
+        calls.extend({'source':call['caller'],'target':target,'line':call['line']} for call, target in resolved)
+        unresolved += len(unknown)
     contributors=api(repo,'contributors?per_page=10')
     prs=api(repo,'pulls?state=all&per_page=5&sort=updated&direction=desc')
     issues=[i for i in api(repo,'issues?state=open&per_page=30') if 'pull_request' not in i]

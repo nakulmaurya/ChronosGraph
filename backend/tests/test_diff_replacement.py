@@ -134,3 +134,36 @@ def test_symlink_file_mode_rejected_and_pre_state_test_union(client, ingested):
     assert r.status_code == 200, r.text
     assert 'tests/test_removed.py' in r.json()['impacted_test_files']
     assert 'tests/test_removed.py' not in r.json()['recommended_pytest_command']
+
+
+# Quality batch 01: native ingestion and replacement must share graph semantics.
+def test_ingested_edges_equal_canonical_source_analysis(ingested):
+    from app.ingestion.ast_parser import parse_python_source
+    from app.services.diff_impact import _semantic_dependencies
+    tenant, _, _ = ingested
+    graph = db_manager.get_graph(tenant)
+    sources = graph.ro_query('MATCH (f:File) RETURN f.path,f.source_text').result_set
+    items = {path: parse_python_source(source, path) for path, source in sources}
+    _, expected = _semantic_dependencies(items)
+    actual = {('IMPORTS', *row) for row in graph.ro_query(
+        'MATCH (a:File)-[:IMPORTS]->(b:File) RETURN a.path,b.path').result_set}
+    actual.update(('CALLS', *row) for row in graph.ro_query(
+        'MATCH (a:Function)-[:CALLS]->(b:Function) RETURN a.qualified_name,b.qualified_name').result_set)
+    assert actual == expected
+    assert ('CALLS', 'src/pkg/b.py:run', 'src/pkg/a.py:helper') in actual
+
+
+def test_noop_replacement_has_no_semantic_edge_delta(client, ingested):
+    tenant, _, root = ingested
+    before = digest(tenant)
+    graphs = set(db_manager.list_tenant_graphs())
+    response = client.post('/api/v1/diff/impact', json={
+        'tenant_graph': tenant,
+        'file_bodies': {'src/pkg/b.py': (root / 'src/pkg/b.py').read_text()}})
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data['added_dependencies'] == []
+    assert data['removed_dependencies'] == []
+    assert data['sandbox_cleaned_up']
+    assert digest(tenant) == before
+    assert set(db_manager.list_tenant_graphs()) == graphs
