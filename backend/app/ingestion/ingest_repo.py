@@ -46,16 +46,20 @@ def repository_source(source: str, ref: str | None = None):
     if not cache.exists():
         subprocess.run([*git_command(), 'clone', '--quiet', '--no-hardlinks', '--',
             locator, str(cache)], env=git_environment(), check=True, timeout=300)
-    if ref:
+    if ref and ref.startswith('-'):
+        raise ValueError('Invalid Git ref')
+    # Exact hashes are immutable pins. Branch/tag/default imports must resolve
+    # against origin now, not a stale cache branch or detached cache HEAD.
+    pinned = bool(ref and len(ref) == 40 and all(c in '0123456789abcdef' for c in ref))
+    if pinned:
         try:
             revision = git(cache, 'rev-parse', '--verify', '--end-of-options', ref+'^{commit}')
         except subprocess.CalledProcessError:
-            if ref.startswith('-'):
-                raise ValueError('Invalid Git ref')
             git(cache, 'fetch', '--quiet', 'origin', ref)
             revision = git(cache, 'rev-parse', 'FETCH_HEAD^{commit}')
     else:
-        revision = git(cache, 'rev-parse', 'HEAD')
+        git(cache, 'fetch', '--quiet', 'origin', ref or 'HEAD')
+        revision = git(cache, 'rev-parse', 'FETCH_HEAD^{commit}')
     if len(revision) != 40 or any(c not in '0123456789abcdef' for c in revision):
         raise ValueError('Expected a full Git SHA-1 commit revision')
     git(cache, 'checkout', '--quiet', '--detach', revision)

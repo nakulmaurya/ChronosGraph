@@ -157,3 +157,11 @@
 See tasks/assignments/T-09-command-center.md. T-09 remains IN_PROGRESS.
 
 Latest checkpoint: 164 backend, 19 frontend, typecheck/build and 54 browser checks pass; accepted policy ledgers unchanged, owned test graphs removed. See tasks/reports/T-09-command-center.md.
+
+
+### Quality batch 05 — correctness and evidence recovery
+- Branch: `fix/quality-batch-05-correctness`, stacked on batch04 `73fc843`; not merged/deployed.
+- Implemented branch freshness, loopback import configuration, ordinary module call edges, call-coverage disclosure, strict generated MCP setup, per-file tab-local draft restore and stale-result recovery.
+- Verification: 262 native backend / 32 frontend unit / 40 desktop-mobile browser checks; typecheck and production build passed.
+- Review and remaining batch priorities: [Q-05 report](reports/Q-05-correctness.md), [baseline 20-finding review](reviews/Q-05-baseline-review.md).
+- Full-product readiness remains NO-GO. Durable imports and the real builder/agent workflow demonstration remain explicit next gates.

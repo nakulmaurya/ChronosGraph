@@ -22,6 +22,7 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
                  "source_utf8_bytes": len(source_code.encode('utf-8')),
                  "sha256": hashlib.sha256(source_code.encode()).hexdigest()},
         "classes": [], "functions": [], "imports": [], "calls": [], "errors": [],
+        "call_coverage": {"observed": 0, "function_scope": 0, "excluded_non_function_scope": 0},
     }
     try:
         tree = ast.parse(source_code, filename=path)
@@ -102,9 +103,11 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
         visit_GeneratorExp = visit_dynamic_scope
 
         def visit_Call(self, node: ast.Call) -> None:
+            result["call_coverage"]["observed"] += 1
             caller = next((i for i in range(len(self.scopes)-1, -1, -1)
                            if self.scopes[i][1] == "function"), None)
             if caller is not None:
+                result["call_coverage"]["function_scope"] += 1
                 expression = ast.unparse(node.func)
                 result["calls"].append({
                     "caller": f"{path}:{'.'.join(s[0] for s in self.scopes[:caller+1])}",
@@ -113,9 +116,16 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
                     "resolution": "unresolved_static_expression",
                     "dynamic_scope": bool(self.dynamic_scope),
                 })
+            else:
+                result["call_coverage"]["excluded_non_function_scope"] += 1
             self.generic_visit(node)
 
     Extractor().visit(tree)
+    # Include syntax outside the extractor's supported traversal (annotations,
+    # newer Python constructs) rather than silently claiming zero observations.
+    result["call_coverage"]["observed"] = sum(isinstance(node, ast.Call) for node in ast.walk(tree))
+    result["call_coverage"]["excluded_non_function_scope"] = result["call_coverage"]["observed"] - result["call_coverage"]["function_scope"]
+    result["file"].update({"call_" + key + "_count": value for key, value in result["call_coverage"].items()})
     return result
 
 

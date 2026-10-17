@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from redis.exceptions import RedisError
 from app.db.client import db_manager
+from app.local_boundary import local_ui_origins
 from app.ingestion.seed_repos import REPOS, seed_single_repo
 from app.models import (SandboxAuditRequest,SandboxAuditResponse,BrainQueryRequest,
     PolicyOverrideRequest,PolicyLineageResponse,InvestigationRunRequest,InvestigationRunResponse,
@@ -33,7 +34,7 @@ app.add_middleware(CORSMiddleware,allow_origins=['http://localhost:3000','http:/
     'http://127.0.0.1:3000','http://127.0.0.1:3001',
     'http://localhost:3002','http://127.0.0.1:3002',
     'http://localhost:3003','http://127.0.0.1:3003',
-    'http://localhost:3004','http://127.0.0.1:3004'],allow_methods=['GET','POST'],allow_headers=['Content-Type','X-ChronosGraph-Action'])
+    'http://localhost:3004','http://127.0.0.1:3004'] + local_ui_origins(),allow_methods=['GET','POST'],allow_headers=['Content-Type','X-ChronosGraph-Action'])
 
 
 @app.exception_handler(RedisError)

@@ -42,8 +42,23 @@ def resolve_call(call, item, known, definitions):
         for imp in item['imports']:
             if imp['scope'] != frame_name or imp['alias'] != head or imp.get('name') == '*':
                 continue
-            for target in resolve_import(imp, path, known):
-                symbol = '.'.join(([imp['name']] if imp.get('name') else []) + attributes)
+            targets = resolve_import(imp, path, known)
+            if imp.get('name'):
+                # `from pkg import mod` may bind an actual child module; only
+                # remove `mod` from its symbol prefix for that child's file.
+                child = {**imp, 'module': '.'.join(filter(None, [imp['module'], imp['name']])), 'name': None}
+                child_targets = set(resolve_import(child, path, known))
+                symbol_parts = lambda target: attributes if target in child_targets else [imp['name'], *attributes]
+            else:
+                # `import pkg.mod` binds pkg, whereas `import pkg.mod as m`
+                # binds m to pkg.mod. Strip the unaliased module suffix once.
+                bound = imp.get('bound_target', imp['module'])
+                suffix = imp['module'].split('.')[len(bound.split('.')):]
+                if attributes[:len(suffix)] != suffix:
+                    continue
+                symbol_parts = lambda target: attributes[len(suffix):]
+            for target in targets:
+                symbol = '.'.join(symbol_parts(target))
                 candidate = f'{target}:{symbol}'
                 if candidate in definitions:
                     matches.add(candidate)

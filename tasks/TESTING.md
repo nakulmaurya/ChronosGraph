@@ -26,3 +26,12 @@ A green legacy demo suite is compatibility evidence, not product readiness. Pres
 Schema checks and synthetic baseline counts remain useful, but they are not the acceptance oracle alone. Prefer externally understandable expected relationships over regenerating expected values with the same production helper. Keep failure logs and failed attempts; fix the product or fixture based on evidence instead of lowering assertions. No mutation-testing score, complete coverage percentage, production-security certification or four-independent-agent approval is claimed.
 
 Still open: actual coding-client task/approval/verification flow, durable import receipt recovery, full accessibility, performance/large-repository acceptance, CI orchestration, and release/deployment hardening. No single command here certifies release readiness.
+
+## Batch 05 counterexample gates
+- On the prior revision the first 20 targeted tests produced **17 failures and 3 passes**. Preserve that red-run evidence; do not confuse the later expanded suite with those original twenty probes.
+- Default/operator loopback import origins must match the launcher without accepting wildcard, non-loopback, credential-bearing or malformed origins.
+- Advancing or rewriting a source branch changes the selected snapshot. An unavailable origin must fail mutable imports while an exact cached pin remains readable; the user's checkout is not modified.
+- Every supported ordinary module-import form must survive native ingest/preview and identify the broken caller after helper removal. Do not count an IMPORTS edge as a CALLS edge.
+- Generated strict MCP configuration must publish required identity fields and reject omissions over real stdio, not merely mention them in a prompt.
+- Candidate inspection → Changes → Resume must restore proposal/deletion only for the selected tenant/commit/file, recheck the captured hash, and never revive a preview result. Invalid/quota-blocked tab storage must fail safely.
+- Delayed search → clear, successful file → failed file, and successful commit → failed commit must not show stale evidence under the new request. Exercise desktop and mobile, with injected read failures clearly separated from native preview responses.

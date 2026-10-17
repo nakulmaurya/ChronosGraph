@@ -29,6 +29,15 @@ Next.js / React Flow console          Agent IDE via FastMCP stdio (5 core + 5 T-
         falkordb-py                 GraphRAG-SDK
 ```
 
+## Current quality work
+
+The unmerged quality stack now includes branch freshness, ordinary module call
+resolution, explicit call-coverage limits, tab-local proposal recovery and strict
+snapshot guards in newly generated MCP configurations. See
+[batch 05 status and verification](tasks/reports/Q-05-correctness.md).
+These changes do not complete durable import recovery or a connected-agent approval/execution lifecycle.
+Main and the VM preview are separate revisions; do not expect this stack there until explicitly merged/deployed.
+
 ## Start locally with one command
 
 Prerequisites: Git, Bash, Python 3.11+, Node.js 20.9+ (22 or 24 also supported), npm, Docker, network access for
@@ -40,6 +49,19 @@ git clone https://github.com/nakulmaurya/ChronosGraph.git
 cd ChronosGraph
 bash scripts/start-local.sh
 ```
+
+To enable public browser imports in a trusted local session, start with:
+
+```sh
+CHRONOSGRAPH_ENABLE_BROWSER_IMPORT=1 bash scripts/start-local.sh
+```
+
+The UI/API default to 3001/8000. Set `CHRONOSGRAPH_UI_PORT` and
+`CHRONOSGRAPH_API_PORT` together if needed; the launcher sets the matching API URL
+and exact loopback UI origins. Advanced operators can restrict
+`CHRONOSGRAPH_UI_ORIGINS` to a comma-separated list of explicit loopback HTTP origins.
+No wildcard or non-loopback import origins are accepted. Browser imports remain
+opt-in; this is not multi-user authentication.
 
 Open **http://127.0.0.1:3001**. The launcher creates a local Python environment,
 installs locked frontend dependencies, starts an owned loopback-only Docker

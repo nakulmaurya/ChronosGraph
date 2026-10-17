@@ -40,8 +40,10 @@ Keep the terminal open. Browse `http://127.0.0.1:3004/`; API documentation is
    the graph. Inspect imports and the files that import the selected file.
 3. **Changes**: preview final Python source replacements/deletions in an isolated
    `GRAPH.COPY` graph. Review removed/added dependencies, candidate impact and
-   cleanup. This does not edit source or establish safe-to-skip tests. The draft
-   persists while navigating the map; a rejected request clears a stale result.
+   cleanup. This does not edit source or establish safe-to-skip tests. The last proposal for a saved commit is stored in this browser tab; after
+   inspecting a candidate, choose **Resume saved draft**. Its baseline hash is
+   rechecked before restoring. Preview results are never restored. Storage failure
+   warns you to copy your proposal before navigating; a rejected request clears a stale result.
 4. **History**: inspect genuinely indexed commit-to-file links. Public archive
    imports do not fetch commit history, so their empty history is intentional.
    Opening a changed file shows the selected saved snapshot, not the old commit's
@@ -88,11 +90,11 @@ only newly indexed snapshots receive the new docstring fields.
 
 The API must be launched with `CHRONOSGRAPH_ENABLE_BROWSER_IMPORT=1`. This is enabled
 only on the isolated preview. The API checks a loopback Host, an exact frontend
-Origin (`http://localhost:3004` or `http://127.0.0.1:3004`), and the custom
+Origin (default loopback UI ports 3001 and 3004, or an explicit
+`CHRONOSGRAPH_UI_ORIGINS` list), and the custom
 `X-ChronosGraph-Action: public-import` header. These are cross-origin protections
 for a **trusted local single-user** preview, not production authentication or
-multitenant authorization. Another frontend port needs an explicit origin-policy
-change; the default local launcher does not silently enable this feature.
+multitenant authorization. Another frontend port needs an explicit origin configuration; the default local launcher does not silently enable this feature.
 
 One active job runs in a separate Python subprocess, without a shell, with a
 300-second wall timeout; on timeout its own process group is killed. Receipts
@@ -150,3 +152,14 @@ at `~/t09-evidence/command-center/` on the VM.
   private authorization and hosted multi-user deployment hardening.
 - Wider accessibility/usability review, other OS execution and release approval.
 - Main merge/deployment only after acceptance; no new video in this task.
+
+## Quality stack: strict agent setup
+
+New **Connect agent** configurations set `CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD=1`
+in the stdio server environment. All ten operation schemas then require both
+`tenant_graph` and `expected_revision`, with omission rejected before lookup or
+mutation. Discovery remains unbound; preflight checks do not bind later calls.
+The native stdio integration tests validate omission, mismatch, source, preview
+and reconnect/recall behavior. This is protocol testing, not a real IDE/model
+trial or an authorization boundary. Existing configurations without this flag
+and legacy HTTP routes retain their documented compatibility behavior.

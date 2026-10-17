@@ -141,7 +141,7 @@ export default function McpModal({ onClose, tenantGraph = "", sourceRevision = n
       <h3>Available tools</h3>
       <p>All ten existing operation tools also accept <code>expected_revision</code>.
         Include it together with the selected <code>tenant_graph</code> on every call.
-        Omitting it retains legacy unguarded behavior; a preflight does not bind future calls automatically.</p>
+        The generated configuration requires both arguments on every operation. Other servers without strict mode retain legacy unguarded behavior; a preflight does not bind future calls automatically.</p>
       <div className="tools-list">
         {tools.map(([name, args, note]) => (
           <article key={name}>

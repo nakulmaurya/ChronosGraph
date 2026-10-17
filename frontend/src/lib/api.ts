@@ -30,6 +30,7 @@ export async function request<T>(
     );
   }
   const payload = await response.json().catch(() => null);
+  if (signal.aborted) throw signal.reason || new DOMException('Request aborted', 'AbortError');
   if (!response.ok) {
     const detail =
       typeof payload?.detail === "string"

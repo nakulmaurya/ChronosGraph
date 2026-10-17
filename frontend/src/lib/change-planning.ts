@@ -3,6 +3,7 @@ export type DependencyView = { paths: string[]; edges: {source:string;target:str
 export type ChangeImpact = { changed_files:string[]; impacted_files:string[]; impacted_test_files:string[];
   potentially_broken_callers:string[]; recommended_pytest_command:string; sandbox_cleaned_up:boolean;
   dependency_graphs:{before:DependencyView;after:DependencyView}; unresolved_calls:number;
+  call_coverage?:{before:{observed:number;function_scope:number;excluded_non_function_scope:number};after:{observed:number;function_scope:number;excluded_non_function_scope:number};receiver_basis:string};
   parse_coverage:{before_failed_files:string[];after_failed_files:string[]};
   added_dependencies:{relationship:string;source:string;target:string}[];
   removed_dependencies:{relationship:string;source:string;target:string}[];

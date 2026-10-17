@@ -262,6 +262,13 @@ def simulate_diff(req):
                 'test_selection_basis': 'PRE_POST_UNION_STATIC_CANDIDATES_NOT_SAFE_SKIP_PROOF',
                 'final_file_hashes': {p: items[p]['file']['sha256'] for p in changed_paths if p in items},
                 'source_revisions': sorted({r[3] for r in captured if r[3]}),
+                'call_coverage': {
+                    'before': {key: sum(i['call_coverage'][key] for i in old_items.values())
+                               for key in ('observed', 'function_scope', 'excluded_non_function_scope')},
+                    'after': {key: sum(i['call_coverage'][key] for i in items.values())
+                              for key in ('observed', 'function_scope', 'excluded_non_function_scope')},
+                    'receiver_basis': 'Lexical class candidate only; inherited overrides and runtime dispatch are not resolved',
+                },
                 'unresolved_calls': sum(len(unresolved) for _, _, unresolved in resolved.values()),
                 'dependency_comparison_basis': 'REPARSED_CAPTURED_SOURCE_BEFORE_VS_FINAL_SOURCE',
                 'parse_coverage': {

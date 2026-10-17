@@ -51,6 +51,7 @@ export default function CommandCenter() {
     const [error, setError] = useState(""), [loading, setLoading] = useState(false), [inspecting, setInspecting] = useState(false);
     const [mapError, setMapError] = useState("");
     const [mapAttempt, setMapAttempt] = useState(0);
+    const [historyLoading, setHistoryLoading] = useState(false), [historyAttempt, setHistoryAttempt] = useState(0);
     const operation = useRef<AbortController | null>(null);
     const current = catalog.find(t => t.tenant_graph === tenant);
     async function catalogLoad(pick = "", signal?: AbortSignal) {
@@ -80,7 +81,7 @@ export default function CommandCenter() {
         setTab(0);
         setError("");
         setInspecting(false);
-        request<Snapshot>(`/workspace/snapshot?${queryString({ tenant_graph: tenant })}`, c.signal).then(setSnapshot).catch(e => { if (!c.signal.aborted)
+        request<Snapshot>(`/workspace/snapshot?${queryString({ tenant_graph: tenant })}`, c.signal).then(value => { if (!c.signal.aborted) setSnapshot(value); }).catch(e => { if (!c.signal.aborted)
             setError(e.message); });
         return () => c.abort();
     }, [tenant]);
@@ -90,7 +91,7 @@ export default function CommandCenter() {
         const c = new AbortController();
         setLoading(true);
         setMapError("");
-        request<RepositoryMap>(`/repository/map?${queryString({ tenant_graph: tenant, prefix })}`, c.signal).then(setMap).catch(e => { if (!c.signal.aborted)
+        request<RepositoryMap>(`/repository/map?${queryString({ tenant_graph: tenant, prefix })}`, c.signal).then(value => { if (!c.signal.aborted) setMap(value); }).catch(e => { if (!c.signal.aborted)
             setMapError(e.message); }).finally(() => { if (!c.signal.aborted)
             setLoading(false); });
         return () => c.abort();
@@ -99,10 +100,13 @@ export default function CommandCenter() {
         if (!tenant || tab !== 2)
             return;
         const c = new AbortController();
-        request<HistoryData>(`/repository/history?${queryString({ tenant_graph: tenant, commit })}`, c.signal).then(setHistory).catch(e => { if (!c.signal.aborted)
-            setError(e.message); });
+        setHistory(null);
+        setHistoryLoading(true);
+        setError("");
+        request<HistoryData>(`/repository/history?${queryString({ tenant_graph: tenant, commit })}`, c.signal).then(value => { if (!c.signal.aborted) setHistory(value); }).catch(e => { if (!c.signal.aborted)
+            setError(e.message); }).finally(() => { if (!c.signal.aborted) setHistoryLoading(false); });
         return () => c.abort();
-    }, [tenant, tab, commit]);
+    }, [tenant, tab, commit, historyAttempt]);
     async function inspect(path: string, symbol?: string) {
         operation.current?.abort();
         const c = new AbortController();
@@ -110,6 +114,7 @@ export default function CommandCenter() {
         setInspecting(true);
         setError("");
         setSource(null);
+        setDetail(null);
         try {
             const data = await request<FileDetail>(`/repository/file?${queryString({ tenant_graph: tenant, file_path: path })}`, c.signal);
             if (c.signal.aborted)
@@ -118,7 +123,8 @@ export default function CommandCenter() {
             setTab(0);
             if (symbol) {
                 setFunctions(true);
-                setSource(await request<Source>(`/context/symbol-source?${queryString({ tenant_graph: tenant, file_path: path, symbol_name: symbol })}`, c.signal));
+                const captured = await request<Source>(`/context/symbol-source?${queryString({ tenant_graph: tenant, file_path: path, symbol_name: symbol })}`, c.signal);
+                if (!c.signal.aborted) setSource(captured);
             }
         }
         catch (e) {
@@ -137,7 +143,8 @@ export default function CommandCenter() {
         setError("");
         setInspecting(true);
         try {
-            setResults(await request<SearchData>(`/context/locate?${queryString({ tenant_graph: tenant, query })}`, c.signal));
+            const found = await request<SearchData>(`/context/locate?${queryString({ tenant_graph: tenant, query })}`, c.signal);
+            if (!c.signal.aborted) setResults(found);
         }
         catch (e) {
             if (!c.signal.aborted)
@@ -148,6 +155,7 @@ export default function CommandCenter() {
                 setInspecting(false);
         }
     }
+    function updateQuery(value: string) { operation.current?.abort(); setInspecting(false); setQuery(value); setResults(null); }
     function folder(path: string) { operation.current?.abort(); setInspecting(false); setPrefix(path); setMap(null); setDetail(null); setSource(null); setResults(null); setFunctions(false); setTab(0); }
     function pick(path: string, kind: string, symbol?: string) { if (kind === "folder")
         folder(path);
@@ -162,9 +170,8 @@ export default function CommandCenter() {
       <nav className="cc-tabs" aria-label="Command center views">{tabs.map((t, i) => <button key={t.name} className={tab === i ? "active" : ""} aria-current={tab === i ? "page" : undefined} onClick={() => switchTab(i)}><t.icon size={15}/>{t.name}</button>)}<Link href="/demo" className="cc-demo-link">Demo & wiki <ArrowUpRight size={13}/></Link></nav>
       {error && <div className="cc-error" role="alert">{error}<button aria-label="Dismiss error" onClick={() => setError("")}><X size={14}/></button></div>}
       {tab === 0 && <><section className="cc-overview"><div><h1>Your codebase. Connected.</h1><p>Find your way through the code, then see what a change could affect.</p></div><div className="cc-stats"><div><strong>{map ? (map.counts.File || 0).toLocaleString() : "—"}</strong><span>indexed files</span></div><div><strong>{map ? (map.counts.Function || 0).toLocaleString() : "—"}</strong><span>functions</span></div><div><strong>{map ? (map.counts.Class || 0).toLocaleString() : "—"}</strong><span>classes</span></div></div></section>
-      <div className="cc-workspace"><aside className="cc-explorer"><div className="cc-panel-title"><span>EXPLORER</span><span>{map?.counts.File ?? "…"}</span></div><form className="cc-search" onSubmit={e => { e.preventDefault(); void search(); }}><Search size={14}/><input aria-label="Search files and symbols" placeholder="Search files or symbols…" value={query} onChange={e => { setQuery(e.target.value); if (!e.target.value)
-            setResults(null); }} maxLength={200}/><button aria-label="Run repository search" disabled={!query.trim() || inspecting}>↵</button></form>
-        <div className={`cc-tree-scroll ${results ? "cc-search-results" : ""}`}>{results ? <><div className="cc-tree-caption">Search results <button onClick={() => { setResults(null); setQuery(""); }}>Clear</button></div>{!results.entry_points.length && <p className="cc-empty">No match. Try a file path or a shorter symbol name.</p>}{results.entry_points.map(f => <div key={f.path}><button className="cc-tree-file" title={f.path} onClick={() => void inspect(f.path)}><FileCode2 size={14}/><span>{f.path}</span></button>{f.symbols.slice(0, 8).map(s => <button className="cc-tree-symbol" key={s.name} onClick={() => void inspect(f.path, s.name)}>ƒ {s.name}</button>)}</div>)}</> : <>{prefix && <button className="cc-tree-file" onClick={() => folder(breadcrumbParent(prefix))}><ArrowLeft size={14}/>Parent folder</button>}{map?.nodes.map(n => <button key={n.id} className={`cc-tree-file ${detail?.file.path === n.path ? "active" : ""}`} title={n.path} onClick={() => pick(n.path, n.kind)}>{n.kind === "folder" ? <Folder size={14}/> : <FileCode2 size={14}/>}<span>{n.path.slice(prefix.length).replace(/\/$/, "")}</span>{n.kind === "folder" && <small>{n.files}</small>}</button>)}{!map?.nodes.length && !loading && !mapError && <p className="cc-empty">No indexed files here.</p>}</>}</div>
+      <div className="cc-workspace"><aside className="cc-explorer"><div className="cc-panel-title"><span>EXPLORER</span><span>{map?.counts.File ?? "…"}</span></div><form className="cc-search" onSubmit={e => { e.preventDefault(); void search(); }}><Search size={14}/><input aria-label="Search files and symbols" placeholder="Search files or symbols…" value={query} onChange={e => updateQuery(e.target.value)} maxLength={200}/><button aria-label="Run repository search" disabled={!query.trim() || inspecting}>↵</button></form>
+        <div className={`cc-tree-scroll ${results ? "cc-search-results" : ""}`}>{results ? <><div className="cc-tree-caption">Search results <button onClick={() => updateQuery("")}>Clear</button></div>{!results.entry_points.length && <p className="cc-empty">No match. Try a file path or a shorter symbol name.</p>}{results.entry_points.map(f => <div key={f.path}><button className="cc-tree-file" title={f.path} onClick={() => void inspect(f.path)}><FileCode2 size={14}/><span>{f.path}</span></button>{f.symbols.slice(0, 8).map(s => <button className="cc-tree-symbol" key={s.name} onClick={() => void inspect(f.path, s.name)}>ƒ {s.name}</button>)}</div>)}</> : <>{prefix && <button className="cc-tree-file" onClick={() => folder(breadcrumbParent(prefix))}><ArrowLeft size={14}/>Parent folder</button>}{map?.nodes.map(n => <button key={n.id} className={`cc-tree-file ${detail?.file.path === n.path ? "active" : ""}`} title={n.path} onClick={() => pick(n.path, n.kind)}>{n.kind === "folder" ? <Folder size={14}/> : <FileCode2 size={14}/>}<span>{n.path.slice(prefix.length).replace(/\/$/, "")}</span>{n.kind === "folder" && <small>{n.files}</small>}</button>)}{!map?.nodes.length && !loading && !mapError && <p className="cc-empty">No indexed files here.</p>}</>}</div>
         <div className="cc-explorer-footer"><Layers size={13}/>{loading ? "Loading repository…" : "Python AST · saved source"}</div></aside>
         <section className="cc-map-panel" aria-label="Interactive repository graph"><div className="cc-map-toolbar"><div className="cc-breadcrumb"><button onClick={() => folder("")}><Box size={13}/>Repository</button>{prefix && <><ChevronRight size={12}/><button onClick={resetMap}>{prefix}</button></>}{detail && <><ChevronRight size={12}/><span>{detail.file.path.split("/").pop()}</span></>}</div><div className="cc-segment"><button className={!functions ? "active" : ""} onClick={() => setFunctions(false)}>Dependencies</button><button className={functions ? "active" : ""} disabled={!detail} onClick={() => setFunctions(true)}>Functions</button></div></div>
           <div className="cc-canvas" aria-busy={loading || inspecting}>{map && <CommandGraph map={map} detail={detail} functions={functions} selected={source ? source.qualified_name : detail?.file.path || ""} onPick={pick}/>} {(loading || inspecting) && <span className="cc-loading" role="status">{inspecting ? "Inspecting source…" : "Loading map…"}</span>}{mapError && !loading && <div className="cc-map-recovery" role="alert"><Network size={30}/><h2>Repository map unavailable.</h2><p>{mapError}</p><button className="cc-primary" onClick={() => setMapAttempt(value => value + 1)}>Retry map</button><p className="cc-help">Your saved repository has not been changed.</p></div>}{!tenant && !loading && <div className="cc-blank"><Network size={34}/><h2>Start with your repository.</h2><p>Import a public Python project to explore its structure.</p><button className="cc-primary" onClick={() => setImportOpen(true)}>Import repository</button></div>}</div>
@@ -183,7 +190,7 @@ export default function CommandCenter() {
           <details className="cc-inspector-section"><summary>Index coverage & provenance</summary><p>Static relationships, not runtime dispatch. Missing edges do not prove no impact.</p><pre>{JSON.stringify(detail.coverage, null, 2)}</pre><small>File hash {detail.file.sha256?.slice(0, 16) || "not captured"}</small></details></> : <div className="cc-onboarding"><span className="cc-onboarding-icon"><Network size={28}/></span><h2>Follow the connections.</h2><p>Select a folder to zoom into the architecture. Select a file to see its dependencies, functions, and source.</p><ol><li><strong>Explore</strong><span>Start with folders or search a symbol.</span></li><li><strong>Understand</strong><span>Trace imports and inspect real definitions.</span></li><li><strong>Plan a change</strong><span>Preview downstream impact in Changes.</span></li></ol><button onClick={() => setAgentOpen(true)}><Terminal size={14}/>Connect your coding agent</button></div>}
         </aside></div>
         <footer className="cc-statusbar"><span>Saved version {snapshot?.source_revision?.slice(0, 8) || "—"} · not live workspace monitoring</span><span>{current?.repository || "No repository selected"}</span></footer></>}
-      {tab === 2 && <section className="cc-history"><div className="cc-section-heading"><span className="cc-kicker">CHANGE EXPLORER</span><h1>Understand what changed.</h1><p>Commit-linked file changes from the indexed Git history.</p></div><div className="cc-history-grid"><div><h2>Indexed commits</h2>{!history?.commits.length && <div className="cc-empty-card"><GitCommitHorizontal size={24}/><h3>No commit history in this saved version.</h3><p>Public archive imports capture one commit’s source, not its history. Connect a trusted local Git checkout to index bounded commit history.</p></div>}{history?.commits.map(c => <button className={`cc-commit ${commit === c.sha ? "active" : ""}`} key={c.sha} onClick={() => setCommit(c.sha)}><strong>{c.title}</strong><span><code>{c.sha.slice(0, 8)}</code> · {c.author || "Git author"} · {c.timestamp ? new Date(c.timestamp * 1000).toLocaleDateString() : "Date unavailable"}</span></button>)}</div><div><h2>{commit ? "Files changed in this commit" : "Select a commit"}</h2><p className="cc-help">File inspection opens the current indexed source—not the historical commit’s source.</p>{history?.changes.map(f => <button className="cc-changed-file" key={f.path} onClick={() => void inspect(f.path)}><FileCode2 size={14}/><span>{f.path}</span><code>+{f.additions} −{f.deletions}</code><ArrowUpRight size={13}/></button>)}{commit && !history?.changes.length && <p>No indexed file links for this commit.</p>}{history?.changes_truncated && <p>Showing the first 300 file changes.</p>}</div></div></section>}
+      {tab === 2 && <section className="cc-history"><div className="cc-section-heading"><span className="cc-kicker">CHANGE EXPLORER</span><h1>Understand what changed.</h1><p>Commit-linked file changes from the indexed Git history.</p></div><div className="cc-history-grid"><div><h2>Indexed commits</h2>{historyLoading && <p role="status">Loading commit history…</p>}{!historyLoading && !history && <button onClick={() => setHistoryAttempt(value => value + 1)}>Retry history</button>}{history && !history.commits.length && <div className="cc-empty-card"><GitCommitHorizontal size={24}/><h3>No commit history in this saved version.</h3><p>Public archive imports capture one commit’s source, not its history. Connect a trusted local Git checkout to index bounded commit history.</p></div>}{history?.commits.map(c => <button className={`cc-commit ${commit === c.sha ? "active" : ""}`} key={c.sha} onClick={() => { setHistory(null); setCommit(c.sha); }}><strong>{c.title}</strong><span><code>{c.sha.slice(0, 8)}</code> · {c.author || "Git author"} · {c.timestamp ? new Date(c.timestamp * 1000).toLocaleDateString() : "Date unavailable"}</span></button>)}</div><div><h2>{commit ? "Files changed in this commit" : "Select a commit"}</h2>{commit && <button onClick={() => { setHistory(null); setCommit(""); }}>All indexed commits</button>}<p className="cc-help">File inspection opens the current indexed source—not the historical commit’s source.</p>{history?.changes.map(f => <button className="cc-changed-file" key={f.path} onClick={() => void inspect(f.path)}><FileCode2 size={14}/><span>{f.path}</span><code>+{f.additions} −{f.deletions}</code><ArrowUpRight size={13}/></button>)}{commit && history && !history.changes.length && <p>No indexed file links for this commit.</p>}{history?.changes_truncated && <p>Showing the first 300 file changes.</p>}</div></div></section>}
       {tab === 1 && tenant && <ChangePlanner key={`${tenant}:${detail?.file.path || ""}`} tenant={tenant} revision={snapshot?.tenant_graph === tenant ? snapshot.source_revision : null} path={detail?.file.path || ""} onInspect={path => void inspect(path)}/>}
       {(tab === 3 || tab === 4) && <section className="cc-tools"><div className="cc-section-heading"><span className="cc-kicker">{tab === 3 ? "KNOW WHO AND WHY" : "HUMAN + AGENT"}</span><h1>{tab === 3 ? "Rules, authors, and owners." : "Keep the work visible."}</h1><p>{tab === 3 ? "Understand the current rules and people connected to this code." : "Real tool calls and source-linked findings. No invented agent thoughts."}</p></div>{tenant && <Workbench key={tenant} fixedTenant={tenant} fixedPath={detail?.file.path || ""} onInspect={path => void inspect(path)} active evidenceEntries={detail?.file.sha256 ? [{ path: detail.file.path, sha256: detail.file.sha256 }] : []} defaultView={tab === 3 ? 2 : 3}/>}</section>}
     </div>{importOpen && <RepositoryImport close={() => setImportOpen(false)} complete={value => { setImportOpen(false); void catalogLoad(value).then(() => { if (value)

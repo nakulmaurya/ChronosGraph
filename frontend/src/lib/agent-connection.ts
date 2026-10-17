@@ -19,7 +19,7 @@ export function buildAgentConfig(setup: AgentSetup): string {
     throw new Error("Enter a database port from 1 to 65535.");
   return JSON.stringify({ mcpServers: { chronosgraph: {
     command: python, args: ["-m", "app.mcp_server.server"], cwd,
-    env: { FALKORDB_HOST: host, FALKORDB_PORT: String(Number(setup.databasePort)) },
+    env: { FALKORDB_HOST: host, FALKORDB_PORT: String(Number(setup.databasePort)), CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD: "1" },
   } } }, null, 2);
 }
 export function buildSnapshotHandoff(tenant: string, revision: string | null): string | null {

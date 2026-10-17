@@ -1,6 +1,7 @@
 """Bounded real MCP invocation metadata, shared across stdio/API via FalkorDB."""
 from functools import wraps
 import inspect
+import os
 import json
 import logging
 import re
@@ -19,6 +20,11 @@ def instrument(tool_name):
         @wraps(fn)
         def wrapped(*args, **kwargs):
             bound = signature.bind(*args, **kwargs)
+            # Strict local clients must select a snapshot explicitly. Reject before
+            # tenant lookup, operation, or activity writes; this is not authorization.
+            if os.environ.get('CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD') == '1':
+                if not bound.arguments.get('tenant_graph') or not bound.arguments.get('expected_revision'):
+                    raise HTTPException(422, 'Explicit tenant_graph and expected_revision are required by this MCP server')
             bound.apply_defaults()
             arguments = bound.arguments
             tenant = arguments.get('tenant_graph', 'repo_falkordb_py')
@@ -65,6 +71,13 @@ def instrument(tool_name):
                     # Mutation may already have committed: do not turn successful tools into
                     # misleading failures or mask the original failure. Explicit stderr notice.
                     log.warning('ChronosGraph activity recording unavailable for %s', tool_name)
+        if os.environ.get('CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD') == '1':
+            # Publish required JSON fields as well as enforcing the runtime guard.
+            # Otherwise a framework may inject legacy Python defaults before bind.
+            wrapped.__signature__ = signature.replace(parameters=[
+                parameter.replace(kind=inspect.Parameter.KEYWORD_ONLY,
+                    default=inspect.Parameter.empty if parameter.name in ('tenant_graph', 'expected_revision') else parameter.default)
+                for parameter in signature.parameters.values()])
         return wrapped
     return decorate
 

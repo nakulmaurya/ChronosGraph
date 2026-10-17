@@ -7,7 +7,7 @@ test('agent config uses explicit executable, cwd and database without shell inte
   assert.equal(config.command, setup.pythonExecutable);
   assert.equal(config.cwd, setup.backendDirectory);
   assert.deepEqual(config.args, ['-m', 'app.mcp_server.server']);
-  assert.deepEqual(config.env, { FALKORDB_HOST: '127.0.0.1', FALKORDB_PORT: '6379' });
+  assert.deepEqual(config.env, { FALKORDB_HOST: '127.0.0.1', FALKORDB_PORT: '6379', CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD: '1' });
   assert.equal(config.shell, undefined);
 });
 for (const [key, value] of [['backendDirectory','relative/backend'], ['pythonExecutable','python -m evil'], ['databasePort','0'], ['databasePort','65536'], ['databasePort','6379; echo bad'], ['databaseHost','localhost\nX=1']]) {

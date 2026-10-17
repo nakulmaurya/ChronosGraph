@@ -148,12 +148,18 @@ def test_real_stdio_choose_version_read_preview_and_recall_after_reconnect(inges
         server = Path(__file__).resolve().parents[1]/'app/mcp_server/server.py'
         def transport():
             return PythonStdioTransport(server, python_cmd=sys.executable,
-                cwd=str(server.parents[2]), env=dict(os.environ), keep_alive=False)
+                cwd=str(server.parents[2]), env={**os.environ, "CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD": "1"}, keep_alive=False)
         async def run():
             async with Client(transport()) as client:
                 tools = {t.name: t for t in await client.list_tools()}
                 assert set(TOOLS) | {'discover_repositories', 'inspect_repository_snapshot'} <= tools.keys()
                 assert set(tools['inspect_repository_snapshot'].input_schema['required']) == {'tenant_graph', 'expected_revision'}
+                for name in TOOLS:
+                    assert {'tenant_graph', 'expected_revision'} <= set(tools[name].input_schema['required'])
+                missing_guard = await client.call_tool('locate_context', {'query': 'helper', 'tenant_graph': tenant}, raise_on_error=False)
+                assert missing_guard.is_error
+                missing_tenant = await client.call_tool('locate_context', {'query': 'helper', 'expected_revision': revision}, raise_on_error=False)
+                assert missing_tenant.is_error
                 page = await client.call_tool('discover_repositories', {'limit': 50})
                 assert not page.is_error
                 assert {tenant, other} <= {r['tenant_graph'] for r in page.data['repositories']}

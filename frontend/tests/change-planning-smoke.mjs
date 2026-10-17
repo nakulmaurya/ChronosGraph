@@ -63,6 +63,26 @@ try{
   await page.locator('.cc-inspector-heading h2').filter({hasText:'test_helper.py'}).waitFor();
   checks.push(`Candidate test opens the repository inspector (${width}px)`);
   await page.getByRole('button',{name:'Changes',exact:true}).last().click();
+  await planner.getByRole('button',{name:'Resume saved draft',exact:true}).click();
+  await editor.waitFor();
+  assert.equal(await editor.inputValue(),'def renamed():\n    return 9\n');
+  assert.equal(await planner.getByRole('checkbox',{name:'Preview deleting this file',exact:true}).isChecked(),true);
+  assert.equal(await results.count(),0);
+  checks.push(`Candidate inspection preserves the proposal, deletion flag and baseline without replaying stale results (${width}px)`);
+  await page.evaluate(()=>{
+    for(let i=0;i<sessionStorage.length;i++){
+      const key=sessionStorage.key(i);
+      if(key?.startsWith('chronosgraph-change-draft:')&&!key.endsWith(':latest')){
+        const value=JSON.parse(sessionStorage.getItem(key));value.sha256='0'.repeat(64);sessionStorage.setItem(key,JSON.stringify(value));
+      }
+    }
+  });
+  await page.getByRole('button',{name:'Repository',exact:true}).last().click();
+  await page.getByRole('button',{name:'Changes',exact:true}).last().click();
+  await planner.getByRole('button',{name:'Resume saved draft',exact:true}).click();
+  await planner.getByRole('alert').filter({hasText:'Draft baseline does not match'}).waitFor();
+  assert.equal(await editor.count(),0);assert.equal(await results.count(),0);
+  checks.push(`Draft restore rechecks captured hash and refuses inconsistent source (${width}px)`);
   await page.getByRole('combobox',{name:'Repository',exact:true}).selectOption('repo_falkordb_py');
   await page.locator('.cc-overview h1').waitFor(); // Repository changes intentionally reset to the map.
   await page.getByRole('button',{name:'Changes',exact:true}).last().click();

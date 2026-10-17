@@ -39,6 +39,14 @@ if ((INSTALL)); then
 fi
 [[ -x "$PY" ]] || { echo "Missing Python environment: $VENV_DIR" >&2; exit 1; }
 [[ -d "$ROOT/frontend/node_modules" ]] || { echo 'Run without --no-install first' >&2; exit 1; }
+export CHRONOSGRAPH_UI_PORT="${CHRONOSGRAPH_UI_PORT:-3001}"
+export CHRONOSGRAPH_API_PORT="${CHRONOSGRAPH_API_PORT:-8000}"
+for port in "$CHRONOSGRAPH_UI_PORT" "$CHRONOSGRAPH_API_PORT"; do
+  [[ "$port" =~ ^[1-9][0-9]{0,4}$ ]] && ((port <= 65535)) || { echo 'Web ports must be 1..65535' >&2; exit 2; }
+done
+[[ "$CHRONOSGRAPH_UI_PORT" != "$CHRONOSGRAPH_API_PORT" ]] || { echo 'UI and API ports must differ' >&2; exit 2; }
+export CHRONOSGRAPH_UI_ORIGINS="${CHRONOSGRAPH_UI_ORIGINS-http://127.0.0.1:$CHRONOSGRAPH_UI_PORT,http://localhost:$CHRONOSGRAPH_UI_PORT}"
+export NEXT_PUBLIC_API_BASE_URL="${NEXT_PUBLIC_API_BASE_URL:-http://127.0.0.1:$CHRONOSGRAPH_API_PORT/api/v1}"
 export FALKORDB_HOST=127.0.0.1
 export FALKORDB_PORT="${FALKORDB_PORT:-6379}"
 if [[ "$DB_MODE" != existing ]]; then
@@ -79,14 +87,14 @@ if ((VERIFY)); then
 fi
 # Refuse occupied web ports; do not stop user processes or silently choose a CORS-incompatible port.
 "$PY" - <<'PY'
-import socket
-for port in (8000,3001):
+import os,socket
+for port in (int(os.environ["CHRONOSGRAPH_API_PORT"]),int(os.environ["CHRONOSGRAPH_UI_PORT"])):
     with socket.socket() as s:
         if s.connect_ex(('127.0.0.1',port))==0:
             raise SystemExit(f'Port {port} is occupied; stop your own server or use --verify-only')
 PY
-(cd "$ROOT/backend" && exec "$PY" -m uvicorn app.main:app --host 127.0.0.1 --port 8000) > "$LOGS/api.log" 2>&1 & CHILDREN+=("$!")
-(cd "$ROOT/frontend" && exec node node_modules/next/dist/bin/next dev -p 3001 --hostname 127.0.0.1) > "$LOGS/frontend.log" 2>&1 & CHILDREN+=("$!")
-echo "Open http://127.0.0.1:3001 after servers are ready. Logs: $LOGS"
+(cd "$ROOT/backend" && exec "$PY" -m uvicorn app.main:app --host 127.0.0.1 --port "$CHRONOSGRAPH_API_PORT") > "$LOGS/api.log" 2>&1 & CHILDREN+=("$!")
+(cd "$ROOT/frontend" && exec node node_modules/next/dist/bin/next dev -p "$CHRONOSGRAPH_UI_PORT" --hostname 127.0.0.1) > "$LOGS/frontend.log" 2>&1 & CHILDREN+=("$!")
+echo "Open http://127.0.0.1:$CHRONOSGRAPH_UI_PORT after servers are ready. Logs: $LOGS"
 echo 'Ctrl-C stops only processes/container owned by this launcher. Owned databases are ephemeral.'
 wait -n "${CHILDREN[@]}"

@@ -16,6 +16,7 @@ from urllib.parse import urlsplit
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
 from app.ingestion.github_import import repository_url, branch_name, SHA
+from app.local_boundary import local_ui_origins
 
 LOCK = threading.Lock()
 JOBS = {}
@@ -36,9 +37,9 @@ def authorize(request):
     if not enabled(): raise HTTPException(403,'Browser import is disabled by the operator. Local CLI import is still available.')
     # Local trusted-user service, not an internet multi-user authentication system.
     if (request.url.hostname not in ('localhost','127.0.0.1') or
-        request.headers.get('origin') not in ('http://localhost:3004','http://127.0.0.1:3004') or
+        request.headers.get('origin') not in local_ui_origins() or
         request.headers.get('x-chronosgraph-action')!='public-import'):
-        raise HTTPException(403,'Use the local command center on port 3004 to start imports')
+        raise HTTPException(403,'Use an operator-configured loopback command center to start imports')
 
 
 def start_import(body):

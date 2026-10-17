@@ -50,6 +50,46 @@ try {
     mark(`Map outage recovers in place without false empty result (${width}px)`);
     await page.unroute('**/api/v1/repository/map?**');
 
+    await page.route('**/api/v1/context/locate?**', async route => {
+      await new Promise(resolve => setTimeout(resolve, 650));
+      await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({entry_points:[{path:'stale-result.py',symbols:[]}]})}).catch(()=>{});
+    });
+    await page.getByLabel('Search files and symbols').fill('delayed');
+    const delayed=page.waitForRequest(r=>r.url().includes('/context/locate?'));
+    await page.getByRole('button',{name:'Run repository search'}).click(); await delayed;
+    await page.getByLabel('Search files and symbols').fill('');
+    await page.waitForTimeout(850);
+    assert.equal(await page.getByText('stale-result.py',{exact:true}).count(),0);
+    mark(`Clearing search aborts and suppresses a delayed response (${width}px)`);
+    await page.unroute('**/api/v1/context/locate?**');
+    await page.locator('.cc-tree-file').filter({hasText:'falkordb'}).click();
+    await page.locator('.cc-tree-file').filter({hasText:'query_result.py'}).click();
+    await page.locator('.cc-inspector-heading h2').filter({hasText:'query_result.py'}).waitFor();
+    await page.route('**/api/v1/repository/file?**',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({detail:'Injected inspector outage'})}));
+    await page.locator('.cc-tree-file').filter({hasText:'graph.py'}).click();
+    await page.getByRole('alert').filter({hasText:'Injected inspector outage'}).waitFor();
+    assert.equal(await page.locator('.cc-inspector-heading').count(),0);
+    mark(`Failed file inspection never leaves a previous file attributed to the new selection (${width}px)`);
+    await page.unroute('**/api/v1/repository/file?**');
+    // History is isolated read-only fixture data: commit B fails after commit A succeeds.
+    const commits=[{sha:'a'.repeat(40),title:'Fixture commit A',author:'Fixture',timestamp:1},{sha:'b'.repeat(40),title:'Fixture commit B',author:'Fixture',timestamp:2}];
+    await page.route('**/api/v1/repository/history?**',route=> {
+      const b=new URL(route.request().url()).searchParams.get('commit')==='b'.repeat(40);
+      return route.fulfill({status:b?503:200,contentType:'application/json',body:JSON.stringify(b?{detail:'Injected commit B outage'}:{commits,changes:[{path:'commit-a-only.py',additions:1,deletions:0}],changes_truncated:false})});
+    });
+    await page.getByRole('button',{name:'History',exact:true}).last().click();
+    await page.getByRole('button').filter({hasText:'Fixture commit A'}).click();
+    await page.getByText('commit-a-only.py',{exact:true}).waitFor();
+    await page.getByRole('button').filter({hasText:'Fixture commit B'}).click();
+    await page.getByRole('alert').filter({hasText:'Injected commit B outage'}).waitFor();
+    assert.equal(await page.getByText('commit-a-only.py',{exact:true}).count(),0);
+    assert.equal(await page.getByText('No indexed file links for this commit.',{exact:true}).count(),0);
+    mark(`Commit read failure clears prior changes instead of presenting a false empty result (${width}px)`);
+    await page.getByRole('button',{name:'All indexed commits',exact:true}).click();
+    await page.getByRole('button').filter({hasText:'Fixture commit A'}).waitFor();
+    await page.unroute('**/api/v1/repository/history?**');
+    await page.getByRole('button',{name:'Repository',exact:true}).last().click();
+
     // The fake receipt exists once, then expires. No server mutation occurs.
     await page.evaluate(() => localStorage.setItem('chronosgraph-import-job', 'recovery-test-receipt'));
     let reads = 0;

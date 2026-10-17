@@ -34,6 +34,7 @@ try {
       assert.equal(config.command,'/home/dev/Chronos Graph/.venv/bin/python');
       assert.equal(config.cwd,'/home/dev/Chronos Graph/backend');
       assert.equal(config.env.FALKORDB_PORT,'6379');
+      assert.equal(config.env.CHRONOSGRAPH_REQUIRE_SNAPSHOT_GUARD,'1');
       await modal.getByRole('button',{name:'Copy selected snapshot handoff',exact:true}).click();
       const handoff=await page.evaluate(()=>navigator.clipboard.readText());
       assert.ok(handoff.includes(JSON.stringify({tenant_graph:tenant,expected_revision:snapshot.source_revision})));
