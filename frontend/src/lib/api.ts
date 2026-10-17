@@ -25,7 +25,7 @@ export async function request<T>(
   } catch (error) {
     if (signal.aborted) throw error;
     throw new ApiError(
-      "Cannot reach the local backend. Start FalkorDB and uvicorn on port 8000, then retry. Check NEXT_PUBLIC_API_BASE_URL if using 127.0.0.1.",
+      `Cannot reach ChronosGraph at ${API_BASE}. Check that the configured backend is running, then retry.`,
       0,
     );
   }

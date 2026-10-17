@@ -1620,3 +1620,12 @@ dd {
 /* Review correction: percentage-sized Flow must fill an explicitly laid-out canvas. */
 .cc-canvas>.react-flow{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}.cc-app .cc-canvas .react-flow__background{background:#080808!important}.cc-tree-scroll.cc-search-results{display:block}.cc-inspector pre{font-size:12px}.cc-inspector-section h3{font-size:12px}.cc-app .cc-dependency,.cc-definition p{font-size:11px}.cc-app .mcp-dialog{background:#111;color:#ddd;border-color:#444}.cc-app .mcp-dialog p{color:#aaa}.cc-app .mcp-dialog input,.cc-app .mcp-dialog pre{background:#171717;color:#ddd;border-color:#444}.cc-app .mcp-dialog .button{background:#1b1b1b;color:#ddd;border-color:#444}.cc-app .mcp-dialog .eyebrow,.cc-app .mcp-dialog .copy-status{color:#aaa}.cc-app .mcp-dialog .tools-list code{color:#ddd}
 @media(max-width:700px){.cc-canvas{height:400px;min-height:400px;flex:none}.cc-tree-caption{align-items:center}.cc-tree-caption button{min-height:28px}.cc-inspector pre{font-size:12px}}
+
+/* Quality batch 02: explicit read-failure and lost-receipt recovery. */
+.cc-map-recovery { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; text-align:center; background:#080808; z-index:5; }
+.cc-map-recovery h2 { font-size:20px; }
+.cc-map-recovery p { max-width:480px; overflow-wrap:anywhere; color:#bdbdbd; }
+.cc-import-recovery { border:1px solid #666; border-radius:8px; padding:16px; margin:16px 0; }
+.cc-import-recovery h3 { margin:0 0 10px; }
+.cc-import-recovery p { overflow-wrap:anywhere; }
+.cc-recovery-actions { display:flex; flex-direction:column; gap:8px; margin:12px 0; }

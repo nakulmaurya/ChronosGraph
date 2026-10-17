@@ -7,6 +7,7 @@ import {
   text,
   request,
   ApiError,
+  API_BASE,
 } from "../src/lib/api.ts";
 import { focusGraph, placeNodes, validEdges } from "../src/lib/graph.ts";
 test("unsafe evidence links are never actionable", () => {
@@ -76,7 +77,7 @@ test("API explains network failure without inventing data", async () => {
   try {
     await assert.rejects(
       () => request("/test", new AbortController().signal),
-      (e) => e.status === 0 && e.message.includes("Start FalkorDB"),
+      (e) => e.status === 0 && e.message.includes(API_BASE) && e.message.includes("configured backend") && !e.message.includes("on port 8000"),
     );
   } finally {
     globalThis.fetch = original;
