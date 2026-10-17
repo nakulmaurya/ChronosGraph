@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "Deployed saved repo graph and keyboard table (1560)",
+    "Deployed agent handoff exposes new lifecycle tools (1560)",
+    "Deployed changes, ownership and memory views (1560)",
+    "Real one-click public GitHub import and saved-map opening",
+    "Deployed saved repo graph and keyboard table (390)",
+    "Deployed agent handoff exposes new lifecycle tools (390)",
+    "Deployed changes, ownership and memory views (390)"
+  ],
+  "errors": [],
+  "imported": {
+    "id": "a878227911e74ca19d54a1eba5e601db",
+    "status": "COMPLETE",
+    "stage": "Ready to explore",
+    "tenant_graph": "repo_github_a878227911e74ca19d54a1eba5e601db",
+    "error": null,
+    "result": {
+      "repository": "pallets/click",
+      "source_revision": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+      "resolved_calls": 515,
+      "unresolved_calls": 5469
+    },
+    "created_at": 1792245759.7904694,
+    "deadline_at": 1792246089.7904694
+  },
+  "scope": "Six deployed desktop/mobile checks plus completed real public import receipt recovery and automatic map opening. Original POST returned 202; receipt COMPLETE in five seconds. Initial test incorrectly awaited a manual-open button and timed out; corrected test reused the same job, without duplicate import."
+}

@@ -20,8 +20,8 @@
       "errors": []
     },
     {
-      "receipt": "proposal-ui/ui/checks.json",
-      "sha256": "25b059e48b67310ec731a62a43f4b88048d40728588ee47c693def7e83b9efd1",
+      "receipt": "proposal-race/ui/checks.json",
+      "sha256": "134a18b4b2d503ec0d1244ffef1292fea8df2131a2c7ec48cf884dfc3652ca51",
       "checks": [
         "Refresh preserves selected proposal and review reason (1560)",
         "Readable proposal summary and ownership evidence (1560)",
@@ -30,7 +30,8 @@
         "Refresh preserves selected proposal and review reason (390)",
         "Readable proposal summary and ownership evidence (390)",
         "Comparison failure prevents approval and refresh recovers (390)",
-        "List outage retains last data without claiming an empty state (390)"
+        "List outage retains last data without claiming an empty state (390)",
+        "A delayed pre-approval list cannot undo the real approval"
       ],
       "errors": []
     },
@@ -113,5 +114,5 @@
       "errors": []
     }
   ],
-  "total_checks": 70
+  "total_checks": 71
 }

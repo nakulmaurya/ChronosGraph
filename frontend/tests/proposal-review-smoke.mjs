@@ -181,6 +181,71 @@ try {
         assert.equal(await select.inputValue(), fixture.fixed);
       },
     );
+    if (width === 390) {
+      await check(
+        "A delayed pre-approval list cannot undo the real approval",
+        async () => {
+          let release;
+          let captured;
+          const held = new Promise((resolve) => {
+            release = resolve;
+          });
+          const ready = new Promise((resolve) => {
+            captured = resolve;
+          });
+          const routePattern = "**/api/v1/proposals?*";
+          await page.route(routePattern, async (route) => {
+            const response = await route.fetch();
+            const body = await response.text();
+            captured();
+            await held;
+            await route.fulfill({ response, body });
+          });
+          try {
+            await region
+              .getByRole("button", { name: "Refresh proposals", exact: true })
+              .click();
+            await ready;
+            await reason.fill(
+              "Approve exact proposal while an older list read is delayed",
+            );
+            await region
+              .getByRole("button", {
+                name: "Approve exact proposal",
+                exact: true,
+              })
+              .click();
+            await region
+              .getByText("Exact proposal approved. Nothing has been applied.", {
+                exact: true,
+              })
+              .waitFor();
+            const delivered = page.waitForResponse((response) =>
+              response.url().includes("/api/v1/proposals?"),
+            );
+            release();
+            await delivered;
+            await page.waitForTimeout(300);
+            assert.equal(
+              await region.getByText("APPROVED", { exact: true }).count(),
+              1,
+            );
+            assert.equal(
+              await region
+                .getByRole("button", {
+                  name: "Approve exact proposal",
+                  exact: true,
+                })
+                .count(),
+              0,
+            );
+          } finally {
+            release();
+            await page.unroute(routePattern);
+          }
+        },
+      );
+    }
     await page.screenshot({
       path: out + `/proposal-review-${width}.png`,
       fullPage: true,

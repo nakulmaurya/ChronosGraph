@@ -1,0 +1,32 @@
+{
+  "runtime_commit": "46d150817dd5c6196e149e028a56498878b1a24d",
+  "health": "PASS",
+  "frontend_url_on_vm": "http://127.0.0.1:3004",
+  "api_url_on_vm": "http://127.0.0.1:8004",
+  "services": {
+    "chronosgraph-preview-api.service": {
+      "state": "active",
+      "pid": 300988
+    },
+    "chronosgraph-preview-web.service": {
+      "state": "active",
+      "pid": 300926
+    }
+  },
+  "public_github_import_enabled": true,
+  "host_worktree_execution_enabled": false,
+  "rollback": "t09-evidence/final-review-02/deployment/rollback.sh",
+  "original_checkout_preserved": true,
+  "database_reseeded": false,
+  "browser_import_capabilities": {
+    "enabled": true,
+    "public_only": true,
+    "single_worker": true,
+    "timeout_seconds": 300,
+    "receipt_persistence": "REDIS_SEVEN_DAYS_API_RESTART_SAFE",
+    "client_request_id_supported": true
+  },
+  "user_service_linger": "yes",
+  "loopback_bindings_verified": true,
+  "ci_url": "https://github.com/nakulmaurya/ChronosGraph/actions/runs/39038815289"
+}

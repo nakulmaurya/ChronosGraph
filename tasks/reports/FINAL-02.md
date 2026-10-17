@@ -12,18 +12,18 @@ Base `2ce07d0`, branch `build/final-hackathon-release`.
 - Readable change summary, status labels and CODEOWNERS/rule presentation; raw
   hashes and JSON remain available under disclosures.
 - Explain why an unconfigured public-archive snapshot cannot run host tests.
-- Add two semantic-label unit cases and eight desktop/mobile proposal regressions.
+- Add two semantic-label unit cases and nine desktop/mobile proposal regressions.
 
 ## Verification
 
 - 34 frontend unit tests; TypeScript and production build pass.
-- 70 browser checks: 50 existing regressions, 12 real native lifecycle, 8 new
+- 71 browser checks: 50 existing regressions, 12 real native lifecycle, 9 new
   explicitly injected proposal read-failure/refresh checks; zero page errors.
 - Backend unchanged from the 295-test verified native base; not represented as a
   fresh full-backend run for this frontend-only change.
 - `pip check`: no broken requirements; npm production audit: zero known advisories
   at lookup time. Neither is a security guarantee.
-- Parent GitHub Actions run 39036789752 passed. New commit CI is a separate gate.
+- GitHub Actions run [39038815289](https://github.com/nakulmaurya/ChronosGraph/actions/runs/39038815289) passed for deployed application commit `46d1508`. Later documentation/test-only commit CI is checked separately.
 - Read the explicit same-assistant four-persona/critique assessment in
   `tasks/reviews/FINAL-02-persona-critique.md`.
 
@@ -37,8 +37,19 @@ OpenCode or another supported authenticated provider remains the path to that ga
 
 ## Deployment
 
-A reversible loopback-only preview rollout is the next operational step after this
-source gate. Record actual service health and runtime commit in a separate receipt.
-No main merge, public exposure or hostile-code execution is authorized by this report.
-The existing narrated video records the base release; this follow-up changes review
-presentation/recovery, not its demonstrated lifecycle semantics.
+Verified application commit `46d1508` is deployed in a detached release worktree.
+Both managed user services are active, linger is enabled, and the web/API bind only
+to loopback ports 3004/8004. The previous checkout and an explicit rollback script
+are preserved; no database reseed or main merge occurred. Host-worktree execution
+remains disabled on this live preview. Browser public GitHub import is enabled.
+
+Seven additional live-preview checks passed across desktop/mobile. The real Click
+import POST was accepted, completed in five seconds, and opened its saved map. The
+initial smoke test incorrectly waited for an obsolete manual-open button and timed
+out; the corrected test recovered the same completed durable receipt and verified
+map opening, without submitting a duplicate import. This is recorded separately
+from the 71 isolated browser checks. No public repository code was executed.
+
+See `FINAL-02-evidence/deployment.json`, `deployed-checks.json`, and
+[preview access](../../docs/preview-access.md). The existing narrated video records
+the base release; it is not a fresh recording of these presentation fixes.

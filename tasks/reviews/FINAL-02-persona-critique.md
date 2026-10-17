@@ -44,7 +44,7 @@ mutations are disabled during a list read outage. Refresh preserves review conte
 Readable labels say candidate tests passed, not that the deployed product is correct.
 Owners show file, matching pattern and source line; source-of-truth JSON is retained.
 
-**Evidence:** eight new browser checks across 1560/390px, existing semantic table
+**Evidence:** nine new browser checks across 1560/390px, existing semantic table
 keyboard drilldown and prior inventory/history/recovery tests; no horizontal overflow
 in checked journeys. **Bounded acceptance: PASS.**
 **Residual:** no full WCAG/screen-reader audit; Python static reachability is not
@@ -79,16 +79,16 @@ typed human-readable status helper with two unit cases; a reproducible proposal
 failure-injection browser script with explicit scope. Existing tests stay intact.
 Current README points to this follow-up rather than rewriting historical receipts.
 
-**Evidence:** 34 frontend unit tests, 70 browser checks, production build/typecheck;
+**Evidence:** 34 frontend unit tests, 71 browser checks, production build/typecheck;
 `pip check` clean; npm production advisory lookup reported zero known advisories
-at review time. Parent GitHub CI passed. **Bounded source-review acceptance: PASS.**
-**Residual:** new review commit CI and deployment must be checked separately. Shared
+at review time. Application commit `46d1508` GitHub CI passed. **Bounded source-review acceptance: PASS.**
+**Residual:** later documentation/test-only commit CI remains a separate check. Deployment is now witnessed in the attached receipt. Shared
 async request state could be extracted further. Demo scripts' pytest fixture reuse
 is documented technical debt. Package advisory lookup is not a security audit.
 
 ## Critique-only second pass — challenge the coding team's conclusions
 
-1. **Reject unconditional READY:** 70 browser checks do not demonstrate an autonomous
+1. **Reject unconditional READY:** 71 browser checks do not demonstrate an autonomous
    model choosing the change. The stdio hero is scripted and browser approval is
    automated, not a separate witnessed human study.
 2. **Reject fictional independent sign-off:** official OpenCode 1.19.3 lists free
@@ -102,8 +102,10 @@ is documented technical debt. Package advisory lookup is not a security audit.
 4. **Accept the bounded fixes:** executable tests demonstrate refresh preservation,
    clearer ownership evidence, source/list failure recovery and guarded approval.
    The existing real lifecycle still passes; there is no mocked mutation success.
-5. **Require deployment evidence:** process health, exact runtime revision, loopback
-   bindings and rollback path must be recorded after cutover, not inferred from CI.
+5. **Deployment evidence witnessed:** application `46d1508`, active managed services,
+   loopback bindings and rollback are recorded after cutover. Seven live checks
+   passed; a real public import completed and its receipt recovered without duplication.
+   The initial outdated smoke assertion failed and is disclosed, not counted as a pass.
 
 ## Verdict
 

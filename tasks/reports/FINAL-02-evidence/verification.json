@@ -2,7 +2,7 @@
   "frontend_unit_passed": 34,
   "frontend_unit_failed": 0,
   "frontend_unit_skipped": 0,
-  "browser_checks": 70,
+  "browser_checks": 71,
   "browser_page_errors": 0,
   "typecheck": "PASS",
   "production_build": "PASS",
@@ -18,5 +18,8 @@
   },
   "review_provenance": "SAME_ASSISTANT_FOUR_PERSONAS_PLUS_CRITIQUE",
   "model_review": "BLOCKED_HTTP403_BEFORE_GENERATION",
-  "overall_submission_verdict": "NOT_READY"
+  "overall_submission_verdict": "NOT_READY",
+  "deployed_preview_checks": 7,
+  "ci_runtime_commit": "PASS_46d1508",
+  "deployment_runtime_commit": "46d150817dd5c6196e149e028a56498878b1a24d"
 }
