@@ -9,7 +9,7 @@ Review baseline: 31717cf. Batches are isolated/stacked; not merged into main.
 - Q24 partial: checked-in disposable native DB verification and UI failure regression command. Not a complete CI release harness.
 
 ## Next: one real developer + agent workflow (P1)
-- Q07: validate a real client connection; repository/snapshot discovery and selected-snapshot binding.
+- Q07 partial delivered: real stdio discovery/preflight, optional per-call commit guards, selected-snapshot handoff and client config validation. Still validate an actual coding-client session; preflight is not persistent session binding.
 - Q08: session/task/evidence/change/human-decision/verification linkage; real coding-client demonstration.
 - Q09: selected-file change entry, readable diff, before/after impact graph, clickable impacted files/tests.
 

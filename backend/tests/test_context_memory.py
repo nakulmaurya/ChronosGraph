@@ -75,7 +75,9 @@ def test_actual_mcp_invocations_visible_via_rest_without_private_arguments(clien
     async def run():
         async with Client(mcp) as c:
             names = {t.name for t in await c.list_tools()}
-            assert len(names) == 10
+            assert {'locate_context', 'get_symbol_source', 'record_verified_finding',
+                    'recall_task_memory', 'simulate_diff_impact', 'discover_repositories',
+                    'inspect_repository_snapshot'} <= names
             context = await c.call_tool('locate_context', {'tenant_graph': tenant, 'query': 'helper'})
             assert not context.is_error, context
             source = await c.call_tool('get_symbol_source', {'tenant_graph': tenant, 'file_path': 'src/pkg/a.py', 'symbol_name': 'helper'})

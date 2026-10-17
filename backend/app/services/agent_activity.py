@@ -8,7 +8,7 @@ import time
 import uuid
 from fastapi import HTTPException
 from app.db.client import db_manager
-from app.services.common import tenant_exists, read
+from app.services.common import tenant_exists, tenant_lock, read
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +28,13 @@ def instrument(tool_name):
             success, result_bytes, error_kind = False, 0, ''
             result = None
             try:
-                result = fn(*args, **kwargs)
+                # Reentrant local lock keeps check and operation together within this
+                # process. It is deliberately not a cross-process authorization lock.
+                with tenant_lock(tenant):
+                    if arguments.get('expected_revision') is not None:
+                        from app.services.agent_connection import require_snapshot
+                        require_snapshot(tenant, arguments['expected_revision'])
+                    result = fn(*args, **kwargs)
                 result_bytes = len(json.dumps(result, ensure_ascii=False, separators=(',', ':'), default=str).encode('utf-8'))
                 success = True
                 return result

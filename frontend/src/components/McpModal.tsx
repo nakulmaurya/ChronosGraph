@@ -1,7 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Copy, X } from "lucide-react";
+import { buildAgentConfig, buildSnapshotHandoff } from "@/lib/agent-connection";
 const tools = [
+  ["discover_repositories", "cursor?, limit?", "List saved versions and exact commit hashes. Select explicitly before continuing."],
+  ["inspect_repository_snapshot", "tenant_graph, expected_revision", "Confirm the selected saved version; return guard arguments to pass on every call."],
   [
     "simulate_pr_blast_radius",
     "modified_files: string[], tenant_graph?, pr_number?, proposed_description?, proposed_code_patch?",
@@ -33,25 +36,19 @@ const tools = [
   ["record_verified_finding", "summary, evidence_note, supporting_file_shas, tenant_graph?", "Store agent-reported evidence; no verification command is executed."],
   ["recall_task_memory", "query?, tenant_graph?, include_stale?", "Recall findings and flag changed files or governing policies."]
 ];
-export default function McpModal({ onClose }: { onClose: () => void }) {
+export default function McpModal({ onClose, tenantGraph = "", sourceRevision = null }: { onClose: () => void; tenantGraph?: string; sourceRevision?: string | null }) {
   const ref = useRef<HTMLDialogElement>(null);
   const [cwd, setCwd] = useState("/absolute/path/to/ChronosGraph/backend");
   const [copied, setCopied] = useState("");
+  const [python, setPython] = useState("python");
+  const [host, setHost] = useState("127.0.0.1");
+  const [port, setPort] = useState("6379");
+  const handoff = buildSnapshotHandoff(tenantGraph, sourceRevision);
   const [platform, setPlatform] = useState("Claude Code");
   const skillPath = "skills/chronos-second-brain/SKILL.md";
-  const config = JSON.stringify(
-    {
-      mcpServers: {
-        chronosgraph: {
-          command: "python",
-          args: ["-m", "app.mcp_server.server"],
-          cwd,
-        },
-      },
-    },
-    null,
-    2,
-  );
+  let config = "", configError = "";
+  try { config = buildAgentConfig({ backendDirectory: cwd, pythonExecutable: python, databaseHost: host, databasePort: port }); }
+  catch (error) { configError = error instanceof Error ? error.message : "Check connection settings."; }
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
     const dialog = ref.current;
@@ -90,8 +87,10 @@ export default function McpModal({ onClose }: { onClose: () => void }) {
         </button>
       </div>
       <p>
-        Configuration template only. No IDE connection has been installed. Seed
-        FalkorDB on localhost:6379 and install the backend first.
+        Configure your coding client, then ask it to discover your saved repository.
+        This screen does not install a connection or prove the client is connected.
+        The backend and FalkorDB must be reachable from the machine running your agent;
+        a browser SSH tunnel alone does not provide an agent connection.
       </p>
       <div className="wiki-nav" role="tablist" aria-label="MCP platform">
         {["Claude Code","Cursor","Antigravity / OpenCode"].map(name=><button key={name} role="tab" aria-selected={platform===name} className="button secondary" onClick={()=>setPlatform(name)}>{name}</button>)}
@@ -112,15 +111,37 @@ export default function McpModal({ onClose }: { onClose: () => void }) {
         Use the Python executable from your installed backend environment if
         needed.
       </p>
-      <pre>{config}</pre>
-      <button className="button secondary" onClick={copy}>
+      <label htmlFor="mcp-python">Python executable on agent machine</label>
+      <input id="mcp-python" value={python} onChange={e => {setPython(e.target.value);setCopied("");}} />
+      <label htmlFor="mcp-host">FalkorDB host on agent machine</label>
+      <input id="mcp-host" value={host} onChange={e => {setHost(e.target.value);setCopied("");}} />
+      <label htmlFor="mcp-port">FalkorDB port</label>
+      <input id="mcp-port" inputMode="numeric" value={port} onChange={e => {setPort(e.target.value);setCopied("");}} />
+      {configError ? <p role="alert">{configError}</p> : <pre>{config}</pre>}
+      <button className="button secondary" disabled={!!configError} onClick={copy}>
         <Copy size={15} />
         Copy config
       </button>
       <span role="status" className="copy-status">
         {copied}
       </span>
-      <h3>Ten exposed tools · five core interfaces preserved</h3>
+      <h3>Verify the connection with your coding agent</h3>
+      <p>After adding the config and restarting the client if required, ask it to call
+        <code> discover_repositories</code>. A successful call proves protocol access to that server,
+        not access to the same database shown in this browser. Confirm the exact tenant and commit below.</p>
+      {handoff ? <section aria-label="Selected snapshot handoff">
+        <p>Selected saved version: <code>{tenantGraph}</code> · <code>{sourceRevision}</code></p>
+        <pre>{handoff}</pre>
+        <button className="button secondary" onClick={async () => {
+          try { await navigator.clipboard.writeText(handoff); setCopied("Copied selected snapshot handoff"); }
+          catch { setCopied("Copy unavailable. Select the handoff text above."); }
+        }}>Copy selected snapshot handoff</button>
+      </section> : <p>Select a saved version with a known commit hash to prepare a guarded handoff.
+        Discovery is still available; do not guess a commit or silently use the default repository.</p>}
+      <h3>Available tools</h3>
+      <p>All ten existing operation tools also accept <code>expected_revision</code>.
+        Include it together with the selected <code>tenant_graph</code> on every call.
+        Omitting it retains legacy unguarded behavior; a preflight does not bind future calls automatically.</p>
       <div className="tools-list">
         {tools.map(([name, args, note]) => (
           <article key={name}>
