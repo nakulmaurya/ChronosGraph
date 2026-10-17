@@ -132,12 +132,14 @@ def test_archive_source_enters_real_graph_without_git_history_fabrication(client
             snapshot_metadata={'connection_kind':'PUBLIC_GITHUB_ARCHIVE','selected_branch':'main',
                 'workspace_check_status':'PINNED_AT_IMPORT'},
             prepared_snapshot={'source':(tmp_path,REV,'https://github.com/fixture/explicit-archive','fixture/explicit-archive'),
-                'paths':['pkg/a.py','pkg/b.py'],'ownership_document':archive_ownership(tmp_path)})
+                'paths':['pkg/a.py','pkg/b.py'],'inventory':list(files.values()),'ownership_document':archive_ownership(tmp_path)})
         assert result['history_records']==0 and result['declared_ownership']['status']=='INDEXED'
         assert result['resolved_calls']==1
         rows,_=read(tenant,'MATCH (a:File)-[:IMPORTS]->(b:File) RETURN a.path AS a,b.path AS b')
         assert rows==[{'a':'pkg/b.py','b':'pkg/a.py'}]
         assert snapshot_stats(tenant)['functions']==2
+        inventory,_=read(tenant,'MATCH (f:TrackedFile) RETURN f.path AS path ORDER BY path')
+        assert [r['path'] for r in inventory]==sorted(files)
         state=client.get('/api/v1/workspace/snapshot',params={'tenant_graph':tenant}).json()
         assert state['connection_kind']=='PUBLIC_GITHUB_ARCHIVE' and state['last_check']['status']=='PINNED_AT_IMPORT'
         owners=client.get('/api/v1/context/owners',params={'tenant_graph':tenant,'file_path':'pkg/a.py'}).json()
@@ -187,3 +189,17 @@ def test_exact_symbol_entry_point_outranks_incidental_filename_matches(tmp_path)
         assert context['payload_bytes']<=4096 and context['coverage']['entry_limit']==3
     finally:
         if tenant in db_manager.list_tenant_graphs():db_manager.get_graph(tenant).delete()
+
+
+def test_blank_browser_branch_uses_verified_repository_default():
+    from app.ingestion.github_import import inspect_remote
+    class FixtureTransport:
+        def __init__(self):self.urls=[]
+        def json(self,url):
+            self.urls.append(url)
+            if '/commits/' not in url:return {'private':False,'visibility':'public','default_branch':'trunk'}
+            return {'sha':REV,'commit':{'tree':{'sha':TREE}}}
+    transport=FixtureTransport()
+    result=inspect_remote('https://github.com/fixture/default-branch','',client=transport)
+    assert result['selected_branch']=='trunk'
+    assert transport.urls[-1].endswith('/commits/refs%2Fheads%2Ftrunk')

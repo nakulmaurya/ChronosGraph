@@ -49,7 +49,7 @@ name='repo_test_'+uuid.uuid4().hex
 with tempfile.TemporaryDirectory() as tmp:
     root=Path(tmp)/'change-planning-example';root.mkdir()
     subprocess.run(['git','init','--quiet',str(root)],check=True)
-    files={'src/pkg/__init__.py':'','src/pkg/a.py':'def helper():\n    return 1\n',
+    files={'README.md':'# Mixed-language workspace fixture\n','web/app.ts':'export const demo = 1;\n','src/pkg/__init__.py':'','src/pkg/a.py':'def helper():\n    return 1\n',
            'src/pkg/b.py':'from pkg.a import helper\ndef run():\n    return helper()\n',
            'tests/test_helper.py':'from pkg.b import run\ndef test_helper():\n    assert run() == 1\n'}
     for path,text in files.items():
@@ -86,6 +86,7 @@ PY
 API_URL=http://127.0.0.1:8005/api/v1 EVIDENCE_DIR="$OUT/ui" node tests/change-planning-smoke.mjs > "$OUT/ui.log" 2>&1
 API_URL=http://127.0.0.1:8005/api/v1 EVIDENCE_DIR="$OUT/recovery" node tests/ui-recovery-smoke.mjs > "$OUT/recovery.log" 2>&1
 API_URL=http://127.0.0.1:8005/api/v1 EVIDENCE_DIR="$OUT/setup" node tests/agent-setup-smoke.mjs > "$OUT/setup.log" 2>&1
+API_URL=http://127.0.0.1:8005/api/v1 EVIDENCE_DIR="$OUT/bulk" node tests/bulk-workspace-smoke.mjs > "$OUT/bulk-ui.log" 2>&1
 "$PY" - <<'PY'
 import os
 from app.db.client import db_manager

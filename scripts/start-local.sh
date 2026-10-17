@@ -60,7 +60,7 @@ PY
   if [[ "$DB_MODE" == docker ]]; then
     command -v docker >/dev/null || { echo 'Docker unavailable; use --db native or --db existing' >&2; exit 1; }
     CONTAINER="chronosgraph-local-$$"
-    docker run --detach --rm --name "$CONTAINER" --publish "127.0.0.1:$FALKORDB_PORT:6379" falkordb/falkordb:latest > "$LOGS/container.txt"
+    docker run --detach --rm --name "$CONTAINER" --publish "127.0.0.1:$FALKORDB_PORT:6379" falkordb/falkordb@sha256:b0bdcac2cbaff989e77cb0610439b7a9289e86de033ccbbd4368b66fb680ae7a > "$LOGS/container.txt"
   else
     "$PY" "$ROOT/scripts/run-falkordblite.py" > "$LOGS/database.log" 2>&1 & CHILDREN+=("$!")
   fi

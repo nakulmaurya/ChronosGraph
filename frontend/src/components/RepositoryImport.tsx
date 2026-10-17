@@ -7,6 +7,9 @@ import type { ImportJob } from "@/lib/command-center";
 import GitHubImportGuide from "./GitHubImportGuide";
 
 const RECEIPT_KEY = "chronosgraph-import-job";
+const PENDING_KEY = "chronosgraph-import-request";
+function clearReceipt() { try { localStorage.removeItem(RECEIPT_KEY); localStorage.removeItem(PENDING_KEY); } catch { /* Server state remains authoritative. */ } }
+type Pending = {url:string;branch:string;commit:string;request_id:string};
 
 export default function RepositoryImport({ close, complete }: {
   close: () => void;
@@ -26,6 +29,7 @@ export default function RepositoryImport({ close, complete }: {
   const [checking, setChecking] = useState(false);
   const ctrl = useRef<AbortController | null>(null);
   const opened = useRef(false);
+  const [pending,setPending]=useState<Pending|null>(null);
 
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
@@ -36,7 +40,12 @@ export default function RepositoryImport({ close, complete }: {
     request<{ enabled: boolean }>("/imports/capabilities", c.signal)
       .then(r => setEnabled(r.enabled))
       .catch(e => { if (!c.signal.aborted) setError(e.message); });
-    const saved = localStorage.getItem(RECEIPT_KEY);
+    let saved: string|null=null;
+    try {
+      saved = localStorage.getItem(RECEIPT_KEY);
+      const previous=JSON.parse(localStorage.getItem(PENDING_KEY)||'null');
+      if(previous&&previous.request_id===saved&&typeof previous.url==='string')setPending(previous);
+    } catch { setError('Browser storage is unavailable. Import tracking requires storage; no request has been started.'); }
     if (saved) {
       setReceiptId(saved);
       setChecking(true);
@@ -68,7 +77,7 @@ export default function RepositoryImport({ close, complete }: {
   useEffect(() => {
     if (job?.status === "COMPLETE" && !opened.current) {
       opened.current = true;
-      localStorage.removeItem(RECEIPT_KEY);
+      clearReceipt();
       complete(job.tenant_graph);
     }
   }, [job, complete]);
@@ -90,7 +99,8 @@ export default function RepositoryImport({ close, complete }: {
 
   function dismissTracking() {
     // Forgetting a receipt never cancels or deletes an import on the server.
-    localStorage.removeItem(RECEIPT_KEY);
+    clearReceipt();
+    setPending(null);
     setJob(null);
     setReceiptId("");
     setReceiptError("");
@@ -98,28 +108,31 @@ export default function RepositoryImport({ close, complete }: {
     opened.current = false;
   }
 
-  async function start() {
+  async function start(reuse?:Pending) {
     if (!ctrl.current) return;
-    setSending(true);
-    setError("");
-    opened.current = false;
+    setSending(true);setError("");opened.current=false;
+    let payload:Pending;
     try {
-      const response = await fetch(`${API_BASE}/imports`, {
-        method: "POST", credentials: "omit",
-        signal: AbortSignal.any([ctrl.current.signal, AbortSignal.timeout(30000)]),
-        headers: { "Content-Type": "application/json", "X-ChronosGraph-Action": "public-import" },
-        body: JSON.stringify({ url: url.trim(), branch: branch.trim() || "main", commit: commit.trim() }),
+      payload=reuse||{url:url.trim(),branch:branch.trim(),commit:commit.trim(),request_id:crypto.randomUUID().replaceAll('-','')};
+      // Persist identity and exact inputs BEFORE the mutation can be accepted.
+      localStorage.setItem(PENDING_KEY,JSON.stringify(payload));
+      localStorage.setItem(RECEIPT_KEY,payload.request_id);
+      setPending(payload);setReceiptId(payload.request_id);
+    } catch {setError('Cannot save the import request identity. Enable browser storage before importing. Nothing was submitted.');setSending(false);return;}
+    try {
+      const response=await fetch(`${API_BASE}/imports`,{
+        method:'POST',credentials:'omit',signal:AbortSignal.any([ctrl.current.signal,AbortSignal.timeout(30000)]),
+        headers:{'Content-Type':'application/json','X-ChronosGraph-Action':'public-import'},body:JSON.stringify(payload),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(typeof data.detail === "string" ? data.detail : "Import request was rejected");
-      localStorage.setItem(RECEIPT_KEY, data.id);
-      setReceiptId(data.id);
-      setJob(data);
-    } catch (e) {
-      if (!ctrl.current.signal.aborted) setError(e instanceof Error ? e.message : "Import unavailable");
-    } finally {
-      if (!ctrl.current.signal.aborted) setSending(false);
-    }
+      const data=await response.json();
+      if(!response.ok){
+        if(response.status>=500)throw new Error('Server acknowledgement is uncertain. Recheck or retry the same saved request.');
+        clearReceipt();setPending(null);setReceiptId('');setReceiptError('');
+        setError(typeof data.detail==='string'?data.detail:'Import request was rejected');return;
+      }
+      setJob(data);setReceiptError('');
+    } catch(e){if(!ctrl.current.signal.aborted)setReceiptError(e instanceof Error?e.message:'Import acknowledgement unavailable; use the saved request to reconcile.');}
+    finally{if(!ctrl.current.signal.aborted)setSending(false);}
   }
 
   const trackingLost = Boolean(receiptError);
@@ -134,8 +147,8 @@ export default function RepositoryImport({ close, complete }: {
     <p>Explore dependencies, inspect functions, and preview changes. Start with a public Python repository.</p>
     {!trackingLost && <><label>GitHub repository<input autoFocus placeholder="https://github.com/pallets/click" value={url} onChange={e => setUrl(e.target.value)} disabled={locked}/></label>
     <div className="cc-form-row">
-      <label>Branch <small>optional · main</small><input placeholder="main" value={branch} onChange={e => setBranch(e.target.value)} disabled={locked}/></label>
-      <label>Commit hash <small>optional · latest on branch</small><input placeholder="Latest branch commit" value={commit} onChange={e => setCommit(e.target.value)} disabled={locked}/></label>
+      <label>Branch <small>optional · repository default</small><input placeholder="Repository default branch" value={branch} onChange={e => setBranch(e.target.value)} disabled={locked}/></label>
+      <label>Confirm branch-head hash <small>optional · not a historical commit picker</small><input placeholder="Latest branch commit" value={commit} onChange={e => setCommit(e.target.value)} disabled={locked}/></label>
     </div>
     <p className="cc-help">Each import creates a separate saved version. Existing versions stay intact. No repository code is executed. Public archive imports do not fetch commit history.</p></>}
     {enabled === false && <p className="cc-callout">Direct import is disabled by the operator. Expand local setup below to import using the CLI.</p>}
@@ -145,6 +158,7 @@ export default function RepositoryImport({ close, complete }: {
       <p role="alert">{receiptError}</p>
       <p>This does not mean the import failed. Automatic checks have stopped. Reload indexed repositories before starting another import—it may already be saved.</p>
       <div className="cc-recovery-actions">
+        {pending&&<button onClick={()=>void start(pending)} disabled={sending||checking}>Retry same saved import request</button>}
         <button onClick={() => void retryReceipt()} disabled={checking}>Check import status again</button>
         <button onClick={() => complete("")}>Reload indexed repositories</button>
         <button onClick={dismissTracking}>Dismiss tracking</button>
@@ -157,7 +171,7 @@ export default function RepositoryImport({ close, complete }: {
       <div><strong>{job.stage}</strong><p>{job.error || (running ? "This can take a few minutes. You can close this panel and return to check progress." : job.result?.source_revision?.slice(0, 12))}</p></div>
     </div>}
     {!trackingLost && (job?.status === "COMPLETE" ?
-      <button className="cc-primary" onClick={() => { localStorage.removeItem(RECEIPT_KEY); complete(job.tenant_graph); }}>Open imported repository →</button> :
+      <button className="cc-primary" onClick={() => { clearReceipt(); complete(job.tenant_graph); }}>Open imported repository →</button> :
       <button className="cc-primary" disabled={!enabled || !url.trim() || locked || sending} onClick={() => void start()}><GitBranch size={16}/>{sending ? "Starting…" : running ? "Importing repository…" : "Import repository"}</button>)}
     <details className="cc-cli"><summary>Advanced: local CLI setup</summary><GitHubImportGuide reload={() => complete("")} loading={false}/></details>
   </dialog>;

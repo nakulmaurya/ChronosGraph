@@ -11,6 +11,8 @@
 > External-agent evaluation, broader language coverage and release approval are pending.
 
 
+> **Bulk readiness work:** durable import recovery, tracked-file inventory, paged navigation/history and exact saved-version links are being verified on `build/bulk-command-center-readiness`. [Behavior, tests and remaining gaps](docs/bulk-command-center.md). This does not update main or the existing VM preview automatically.
+
 **A living context layer for coding agents: inspect connected impact, retrieve the current rule, and replay a verified investigation.**
 
 ChronosGraph extends an AST-style code graph with three connected mechanisms on

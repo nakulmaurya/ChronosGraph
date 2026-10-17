@@ -52,7 +52,7 @@ def health():
 def tenants():
     data=[]
     for tenant in registered_tenants():
-        meta,_=read(tenant,"MATCH (m:RepoMetadata) RETURN m.repository AS repository LIMIT 1")
+        meta,_=read(tenant,"MATCH (m:RepoMetadata) RETURN m.repository AS repository,m.source_revision AS source_revision,m.selected_branch AS selected_branch,m.ingested_at AS ingested_at LIMIT 1")
         repo=meta[0]["repository"] if meta else REPOS.get(tenant,tenant)
         tenant_exists(tenant)
         count,_=read(tenant,'MATCH (n) RETURN count(n) AS node_count')
@@ -62,7 +62,10 @@ def tenants():
           ORDER BY coalesce(p.committed_at,p.merged_at,0) DESC,p.number LIMIT 40''')
         presets,_=read(tenant,'''MATCH (:Decision {status:'ACTIVE'})-[:GOVERNS]->(f:File)
         RETURN DISTINCT f.path AS path ORDER BY path LIMIT 10''')
-        data.append({'tenant_graph':tenant,'repository':repo,'node_count':count[0]['node_count'],
+        data.append({'tenant_graph':tenant,'repository':repo,
+                     'source_revision':meta[0].get('source_revision') if meta else None,
+                     'selected_branch':meta[0].get('selected_branch') if meta else None,
+                     'ingested_at':meta[0].get('ingested_at') if meta else None,'node_count':count[0]['node_count'],
                      'edge_count':edges[0]['edge_count'],'indexed_record_count':read(tenant,'MATCH (p:PullRequest) RETURN count(p) AS n')[0][0]['n'],
                      'pull_requests':prs,'preset_files':[r['path'] for r in presets] or [r['path'] for r in read(tenant,'MATCH (f:File) RETURN f.path AS path ORDER BY f.pagerank DESC,f.path LIMIT 10')[0]]})
     return data
@@ -215,8 +218,13 @@ def workspace_snapshot_metadata(tenant_graph: str):
 from app.services.command_center import overview, file_detail, file_source, history
 
 @app.get('/api/v1/repository/map')
-def repository_map(tenant_graph: str, prefix: str=''):
-    return overview(tenant_graph,prefix)
+def repository_map(tenant_graph: str, prefix: str='', after: str=''):
+    return overview(tenant_graph,prefix,after)
+
+@app.get('/api/v1/repository/search')
+def repository_search(tenant_graph: str, query: str, after: str='', limit: int=50):
+    from app.services.command_center import search_repository
+    return search_repository(tenant_graph,query,after,limit)
 
 @app.get('/api/v1/repository/file')
 def repository_file(tenant_graph: str, file_path: str):
@@ -228,8 +236,8 @@ def repository_file_source(tenant_graph: str, file_path: str, expected_revision:
 
 
 @app.get('/api/v1/repository/history')
-def repository_history(tenant_graph: str, commit: str=''):
-    return history(tenant_graph,commit)
+def repository_history(tenant_graph: str, commit: str='', after: str='', change_after: str=''):
+    return history(tenant_graph,commit,after,change_after)
 
 
 from app.services.import_jobs import ImportRequest, authorize, enabled, start_import, receipt
@@ -237,7 +245,7 @@ from app.services.import_jobs import ImportRequest, authorize, enabled, start_im
 @app.get('/api/v1/imports/capabilities')
 def import_capabilities():
     return {'enabled':enabled(),'public_only':True,'single_worker':True,'timeout_seconds':300,
-            'receipt_persistence':'API_PROCESS_LIFETIME_UP_TO_ONE_HOUR'}
+            'receipt_persistence':'REDIS_SEVEN_DAYS_API_RESTART_SAFE','client_request_id_supported':True}
 
 @app.post('/api/v1/imports',status_code=202)
 def import_start(body: ImportRequest, request: Request):

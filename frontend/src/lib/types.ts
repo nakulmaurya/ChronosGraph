@@ -25,6 +25,7 @@ export interface Subgraph {
   execution_time_ms: number;
 }
 export interface Tenant {
+  source_revision?: string | null; selected_branch?: string | null; ingested_at?: number | null;
   tenant_graph: string;
   repository: string;
   node_count: number;

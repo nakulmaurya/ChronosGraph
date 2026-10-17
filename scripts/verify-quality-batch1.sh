@@ -40,3 +40,5 @@ export FALKORDB_HOST=127.0.0.1 FALKORDB_PORT="$PORT"
 cd "$ROOT"
 "$PY" -m pytest backend/tests -v > "$OUT/backend-full.log" 2>&1
 tail -4 "$OUT/backend-full.log"
+
+CHRONOSGRAPH_DISPOSABLE_BENCHMARK=1 EVIDENCE_DIR="$OUT" "$PY" scripts/benchmark-navigation.py > "$OUT/navigation-benchmark.log"

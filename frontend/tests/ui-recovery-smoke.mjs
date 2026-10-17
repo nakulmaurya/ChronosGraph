@@ -50,18 +50,18 @@ try {
     mark(`Map outage recovers in place without false empty result (${width}px)`);
     await page.unroute('**/api/v1/repository/map?**');
 
-    await page.route('**/api/v1/context/locate?**', async route => {
+    await page.route('**/api/v1/repository/search?**', async route => {
       await new Promise(resolve => setTimeout(resolve, 650));
       await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({entry_points:[{path:'stale-result.py',symbols:[]}]})}).catch(()=>{});
     });
     await page.getByLabel('Search files and symbols').fill('delayed');
-    const delayed=page.waitForRequest(r=>r.url().includes('/context/locate?'));
+    const delayed=page.waitForRequest(r=>r.url().includes('/repository/search?'));
     await page.getByRole('button',{name:'Run repository search'}).click(); await delayed;
     await page.getByLabel('Search files and symbols').fill('');
     await page.waitForTimeout(850);
     assert.equal(await page.getByText('stale-result.py',{exact:true}).count(),0);
     mark(`Clearing search aborts and suppresses a delayed response (${width}px)`);
-    await page.unroute('**/api/v1/context/locate?**');
+    await page.unroute('**/api/v1/repository/search?**');
     await page.locator('.cc-tree-file').filter({hasText:'falkordb'}).click();
     await page.locator('.cc-tree-file').filter({hasText:'query_result.py'}).click();
     await page.locator('.cc-inspector-heading h2').filter({hasText:'query_result.py'}).waitFor();

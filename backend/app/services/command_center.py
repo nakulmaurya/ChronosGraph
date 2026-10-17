@@ -4,45 +4,75 @@ from fastapi import HTTPException
 from app.services.common import tenant_exists, check_file, read
 
 
-def overview(tenant_graph, prefix=''):
-    tenant = tenant_exists(tenant_graph)
-    if len(prefix) > 1024 or (prefix and (not prefix.endswith('/') or any(p in ('.', '..') for p in prefix.split('/')))):
-        raise HTTPException(422, 'Choose a repository folder prefix ending in /')
-    counts, _ = read(tenant, 'MATCH (n) RETURN labels(n)[0] AS label,count(n) AS count')
-    files, elapsed = read(tenant, '''MATCH (f:File) RETURN f.path AS path,f.pagerank AS pagerank,
-      f.parse_error_count AS parse_errors ORDER BY f.path LIMIT 10001''')
-    bounded = len(files) > 10000
-    files = files[:10000]
-    visible = [f for f in files if f['path'].startswith(prefix)]
-    groups = {}
+def inventory_label(tenant):
+    count,_=read(tenant,'MATCH (f:TrackedFile) RETURN count(f) AS n')
+    return 'TrackedFile' if count[0]['n'] else 'File'
+
+
+def overview(tenant_graph, prefix='', after=''):
+    tenant=tenant_exists(tenant_graph)
+    if len(prefix)>1024 or (prefix and (not prefix.endswith('/') or any(p in ('.','..') for p in prefix.split('/')))):
+        raise HTTPException(422,'Choose a repository folder prefix ending in /')
+    if len(after)>1024 or (after and not after.startswith(prefix)):
+        raise HTTPException(422,'Use a next_cursor from this folder')
+    label=inventory_label(tenant)
+    counts,_=read(tenant,'MATCH (n) RETURN labels(n)[0] AS label,count(n) AS count')
+    grouped="""MATCH (f:%s) WHERE f.path STARTS WITH $prefix
+      WITH substring(f.path,$length) AS rest
+      WITH $prefix+split(rest,'/')[0]+CASE WHEN rest CONTAINS '/' THEN '/' ELSE '' END AS path,count(*) AS files """ % label
+    total,_=read(tenant,grouped+'RETURN count(*) AS n',{'prefix':prefix,'length':len(prefix)})
+    groups,elapsed=read(tenant,grouped+"WHERE path>$after RETURN path,files ORDER BY path LIMIT 121",{'prefix':prefix,'length':len(prefix),'after':after})
+    shown=[{'id':g['path'],'path':g['path'],'kind':'folder' if g['path'].endswith('/') else 'file','files':g['files']} for g in groups[:120]]
+    # Prefix filtering happens in the DB before bounded relationship retrieval.
+    links,edge_ms=read(tenant,"""MATCH (a:File)-[:IMPORTS]->(b:File)
+      WHERE a.path STARTS WITH $prefix AND b.path STARTS WITH $prefix
+      RETURN a.path AS source,b.path AS target ORDER BY source,target LIMIT 20001""",{'prefix':prefix})
     def group(path):
-        if not path.startswith(prefix): return None
-        rest = path[len(prefix):]
-        return prefix + rest.split('/')[0] + ('/' if '/' in rest else '')
-    for f in visible:
-        key = group(f['path'])
-        g = groups.setdefault(key, {'id':key, 'path':key, 'kind':'folder' if key.endswith('/') else 'file', 'files':0})
-        g['files'] += 1
-    links, edge_ms = read(tenant, '''MATCH (a:File)-[:IMPORTS]->(b:File)
-      RETURN a.path AS source,b.path AS target ORDER BY source,target LIMIT 20001''')
-    aggregated = Counter()
-    for edge in links[:20000]:
-        a,b = group(edge['source']),group(edge['target'])
-        if a and b and a != b: aggregated[a,b] += 1
-    # Return every group's inventory in pages through folder drill-down, never fake edges.
-    ordered = sorted(groups.values(),key=lambda g:(g['kind']!='folder',g['path']))
-    shown = ordered[:120]
-    ids = {n['id'] for n in shown}
-    return {'counts':{r['label']:r['count'] for r in counts}, 'prefix':prefix,
-      'nodes':shown, 'edges':[{'source':a,'target':b,'count':v} for (a,b),v in sorted(aggregated.items()) if a in ids and b in ids][:600],
-      'inventory':visible[:300], 'coverage':{'file_limit':10000,'files_truncated':bounded,
-        'groups_total':len(ordered),'groups_truncated':len(ordered)>120,'inventory_truncated':len(visible)>300,
-        'import_edges_truncated':len(links)>20000,'display_edges_truncated':sum(1 for a,b in aggregated if a in ids and b in ids)>600,'edge_basis':'File IMPORTS aggregated by displayed folder; no runtime inference'},
+        rest=path[len(prefix):]
+        return prefix+rest.split('/')[0]+('/' if '/' in rest else '')
+    aggregated=Counter((group(e['source']),group(e['target'])) for e in links[:20000] if group(e['source'])!=group(e['target']))
+    ids={n['id'] for n in shown}
+    edges=[{'source':a,'target':b,'count':v} for (a,b),v in sorted(aggregated.items()) if a in ids and b in ids]
+    return {'counts':{r['label']:r['count'] for r in counts},'prefix':prefix,'nodes':shown,'edges':edges[:600],
+      'inventory':[],'next_cursor':shown[-1]['path'] if len(groups)>120 else None,
+      'inventory_basis':'ALL_TRACKED_PATHS' if label=='TrackedFile' else 'LEGACY_PYTHON_ONLY_REIMPORT_FOR_COMPLETE_INVENTORY',
+      'coverage':{'files_truncated':False,'groups_total':total[0]['n'],'groups_truncated':len(groups)>120,
+        'inventory_truncated':False,'import_edges_truncated':len(links)>20000,'display_edges_truncated':len(edges)>600,
+        'edge_basis':'Python static imports only; non-Python inventory does not imply semantic coverage'},
       'execution_time_ms':round(elapsed+edge_ms,2)}
+
+
+def search_repository(tenant_graph,query,after='',limit=50):
+    tenant=tenant_exists(tenant_graph)
+    if not query.strip() or len(query)>200 or len(after)>1024 or not 1<=limit<=100:
+        raise HTTPException(422,'Require a query of 1..200 characters and limit 1..100')
+    params={'query':query.strip().lower(),'after':after,'limit':limit+1}
+    label=inventory_label(tenant)
+    paths,_=read(tenant,f"""MATCH (f:{label}) WHERE f.path>$after AND toLower(f.path) CONTAINS $query
+      RETURN f.path AS path ORDER BY path LIMIT $limit""",params)
+    matches,_=read(tenant,"""MATCH (f:File)-[:DEFINES]->(s) WHERE f.path>$after AND
+      (toLower(s.name) CONTAINS $query OR toLower(s.qualified_name) CONTAINS $query)
+      RETURN DISTINCT f.path AS path ORDER BY path LIMIT $limit""",params)
+    ordered=sorted({r['path'] for r in paths+matches});selected=ordered[:limit]
+    symbols,_=read(tenant,"""MATCH (f:File)-[:DEFINES]->(s) WHERE f.path IN $paths
+      RETURN f.path AS path,s.qualified_name AS name,s.signature AS signature
+      ORDER BY path,name LIMIT 801""",{'paths':selected})
+    return {'entry_points':[{'path':p,'symbols':[{'name':s['name'],'signature':s['signature']} for s in symbols[:800] if s['path']==p]} for p in selected],
+      'next_cursor':selected[-1] if len(ordered)>limit else None,'symbols_truncated':len(symbols)>800,
+      'scope':'Paged developer file/symbol search, separate from compact agent context; Python semantic symbols only'}
 
 
 def file_detail(tenant_graph, file_path):
     tenant = tenant_exists(tenant_graph)
+    indexed,_=read(tenant,'MATCH (f:File {path:$path}) RETURN count(f) AS n',{'path':file_path})
+    if not indexed[0]['n']:
+        inventory,_=read(tenant,"""MATCH (f:TrackedFile {path:$path}) RETURN f.path AS path,
+          f.source_revision AS revision,f.language AS language,f.analysis_status AS analysis_status,
+          f.source_url AS source_url,f.size_bytes AS size_bytes LIMIT 1""",{'path':file_path})
+        if not inventory:raise HTTPException(404,'File is not in this saved inventory')
+        return {'file':{**inventory[0],'sha256':None,'lines':0,'parse_errors':0},'symbols':[],
+          'imports':[],'importers':[],'calls':[],'coverage':{'analysis_status':inventory[0]['analysis_status'],
+          'graph_scope':'Inventory metadata only; dependency and source analysis unavailable for this entry'}}
     check_file(tenant,file_path)
     files, _ = read(tenant, '''MATCH (f:File {path:$path}) RETURN f.path AS path,
       f.sha256 AS sha256,f.source_revision AS revision,f.loc AS lines,f.parse_error_count AS parse_errors,
@@ -66,22 +96,40 @@ def file_detail(tenant_graph, file_path):
         'graph_scope':'selected file plus up to 20 imports and 20 importers; bounded definitions'}}
 
 
-def history(tenant_graph, commit=''):
+def history(tenant_graph, commit='', after='', change_after=''):
     tenant = tenant_exists(tenant_graph)
     if commit and (len(commit)!=40 or any(c not in '0123456789abcdef' for c in commit)):
         raise HTTPException(422,'Choose an indexed 40-character commit hash')
-    commits, _ = read(tenant, '''MATCH (p:PullRequest) WHERE p.record_kind='COMMIT'
+    timestamp, sha = 2**53, ''
+    if after:
+        try:
+            t, sha = after.split(':',1);timestamp=int(t)
+            if timestamp<0 or len(sha)!=40 or any(c not in '0123456789abcdef' for c in sha):raise ValueError()
+        except ValueError:raise HTTPException(422,'Use a history next_cursor')
+    if len(change_after)>1024:raise HTTPException(422,'Use a changed-file cursor')
+    commits, _ = read(tenant, """MATCH (p:PullRequest) WHERE p.record_kind='COMMIT'
+      AND (p.committed_at<$time OR (p.committed_at=$time AND p.commit_sha>$sha))
       OPTIONAL MATCH (c:Contributor)-[:AUTHORED]->(p)
       RETURN p.commit_sha AS sha,p.title AS title,p.committed_at AS timestamp,
-      c.name AS author,p.url AS url ORDER BY timestamp DESC,sha LIMIT 80''')
-    changes=[]
+      c.name AS author,p.url AS url ORDER BY timestamp DESC,sha LIMIT 41""",{'time':timestamp,'sha':sha})
+    changes=[];basis='COMMIT_FILE_RECORDS'
     if commit:
-        changes,_=read(tenant, '''MATCH (p:PullRequest {commit_sha:$sha})-[r:MODIFIES]->(f:File)
-          RETURN f.path AS path,r.additions AS additions,r.deletions AS deletions,
-          r.binary_diff AS binary ORDER BY path LIMIT 301''', {'sha':commit})
-        if not any(c['sha']==commit for c in commits):
-            raise HTTPException(404,'Commit is not in the displayed indexed history window')
-    return {'commits':commits,'changes':changes[:300],'changes_truncated':len(changes)>300,
+        found,_=read(tenant,"MATCH (p:PullRequest {commit_sha:$sha}) WHERE p.record_kind='COMMIT' RETURN count(p) AS n",{'sha':commit})
+        if not found[0]['n']:raise HTTPException(404,'Commit is not in the indexed history')
+        changes,_=read(tenant, """MATCH (p:PullRequest {commit_sha:$sha})-[:CHANGED]->(f:CommitFileChange)
+          WHERE f.path>$after RETURN f.path AS path,f.status AS status,f.additions AS additions,
+          f.deletions AS deletions,f.binary_diff AS binary ORDER BY path LIMIT 101""", {'sha':commit,'after':change_after})
+        # Old snapshots retain their narrower current-Python-file links.
+        has_records,_=read(tenant,"MATCH (p:PullRequest {commit_sha:$sha})-[:CHANGED]->(f) RETURN count(f) AS n",{'sha':commit})
+        if not has_records[0]['n']:
+            basis='LEGACY_CURRENT_PYTHON_FILES_ONLY'
+            changes,_=read(tenant, """MATCH (p:PullRequest {commit_sha:$sha})-[r:MODIFIES]->(f:File)
+              WHERE f.path>$after RETURN f.path AS path,r.additions AS additions,r.deletions AS deletions,
+              r.binary_diff AS binary ORDER BY path LIMIT 101""", {'sha':commit,'after':change_after})
+    shown=commits[:40]
+    return {'commits':shown,'next_cursor':str(shown[-1]['timestamp'])+':'+shown[-1]['sha'] if len(commits)>40 else None,
+      'changes':changes[:100],'changes_truncated':len(changes)>100,
+      'change_next_cursor':changes[99]['path'] if len(changes)>100 else None,'change_basis':basis,
       'scope':'Bounded indexed Git history, not a live GitHub feed or historical source checkout',
       'source_at':'File inspection always uses the selected indexed snapshot, not the historical commit'}
 

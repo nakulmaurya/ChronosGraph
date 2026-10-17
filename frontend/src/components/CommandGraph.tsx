@@ -36,7 +36,7 @@ export default function CommandGraph({ map, detail, functions, selected, onPick 
       const incoming = new Map<string, number>(); map.edges.forEach(e => incoming.set(e.target,(incoming.get(e.target)||0)+e.count));
       const outgoing=new Map<string,number>();map.edges.forEach(e=>outgoing.set(e.source,(outgoing.get(e.source)||0)+e.count));
       const ordered=[...map.nodes].sort((a,b)=>a.path.localeCompare(b.path));const slots=[0,0,0];
-      ordered.forEach(g=>{const ins=incoming.get(g.id)||0,outs=outgoing.get(g.id)||0;const lane=ins>outs?2:outs>0?0:1;const y=slots[lane]++*135+(lane===1?210:0);add(g.id,g.path.replace(map.prefix,"").replace(/\/$/,""),g.kind === "folder" ? `${g.files} indexed files` : "Python file",lane*350,y,g.kind,g.path);});
+      ordered.forEach(g=>{const ins=incoming.get(g.id)||0,outs=outgoing.get(g.id)||0;const lane=ins>outs?2:outs>0?0:1;const y=slots[lane]++*135+(lane===1?210:0);add(g.id,g.path.replace(map.prefix,"").replace(/\/$/,""),g.kind === "folder" ? `${g.files} tracked files` : "File",lane*350,y,g.kind,g.path);});
       map.edges.forEach(e => link(e.source,e.target,e.count === 1 ? "imports" : `${e.count} imports`));
     }
     return { nodes, edges };

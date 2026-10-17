@@ -98,13 +98,13 @@ class PublicGitHub:
 
 def inspect_remote(url, branch, *, client=None):
     owner, repo, canonical = repository_url(url)
-    branch = branch_name(branch)
     client = client or PublicGitHub()
     base = f'https://api.github.com/repos/{owner}/{repo}'
     info = client.json(base)
     # Explicit public status, no ambient credentials and no renamed-repository redirect.
     if info.get('private') is not False or info.get('visibility') != 'public':
         raise ValueError('Only explicitly public GitHub repositories are supported')
+    branch = branch_name(branch or info.get('default_branch', ''))
     commit = client.json(base+'/commits/'+quote('refs/heads/'+branch,safe=''))
     revision = commit.get('sha','')
     tree_sha = commit.get('commit',{}).get('tree',{}).get('sha','')
@@ -215,7 +215,7 @@ def archive_ownership(root):
     return {'status':'ABSENT_AT_PINNED_REVISION'}
 
 
-def import_public(url, branch, tenant, expected_head):
+def import_public(url, branch, tenant, expected_head, *, job_id=''):
     if os.environ.get('CHRONOSGRAPH_ENABLE_PUBLIC_GITHUB_IMPORT')!='1':
         raise ValueError('Public import disabled: operator must set CHRONOSGRAPH_ENABLE_PUBLIC_GITHUB_IMPORT=1')
     if not TENANT_PATTERN.fullmatch(tenant) or not SHA.fullmatch(expected_head):
@@ -239,10 +239,10 @@ def import_public(url, branch, tenant, expected_head):
                 snapshot_metadata={'connection_kind':'PUBLIC_GITHUB_ARCHIVE','selected_branch':branch,
                     'workspace_check_status':'PINNED_AT_IMPORT','workspace_checked_at':now,
                     'workspace_observed_revision':expected_head,'import_tree_sha':pinned['tree_sha'],
-                    'import_file_count':len(files),'import_archive_sha256':hashlib.sha256(archive).hexdigest(),
+                    'import_file_count':len(files),'import_job_id':job_id,'import_archive_sha256':hashlib.sha256(archive).hexdigest(),
                     'import_selected_blob_verification':'GIT_SHA1','import_model_calls':0},
                 prepared_snapshot={'source':(root,expected_head,canonical,owner+'/'+repo),
-                    'paths':paths,'ownership_document':archive_ownership(root)})
+                    'paths':paths,'inventory':list(files.values()),'ownership_document':archive_ownership(root)})
 
 
 def main():

@@ -87,6 +87,10 @@ def commit_history(source: Path, revision: str, limit: int = 40, file_paths=None
     for sha in shas:
         name, email, timestamp, title = git(source, 'show', '-s', '--format=%an%x00%ae%x00%ct%x00%s', sha).split('\0', 3)
         changes = []
+        statuses = {}
+        names = git(source, 'show', '--format=', '--name-status', '-z', '--no-renames', sha, '--').split('\0')
+        for i in range(0, len(names)-1, 2):
+            statuses[names[i+1]] = names[i].strip()
         output = git(source, 'show', '--format=', '--numstat', '-z', '--no-renames', sha, '--')
         for part in output.split('\0'):
             if not part.strip('\n'):
@@ -95,7 +99,7 @@ def commit_history(source: Path, revision: str, limit: int = 40, file_paths=None
             if len(fields) != 3:
                 raise ValueError('Unexpected git numstat record')
             adds, deletes, path = fields
-            changes.append({'path': path, 'additions': int(adds) if adds.isdigit() else 0,
+            changes.append({'path': path, 'status': statuses.get(path,'M'), 'additions': int(adds) if adds.isdigit() else 0,
                 'deletions': int(deletes) if deletes.isdigit() else 0, 'binary_diff': adds == '-'})
         # A hash identity is NOT a GitHub login; emails need not be exposed/stored.
         author = 'git:' + hashlib.sha256((name+'\0'+email.casefold()).encode()).hexdigest()[:20]
@@ -119,6 +123,12 @@ def append_history(graph, records, origin: str, known: set[str]):
            'number':-int(sha[:12],16), 'title':record['title'], 'url':url,
            'sha':sha, 'timestamp':record['timestamp']})
         for change in record['changes']:
+            graph.query('''MATCH (p:PullRequest {id:$id})
+              MERGE (c:CommitFileChange {id:$change_id}) SET c.path=$path,c.status=$status,
+              c.additions=$additions,c.deletions=$deletions,c.binary_diff=$binary_diff,c.commit_sha=$sha
+              MERGE (p)-[:CHANGED]->(c)''',
+              {'id':'git:'+sha,'change_id':sha+':'+change['path'],'sha':sha,
+               'status':change.get('status','M'),**change})
             if change['path'] not in known:
                 continue
             graph.query('''MATCH (p:PullRequest {id:$id}),(f:File {path:$path})
@@ -216,6 +226,17 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
             imports += [{'source':item['file']['path'],'target':p} for p in sorted(targets)]
             calls += [{'source':call['caller'],'target':target,'line':call['line']} for call, target in resolved]
             unresolved += len(unknown)
+        from app.ingestion.inventory import records as inventory_records
+        if prepared_snapshot is None:
+            entries=[]
+            for record in git(root,'ls-tree','-r','-l','-z',revision,'--').split('\0'):
+                if not record:continue
+                header,path=record.split('\t',1)
+                mode,kind,sha,size=header.split()
+                entries.append({'path':path,'mode':mode,'sha':sha,'size':int(size) if size.isdigit() else 0})
+        else:
+            entries=prepared_snapshot.get('inventory',[{'path':path,'size':(root/path).stat().st_size} for path in paths])
+        inventory=inventory_records(entries,revision,origin,{i['file']['path']:i for i in items})
         history = commit_history(root,revision) if prepared_snapshot is None else []
         graph = db_manager.get_graph(tenant)
         graph.query('''CREATE (:RepoMetadata {repository:$repository,source_url:$url,
@@ -228,6 +249,8 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
         batch(graph, '''UNWIND $rows AS r CREATE (f:File) SET f=r''',
             [{**item['file'],'source_revision':revision,'source_url':origin+'/blob/'+revision+'/'+item['file']['path'] if origin else '',
               'source_type':'GIT_AST_SNAPSHOT','parse_error_count':len(item['errors'])} for item in items])
+        batch(graph, 'UNWIND $rows AS r CREATE (f:TrackedFile) SET f=r', inventory)
+        graph.query('MATCH (t:TrackedFile),(f:File) WHERE t.path=f.path MERGE (t)-[:HAS_ANALYSIS]->(f)')
         for label, key in [('Class','classes'),('Function','functions')]:
             batch(graph, f'''UNWIND $rows AS r MATCH (f:File {{path:r.file_path}})
               MERGE (n:{label} {{qualified_name:r.qualified_name}}) SET n+=r
@@ -265,9 +288,9 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
             demo_policies(graph,policy_paths)
         graph.query('''MATCH (m:RepoMetadata) SET m.status=$status,m.pagerank_method='native_falkordb_pagerank_normalized',
           m.parse_errors_json=$errors,m.history_limit=$history_limit,m.history_scope=$history_scope,
-          m.unresolved_calls=$unresolved,m.seeded_policy_files=$paths,m.ingested_at=$now''',
+          m.inventory_count=$inventory,m.unresolved_calls=$unresolved,m.seeded_policy_files=$paths,m.ingested_at=$now''',
           {'status':'READY' if publish_ready else 'VALIDATING_WORKSPACE',
-           'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time()),
+           'inventory':len(inventory),'errors':json.dumps(errors),'unresolved':unresolved,'paths':policy_paths,'now':int(time.time()),
            'history_limit':40 if prepared_snapshot is None else 0,
            'history_scope':'latest_commits_at_source_revision' if prepared_snapshot is None else 'NOT_FETCHED_GITHUB_ARCHIVE'})
         return {**snapshot_stats(tenant),'repository':repository,'source_revision':revision,

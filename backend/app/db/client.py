@@ -33,6 +33,9 @@ class FalkorDBManager:
 
         range_indexes = [
             "CREATE INDEX FOR (f:File) ON (f.path)",
+            "CREATE INDEX FOR (f:TrackedFile) ON (f.path)",
+            "CREATE INDEX FOR (c:CommitFileChange) ON (c.id)",
+            "CREATE INDEX FOR (p:PullRequest) ON (p.commit_sha)",
             "CREATE INDEX FOR (fn:Function) ON (fn.qualified_name)",
             "CREATE INDEX FOR (c:Class) ON (c.qualified_name)",
             "CREATE INDEX FOR (p:PullRequest) ON (p.number)",
