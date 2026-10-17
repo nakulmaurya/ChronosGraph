@@ -1,0 +1,22 @@
+{
+  "frontend_unit_passed": 34,
+  "frontend_unit_failed": 0,
+  "frontend_unit_skipped": 0,
+  "browser_checks": 70,
+  "browser_page_errors": 0,
+  "typecheck": "PASS",
+  "production_build": "PASS",
+  "backend": "UNCHANGED_FROM_295_TEST_NATIVE_VERIFIED_BASE",
+  "pip_check": "NO_BROKEN_REQUIREMENTS",
+  "npm_production_known_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "review_provenance": "SAME_ASSISTANT_FOUR_PERSONAS_PLUS_CRITIQUE",
+  "model_review": "BLOCKED_HTTP403_BEFORE_GENERATION",
+  "overall_submission_verdict": "NOT_READY"
+}

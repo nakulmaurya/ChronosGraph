@@ -12,7 +12,8 @@ or policy changes.
 **Overall FINAL-01 status: NOT READY for unconditional submission; the free coding-model provider blocked the real-agent evaluation.**
 This README describes that branch, not an automatically updated main branch or VM
 preview. [Current verification and remaining gates](tasks/reports/FINAL-01.md) ·
-[Critique-only readiness review](tasks/reviews/FINAL-01-readiness.md).
+[Critique-only readiness review](tasks/reviews/FINAL-02-persona-critique.md).
+[Follow-up fixes and deployment evidence](tasks/reports/FINAL-02.md).
 
 ## Start locally
 
@@ -140,8 +141,8 @@ proposal was merged. Unknown execution outcomes stop retries for that proposal.
 
 ## Verified release checks
 
-- **295 backend tests**, zero failures/skips; **32 frontend unit tests**.
-- Typecheck and production build passed; **62 browser checks** across desktop/mobile.
+- **295 backend tests**, zero failures/skips; **34 frontend unit tests**.
+- Typecheck and production build passed; **70 browser checks** across desktop/mobile.
 - **15 MCP tools** with the discovery/guard exceptions described above.
 - Synthetic 5,000-file native root-map p95: **107.97 ms** in the final run; not a production SLA.
 - Seven-day durable Redis import receipts, subject to configured database persistence.
