@@ -10,7 +10,8 @@
     "test": "node --import ./tests/register-typescript.mjs --test tests/*.test.mjs",
     "test:e2e": "node tests/live-smoke.mjs",
     "test:ui-recovery": "node tests/ui-recovery-smoke.mjs",
-    "test:agent-setup": "node tests/agent-setup-smoke.mjs"
+    "test:agent-setup": "node tests/agent-setup-smoke.mjs",
+    "test:change-planning": "node tests/change-planning-smoke.mjs"
   },
   "dependencies": {
     "next": "^16.4.1",

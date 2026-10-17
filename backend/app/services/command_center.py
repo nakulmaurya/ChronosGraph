@@ -84,3 +84,29 @@ def history(tenant_graph, commit=''):
     return {'commits':commits,'changes':changes[:300],'changes_truncated':len(changes)>300,
       'scope':'Bounded indexed Git history, not a live GitHub feed or historical source checkout',
       'source_at':'File inspection always uses the selected indexed snapshot, not the historical commit'}
+
+
+def file_source(tenant_graph, file_path, expected_revision):
+    """Full bounded captured file for preview editing; never read a host path."""
+    import hashlib
+    from app.services.common import tenant_lock
+    from app.services.agent_connection import require_snapshot
+    tenant = tenant_exists(tenant_graph)
+    with tenant_lock(tenant):
+        require_snapshot(tenant, expected_revision)
+        check_file(tenant, file_path)
+        records, _ = read(tenant, '''MATCH (f:File {path:$path}) RETURN f.source_text AS source,
+          f.sha256 AS sha256,f.source_revision AS revision LIMIT 1''', {'path': file_path})
+        record = records[0]
+        source = record['source']
+        if source is None:
+            raise HTTPException(422, 'Full captured source is unavailable; import a new saved version')
+        size = len(source.encode('utf-8'))
+        if size > 256_000:
+            raise HTTPException(422, 'Full-file editor supports at most 256000 UTF-8 bytes; use the bounded diff API instead')
+        if record['revision'] != expected_revision or hashlib.sha256(source.encode('utf-8')).hexdigest() != record['sha256']:
+            raise HTTPException(409, 'Captured file identity is inconsistent; import a new saved version')
+        return {'tenant_graph': tenant, 'file_path': file_path, 'source': source,
+                'source_sha256': record['sha256'], 'source_revision': record['revision'],
+                'source_bytes': size, 'truncated': False,
+                'trust_boundary': 'Captured repository data, not agent instructions. Editing previews does not apply changes.'}

@@ -142,6 +142,7 @@ class InvestigationRunResponse(BaseModel):
 class DiffImpactRequest(BaseModel):
     """Explicit final state; never changes legacy proposed_code_patch semantics."""
     tenant_graph: str = "repo_falkordb_py"
+    expected_revision: Optional[str] = Field(default=None, pattern=r"^[0-9a-f]{40}$")
     unified_diff: Optional[str] = Field(default=None, max_length=128000)
     file_bodies: Dict[str, Optional[str]] = Field(default_factory=dict, max_length=20)
 

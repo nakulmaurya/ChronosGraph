@@ -211,7 +211,7 @@ def workspace_snapshot_metadata(tenant_graph: str):
 
 
 # Read-only developer command center; legacy APIs remain compatible.
-from app.services.command_center import overview, file_detail, history
+from app.services.command_center import overview, file_detail, file_source, history
 
 @app.get('/api/v1/repository/map')
 def repository_map(tenant_graph: str, prefix: str=''):
@@ -220,6 +220,11 @@ def repository_map(tenant_graph: str, prefix: str=''):
 @app.get('/api/v1/repository/file')
 def repository_file(tenant_graph: str, file_path: str):
     return file_detail(tenant_graph,file_path)
+
+@app.get('/api/v1/repository/file-source')
+def repository_file_source(tenant_graph: str, file_path: str, expected_revision: str):
+    return file_source(tenant_graph, file_path, expected_revision)
+
 
 @app.get('/api/v1/repository/history')
 def repository_history(tenant_graph: str, commit: str=''):

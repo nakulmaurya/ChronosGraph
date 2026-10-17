@@ -155,9 +155,24 @@ def _source_impact(edges, paths):
     return impacted
 
 
+def dependency_view(dependencies, impacted, present, changed):
+    """Only evidenced File IMPORTS edges inside the candidate impact set."""
+    candidates = sorted(set(impacted) & set(present), key=lambda p: (p not in changed, p))
+    paths = candidates[:30]
+    ids = set(paths)
+    links = sorted((a, b) for kind, a, b in dependencies if kind == 'IMPORTS' and a in ids and b in ids)
+    return {'paths': paths, 'edges': [{'source': a, 'target': b} for a, b in links[:120]],
+            'nodes_total': len(candidates), 'nodes_truncated': len(candidates) > 30,
+            'edges_truncated': len(links) > 120,
+            'scope': 'Captured-source static IMPORTS within candidate impacted files; no runtime or invented adjacency'}
+
+
 def simulate_diff(req):
     tenant = tenant_exists(req.tenant_graph)
     with tenant_lock(tenant):
+        if req.expected_revision is not None:
+            from app.services.agent_connection import require_snapshot
+            require_snapshot(tenant, req.expected_revision)
         base = db_manager.get_graph(tenant)
         captured = base.ro_query('MATCH (f:File) RETURN f.path,f.source_text,f.sha256,f.source_revision LIMIT 10001').result_set
         if not captured or len(captured) > 10000 or any(r[1] is None for r in captured):
@@ -234,7 +249,11 @@ def simulate_diff(req):
             payload = {
                 'tenant_graph': tenant, 'semantics': 'FULL_FILE_REPLACEMENT', 'source_type': SOURCE,
                 'sandbox_graph_name': name, 'sandbox_clone_time_ms': clone_ms,
-                'changed_files': changed_paths, 'added_dependencies': dep_rows(after_dependencies - before_dependencies),
+                'changed_files': changed_paths,
+                'dependency_graphs': {
+                    'before': dependency_view(before_dependencies, impacted, sources, changed_paths),
+                    'after': dependency_view(after_dependencies, impacted, final_sources, changed_paths),
+                }, 'added_dependencies': dep_rows(after_dependencies - before_dependencies),
                 'removed_dependencies': dep_rows(before_dependencies - after_dependencies),
                 'removed_or_signature_changed_symbols': sorted(broken_symbols), 'potentially_broken_callers': broken_callers,
                 'impacted_files': impacted, 'pre_patch_impacted_files': sorted(before_impact),

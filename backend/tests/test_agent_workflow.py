@@ -80,6 +80,9 @@ def test_discovery_is_paginated_read_only_and_excludes_incomplete_graphs(ingeste
         db_manager.get_graph(pending).query("CREATE (:RepoMetadata {status:'INGESTING'})")
         graphs = set(db_manager.list_tenant_graphs())
         before = source_state(tenant)
+        graph = db_manager.get_graph(tenant)
+        nodes_before = graph.ro_query('MATCH (n) RETURN id(n),labels(n),properties(n) ORDER BY id(n)').result_set
+        edges_before = graph.ro_query('MATCH ()-[r]->() RETURN id(r),type(r),properties(r) ORDER BY id(r)').result_set
         rows, cursor = [], ''
         while True:
             page = discover_repositories(cursor, 1)
@@ -95,6 +98,8 @@ def test_discovery_is_paginated_read_only_and_excludes_incomplete_graphs(ingeste
         assert selected['source_revision'] == workspace_snapshot(tenant)['source_revision']
         assert selected['snapshot_guard_available']
         assert source_state(tenant) == before
+        assert graph.ro_query('MATCH (n) RETURN id(n),labels(n),properties(n) ORDER BY id(n)').result_set == nodes_before
+        assert graph.ro_query('MATCH ()-[r]->() RETURN id(r),type(r),properties(r) ORDER BY id(r)').result_set == edges_before
         assert set(db_manager.list_tenant_graphs()) == graphs
     finally:
         db_manager.get_graph(pending).delete()

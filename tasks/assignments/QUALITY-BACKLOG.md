@@ -11,7 +11,7 @@ Review baseline: 31717cf. Batches are isolated/stacked; not merged into main.
 ## Next: one real developer + agent workflow (P1)
 - Q07 partial delivered: real stdio discovery/preflight, optional per-call commit guards, selected-snapshot handoff and client config validation. Still validate an actual coding-client session; preflight is not persistent session binding.
 - Q08: session/task/evidence/change/human-decision/verification linkage; real coding-client demonstration.
-- Q09: selected-file change entry, readable diff, before/after impact graph, clickable impacted files/tests.
+- Q09 bounded first iteration delivered: selected existing Python file → complete captured source → readable source comparison → native before/after import graphs and clickable candidates. Still add persistent drafts, richer function-level evidence and multi-file/add/rename UI.
 
 ## Import, repository and history completeness
 - Q10/Q11: bounded import history; deleted/non-Python changed paths; historical source scope and commit pagination.
