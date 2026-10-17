@@ -1,0 +1,4541 @@
+{
+  "schema_version": 1,
+  "started_at_unix": 1792251813,
+  "source_commit": "d678e246747e771efbe7b0cf89319f20dc20de06",
+  "python": "3.13.5",
+  "platform": "Linux-6.12.111+deb13-cloud-amd64-x86_64-with-glibc2.41",
+  "logical_cpus": 4,
+  "redis_version": "8.10.2",
+  "harness_sha256": "1c14fc1a1f4a3bf105b5be0d9fdbce5b33e200a0a0b76776a157809cba2d5a19",
+  "evaluator_sha256": "fb556c6e119742d390a0fdb092a2250e0379b5a3bf7991fba19f151582ce9512",
+  "working_tree_dirty": true,
+  "methodology": {
+    "latency": "Sequential single-client perf_counter wall time; one warmup per operation, nearest-rank p95; not SLA",
+    "token_basis": "Exact bytes; Unicode chars//4 estimates, no exact model tokenizer or billing claims",
+    "test_precision": "Not measured against executed real-repo failures; candidate-file reduction only",
+    "isolation": "Disposable native database plus uniquely owned graph copies; verified delete",
+    "task_selection": "One deterministic highest-indexed-inbound function with current reparsed callers, excluding test directories; not representative of every task"
+  },
+  "repositories": [
+    {
+      "dataset": "FalkorDB/falkordb-py",
+      "tenant": "repo_falkordb_py",
+      "metadata": [],
+      "source_revisions": [
+        "31f63f44a5745b9bec65969a1db706906718cb82"
+      ],
+      "captured_source_digest": "254e9a00dab87edcffc27f8efe3e1db296a911da15ced767579df6076510d38a",
+      "task_selection": "Highest indexed inbound CALLS with current reparsed callers; excludes test directories; qualified-name tie-break",
+      "task": {
+        "path": "falkordb/asyncio/graph.py",
+        "symbol": "_create_typed_index",
+        "qualified_name": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index",
+        "start_line": 406,
+        "end_line": 451,
+        "resolved_inbound_calls": 6,
+        "currently_reparsed_inbound_call_edges": 6,
+        "call_index_drift": {
+          "basis": "Legacy indexed CALLS vs current conservative source reparse; not independent runtime accuracy",
+          "indexed_only_count": 52,
+          "reparsed_only_count": 4,
+          "indexed_only_sample": [
+            [
+              "CALLS",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.__init__",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.clear"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.clear"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh_labels"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh_properties"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh",
+              "falkordb/asyncio/graph_schema.py:GraphSchema.refresh_relations"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.__parse_results",
+              "falkordb/asyncio/query_result.py:QueryResult.__parse_header"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.__parse_results",
+              "falkordb/asyncio/query_result.py:QueryResult.__parse_records"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.cached_execution",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.indices_created",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.indices_deleted",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.labels_added",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.labels_removed",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.nodes_created",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.nodes_deleted",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.parse",
+              "falkordb/asyncio/query_result.py:QueryResult.__check_for_errors"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.parse",
+              "falkordb/asyncio/query_result.py:QueryResult.__parse_results"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.properties_removed",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.properties_set",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.relationships_created",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ],
+            [
+              "CALLS",
+              "falkordb/asyncio/query_result.py:QueryResult.relationships_deleted",
+              "falkordb/asyncio/query_result.py:QueryResult.__get_statistics"
+            ]
+          ],
+          "current_reparse_import_accuracy": {
+            "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+            "eligible_files": 26,
+            "excluded_files": 16,
+            "expected_edges": 24,
+            "indexed_edges_in_scope": 24,
+            "true_positive_edges": 24,
+            "precision": 1.0,
+            "recall": 1.0,
+            "missing_edges": [],
+            "extra_edges": []
+          }
+        }
+      },
+      "initial_counts": {
+        "nodes": 2069,
+        "edges": 2959,
+        "python_files": 42
+      },
+      "latency": {
+        "root_map_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 9.215,
+          "p95_ms": 12.345,
+          "max_ms": 14.291,
+          "samples_ms": [
+            10.922,
+            10.378,
+            10.102,
+            10.295,
+            11.151,
+            9.063,
+            10.855,
+            14.291,
+            12.345,
+            8.75,
+            8.843,
+            7.856,
+            9.91,
+            9.215,
+            9.601,
+            8.355,
+            8.88,
+            8.804,
+            8.555,
+            8.496
+          ]
+        },
+        "symbol_lookup_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 6.491,
+          "p95_ms": 7.473,
+          "max_ms": 7.5,
+          "samples_ms": [
+            7.1,
+            6.674,
+            6.351,
+            6.414,
+            6.409,
+            6.821,
+            6.976,
+            6.403,
+            6.422,
+            6.323,
+            6.513,
+            6.508,
+            6.451,
+            6.453,
+            7.5,
+            6.904,
+            7.004,
+            7.473,
+            6.491,
+            6.48
+          ]
+        },
+        "neighborhood_db_roundtrip": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 1.321,
+          "p95_ms": 1.512,
+          "max_ms": 1.567,
+          "samples_ms": [
+            1.106,
+            1.076,
+            0.99,
+            1.135,
+            1.229,
+            1.087,
+            1.48,
+            1.502,
+            1.321,
+            1.345,
+            1.459,
+            1.33,
+            1.567,
+            1.512,
+            1.382,
+            1.364,
+            1.31,
+            1.235,
+            1.179,
+            1.354
+          ]
+        },
+        "locate_context_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 32.647,
+          "p95_ms": 35.475,
+          "max_ms": 38.464,
+          "samples_ms": [
+            31.856,
+            32.647,
+            31.626,
+            32.276,
+            35.475,
+            32.382,
+            35.085,
+            35.089,
+            32.699,
+            34.51,
+            34.086,
+            29.306,
+            33.634,
+            34.308,
+            38.464,
+            31.981,
+            35.004,
+            31.887,
+            31.844,
+            32.502
+          ]
+        },
+        "symbol_source_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 18.121,
+          "p95_ms": 19.101,
+          "max_ms": 19.271,
+          "samples_ms": [
+            17.861,
+            17.034,
+            18.121,
+            18.581,
+            18.025,
+            18.559,
+            19.271,
+            17.387,
+            16.643,
+            18.28,
+            17.411,
+            17.166,
+            16.859,
+            18.797,
+            18.387,
+            17.405,
+            19.101,
+            18.912,
+            18.873,
+            18.704
+          ]
+        }
+      },
+      "source_coordinate_check": "PASS_STDLIB_AST_AND_CAPTURED_LINES",
+      "returned_import_routes_valid": true,
+      "returned_import_route_count": 12,
+      "context_coverage": {
+        "file_scan_limit": 10000,
+        "entry_limit": 3,
+        "symbols_per_file_limit": 5,
+        "related_limit": 12,
+        "import_horizon": 3,
+        "rule_limit": 6,
+        "candidate_match_count": 2,
+        "truncated": true
+      },
+      "ownership": {
+        "status": "NOT_INDEXED_IN_THIS_SNAPSHOT",
+        "source_document": {
+          "path": null,
+          "sha256": null,
+          "revision": null,
+          "source_url": null
+        },
+        "invalid_rule_count": 0,
+        "declarations": [],
+        "truncated": false,
+        "basis": "DECLARED_AT_PINNED_COMMIT_NOT_VERIFIED_IDENTITY_OR_ACCESS",
+        "workspace_freshness": "PINNED_SNAPSHOT_WORKSPACE_NOT_CHECKED"
+      },
+      "import_accuracy": {
+        "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+        "eligible_files": 26,
+        "excluded_files": 16,
+        "expected_edges": 24,
+        "indexed_edges_in_scope": 24,
+        "true_positive_edges": 24,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing_edges": [],
+        "extra_edges": []
+      },
+      "folding": {
+        "connected_files": [
+          "falkordb/asyncio/__init__.py",
+          "falkordb/asyncio/falkordb.py",
+          "falkordb/asyncio/graph.py",
+          "tests/test_async_constraints.py",
+          "tests/test_async_copy.py",
+          "tests/test_async_db.py",
+          "tests/test_async_explain.py",
+          "tests/test_async_graph.py",
+          "tests/test_async_indices.py",
+          "tests/test_async_profile.py",
+          "tests/test_close.py",
+          "tests/test_schema_refresh.py"
+        ],
+        "raw_files_bytes": 88300,
+        "slice_bytes": 6871,
+        "raw_chars_div4": 22068,
+        "slice_chars_div4": 1689,
+        "byte_reduction_pct": 92.219,
+        "billed_token_savings": null,
+        "exact_model_token_count": null,
+        "basis": "Exact UTF-8 captured-source vs exact wiki note; chars//4 is only an estimate; not equivalent content"
+      },
+      "impact": {
+        "mutation": "rename selected real function; leave downstream callers unchanged",
+        "total_python_test_files": 19,
+        "candidate_python_test_files": [
+          "tests/test_async_constraints.py",
+          "tests/test_async_copy.py",
+          "tests/test_async_db.py",
+          "tests/test_async_explain.py",
+          "tests/test_async_graph.py",
+          "tests/test_async_indices.py",
+          "tests/test_async_profile.py",
+          "tests/test_close.py",
+          "tests/test_schema_refresh.py"
+        ],
+        "candidate_count": 9,
+        "test_suite_reduction_pct": 52.632,
+        "potentially_broken_callers": [
+          "falkordb/asyncio/graph.py:AsyncGraph.create_edge_fulltext_index",
+          "falkordb/asyncio/graph.py:AsyncGraph.create_edge_range_index",
+          "falkordb/asyncio/graph.py:AsyncGraph.create_edge_vector_index",
+          "falkordb/asyncio/graph.py:AsyncGraph.create_node_fulltext_index",
+          "falkordb/asyncio/graph.py:AsyncGraph.create_node_range_index",
+          "falkordb/asyncio/graph.py:AsyncGraph.create_node_vector_index"
+        ],
+        "added_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index_benchmark_renamed",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph.query"
+          }
+        ],
+        "removed_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph.query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_fulltext_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_range_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph.create_edge_vector_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph.create_node_fulltext_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph.create_node_range_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "falkordb/asyncio/graph.py:AsyncGraph.create_node_vector_index",
+            "target": "falkordb/asyncio/graph.py:AsyncGraph._create_typed_index"
+          }
+        ],
+        "analysis_ms": 532.709,
+        "clone_ms": 79.9,
+        "sandbox_cleaned_up": true,
+        "unresolved_calls": 1467,
+        "parse_coverage": {
+          "before_failed_files": [],
+          "after_failed_files": [],
+          "basis": "PARSE_FAILURES_HAVE_NO_STATIC_DEPENDENCIES_NOT_NO_IMPACT"
+        },
+        "test_impact_precision": null,
+        "test_impact_recall": null,
+        "basis": "Static candidate reduction by test FILE count, not tests safely skipped; no untrusted pytest executed"
+      },
+      "clone_delete": {
+        "samples": 3,
+        "copy_p95_ms": 99.607,
+        "delete_and_verify_p95_ms": 1.198,
+        "cleanup_verified": true
+      },
+      "resume_bytes": 980,
+      "model_calls": 0,
+      "targets": {
+        "all_discovery_services_p95_lt_50ms": true,
+        "byte_reduction_at_least_70pct": true,
+        "byte_reduction_at_least_90pct": true,
+        "indexed_absolute_import_recall_100pct": true
+      },
+      "owned_graph_cleaned_up": true
+    },
+    {
+      "dataset": "FalkorDB/GraphRAG-SDK",
+      "tenant": "repo_graphrag_sdk",
+      "metadata": [],
+      "source_revisions": [
+        "35e67a0b27fdcc7f2c28508b09e86169851a8187"
+      ],
+      "captured_source_digest": "e278cb5fa9df2f5d98a9519e5268154cc302c5f1a2ca9ff884d6e44c833f0dfb",
+      "task_selection": "Highest indexed inbound CALLS with current reparsed callers; excludes test directories; qualified-name tie-break",
+      "task": {
+        "path": "graphrag_sdk/src/graphrag_sdk/api/main.py",
+        "symbol": "_ensure_ontology_initialized",
+        "qualified_name": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized",
+        "start_line": 480,
+        "end_line": 516,
+        "resolved_inbound_calls": 26,
+        "currently_reparsed_inbound_call_edges": 20,
+        "call_index_drift": {
+          "basis": "Legacy indexed CALLS vs current conservative source reparse; not independent runtime accuracy",
+          "indexed_only_count": 417,
+          "reparsed_only_count": 637,
+          "indexed_only_sample": [
+            [
+              "CALLS",
+              "graphrag_sdk/examples/04_custom_provider.py:MyCustomEmbedder.embed_documents",
+              "graphrag_sdk/examples/04_custom_provider.py:MyCustomEmbedder.embed_query"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/examples/grounded_answers_with_abstention.py:answer_or_abstain",
+              "graphrag_sdk/examples/grounded_answers_with_abstention.py:citation_of"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/examples/grounded_answers_with_abstention.py:answer_or_abstain",
+              "graphrag_sdk/examples/grounded_answers_with_abstention.py:is_evidence"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_batch",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_batch._one"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._check_no_pending_marker"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._default_extractor"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._default_ingest_resolver"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._default_loader_for"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._phase0_recover_prior_operations"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._resolve_document_id"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_single",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._write_graph_config"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_structured",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._check_no_pending_marker"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ingest_structured",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._table_document_id"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._initialize_ontology",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._register_structured_ontology_locked"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._register_structured_ontology_locked",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._refuse_a_contradicting_declaration"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._retract_table",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._signed_properties_of"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._retract_what_the_declaration_dropped",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._signed_properties_of"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._table_for_document",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._table_document_id"
+            ],
+            [
+              "CALLS",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._write_structured_source",
+              "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+            ]
+          ],
+          "current_reparse_import_accuracy": {
+            "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+            "eligible_files": 134,
+            "excluded_files": 20,
+            "expected_edges": 506,
+            "indexed_edges_in_scope": 506,
+            "true_positive_edges": 506,
+            "precision": 1.0,
+            "recall": 1.0,
+            "missing_edges": [],
+            "extra_edges": []
+          }
+        }
+      },
+      "initial_counts": {
+        "nodes": 5159,
+        "edges": 7551,
+        "python_files": 154
+      },
+      "latency": {
+        "root_map_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 11.458,
+          "p95_ms": 11.984,
+          "max_ms": 11.997,
+          "samples_ms": [
+            11.658,
+            11.285,
+            11.622,
+            11.088,
+            11.213,
+            10.876,
+            10.426,
+            11.665,
+            11.997,
+            11.491,
+            10.969,
+            11.592,
+            11.458,
+            11.928,
+            11.984,
+            11.444,
+            11.252,
+            11.828,
+            11.834,
+            11.16
+          ]
+        },
+        "symbol_lookup_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 20.988,
+          "p95_ms": 21.706,
+          "max_ms": 21.847,
+          "samples_ms": [
+            20.692,
+            21.847,
+            21.486,
+            21.706,
+            21.264,
+            20.988,
+            20.845,
+            20.292,
+            20.781,
+            20.595,
+            21.417,
+            21.195,
+            20.201,
+            20.29,
+            20.621,
+            21.27,
+            21.431,
+            21.198,
+            21.061,
+            20.895
+          ]
+        },
+        "neighborhood_db_roundtrip": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 0.672,
+          "p95_ms": 0.807,
+          "max_ms": 0.843,
+          "samples_ms": [
+            0.843,
+            0.779,
+            0.663,
+            0.726,
+            0.726,
+            0.608,
+            0.64,
+            0.701,
+            0.672,
+            0.616,
+            0.61,
+            0.706,
+            0.729,
+            0.688,
+            0.807,
+            0.671,
+            0.645,
+            0.674,
+            0.636,
+            0.628
+          ]
+        },
+        "locate_context_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 146.652,
+          "p95_ms": 184.04,
+          "max_ms": 193.246,
+          "samples_ms": [
+            162.915,
+            161.226,
+            193.246,
+            147.329,
+            147.044,
+            147.547,
+            145.884,
+            142.947,
+            144.912,
+            156.675,
+            146.652,
+            184.04,
+            144.745,
+            144.518,
+            144.785,
+            150.835,
+            148.812,
+            143.644,
+            141.32,
+            140.567
+          ]
+        },
+        "symbol_source_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 120.7,
+          "p95_ms": 130.855,
+          "max_ms": 166.404,
+          "samples_ms": [
+            127.167,
+            166.404,
+            120.942,
+            118.833,
+            120.241,
+            120.307,
+            120.743,
+            124.818,
+            115.821,
+            126.654,
+            121.692,
+            119.081,
+            120.7,
+            130.855,
+            116.822,
+            119.259,
+            117.455,
+            119.318,
+            121.424,
+            125.463
+          ]
+        }
+      },
+      "source_coordinate_check": "PASS_STDLIB_AST_AND_CAPTURED_LINES",
+      "returned_import_routes_valid": true,
+      "returned_import_route_count": 0,
+      "context_coverage": {
+        "file_scan_limit": 10000,
+        "entry_limit": 3,
+        "symbols_per_file_limit": 5,
+        "related_limit": 12,
+        "import_horizon": 3,
+        "rule_limit": 6,
+        "candidate_match_count": 1,
+        "truncated": true
+      },
+      "ownership": {
+        "status": "NOT_INDEXED_IN_THIS_SNAPSHOT",
+        "source_document": {
+          "path": null,
+          "sha256": null,
+          "revision": null,
+          "source_url": null
+        },
+        "invalid_rule_count": 0,
+        "declarations": [],
+        "truncated": false,
+        "basis": "DECLARED_AT_PINNED_COMMIT_NOT_VERIFIED_IDENTITY_OR_ACCESS",
+        "workspace_freshness": "PINNED_SNAPSHOT_WORKSPACE_NOT_CHECKED"
+      },
+      "import_accuracy": {
+        "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+        "eligible_files": 134,
+        "excluded_files": 20,
+        "expected_edges": 506,
+        "indexed_edges_in_scope": 0,
+        "true_positive_edges": 0,
+        "precision": null,
+        "recall": 0.0,
+        "missing_edges": [
+          [
+            "graphrag_sdk/examples/01_quickstart.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/02_pdf_with_schema.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/02_pdf_with_schema.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/examples/03_custom_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/03_custom_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/examples/03_custom_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/examples/03_custom_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/04_custom_provider.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/04_custom_provider.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/examples/06_markdown_document_aware.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/06_markdown_document_aware.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py"
+          ],
+          [
+            "graphrag_sdk/examples/06_markdown_document_aware.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py"
+          ],
+          [
+            "graphrag_sdk/examples/07_incremental_updates.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/08_ontology_lifecycle.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/09_ontology_evolution.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/10_ontology_discovery.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/10_ontology_discovery.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/catalog.py"
+          ],
+          [
+            "graphrag_sdk/examples/11_structured_ingestion.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/grounded_answers_with_abstention.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/examples/grounded_answers_with_abstention.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/local.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/api/main.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/backfill.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/callable_chunking.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/coref_resolvers.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/api/main.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/backfill.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/api/main.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py",
+            "graphrag_sdk/src/graphrag_sdk/core/circuit_breaker.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/context.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/models.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/models.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/litellm.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/openrouter.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_retry.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_timeout.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_retry.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_timeout.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/litellm.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/litellm.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/litellm.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_retry.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/litellm.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_timeout.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/litellm.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/openrouter.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/openrouter.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/openrouter.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_retry.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/openrouter.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_timeout.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/providers/openrouter.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/catalog.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/proposal.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/catalog.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/prompts.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/proposal.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/catalog.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/prompts.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/proposal.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/discovery/proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/backfill.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/backfill.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/backfill.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/callable_chunking.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/callable_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/callable_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/callable_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/coref_resolvers.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/coref_resolvers.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/lexical_graph.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/lexical_graph.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/instructor.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/proposal.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/lexical_graph.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/llm_verified_resolution.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/lexical_graph.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/cosine.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/router.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/router.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/chunk_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/chunk_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/entity_discovery.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/entity_discovery.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/local.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/local.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/local.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/chunk_retrieval.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/cypher_generation.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/entity_discovery.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/relationship_expansion.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/result_assembly.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/relationship_expansion.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/relationship_expansion.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/result_assembly.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/result_assembly.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/result_assembly.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/result_assembly.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/identity.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/judge_dedup.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/judge_dedup.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/telemetry/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/telemetry/tracer.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/utils/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/utils/__init__.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/graph_viz.py"
+          ],
+          [
+            "graphrag_sdk/src/graphrag_sdk/utils/graph_viz.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/api/main.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/conftest.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_attribute_prompt.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_attribute_prompt.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_backfill_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_backfill_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_backfill_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/cached_chunk_extraction.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/graph_extraction.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction_edges.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction_edges.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction_edges.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction_edges.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction_edges.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cached_chunk_extraction_edges.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunk_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunk_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunk_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/chunk_retrieval.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/callable_chunking.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/contextual_chunking.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_chunking_strategies.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_circuit_breaker.py",
+            "graphrag_sdk/src/graphrag_sdk/core/circuit_breaker.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_connection.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_connection.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_context.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_context.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_coref_resolvers.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/coref_resolvers.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_generation.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/cypher_generation.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+            "graphrag_sdk/src/graphrag_sdk/api/main.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_cypher_sanitize.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/cypher.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deduplicator_queries.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/core/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/core/connection.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/cypher_generation.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/multi_path.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_deprecations.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_entity_utils.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_exceptions.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_finalize_report.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_graph_store.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_graph_viz.py",
+            "graphrag_sdk/src/graphrag_sdk/utils/graph_viz.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_identity.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_identity.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_identity.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_identity.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/identity.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/fixed_size.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/sentence_token_cap.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/structural_chunking.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ingestion_e2e.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/graph_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_judge_dedup.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/judge_dedup.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_loaders.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_loaders.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_loaders.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_loaders.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/markdown_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_loaders.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/pdf_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_loaders.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/text_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/api/main.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_mapping_proposal.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_models.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_natural_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_natural_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_natural_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_natural_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_natural_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping_proposal.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_natural_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_store.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_store.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/core/tables.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/discovery/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_ontology_tables.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/ontology_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pagination_caps.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pagination_caps.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/deduplicator.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pagination_caps.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/chunking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/pipeline.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/storage/vector_store.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_providers.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_providers.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_providers.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_providers.py",
+            "graphrag_sdk/src/graphrag_sdk/core/providers/_retry.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_record_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_record_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_record_loader.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_relationship_embedding.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_reranking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_reranking.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_reranking.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/reranking_strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/exceptions.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_retrieval.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/local.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_router.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_router.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_router.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/router.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_router.py",
+            "graphrag_sdk/src/graphrag_sdk/retrieval/strategies/base.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_signed_properties.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_signed_properties.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/__init__.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_integration.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/resolution_strategies/exact_match.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_mapping.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/context.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/core/models.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/extraction_strategies/entity_extractors.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/loaders/record_loader.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/mapping.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_structured_pipeline.py",
+            "graphrag_sdk/src/graphrag_sdk/ingestion/structured_pipeline.py"
+          ],
+          [
+            "graphrag_sdk/tests/test_tracer.py",
+            "graphrag_sdk/src/graphrag_sdk/telemetry/tracer.py"
+          ]
+        ],
+        "extra_edges": []
+      },
+      "folding": {
+        "connected_files": [
+          "graphrag_sdk/src/graphrag_sdk/api/main.py"
+        ],
+        "raw_files_bytes": 251320,
+        "slice_bytes": 14085,
+        "raw_chars_div4": 62386,
+        "slice_chars_div4": 3378,
+        "byte_reduction_pct": 94.396,
+        "billed_token_savings": null,
+        "exact_model_token_count": null,
+        "basis": "Exact UTF-8 captured-source vs exact wiki note; chars//4 is only an estimate; not equivalent content"
+      },
+      "impact": {
+        "mutation": "rename selected real function; leave downstream callers unchanged",
+        "total_python_test_files": 63,
+        "candidate_python_test_files": [
+          "graphrag_sdk/tests/test_backfill.py",
+          "graphrag_sdk/tests/test_cosine_reranker.py",
+          "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+          "graphrag_sdk/tests/test_deprecations.py",
+          "graphrag_sdk/tests/test_entity_extractors.py",
+          "graphrag_sdk/tests/test_facade.py",
+          "graphrag_sdk/tests/test_finalize_report.py",
+          "graphrag_sdk/tests/test_graph_extraction.py",
+          "graphrag_sdk/tests/test_grounded_abstention.py",
+          "graphrag_sdk/tests/test_identity.py",
+          "graphrag_sdk/tests/test_integration.py",
+          "graphrag_sdk/tests/test_llm_verified_resolution.py",
+          "graphrag_sdk/tests/test_mapping_proposal.py",
+          "graphrag_sdk/tests/test_mapping_proposal_llm.py",
+          "graphrag_sdk/tests/test_merge_invariants.py",
+          "graphrag_sdk/tests/test_multi_path_retrieval.py",
+          "graphrag_sdk/tests/test_ontology_discovery.py",
+          "graphrag_sdk/tests/test_ontology_evolve.py",
+          "graphrag_sdk/tests/test_ontology_evolve_integration.py",
+          "graphrag_sdk/tests/test_ontology_tables.py",
+          "graphrag_sdk/tests/test_pipeline_10step.py",
+          "graphrag_sdk/tests/test_resolution.py",
+          "graphrag_sdk/tests/test_resolver_dedup.py",
+          "graphrag_sdk/tests/test_signed_properties.py",
+          "graphrag_sdk/tests/test_structured_data_safety.py",
+          "graphrag_sdk/tests/test_structured_guards.py",
+          "graphrag_sdk/tests/test_structured_integration.py",
+          "graphrag_sdk/tests/test_vector_store.py"
+        ],
+        "candidate_count": 28,
+        "test_suite_reduction_pct": 55.556,
+        "potentially_broken_callers": [
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._mapping_for",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._run_post_cutover_cleanup",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.add_attribute",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.add_entity",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.add_relation_pattern",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.backfill_entity",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.backfill_relation_pattern",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.completion",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_attribute",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_entity",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_relation",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_relation_pattern",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_table",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.rename_attribute",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.rename_entity",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.rename_relation",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.retrieve",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.set_attribute_description",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.set_entity_description",
+          "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.set_relation_description"
+        ],
+        "added_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized_benchmark_renamed",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._initialize_ontology"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized_benchmark_renamed",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ontology_lock"
+          }
+        ],
+        "removed_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._initialize_ontology"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ontology_lock"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._mapping_for",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._run_post_cutover_cleanup",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.add_attribute",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.add_entity",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.add_relation_pattern",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.backfill_entity",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.backfill_relation_pattern",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.completion",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_attribute",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_entity",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_relation",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_relation_pattern",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.drop_table",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.rename_attribute",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.rename_entity",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.rename_relation",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.retrieve",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.set_attribute_description",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.set_entity_description",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG.set_relation_description",
+            "target": "graphrag_sdk/src/graphrag_sdk/api/main.py:GraphRAG._ensure_ontology_initialized"
+          }
+        ],
+        "analysis_ms": 5374.927,
+        "clone_ms": 185.78,
+        "sandbox_cleaned_up": true,
+        "unresolved_calls": 15817,
+        "parse_coverage": {
+          "before_failed_files": [],
+          "after_failed_files": [],
+          "basis": "PARSE_FAILURES_HAVE_NO_STATIC_DEPENDENCIES_NOT_NO_IMPACT"
+        },
+        "test_impact_precision": null,
+        "test_impact_recall": null,
+        "basis": "Static candidate reduction by test FILE count, not tests safely skipped; no untrusted pytest executed"
+      },
+      "clone_delete": {
+        "samples": 3,
+        "copy_p95_ms": 143.529,
+        "delete_and_verify_p95_ms": 1.023,
+        "cleanup_verified": true
+      },
+      "resume_bytes": 874,
+      "model_calls": 0,
+      "targets": {
+        "all_discovery_services_p95_lt_50ms": false,
+        "byte_reduction_at_least_70pct": true,
+        "byte_reduction_at_least_90pct": true,
+        "indexed_absolute_import_recall_100pct": false
+      },
+      "owned_graph_cleaned_up": true
+    },
+    {
+      "dataset": "FalkorDB/code-graph",
+      "tenant": "repo_falkordb_code_graph",
+      "metadata": [
+        [
+          "FalkorDB/code-graph",
+          "2a7a52c0abb529c93e9f571e7358e097f1b76ab3"
+        ]
+      ],
+      "source_revisions": [
+        "2a7a52c0abb529c93e9f571e7358e097f1b76ab3"
+      ],
+      "captured_source_digest": "33a6558197d98070242c67049badbfa874c0702f82fe63f9bd51002d0ce5bba0",
+      "task_selection": "Highest indexed inbound CALLS with current reparsed callers; excludes test directories; qualified-name tie-break",
+      "task": {
+        "path": "api/graph.py",
+        "symbol": "_query",
+        "qualified_name": "api/graph.py:Graph._query",
+        "start_line": 252,
+        "end_line": 285,
+        "resolved_inbound_calls": 25,
+        "currently_reparsed_inbound_call_edges": 25,
+        "call_index_drift": {
+          "basis": "Legacy indexed CALLS vs current conservative source reparse; not independent runtime accuracy",
+          "indexed_only_count": 21,
+          "reparsed_only_count": 104,
+          "indexed_only_sample": [
+            [
+              "CALLS",
+              "api/analyzers/analyzer.py:AbstractAnalyzer.resolve",
+              "api/analyzers/analyzer.py:AbstractAnalyzer.resolve_path"
+            ],
+            [
+              "CALLS",
+              "api/analyzers/python/ts_resolver.py:TreeSitterPythonResolver._ensure_built",
+              "api/analyzers/python/ts_resolver.py:TreeSitterPythonResolver._index_file"
+            ],
+            [
+              "CALLS",
+              "api/analyzers/python/ts_resolver.py:TreeSitterPythonResolver._walk_tail_single",
+              "api/analyzers/python/ts_resolver.py:TreeSitterPythonResolver._class_name_for_def"
+            ],
+            [
+              "CALLS",
+              "api/entities/entity_encoder.py:encode_path",
+              "api/entities/entity_encoder.py:encode_edge"
+            ],
+            [
+              "CALLS",
+              "api/entities/entity_encoder.py:encode_path",
+              "api/entities/entity_encoder.py:encode_node"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_graph.py:AsyncGitGraph.list_commits",
+              "api/git_utils/git_graph.py:AsyncGitGraph._commit_from_node"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_graph.py:GitGraph.list_commits",
+              "api/git_utils/git_graph.py:GitGraph._commit_from_node"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_utils.py:GitRepoName",
+              "api/git_utils/git_utils.py:git_repo_name"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_utils.py:LegacyGitRepoName",
+              "api/git_utils/git_utils.py:legacy_git_repo_name"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_utils.py:build_commit_graph",
+              "api/git_utils/git_utils.py:classify_changes"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_utils.py:build_commit_graph",
+              "api/git_utils/git_utils.py:git_repo_name"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_utils.py:classify_changes",
+              "api/git_utils/git_utils.py:is_ignored"
+            ],
+            [
+              "CALLS",
+              "api/git_utils/git_utils.py:switch_commit",
+              "api/git_utils/git_utils.py:git_repo_name"
+            ],
+            [
+              "CALLS",
+              "api/mcp/tools/structural.py:_snippet_path_allowed",
+              "api/mcp/tools/structural.py:_is_within"
+            ],
+            [
+              "CALLS",
+              "api/mcp/tools/structural.py:find_path",
+              "api/mcp/tools/structural.py:_node_summary"
+            ],
+            [
+              "CALLS",
+              "api/mcp/tools/structural.py:find_symbol",
+              "api/mcp/tools/structural.py:_node_summary"
+            ],
+            [
+              "CALLS",
+              "api/project.py:Project.__init__",
+              "api/project.py:detect_branch"
+            ],
+            [
+              "CALLS",
+              "api/project.py:Project.from_git_repository",
+              "api/project.py:_clone_source"
+            ],
+            [
+              "CALLS",
+              "tests/mcp/test_search_cache.py:test_concurrent_first_calls_build_once",
+              "tests/mcp/test_search_cache.py:test_concurrent_first_calls_build_once.one"
+            ],
+            [
+              "CALLS",
+              "tests/test_javascript_analyzer.py:TestJavaScriptAnalyzer._entity_names",
+              "tests/test_javascript_analyzer.py:_entity_name"
+            ]
+          ],
+          "current_reparse_import_accuracy": {
+            "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+            "eligible_files": 58,
+            "excluded_files": 28,
+            "expected_edges": 92,
+            "indexed_edges_in_scope": 92,
+            "true_positive_edges": 92,
+            "precision": 1.0,
+            "recall": 1.0,
+            "missing_edges": [],
+            "extra_edges": []
+          }
+        }
+      },
+      "initial_counts": {
+        "nodes": 2253,
+        "edges": 3372,
+        "python_files": 86
+      },
+      "latency": {
+        "root_map_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 10.105,
+          "p95_ms": 11.142,
+          "max_ms": 11.252,
+          "samples_ms": [
+            11.252,
+            10.076,
+            10.105,
+            10.421,
+            11.044,
+            10.309,
+            10.926,
+            9.792,
+            10.02,
+            9.604,
+            9.644,
+            9.584,
+            9.6,
+            10.225,
+            10.264,
+            9.771,
+            10.037,
+            10.916,
+            11.142,
+            10.496
+          ]
+        },
+        "symbol_lookup_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 8.714,
+          "p95_ms": 9.204,
+          "max_ms": 9.45,
+          "samples_ms": [
+            9.067,
+            8.967,
+            9.45,
+            8.472,
+            8.737,
+            8.627,
+            9.204,
+            8.398,
+            8.376,
+            9.156,
+            8.927,
+            8.741,
+            8.565,
+            8.822,
+            8.614,
+            8.48,
+            8.736,
+            8.714,
+            8.571,
+            8.596
+          ]
+        },
+        "neighborhood_db_roundtrip": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 7.995,
+          "p95_ms": 8.752,
+          "max_ms": 10.569,
+          "samples_ms": [
+            8.008,
+            8.01,
+            7.917,
+            7.995,
+            7.942,
+            8.752,
+            10.569,
+            8.234,
+            8.053,
+            8.229,
+            8.485,
+            8.0,
+            7.905,
+            7.816,
+            7.615,
+            8.121,
+            7.781,
+            7.855,
+            7.859,
+            7.668
+          ]
+        },
+        "locate_context_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 41.563,
+          "p95_ms": 43.921,
+          "max_ms": 78.684,
+          "samples_ms": [
+            41.454,
+            41.343,
+            42.109,
+            40.711,
+            42.121,
+            40.962,
+            42.212,
+            42.163,
+            41.563,
+            40.956,
+            41.312,
+            41.404,
+            41.45,
+            78.684,
+            41.129,
+            42.764,
+            42.881,
+            43.921,
+            41.866,
+            43.442
+          ]
+        },
+        "symbol_source_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 25.845,
+          "p95_ms": 28.056,
+          "max_ms": 31.457,
+          "samples_ms": [
+            26.262,
+            24.908,
+            26.304,
+            26.162,
+            25.794,
+            25.455,
+            26.957,
+            25.162,
+            25.505,
+            25.556,
+            25.905,
+            26.772,
+            26.175,
+            25.504,
+            25.637,
+            25.845,
+            26.496,
+            25.409,
+            31.457,
+            28.056
+          ]
+        }
+      },
+      "source_coordinate_check": "PASS_STDLIB_AST_AND_CAPTURED_LINES",
+      "returned_import_routes_valid": true,
+      "returned_import_route_count": 12,
+      "context_coverage": {
+        "file_scan_limit": 10000,
+        "entry_limit": 3,
+        "symbols_per_file_limit": 5,
+        "related_limit": 12,
+        "import_horizon": 3,
+        "rule_limit": 6,
+        "candidate_match_count": 5,
+        "truncated": true
+      },
+      "ownership": {
+        "status": "NOT_INDEXED_IN_THIS_SNAPSHOT",
+        "source_document": {
+          "path": null,
+          "sha256": null,
+          "revision": null,
+          "source_url": null
+        },
+        "invalid_rule_count": 0,
+        "declarations": [],
+        "truncated": false,
+        "basis": "DECLARED_AT_PINNED_COMMIT_NOT_VERIFIED_IDENTITY_OR_ACCESS",
+        "workspace_freshness": "PINNED_SNAPSHOT_WORKSPACE_NOT_CHECKED"
+      },
+      "import_accuracy": {
+        "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+        "eligible_files": 58,
+        "excluded_files": 28,
+        "expected_edges": 92,
+        "indexed_edges_in_scope": 92,
+        "true_positive_edges": 92,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing_edges": [],
+        "extra_edges": []
+      },
+      "folding": {
+        "connected_files": [
+          "api/__init__.py",
+          "api/analyzers/__init__.py",
+          "api/analyzers/source_analyzer.py",
+          "api/auto_complete.py",
+          "api/cli.py",
+          "api/code_coverage/__init__.py",
+          "api/code_coverage/lcov/__init__.py",
+          "api/code_coverage/lcov/lcov.py",
+          "api/git_utils/__init__.py",
+          "api/git_utils/git_utils.py",
+          "api/graph.py",
+          "api/index.py",
+          "api/info.py",
+          "api/llm.py",
+          "api/mcp/auto_init.py",
+          "api/mcp/server.py",
+          "api/mcp/tools/__init__.py",
+          "api/mcp/tools/structural.py",
+          "api/migrations/per_branch.py",
+          "api/project.py",
+          "benchmarks/mcp_context_benchmark.py",
+          "e2e/seed_test_data.py",
+          "tests/analyzers/test_tree_sitter_base.py",
+          "tests/endpoints/test_auto_complete.py",
+          "tests/endpoints/test_find_paths.py",
+          "tests/endpoints/test_get_neighbors.py",
+          "tests/endpoints/test_graph_entities.py",
+          "tests/endpoints/test_list_commits.py",
+          "tests/endpoints/test_list_repos.py",
+          "tests/endpoints/test_repo_info.py",
+          "tests/index.py",
+          "tests/mcp/conftest.py",
+          "tests/mcp/test_auto_init.py",
+          "tests/mcp/test_find_symbol.py",
+          "tests/mcp/test_fixture_contract.py",
+          "tests/mcp/test_impact_analysis.py",
+          "tests/mcp/test_index_repo.py",
+          "tests/mcp/test_init_agent.py",
+          "tests/mcp/test_query_tools.py",
+          "tests/mcp/test_scaffold.py",
+          "tests/mcp/test_search_cache.py",
+          "tests/mcp/test_snippet_guard.py",
+          "tests/test_async_graph.py",
+          "tests/test_c_analyzer.py",
+          "tests/test_cli.py",
+          "tests/test_csharp_analyzer.py",
+          "tests/test_git_history.py",
+          "tests/test_graph_ops.py",
+          "tests/test_javascript_analyzer.py",
+          "tests/test_per_branch_graphs.py",
+          "tests/test_py_analyzer.py"
+        ],
+        "raw_files_bytes": 361266,
+        "slice_bytes": 22213,
+        "raw_chars_div4": 89949,
+        "slice_chars_div4": 5476,
+        "byte_reduction_pct": 93.851,
+        "billed_token_savings": null,
+        "exact_model_token_count": null,
+        "basis": "Exact UTF-8 captured-source vs exact wiki note; chars//4 is only an estimate; not equivalent content"
+      },
+      "impact": {
+        "mutation": "rename selected real function; leave downstream callers unchanged",
+        "total_python_test_files": 29,
+        "candidate_python_test_files": [
+          "tests/analyzers/test_tree_sitter_base.py",
+          "tests/endpoints/test_auto_complete.py",
+          "tests/endpoints/test_find_paths.py",
+          "tests/endpoints/test_get_neighbors.py",
+          "tests/endpoints/test_graph_entities.py",
+          "tests/endpoints/test_list_commits.py",
+          "tests/endpoints/test_list_repos.py",
+          "tests/endpoints/test_repo_info.py",
+          "tests/mcp/test_auto_init.py",
+          "tests/mcp/test_find_symbol.py",
+          "tests/mcp/test_fixture_contract.py",
+          "tests/mcp/test_impact_analysis.py",
+          "tests/mcp/test_index_repo.py",
+          "tests/mcp/test_init_agent.py",
+          "tests/mcp/test_query_tools.py",
+          "tests/mcp/test_scaffold.py",
+          "tests/mcp/test_search_cache.py",
+          "tests/mcp/test_snippet_guard.py",
+          "tests/test_async_graph.py",
+          "tests/test_c_analyzer.py",
+          "tests/test_cli.py",
+          "tests/test_csharp_analyzer.py",
+          "tests/test_git_history.py",
+          "tests/test_graph_ops.py",
+          "tests/test_javascript_analyzer.py",
+          "tests/test_per_branch_graphs.py",
+          "tests/test_py_analyzer.py"
+        ],
+        "candidate_count": 27,
+        "test_suite_reduction_pct": 6.897,
+        "potentially_broken_callers": [
+          "api/graph.py:Graph.add_entity",
+          "api/graph.py:Graph.add_file",
+          "api/graph.py:Graph.connect_entities",
+          "api/graph.py:Graph.delete_files",
+          "api/graph.py:Graph.derive_overrides",
+          "api/graph.py:Graph.find_paths",
+          "api/graph.py:Graph.function_called_by",
+          "api/graph.py:Graph.function_calls",
+          "api/graph.py:Graph.function_calls_function",
+          "api/graph.py:Graph.get_class",
+          "api/graph.py:Graph.get_class_by_name",
+          "api/graph.py:Graph.get_file",
+          "api/graph.py:Graph.get_function",
+          "api/graph.py:Graph.get_function_by_name",
+          "api/graph.py:Graph.get_functions_in_file",
+          "api/graph.py:Graph.get_neighbors",
+          "api/graph.py:Graph.get_struct",
+          "api/graph.py:Graph.get_struct_by_name",
+          "api/graph.py:Graph.get_sub_graph",
+          "api/graph.py:Graph.prefix_search",
+          "api/graph.py:Graph.rerun_query",
+          "api/graph.py:Graph.set_file_coverage",
+          "api/graph.py:Graph.set_functions_metadata",
+          "api/graph.py:Graph.stats",
+          "api/graph.py:Graph.unreachable_entities"
+        ],
+        "added_dependencies": [],
+        "removed_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.add_entity",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.add_file",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.connect_entities",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.delete_files",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.derive_overrides",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.find_paths",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.function_called_by",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.function_calls",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.function_calls_function",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_class",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_class_by_name",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_file",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_function",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_function_by_name",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_functions_in_file",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_neighbors",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_struct",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_struct_by_name",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.get_sub_graph",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.prefix_search",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.rerun_query",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.set_file_coverage",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.set_functions_metadata",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.stats",
+            "target": "api/graph.py:Graph._query"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "api/graph.py:Graph.unreachable_entities",
+            "target": "api/graph.py:Graph._query"
+          }
+        ],
+        "analysis_ms": 974.236,
+        "clone_ms": 75.05,
+        "sandbox_cleaned_up": true,
+        "unresolved_calls": 2877,
+        "parse_coverage": {
+          "before_failed_files": [],
+          "after_failed_files": [],
+          "basis": "PARSE_FAILURES_HAVE_NO_STATIC_DEPENDENCIES_NOT_NO_IMPACT"
+        },
+        "test_impact_precision": null,
+        "test_impact_recall": null,
+        "basis": "Static candidate reduction by test FILE count, not tests safely skipped; no untrusted pytest executed"
+      },
+      "clone_delete": {
+        "samples": 3,
+        "copy_p95_ms": 143.144,
+        "delete_and_verify_p95_ms": 1.28,
+        "cleanup_verified": true
+      },
+      "resume_bytes": 942,
+      "model_calls": 0,
+      "targets": {
+        "all_discovery_services_p95_lt_50ms": true,
+        "byte_reduction_at_least_70pct": true,
+        "byte_reduction_at_least_90pct": true,
+        "indexed_absolute_import_recall_100pct": true
+      },
+      "owned_graph_cleaned_up": true
+    },
+    {
+      "dataset": "modelcontextprotocol/python-sdk",
+      "tenant": "repo_mcp_python_sdk",
+      "metadata": [
+        [
+          "modelcontextprotocol/python-sdk",
+          "754254c08fe1c3eda18b69da3d336106fe8d72d6"
+        ]
+      ],
+      "source_revisions": [
+        "754254c08fe1c3eda18b69da3d336106fe8d72d6"
+      ],
+      "captured_source_digest": "ee00a6b974f16c22ed1a4cb5f5f14626657f0ec4998518b2f7959c54b8af2ee9",
+      "task_selection": "Highest indexed inbound CALLS with current reparsed callers; excludes test directories; qualified-name tie-break",
+      "task": {
+        "path": "src/mcp/client/session.py",
+        "symbol": "send_request",
+        "qualified_name": "src/mcp/client/session.py:ClientSession.send_request",
+        "start_line": 540,
+        "end_line": 601,
+        "resolved_inbound_calls": 13,
+        "currently_reparsed_inbound_call_edges": 7,
+        "call_index_drift": {
+          "basis": "Legacy indexed CALLS vs current conservative source reparse; not independent runtime accuracy",
+          "indexed_only_count": 347,
+          "reparsed_only_count": 1155,
+          "indexed_only_sample": [
+            [
+              "CALLS",
+              "docs_src/elicitation/tutorial001.py:book_table",
+              "docs_src/elicitation/tutorial001.py:book_table"
+            ],
+            [
+              "CALLS",
+              "docs_src/media/tutorial005.py:brand_guidelines",
+              "docs_src/media/tutorial005.py:guidelines"
+            ],
+            [
+              "CALLS",
+              "docs_src/mrtr/tutorial002.py:provision",
+              "docs_src/mrtr/tutorial002.py:fulfil"
+            ],
+            [
+              "CALLS",
+              "docs_src/prompts/tutorial004.py:review_code",
+              "docs_src/prompts/tutorial004.py:style_guide"
+            ],
+            [
+              "CALLS",
+              "docs_src/subscriptions/tutorial006.py:gate_subscriptions",
+              "docs_src/subscriptions/tutorial006.py:can_access"
+            ],
+            [
+              "CALLS",
+              "examples/clients/simple-auth-client/mcp_simple_auth_client/main.py:CallbackServer.start",
+              "examples/clients/simple-auth-client/mcp_simple_auth_client/main.py:CallbackServer._create_handler_with_data"
+            ],
+            [
+              "CALLS",
+              "examples/clients/simple-auth-client/mcp_simple_auth_client/main.py:SimpleAuthClient._run_session",
+              "examples/clients/simple-auth-client/mcp_simple_auth_client/main.py:SimpleAuthClient.interactive_loop"
+            ],
+            [
+              "CALLS",
+              "examples/clients/simple-chatbot/mcp_simple_chatbot/main.py:Configuration.__init__",
+              "examples/clients/simple-chatbot/mcp_simple_chatbot/main.py:Configuration.load_env"
+            ],
+            [
+              "CALLS",
+              "examples/clients/simple-chatbot/mcp_simple_chatbot/main.py:Server.initialize",
+              "examples/clients/simple-chatbot/mcp_simple_chatbot/main.py:Server.cleanup"
+            ],
+            [
+              "CALLS",
+              "examples/mcpserver/memory.py:MemoryNode.merge_with",
+              "examples/mcpserver/memory.py:MemoryNode.save"
+            ],
+            [
+              "CALLS",
+              "examples/mcpserver/memory.py:remember",
+              "examples/mcpserver/memory.py:add_memory"
+            ],
+            [
+              "CALLS",
+              "examples/stories/_harness.py:run_client._run",
+              "examples/stories/_harness.py:_self_hosted"
+            ],
+            [
+              "CALLS",
+              "examples/stories/refund_desk/server.py:ask_restock",
+              "examples/stories/refund_desk/server.py:_scoped"
+            ],
+            [
+              "CALLS",
+              "examples/stories/refund_desk/server.py:refund_amount",
+              "examples/stories/refund_desk/server.py:_scoped"
+            ],
+            [
+              "CALLS",
+              "scripts/docs/check_crossrefs.py:_inventory_origins",
+              "scripts/docs/check_crossrefs.py:_origin"
+            ],
+            [
+              "CALLS",
+              "scripts/docs/check_crossrefs.py:main",
+              "scripts/docs/check_crossrefs.py:unresolved_refs"
+            ],
+            [
+              "CALLS",
+              "scripts/docs/translations.py:Repo.heading_ids",
+              "scripts/docs/translations.py:_flatten"
+            ],
+            [
+              "CALLS",
+              "scripts/docs/translations.py:_mask_fences",
+              "scripts/docs/translations.py:fence_ranges"
+            ],
+            [
+              "CALLS",
+              "scripts/docs/translations.py:_paired_sections",
+              "scripts/docs/translations.py:section_label"
+            ],
+            [
+              "CALLS",
+              "scripts/docs/translations.py:_validate_open",
+              "scripts/docs/translations.py:section_label"
+            ]
+          ],
+          "current_reparse_import_accuracy": {
+            "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+            "eligible_files": 826,
+            "excluded_files": 44,
+            "expected_edges": 2227,
+            "indexed_edges_in_scope": 2227,
+            "true_positive_edges": 2227,
+            "precision": 1.0,
+            "recall": 1.0,
+            "missing_edges": [],
+            "extra_edges": []
+          }
+        }
+      },
+      "initial_counts": {
+        "nodes": 12134,
+        "edges": 18176,
+        "python_files": 870
+      },
+      "latency": {
+        "root_map_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 56.255,
+          "p95_ms": 64.036,
+          "max_ms": 97.187,
+          "samples_ms": [
+            61.288,
+            97.187,
+            56.697,
+            56.84,
+            56.347,
+            54.689,
+            56.255,
+            55.866,
+            64.036,
+            55.146,
+            55.654,
+            55.863,
+            56.323,
+            55.628,
+            56.429,
+            55.816,
+            56.728,
+            55.155,
+            54.792,
+            56.945
+          ]
+        },
+        "symbol_lookup_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 51.688,
+          "p95_ms": 52.854,
+          "max_ms": 53.083,
+          "samples_ms": [
+            51.6,
+            50.313,
+            50.843,
+            51.598,
+            51.727,
+            53.083,
+            52.854,
+            51.737,
+            51.688,
+            52.212,
+            51.972,
+            52.323,
+            51.991,
+            50.723,
+            49.495,
+            52.229,
+            50.844,
+            50.371,
+            50.071,
+            52.26
+          ]
+        },
+        "neighborhood_db_roundtrip": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 29.922,
+          "p95_ms": 36.94,
+          "max_ms": 68.181,
+          "samples_ms": [
+            32.744,
+            36.94,
+            31.877,
+            30.571,
+            68.181,
+            31.687,
+            29.524,
+            29.922,
+            29.971,
+            29.314,
+            30.44,
+            29.755,
+            29.824,
+            29.371,
+            29.4,
+            29.438,
+            30.325,
+            29.2,
+            29.596,
+            30.302
+          ]
+        },
+        "locate_context_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 398.89,
+          "p95_ms": 449.003,
+          "max_ms": 452.992,
+          "samples_ms": [
+            452.992,
+            378.252,
+            393.705,
+            398.89,
+            417.521,
+            385.905,
+            406.606,
+            449.003,
+            409.096,
+            389.164,
+            390.172,
+            421.385,
+            430.266,
+            399.004,
+            425.29,
+            394.391,
+            389.38,
+            444.484,
+            380.833,
+            387.804
+          ]
+        },
+        "symbol_source_service": {
+          "samples": 20,
+          "warmups": 1,
+          "p50_ms": 50.988,
+          "p95_ms": 59.117,
+          "max_ms": 62.045,
+          "samples_ms": [
+            50.669,
+            49.535,
+            50.237,
+            51.06,
+            52.764,
+            51.86,
+            50.431,
+            50.323,
+            50.74,
+            50.642,
+            50.988,
+            48.561,
+            54.854,
+            53.151,
+            50.174,
+            57.755,
+            62.045,
+            56.161,
+            52.525,
+            59.117
+          ]
+        }
+      },
+      "source_coordinate_check": "PASS_STDLIB_AST_AND_CAPTURED_LINES",
+      "returned_import_routes_valid": true,
+      "returned_import_route_count": 12,
+      "context_coverage": {
+        "file_scan_limit": 10000,
+        "entry_limit": 3,
+        "symbols_per_file_limit": 5,
+        "related_limit": 12,
+        "import_horizon": 3,
+        "rule_limit": 6,
+        "candidate_match_count": 16,
+        "truncated": true
+      },
+      "ownership": {
+        "status": "NOT_INDEXED_IN_THIS_SNAPSHOT",
+        "source_document": {
+          "path": null,
+          "sha256": null,
+          "revision": null,
+          "source_url": null
+        },
+        "invalid_rule_count": 0,
+        "declarations": [],
+        "truncated": false,
+        "basis": "DECLARED_AT_PINNED_COMMIT_NOT_VERIFIED_IDENTITY_OR_ACCESS",
+        "workspace_freshness": "PINNED_SNAPSHOT_WORKSPACE_NOT_CHECKED"
+      },
+      "import_accuracy": {
+        "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+        "eligible_files": 826,
+        "excluded_files": 44,
+        "expected_edges": 2227,
+        "indexed_edges_in_scope": 2227,
+        "true_positive_edges": 2227,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing_edges": [],
+        "extra_edges": []
+      },
+      "folding": {
+        "connected_files": [
+          ".github/actions/conformance/client.py",
+          "docs_src/apps/tutorial001_client.py",
+          "docs_src/caching/tutorial003.py",
+          "docs_src/client/tutorial001_client.py",
+          "docs_src/client/tutorial002.py",
+          "docs_src/client/tutorial003.py",
+          "docs_src/client/tutorial004.py",
+          "docs_src/client/tutorial005.py",
+          "docs_src/client/tutorial006.py",
+          "docs_src/client/tutorial007.py",
+          "docs_src/client_callbacks/tutorial002.py",
+          "docs_src/client_callbacks/tutorial004.py",
+          "docs_src/client_transports/tutorial001.py",
+          "docs_src/client_transports/tutorial002.py",
+          "docs_src/client_transports/tutorial003.py",
+          "docs_src/client_transports/tutorial004.py",
+          "docs_src/client_transports/tutorial005.py",
+          "docs_src/elicitation/tutorial003.py",
+          "docs_src/extensions/tutorial003_client.py",
+          "docs_src/extensions/tutorial004_client.py",
+          "docs_src/extensions/tutorial006_client.py",
+          "docs_src/extensions/tutorial007_client.py",
+          "docs_src/first_steps/tutorial001_client.py",
+          "docs_src/handling_errors/tutorial002.py",
+          "docs_src/identity_assertion/tutorial001.py",
+          "docs_src/legacy_clients/tutorial001_client.py",
+          "docs_src/middleware/tutorial002.py",
+          "docs_src/mrtr/tutorial002.py",
+          "docs_src/mrtr/tutorial003.py",
+          "docs_src/oauth_clients/tutorial001.py",
+          "docs_src/oauth_clients/tutorial002.py",
+          "docs_src/pagination/tutorial002.py",
+          "docs_src/protocol_versions/tutorial001.py",
+          "docs_src/protocol_versions/tutorial002.py",
+          "docs_src/protocol_versions/tutorial003.py",
+          "docs_src/protocol_versions/tutorial004.py",
+          "docs_src/session_groups/tutorial003.py",
+          "docs_src/session_groups/tutorial004.py",
+          "docs_src/skills/tutorial001_client.py",
+          "docs_src/subscriptions/tutorial003.py",
+          "docs_src/subscriptions/tutorial004_anyio.py",
+          "docs_src/subscriptions/tutorial004_asyncio.py",
+          "docs_src/subscriptions/tutorial004_trio.py",
+          "docs_src/subscriptions/tutorial005.py",
+          "docs_src/whats_new/tutorial001.py",
+          "examples/clients/simple-auth-client/mcp_simple_auth_client/main.py",
+          "examples/clients/simple-chatbot/mcp_simple_chatbot/main.py",
+          "examples/clients/sse-polling-client/mcp_sse_polling_client/main.py",
+          "examples/mcpserver/weather_structured.py",
+          "examples/snippets/clients/completion_client.py",
+          "examples/snippets/clients/display_utilities.py",
+          "examples/snippets/clients/identity_assertion_client.py",
+          "examples/snippets/clients/oauth_client.py",
+          "examples/snippets/clients/pagination_client.py",
+          "examples/snippets/clients/parsing_tool_results.py",
+          "examples/snippets/clients/stdio_client.py",
+          "examples/snippets/clients/streamable_basic.py",
+          "examples/snippets/clients/url_elicitation_client.py",
+          "examples/stories/_harness.py",
+          "examples/stories/apps/client.py",
+          "examples/stories/bearer_auth/client.py",
+          "examples/stories/custom_methods/client.py",
+          "examples/stories/dual_era/client.py",
+          "examples/stories/error_handling/client.py",
+          "examples/stories/extensions/client.py",
+          "examples/stories/identity_assertion/client.py",
+          "examples/stories/json_response/client.py",
+          "examples/stories/legacy_elicitation/client.py",
+          "examples/stories/legacy_routing/client.py",
+          "examples/stories/lifespan/client.py",
+          "examples/stories/middleware/client.py",
+          "examples/stories/mrtr/client.py",
+          "examples/stories/oauth/client.py",
+          "examples/stories/oauth_client_credentials/client.py",
+          "examples/stories/pagination/client.py",
+          "examples/stories/parallel_calls/client.py",
+          "examples/stories/prompts/client.py",
+          "examples/stories/reconnect/client.py",
+          "examples/stories/refund_desk/client.py",
+          "examples/stories/resources/client.py",
+          "examples/stories/roots/client.py",
+          "examples/stories/sampling/client.py",
+          "examples/stories/schema_validators/client.py",
+          "examples/stories/serve_one/client.py",
+          "examples/stories/sse_polling/client.py",
+          "examples/stories/standalone_get/client.py",
+          "examples/stories/starlette_mount/client.py",
+          "examples/stories/stateless_legacy/client.py",
+          "examples/stories/stickynotes/client.py",
+          "examples/stories/streaming/client.py",
+          "examples/stories/subscriptions/client.py",
+          "examples/stories/tools/client.py",
+          "src/mcp/__init__.py",
+          "src/mcp/client/__init__.py",
+          "src/mcp/client/__main__.py",
+          "src/mcp/client/_probe.py",
+          "src/mcp/client/client.py",
+          "src/mcp/client/context.py",
+          "src/mcp/client/extension.py",
+          "src/mcp/client/extensions/__init__.py",
+          "src/mcp/client/extensions/skills.py",
+          "src/mcp/client/session.py",
+          "src/mcp/client/session_group.py",
+          "src/mcp/client/subscriptions.py",
+          "tests/client/auth/extensions/test_client_credentials.py",
+          "tests/client/extensions/test_skills.py",
+          "tests/client/test_client.py",
+          "tests/client/test_client_caching.py",
+          "tests/client/test_client_extensions.py",
+          "tests/client/test_extension.py",
+          "tests/client/test_http_unicode.py",
+          "tests/client/test_input_required.py",
+          "tests/client/test_list_methods_cursor.py",
+          "tests/client/test_list_roots_callback.py",
+          "tests/client/test_logging_callback.py",
+          "tests/client/test_notification_response.py",
+          "tests/client/test_output_schema_validation.py",
+          "tests/client/test_probe.py",
+          "tests/client/test_sampling_callback.py",
+          "tests/client/test_send_request_mcp_name.py",
+          "tests/client/test_session.py",
+          "tests/client/test_session_claims.py",
+          "tests/client/test_session_concurrency.py",
+          "tests/client/test_session_group.py",
+          "tests/client/test_session_notification_bindings.py",
+          "tests/client/test_session_promotions.py",
+          "tests/client/test_stdio.py",
+          "tests/client/test_streamable_http.py",
+          "tests/client/test_subscriptions.py",
+          "tests/client/transports/test_memory.py",
+          "tests/docs_src/test_apps.py",
+          "tests/docs_src/test_asgi.py",
+          "tests/docs_src/test_authorization.py",
+          "tests/docs_src/test_caching.py",
+          "tests/docs_src/test_cancellation.py",
+          "tests/docs_src/test_client.py",
+          "tests/docs_src/test_client_callbacks.py",
+          "tests/docs_src/test_client_transports.py",
+          "tests/docs_src/test_completions.py",
+          "tests/docs_src/test_context.py",
+          "tests/docs_src/test_dependencies.py",
+          "tests/docs_src/test_deploy.py",
+          "tests/docs_src/test_deprecated.py",
+          "tests/docs_src/test_elicitation.py",
+          "tests/docs_src/test_extensions.py",
+          "tests/docs_src/test_first_steps.py",
+          "tests/docs_src/test_handling_errors.py",
+          "tests/docs_src/test_header_parameters.py",
+          "tests/docs_src/test_identity_assertion.py",
+          "tests/docs_src/test_index.py",
+          "tests/docs_src/test_legacy_clients.py",
+          "tests/docs_src/test_lifespan.py",
+          "tests/docs_src/test_logging.py",
+          "tests/docs_src/test_lowlevel.py",
+          "tests/docs_src/test_media.py",
+          "tests/docs_src/test_middleware.py",
+          "tests/docs_src/test_mrtr.py",
+          "tests/docs_src/test_oauth_clients.py",
+          "tests/docs_src/test_opentelemetry.py",
+          "tests/docs_src/test_pagination.py",
+          "tests/docs_src/test_progress.py",
+          "tests/docs_src/test_prompts.py",
+          "tests/docs_src/test_protocol_versions.py",
+          "tests/docs_src/test_real_host.py",
+          "tests/docs_src/test_resources.py",
+          "tests/docs_src/test_run.py",
+          "tests/docs_src/test_sampling_and_roots.py",
+          "tests/docs_src/test_session_groups.py",
+          "tests/docs_src/test_skills.py",
+          "tests/docs_src/test_structured_output.py",
+          "tests/docs_src/test_subscriptions.py",
+          "tests/docs_src/test_testing.py",
+          "tests/docs_src/test_tools.py",
+          "tests/docs_src/test_troubleshooting.py",
+          "tests/docs_src/test_uri_templates.py",
+          "tests/docs_src/test_whats_new.py",
+          "tests/interaction/_connect.py",
+          "tests/interaction/auth/_harness.py",
+          "tests/interaction/auth/_provider.py",
+          "tests/interaction/auth/test_as_handlers.py",
+          "tests/interaction/auth/test_authorize_token.py",
+          "tests/interaction/auth/test_bearer.py",
+          "tests/interaction/auth/test_discovery.py",
+          "tests/interaction/auth/test_flow.py",
+          "tests/interaction/auth/test_identity_assertion.py",
+          "tests/interaction/auth/test_lifecycle.py",
+          "tests/interaction/auth/test_login_time.py",
+          "tests/interaction/conftest.py",
+          "tests/interaction/lowlevel/test_cancellation.py",
+          "tests/interaction/lowlevel/test_client_connect.py",
+          "tests/interaction/lowlevel/test_completion.py",
+          "tests/interaction/lowlevel/test_elicitation.py",
+          "tests/interaction/lowlevel/test_flows.py",
+          "tests/interaction/lowlevel/test_initialize.py",
+          "tests/interaction/lowlevel/test_list_changed.py",
+          "tests/interaction/lowlevel/test_logging.py",
+          "tests/interaction/lowlevel/test_meta.py",
+          "tests/interaction/lowlevel/test_pagination.py",
+          "tests/interaction/lowlevel/test_ping.py",
+          "tests/interaction/lowlevel/test_progress.py",
+          "tests/interaction/lowlevel/test_prompts.py",
+          "tests/interaction/lowlevel/test_resources.py",
+          "tests/interaction/lowlevel/test_roots.py",
+          "tests/interaction/lowlevel/test_sampling.py",
+          "tests/interaction/lowlevel/test_subscriptions.py",
+          "tests/interaction/lowlevel/test_timeouts.py",
+          "tests/interaction/lowlevel/test_tools.py",
+          "tests/interaction/lowlevel/test_wire.py",
+          "tests/interaction/mcpserver/test_completion.py",
+          "tests/interaction/mcpserver/test_context.py",
+          "tests/interaction/mcpserver/test_extensions.py",
+          "tests/interaction/mcpserver/test_prompts.py",
+          "tests/interaction/mcpserver/test_resources.py",
+          "tests/interaction/mcpserver/test_subscriptions.py",
+          "tests/interaction/mcpserver/test_tools.py",
+          "tests/interaction/test_coverage.py",
+          "tests/interaction/transports/test_client_transport_http.py",
+          "tests/interaction/transports/test_flows.py",
+          "tests/interaction/transports/test_hosting_http.py",
+          "tests/interaction/transports/test_hosting_http_modern.py",
+          "tests/interaction/transports/test_hosting_resume.py",
+          "tests/interaction/transports/test_hosting_session.py",
+          "tests/interaction/transports/test_legacy_wire.py",
+          "tests/interaction/transports/test_sse.py",
+          "tests/interaction/transports/test_stdio.py",
+          "tests/interaction/transports/test_streamable_http.py",
+          "tests/issues/test_129_resource_templates.py",
+          "tests/issues/test_141_resource_templates.py",
+          "tests/issues/test_152_resource_mime_type.py",
+          "tests/issues/test_1574_resource_uri_validation.py",
+          "tests/issues/test_1754_mime_type_parameters.py",
+          "tests/issues/test_188_concurrency.py",
+          "tests/issues/test_342_base64_encoding.py",
+          "tests/issues/test_552_windows_hang.py",
+          "tests/issues/test_88_random_error.py",
+          "tests/server/lowlevel/test_server_discover.py",
+          "tests/server/lowlevel/test_server_listing.py",
+          "tests/server/lowlevel/test_server_pagination.py",
+          "tests/server/mcpserver/prompts/test_base.py",
+          "tests/server/mcpserver/prompts/test_manager.py",
+          "tests/server/mcpserver/test_elicitation.py",
+          "tests/server/mcpserver/test_extension.py",
+          "tests/server/mcpserver/test_func_metadata.py",
+          "tests/server/mcpserver/test_integration.py",
+          "tests/server/mcpserver/test_resolve.py",
+          "tests/server/mcpserver/test_server.py",
+          "tests/server/mcpserver/test_title.py",
+          "tests/server/mcpserver/test_url_elicitation.py",
+          "tests/server/mcpserver/test_url_elicitation_error_throw.py",
+          "tests/server/mcpserver/tools/test_base.py",
+          "tests/server/test_apps.py",
+          "tests/server/test_caching.py",
+          "tests/server/test_cancel_handling.py",
+          "tests/server/test_completion_with_context.py",
+          "tests/server/test_extensions_capability.py",
+          "tests/server/test_lowlevel_tool_annotations.py",
+          "tests/server/test_read_resource.py",
+          "tests/server/test_request_state_boundary.py",
+          "tests/server/test_skills.py",
+          "tests/server/test_streamable_http_manager.py",
+          "tests/shared/test_jsonrpc_dispatcher.py",
+          "tests/shared/test_otel.py",
+          "tests/shared/test_sse.py",
+          "tests/shared/test_streamable_http.py",
+          "tests/test_examples.py",
+          "tests/test_types.py",
+          "tests/transports/stdio/conftest.py",
+          "tests/transports/stdio/test_lifecycle.py",
+          "tests/transports/stdio/test_windows.py"
+        ],
+        "raw_files_bytes": 2851684,
+        "slice_bytes": 51587,
+        "raw_chars_div4": 712653,
+        "slice_chars_div4": 12751,
+        "byte_reduction_pct": 98.191,
+        "billed_token_savings": null,
+        "exact_model_token_count": null,
+        "basis": "Exact UTF-8 captured-source vs exact wiki note; chars//4 is only an estimate; not equivalent content"
+      },
+      "impact": {
+        "mutation": "rename selected real function; leave downstream callers unchanged",
+        "total_python_test_files": 238,
+        "candidate_python_test_files": [
+          "tests/client/auth/extensions/test_client_credentials.py",
+          "tests/client/extensions/test_skills.py",
+          "tests/client/test_client.py",
+          "tests/client/test_client_caching.py",
+          "tests/client/test_client_extensions.py",
+          "tests/client/test_extension.py",
+          "tests/client/test_http_unicode.py",
+          "tests/client/test_input_required.py",
+          "tests/client/test_list_methods_cursor.py",
+          "tests/client/test_list_roots_callback.py",
+          "tests/client/test_logging_callback.py",
+          "tests/client/test_notification_response.py",
+          "tests/client/test_output_schema_validation.py",
+          "tests/client/test_probe.py",
+          "tests/client/test_sampling_callback.py",
+          "tests/client/test_send_request_mcp_name.py",
+          "tests/client/test_session.py",
+          "tests/client/test_session_claims.py",
+          "tests/client/test_session_concurrency.py",
+          "tests/client/test_session_group.py",
+          "tests/client/test_session_notification_bindings.py",
+          "tests/client/test_session_promotions.py",
+          "tests/client/test_stdio.py",
+          "tests/client/test_streamable_http.py",
+          "tests/client/test_subscriptions.py",
+          "tests/client/transports/test_memory.py",
+          "tests/docs_src/test_apps.py",
+          "tests/docs_src/test_asgi.py",
+          "tests/docs_src/test_authorization.py",
+          "tests/docs_src/test_caching.py",
+          "tests/docs_src/test_cancellation.py",
+          "tests/docs_src/test_client.py",
+          "tests/docs_src/test_client_callbacks.py",
+          "tests/docs_src/test_client_transports.py",
+          "tests/docs_src/test_completions.py",
+          "tests/docs_src/test_context.py",
+          "tests/docs_src/test_dependencies.py",
+          "tests/docs_src/test_deploy.py",
+          "tests/docs_src/test_deprecated.py",
+          "tests/docs_src/test_elicitation.py",
+          "tests/docs_src/test_extensions.py",
+          "tests/docs_src/test_first_steps.py",
+          "tests/docs_src/test_handling_errors.py",
+          "tests/docs_src/test_header_parameters.py",
+          "tests/docs_src/test_identity_assertion.py",
+          "tests/docs_src/test_index.py",
+          "tests/docs_src/test_legacy_clients.py",
+          "tests/docs_src/test_lifespan.py",
+          "tests/docs_src/test_logging.py",
+          "tests/docs_src/test_lowlevel.py",
+          "tests/docs_src/test_media.py",
+          "tests/docs_src/test_middleware.py",
+          "tests/docs_src/test_mrtr.py",
+          "tests/docs_src/test_oauth_clients.py",
+          "tests/docs_src/test_opentelemetry.py",
+          "tests/docs_src/test_pagination.py",
+          "tests/docs_src/test_progress.py",
+          "tests/docs_src/test_prompts.py",
+          "tests/docs_src/test_protocol_versions.py",
+          "tests/docs_src/test_real_host.py",
+          "tests/docs_src/test_resources.py",
+          "tests/docs_src/test_run.py",
+          "tests/docs_src/test_sampling_and_roots.py",
+          "tests/docs_src/test_session_groups.py",
+          "tests/docs_src/test_skills.py",
+          "tests/docs_src/test_structured_output.py",
+          "tests/docs_src/test_subscriptions.py",
+          "tests/docs_src/test_testing.py",
+          "tests/docs_src/test_tools.py",
+          "tests/docs_src/test_troubleshooting.py",
+          "tests/docs_src/test_uri_templates.py",
+          "tests/docs_src/test_whats_new.py",
+          "tests/interaction/auth/test_as_handlers.py",
+          "tests/interaction/auth/test_authorize_token.py",
+          "tests/interaction/auth/test_bearer.py",
+          "tests/interaction/auth/test_discovery.py",
+          "tests/interaction/auth/test_flow.py",
+          "tests/interaction/auth/test_identity_assertion.py",
+          "tests/interaction/auth/test_lifecycle.py",
+          "tests/interaction/auth/test_login_time.py",
+          "tests/interaction/lowlevel/test_cancellation.py",
+          "tests/interaction/lowlevel/test_client_connect.py",
+          "tests/interaction/lowlevel/test_completion.py",
+          "tests/interaction/lowlevel/test_elicitation.py",
+          "tests/interaction/lowlevel/test_flows.py",
+          "tests/interaction/lowlevel/test_initialize.py",
+          "tests/interaction/lowlevel/test_list_changed.py",
+          "tests/interaction/lowlevel/test_logging.py",
+          "tests/interaction/lowlevel/test_meta.py",
+          "tests/interaction/lowlevel/test_pagination.py",
+          "tests/interaction/lowlevel/test_ping.py",
+          "tests/interaction/lowlevel/test_progress.py",
+          "tests/interaction/lowlevel/test_prompts.py",
+          "tests/interaction/lowlevel/test_resources.py",
+          "tests/interaction/lowlevel/test_roots.py",
+          "tests/interaction/lowlevel/test_sampling.py",
+          "tests/interaction/lowlevel/test_subscriptions.py",
+          "tests/interaction/lowlevel/test_timeouts.py",
+          "tests/interaction/lowlevel/test_tools.py",
+          "tests/interaction/lowlevel/test_wire.py",
+          "tests/interaction/mcpserver/test_completion.py",
+          "tests/interaction/mcpserver/test_context.py",
+          "tests/interaction/mcpserver/test_extensions.py",
+          "tests/interaction/mcpserver/test_prompts.py",
+          "tests/interaction/mcpserver/test_resources.py",
+          "tests/interaction/mcpserver/test_subscriptions.py",
+          "tests/interaction/mcpserver/test_tools.py",
+          "tests/interaction/test_coverage.py",
+          "tests/interaction/transports/test_client_transport_http.py",
+          "tests/interaction/transports/test_flows.py",
+          "tests/interaction/transports/test_hosting_http.py",
+          "tests/interaction/transports/test_hosting_http_modern.py",
+          "tests/interaction/transports/test_hosting_resume.py",
+          "tests/interaction/transports/test_hosting_session.py",
+          "tests/interaction/transports/test_legacy_wire.py",
+          "tests/interaction/transports/test_sse.py",
+          "tests/interaction/transports/test_stdio.py",
+          "tests/interaction/transports/test_streamable_http.py",
+          "tests/issues/test_129_resource_templates.py",
+          "tests/issues/test_141_resource_templates.py",
+          "tests/issues/test_152_resource_mime_type.py",
+          "tests/issues/test_1574_resource_uri_validation.py",
+          "tests/issues/test_1754_mime_type_parameters.py",
+          "tests/issues/test_188_concurrency.py",
+          "tests/issues/test_342_base64_encoding.py",
+          "tests/issues/test_552_windows_hang.py",
+          "tests/issues/test_88_random_error.py",
+          "tests/server/lowlevel/test_server_discover.py",
+          "tests/server/lowlevel/test_server_listing.py",
+          "tests/server/lowlevel/test_server_pagination.py",
+          "tests/server/mcpserver/prompts/test_base.py",
+          "tests/server/mcpserver/prompts/test_manager.py",
+          "tests/server/mcpserver/test_elicitation.py",
+          "tests/server/mcpserver/test_extension.py",
+          "tests/server/mcpserver/test_func_metadata.py",
+          "tests/server/mcpserver/test_integration.py",
+          "tests/server/mcpserver/test_resolve.py",
+          "tests/server/mcpserver/test_server.py",
+          "tests/server/mcpserver/test_title.py",
+          "tests/server/mcpserver/test_url_elicitation.py",
+          "tests/server/mcpserver/test_url_elicitation_error_throw.py",
+          "tests/server/mcpserver/tools/test_base.py",
+          "tests/server/test_apps.py",
+          "tests/server/test_caching.py",
+          "tests/server/test_cancel_handling.py",
+          "tests/server/test_completion_with_context.py",
+          "tests/server/test_extensions_capability.py",
+          "tests/server/test_lowlevel_tool_annotations.py",
+          "tests/server/test_read_resource.py",
+          "tests/server/test_request_state_boundary.py",
+          "tests/server/test_skills.py",
+          "tests/server/test_streamable_http_manager.py",
+          "tests/shared/test_jsonrpc_dispatcher.py",
+          "tests/shared/test_otel.py",
+          "tests/shared/test_sse.py",
+          "tests/shared/test_streamable_http.py",
+          "tests/test_examples.py",
+          "tests/test_types.py",
+          "tests/transports/stdio/test_lifecycle.py",
+          "tests/transports/stdio/test_windows.py"
+        ],
+        "candidate_count": 160,
+        "test_suite_reduction_pct": 32.773,
+        "potentially_broken_callers": [
+          "src/mcp/client/session.py:ClientSession.complete",
+          "src/mcp/client/session.py:ClientSession.initialize",
+          "src/mcp/client/session.py:ClientSession.list_prompts",
+          "src/mcp/client/session.py:ClientSession.list_resource_templates",
+          "src/mcp/client/session.py:ClientSession.list_resources",
+          "src/mcp/client/session.py:ClientSession.list_tools",
+          "src/mcp/client/session.py:ClientSession.send_ping"
+        ],
+        "added_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.send_request_benchmark_renamed",
+            "target": "src/mcp/client/session.py:_clamp_inbound_ttl"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.send_request_benchmark_renamed",
+            "target": "src/mcp/shared/inbound.py:encode_header_value"
+          }
+        ],
+        "removed_dependencies": [
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.complete",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.initialize",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.list_prompts",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.list_resource_templates",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.list_resources",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.list_tools",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.send_ping",
+            "target": "src/mcp/client/session.py:ClientSession.send_request"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.send_request",
+            "target": "src/mcp/client/session.py:_clamp_inbound_ttl"
+          },
+          {
+            "relationship": "CALLS",
+            "source": "src/mcp/client/session.py:ClientSession.send_request",
+            "target": "src/mcp/shared/inbound.py:encode_header_value"
+          }
+        ],
+        "analysis_ms": 16809.666,
+        "clone_ms": 287.2,
+        "sandbox_cleaned_up": true,
+        "unresolved_calls": 31052,
+        "parse_coverage": {
+          "before_failed_files": [],
+          "after_failed_files": [],
+          "basis": "PARSE_FAILURES_HAVE_NO_STATIC_DEPENDENCIES_NOT_NO_IMPACT"
+        },
+        "test_impact_precision": null,
+        "test_impact_recall": null,
+        "basis": "Static candidate reduction by test FILE count, not tests safely skipped; no untrusted pytest executed"
+      },
+      "clone_delete": {
+        "samples": 3,
+        "copy_p95_ms": 294.75,
+        "delete_and_verify_p95_ms": 1.341,
+        "cleanup_verified": true
+      },
+      "resume_bytes": 1009,
+      "model_calls": 0,
+      "targets": {
+        "all_discovery_services_p95_lt_50ms": false,
+        "byte_reduction_at_least_70pct": true,
+        "byte_reduction_at_least_90pct": true,
+        "indexed_absolute_import_recall_100pct": true
+      },
+      "owned_graph_cleaned_up": true
+    }
+  ],
+  "model_calls": 0,
+  "finished_at_unix": 1792251884,
+  "targets_met": false
+}

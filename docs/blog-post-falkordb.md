@@ -313,3 +313,34 @@ an autonomous production engineer.
 [raw HTTP excerpts](https://github.com/nakulmaurya/ChronosGraph/blob/a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7/tasks/reports/T-02-response-excerpts.json) ·
 [benchmark samples](https://github.com/nakulmaurya/ChronosGraph/blob/a36ae2fbc8e148068333fc7ca7b3e4b6ecc193a7/tasks/reports/T-02-samples/benchmark.json) ·
 [final release checks](https://github.com/nakulmaurya/ChronosGraph/blob/main/docs/release-checklist.md).
+
+## Measuring real-source workflows instead of promising universal savings
+
+We added FINAL-BENCHMARK-01: 20 measured round trips after one excluded warm-up
+on four pinned Python snapshots, a standard-library AST import oracle, real
+replacement-diff workloads and a known-answer three-hop test fixture.
+
+| Repository | Files | Root p95 ms | Locate p95 ms | Neighbors p95 ms | Raw → slice bytes | Byte reduction | Candidate tests / total | Test-file reduction |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| FalkorDB/falkordb-py | 42 | 12.35 | 35.48 | 1.51 | 88,300 → 6,871 | 92.22% | 9 / 19 | 52.63% |
+| FalkorDB/GraphRAG-SDK | 154 | 11.98 | 184.04 | 0.81 | 251,320 → 14,085 | 94.40% | 28 / 63 | 55.56% |
+| FalkorDB/code-graph | 86 | 11.14 | 43.92 | 8.75 | 361,266 → 22,213 | 93.85% | 27 / 29 | 6.90% |
+| modelcontextprotocol/python-sdk | 870 | 64.04 | 449.00 | 36.94 | 2,851,684 → 51,587 | 98.19% | 160 / 238 | 32.77% |
+
+These bytes are exact captured UTF-8 source versus a focused Markdown note—not
+semantically equivalent input or billed token savings. Unicode chars/4 remains
+an estimate. Test-file reduction is not runtime test-impact precision; that
+requires a reproducible, safely executed failure oracle and remains unmeasured.
+
+The misses matter as much as the gains. The full context service exceeds 50 ms
+on larger snapshots, and the saved GraphRAG-SDK import index misses 506 edges in
+our absolute-import oracle even though the current source reparse resolves them.
+We preserve the original graphs, report the discrepancy, and require deliberate
+new-snapshot reindexing rather than changing the dataset until a headline passes.
+The corpus lacks indexed ownership declarations, so CODEOWNERS behavior is proved
+on an explicitly labeled owned fixture, not invented for upstream repositories.
+
+[Full methodology and raw receipts](../tasks/reports/BENCHMARK-REPORT.md) distinguish
+functional regression passes from the **NOT MET** performance/structural acceptance
+targets. No external model or third-party repository test code is executed by
+this deterministic benchmark.

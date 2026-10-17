@@ -36,7 +36,7 @@ for name in ['repo_falkordb_py','repo_graphrag_sdk','repo_falkordb_code_graph','
 print(json.dumps({'mode':'DISPOSABLE_NATIVE_DATABASE_COPY','target_port':target.connection_pool.connection_kwargs['port'],
                   'copied_graphs':4,'source_mutation':False}))
 PY
-export FALKORDB_HOST=127.0.0.1 FALKORDB_PORT="$PORT"
+export FALKORDB_HOST=127.0.0.1 FALKORDB_PORT="$PORT" CHRONOSGRAPH_DISPOSABLE_BENCHMARK=1
 cd "$ROOT"
 "$PY" -m pytest backend/tests -v > "$OUT/backend-full.log" 2>&1
 tail -4 "$OUT/backend-full.log"

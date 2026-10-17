@@ -21,6 +21,24 @@ This is not an unconditional production or submission-readiness claim.
 Main remains unmerged. The VM preview runs application `46d1508`; this follow-up
 source integration is not silently represented as that deployed runtime.
 
+## Measured real-source workflows
+
+20 warm samples per operation on four pinned Python snapshots; one deterministic
+high-connectivity task each. **The universal <50 ms discovery target is NOT MET.**
+
+| Repository | Files | Root p95 ms | Locate p95 ms | Neighbors p95 ms | Raw → slice bytes | Byte reduction | Candidate tests / total | Test-file reduction |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| FalkorDB/falkordb-py | 42 | 12.35 | 35.48 | 1.51 | 88,300 → 6,871 | 92.22% | 9 / 19 | 52.63% |
+| FalkorDB/GraphRAG-SDK | 154 | 11.98 | 184.04 | 0.81 | 251,320 → 14,085 | 94.40% | 28 / 63 | 55.56% |
+| FalkorDB/code-graph | 86 | 11.14 | 43.92 | 8.75 | 361,266 → 22,213 | 93.85% | 27 / 29 | 6.90% |
+| modelcontextprotocol/python-sdk | 870 | 64.04 | 449.00 | 36.94 | 2,851,684 → 51,587 | 98.19% | 160 / 238 | 32.77% |
+
+Byte reduction compares full connected captured source with a focused wiki note,
+not equivalent content or billed tokens. Test-file reduction is a static candidate
+count, **not validated safe skipping**. An independent absolute-import audit finds
+506 missing indexed GraphRAG-SDK imports; the current reparse resolves them.
+See [methodology, structural gaps and raw results](tasks/reports/BENCHMARK-REPORT.md).
+
 ## Start locally
 
 Tested verification environment: **Linux, Python 3.13, Node 24, Docker, native
@@ -147,8 +165,8 @@ proposal was merged. Unknown execution outcomes stop retries for that proposal.
 
 ## Verified release checks
 
-- **311 backend tests**, zero failures/skips; **34 frontend unit tests**.
-- Typecheck and production build passed; **71 historical browser checks** across desktop/mobile, plus a fresh **12-check actual-model lifecycle rerun** (not 12 new distinct features).
+- **333 backend tests**, zero failures/skips; **34 frontend unit tests**.
+- Typecheck and production build passed. FINAL-BENCHMARK-01: **118 browser check executions**, or **96 excluding repeated recovery/setup suite executions**, across isolated desktop/mobile workflows; [scope and receipts](tasks/reports/BENCHMARK-REPORT.md#verification-receipt). Earlier release evidence separately includes 71 historical checks and a 12-check actual-model lifecycle rerun; those are not added to the current benchmark count.
 - **15 MCP tools** with the discovery/guard exceptions described above.
 - Synthetic 5,000-file native root-map p95: **47.34 ms** in the OpenCode integration run; not a production SLA.
 - Seven-day durable Redis import receipts, subject to configured database persistence.

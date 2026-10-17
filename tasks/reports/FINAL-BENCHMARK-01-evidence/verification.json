@@ -1,0 +1,28 @@
+{
+  "baseline_source_commit": "d678e246747e771efbe7b0cf89319f20dc20de06",
+  "measured_working_tree_dirty": true,
+  "benchmark_harness_sha256": "1c14fc1a1f4a3bf105b5be0d9fdbce5b33e200a0a0b76776a157809cba2d5a19",
+  "benchmark_evaluator_sha256": "fb556c6e119742d390a0fdb092a2250e0379b5a3bf7991fba19f151582ce9512",
+  "database_image": "sha256:b0bdcac2cbaff989e77cb0610439b7a9289e86de033ccbbd4368b66fb680ae7a",
+  "backend": {
+    "passed": 333,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 121.13
+  },
+  "frontend": {
+    "unit_passed": 34,
+    "unit_failed": 0,
+    "unit_skipped": 0,
+    "typecheck": "passed",
+    "production_build": "passed across three isolated browser hosts"
+  },
+  "browser": {
+    "check_executions": 118,
+    "checks_excluding_repeated_recovery_setup_executions": 96,
+    "detail": "browser-verification.json"
+  },
+  "benchmark_acceptance": "NOT_MET",
+  "model_calls": 0,
+  "scope": "Four seeded source graphs copied read-only into a disposable native database. Real-corpus test selection is static; no untrusted open-source test execution or runtime test precision claim. Trusted owned hero fixture executed in browser lifecycle suite. No live deployment or source graph reseed."
+}

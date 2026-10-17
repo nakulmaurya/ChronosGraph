@@ -1,0 +1,264 @@
+{
+  "suites": [
+    {
+      "suite": "proposal-review/ui/checks.json",
+      "checks": [
+        "Refresh preserves selected proposal and review reason (1560)",
+        "Readable proposal summary and ownership evidence (1560)",
+        "Comparison failure prevents approval and refresh recovers (1560)",
+        "List outage retains last data without claiming an empty state (1560)",
+        "Refresh preserves selected proposal and review reason (390)",
+        "Readable proposal summary and ownership evidence (390)",
+        "Comparison failure prevents approval and refresh recovers (390)",
+        "List outage retains last data without claiming an empty state (390)",
+        "A delayed pre-approval list cannot undo the real approval"
+      ],
+      "check_count": 9,
+      "errors": []
+    },
+    {
+      "suite": "lifecycle/ui/final-lifecycle-smoke/checks.json",
+      "checks": [
+        "Keyboard-accessible relationship table (1560)",
+        "Incomplete rename has real broken-caller evidence (1560)",
+        "Approve exact hash through browser operator endpoint",
+        "Observed worktree pytest exit and durable memory evidence",
+        "Activity and source-bound memory visible (1560)",
+        "Native shortestPath replay and compact note inside default UI",
+        "Keyboard-accessible relationship table (390)",
+        "Incomplete rename has real broken-caller evidence (390)",
+        "Activity and source-bound memory visible (390)",
+        "Native wikilink preview and ZIP download",
+        "Live policy override invalidates prior evidence",
+        "Captured base source unchanged after observed tests and override"
+      ],
+      "check_count": 12,
+      "errors": []
+    },
+    {
+      "suite": "lifecycle/ui/ui-recovery-smoke/results.json",
+      "checks": [
+        "Repository switch resets stale functions/source/query (1560px)",
+        "Map outage recovers in place without false empty result (1560px)",
+        "Clearing search aborts and suppresses a delayed response (1560px)",
+        "Failed file inspection never leaves a previous file attributed to the new selection (1560px)",
+        "Commit read failure clears prior changes instead of presenting a false empty result (1560px)",
+        "Expired receipt stops polling and exposes reconciliation (1560px)",
+        "Receipt retry and close/focus restoration work (1560px)",
+        "Lost saved receipt can be dismissed; keyboard dialog works (1560px)",
+        "Reconciliation reloads the catalog without importing again (1560px)",
+        "Repository switch resets stale functions/source/query (390px)",
+        "Map outage recovers in place without false empty result (390px)",
+        "Clearing search aborts and suppresses a delayed response (390px)",
+        "Failed file inspection never leaves a previous file attributed to the new selection (390px)",
+        "Commit read failure clears prior changes instead of presenting a false empty result (390px)",
+        "Expired receipt stops polling and exposes reconciliation (390px)",
+        "Receipt retry and close/focus restoration work (390px)",
+        "Lost saved receipt can be dismissed; keyboard dialog works (390px)",
+        "Reconciliation reloads the catalog without importing again (390px)"
+      ],
+      "check_count": 18,
+      "errors": []
+    },
+    {
+      "suite": "lifecycle/ui/agent-setup-smoke/results.json",
+      "checks": [
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_falkordb_py 1560px",
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_mcp_python_sdk 1560px",
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_falkordb_py 390px",
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_mcp_python_sdk 390px"
+      ],
+      "check_count": 4,
+      "errors": []
+    },
+    {
+      "suite": "lifecycle/ui/live-smoke/smoke-results.json",
+      "checks": [
+        {
+          "check": "Live tenant catalog and initial source graph",
+          "status": "PASS"
+        },
+        {
+          "check": "Track 1 live audit, impacted nodes and verified sandbox cleanup",
+          "status": "PASS"
+        },
+        {
+          "check": "T-07 visible static test candidates, safe full-suite fallback and copyable pytest command",
+          "status": "PASS"
+        },
+        {
+          "check": "Real commit scope, AST snippet editor, clone cleanup and above-fold audit comparison",
+          "status": "PASS"
+        },
+        {
+          "check": "T-07 real unified diff matches captured source and is AST-parsed only in disposable clone",
+          "status": "PASS"
+        },
+        {
+          "check": "Interactive node selection, metadata and draggable positions",
+          "status": "PASS"
+        },
+        {
+          "check": "Exact backend Cypher drawer",
+          "status": "PASS"
+        },
+        {
+          "check": "Full API payload remains accessible behind focused graph view",
+          "status": "PASS"
+        },
+        {
+          "check": "Track navigation retains clearly labeled real evidence without a blank canvas",
+          "status": "PASS"
+        },
+        {
+          "check": "T-07 measured candidate-source bytes and persisted compiled MCP context slice; zero models",
+          "status": "PASS"
+        },
+        {
+          "check": "Replay keeps two dimmed historical cold branches, actual cyan path and measured comparison",
+          "status": "PASS"
+        },
+        {
+          "check": "Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry",
+          "status": "PASS"
+        },
+        {
+          "check": "Scenario changes invalidate replay availability",
+          "status": "PASS"
+        },
+        {
+          "check": "Backend stale-playbook refusal is surfaced and replay disabled",
+          "status": "PASS"
+        },
+        {
+          "check": "Track 3 active/superseded policies, times, scope and provenance",
+          "status": "PASS"
+        },
+        {
+          "check": "Explicit confirmed override writes real lineage and invalidates UI replay",
+          "status": "PASS"
+        },
+        {
+          "check": "Tenant switch clears results and loads SDK-specific policy data",
+          "status": "PASS"
+        },
+        {
+          "check": "MCP 15-tool template, editable cwd, Escape and focus restoration",
+          "status": "PASS"
+        },
+        {
+          "check": "Network failure explains recovery without fake fallback data",
+          "status": "PASS"
+        },
+        {
+          "check": "390px mobile layouts: all three tracks and MCP dialog, no page overflow",
+          "status": "PASS"
+        },
+        {
+          "check": "T-08 brain lint and compact use live graph counts and LESSON recovery",
+          "status": "PASS"
+        },
+        {
+          "check": "T-08 live Obsidian note wikilinks, source ledger, bounded copied ResumeSnapshot and ZIP export",
+          "status": "PASS"
+        },
+        {
+          "check": "T-08 MCP platform guidance and actual portable-skill path clipboard",
+          "status": "PASS"
+        },
+        {
+          "check": "T-08 v1.4 HUD and 390px wiki modal without page overflow",
+          "status": "PASS"
+        },
+        {
+          "check": "No uncaught browser errors",
+          "status": "PASS"
+        }
+      ],
+      "check_count": 25,
+      "errors": []
+    },
+    {
+      "suite": "change-planning/ui/results.json",
+      "checks": [
+        "Selected file \u2192 readable comparison \u2192 real impact/candidate tests; saved source unchanged (1560px)",
+        "Invalid Python cannot retain a previous success (1560px)",
+        "Stale success cleared and real wrong-version 409 surfaced (1560px)",
+        "Deletion stays a preview and excludes the removed file from after-state evidence (1560px)",
+        "Candidate test opens the repository inspector (1560px)",
+        "Candidate inspection preserves the proposal, deletion flag and baseline without replaying stale results (1560px)",
+        "Draft restore rechecks captured hash and refuses inconsistent source (1560px)",
+        "Missing captured file shows a read failure, not stale editor content (1560px)",
+        "Repository switch discards old editor and result (1560px)",
+        "Selected file \u2192 readable comparison \u2192 real impact/candidate tests; saved source unchanged (390px)",
+        "Invalid Python cannot retain a previous success (390px)",
+        "Stale success cleared and real wrong-version 409 surfaced (390px)",
+        "Deletion stays a preview and excludes the removed file from after-state evidence (390px)",
+        "Candidate test opens the repository inspector (390px)",
+        "Candidate inspection preserves the proposal, deletion flag and baseline without replaying stale results (390px)",
+        "Draft restore rechecks captured hash and refuses inconsistent source (390px)",
+        "Missing captured file shows a read failure, not stale editor content (390px)",
+        "Repository switch discards old editor and result (390px)"
+      ],
+      "check_count": 18,
+      "errors": []
+    },
+    {
+      "suite": "change-planning/recovery/results.json",
+      "checks": [
+        "Repository switch resets stale functions/source/query (1560px)",
+        "Map outage recovers in place without false empty result (1560px)",
+        "Clearing search aborts and suppresses a delayed response (1560px)",
+        "Failed file inspection never leaves a previous file attributed to the new selection (1560px)",
+        "Commit read failure clears prior changes instead of presenting a false empty result (1560px)",
+        "Expired receipt stops polling and exposes reconciliation (1560px)",
+        "Receipt retry and close/focus restoration work (1560px)",
+        "Lost saved receipt can be dismissed; keyboard dialog works (1560px)",
+        "Reconciliation reloads the catalog without importing again (1560px)",
+        "Repository switch resets stale functions/source/query (390px)",
+        "Map outage recovers in place without false empty result (390px)",
+        "Clearing search aborts and suppresses a delayed response (390px)",
+        "Failed file inspection never leaves a previous file attributed to the new selection (390px)",
+        "Commit read failure clears prior changes instead of presenting a false empty result (390px)",
+        "Expired receipt stops polling and exposes reconciliation (390px)",
+        "Receipt retry and close/focus restoration work (390px)",
+        "Lost saved receipt can be dismissed; keyboard dialog works (390px)",
+        "Reconciliation reloads the catalog without importing again (390px)"
+      ],
+      "check_count": 18,
+      "errors": []
+    },
+    {
+      "suite": "change-planning/setup/results.json",
+      "checks": [
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_falkordb_py 1560px",
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_mcp_python_sdk 1560px",
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_falkordb_py 390px",
+        "Explicit config and selected snapshot copied; keyboard restores focus: repo_mcp_python_sdk 390px"
+      ],
+      "check_count": 4,
+      "errors": []
+    },
+    {
+      "suite": "change-planning/bulk/checks.json",
+      "checks": [
+        "Non-Python file is visible without claiming semantic analysis (1560px)",
+        "Exact saved-version link restores the selected file (1560px)",
+        "Developer search uses indexed files and definitions (1560px)",
+        "Lost acknowledgement preserves exact request across reload and retries same ID (1560px)",
+        "Workspace fits without horizontal overflow (1560px)",
+        "Non-Python file is visible without claiming semantic analysis (390px)",
+        "Exact saved-version link restores the selected file (390px)",
+        "Developer search uses indexed files and definitions (390px)",
+        "Lost acknowledgement preserves exact request across reload and retries same ID (390px)",
+        "Workspace fits without horizontal overflow (390px)"
+      ],
+      "check_count": 10,
+      "errors": []
+    }
+  ],
+  "total_check_executions": 118,
+  "distinct_suite_checks_excluding_repeated_recovery_setup": 96,
+  "scope": "Real Chromium at desktop/mobile. Some suites deliberately inject transport failures; no mocked approval/execution success. Repeated recovery/setup executions are reported, not counted as new features.",
+  "hosted_model_calls": 0
+}

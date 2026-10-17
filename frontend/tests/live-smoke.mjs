@@ -384,7 +384,16 @@ try {
   await page.getByRole("button", { name: "MCP config", exact: true }).click();
   const dialog = page.getByRole("dialog");
   await dialog.waitFor();
-  assert.equal(await dialog.locator(".tools-list article").count(), 10);
+  const expectedTools = [
+    "simulate_pr_blast_radius", "query_bitemporal_decisions", "record_decision_override",
+    "find_true_code_owners", "run_or_compile_playbook", "simulate_diff_impact",
+    "locate_context", "get_symbol_source", "record_verified_finding", "recall_task_memory",
+    "discover_repositories", "inspect_repository_snapshot", "propose_change_for_approval",
+    "check_proposal_decision", "report_proposal_execution",
+  ];
+  assert.equal(await dialog.locator(".tools-list article").count(), expectedTools.length);
+  const toolText = await dialog.locator(".tools-list").innerText();
+  for (const name of expectedTools) assert.ok(toolText.includes(name), `Missing tool ${name}`);
   await page.locator("#mcp-cwd").fill("/home/user/ChronosGraph/backend");
   assert.ok(
     (await dialog.locator("pre").textContent()).includes(
@@ -408,7 +417,7 @@ try {
       .evaluate((e) => e === document.activeElement),
     true,
   );
-  mark("MCP five-tool template, editable cwd, Escape and focus restoration");
+  mark("MCP 15-tool template, editable cwd, Escape and focus restoration");
   await page.route("**/api/v1/track3/ask-brain", (route) =>
     route.abort("failed"),
   );
@@ -416,11 +425,9 @@ try {
     .getByRole("button", { name: "Read current policy", exact: true })
     .click();
   await page.locator(".error-banner").waitFor();
-  assert.ok(
-    (await page.locator(".error-banner").textContent()).includes(
-      "Cannot reach the local backend",
-    ),
-  );
+  const networkError = await page.locator(".error-banner").textContent();
+  assert.match(networkError, /Cannot reach ChronosGraph at /);
+  assert.match(networkError, /configured backend is running, then retry/);
   await shot("09-network-error");
   await page.unroute("**/api/v1/track3/ask-brain");
   await action("Read current policy", "/track3/ask-brain");
