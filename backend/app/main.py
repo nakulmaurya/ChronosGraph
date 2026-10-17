@@ -1,6 +1,6 @@
 """Local-only trusted-user demo API. Do not expose mutation routes publicly."""
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from redis.exceptions import RedisError
 from app.db.client import db_manager
@@ -33,7 +33,7 @@ app.add_middleware(CORSMiddleware,allow_origins=['http://localhost:3000','http:/
     'http://127.0.0.1:3000','http://127.0.0.1:3001',
     'http://localhost:3002','http://127.0.0.1:3002',
     'http://localhost:3003','http://127.0.0.1:3003',
-    'http://localhost:3004','http://127.0.0.1:3004'],allow_methods=['GET','POST'],allow_headers=['Content-Type'])
+    'http://localhost:3004','http://127.0.0.1:3004'],allow_methods=['GET','POST'],allow_headers=['Content-Type','X-ChronosGraph-Action'])
 
 
 @app.exception_handler(RedisError)
@@ -208,3 +208,36 @@ from app.services.workspace import workspace_snapshot
 @app.get('/api/v1/workspace/snapshot')
 def workspace_snapshot_metadata(tenant_graph: str):
     return workspace_snapshot(tenant_graph)
+
+
+# Read-only developer command center; legacy APIs remain compatible.
+from app.services.command_center import overview, file_detail, history
+
+@app.get('/api/v1/repository/map')
+def repository_map(tenant_graph: str, prefix: str=''):
+    return overview(tenant_graph,prefix)
+
+@app.get('/api/v1/repository/file')
+def repository_file(tenant_graph: str, file_path: str):
+    return file_detail(tenant_graph,file_path)
+
+@app.get('/api/v1/repository/history')
+def repository_history(tenant_graph: str, commit: str=''):
+    return history(tenant_graph,commit)
+
+
+from app.services.import_jobs import ImportRequest, authorize, enabled, start_import, receipt
+
+@app.get('/api/v1/imports/capabilities')
+def import_capabilities():
+    return {'enabled':enabled(),'public_only':True,'single_worker':True,'timeout_seconds':300,
+            'receipt_persistence':'API_PROCESS_LIFETIME_UP_TO_ONE_HOUR'}
+
+@app.post('/api/v1/imports',status_code=202)
+def import_start(body: ImportRequest, request: Request):
+    authorize(request)
+    return start_import(body)
+
+@app.get('/api/v1/imports/{ident}')
+def import_receipt(ident: str):
+    return receipt(ident)

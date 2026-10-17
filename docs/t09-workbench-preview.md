@@ -122,3 +122,14 @@ incidental filename substrings, retaining native PageRank tie-breaks and byte ca
 See `t09-public-github-import.md` for bounds, upstream trials and trust limits.
 Public CLI import is implemented; browser-run/private importer, mixed-language
 inventory and incremental synchronization remain pending.
+
+
+## Latest command-center continuation (supersedes earlier UI-only limitations)
+
+The new root UI and `/workbench` are now the monochrome command center. The old
+workbench/CLI guide is at `/workbench/tools`; three-track demo/wiki at `/demo`.
+The isolated preview is loopback 3004/8004; the old 3000/8001 services were stopped
+at the user's request. One-click public imports are now opt-in on this local
+preview; private/hosted import and durable job recovery remain unimplemented.
+See [current walkthrough, gates and boundaries](t09-command-center.md).
+T-09 remains IN_PROGRESS; main has not been merged.

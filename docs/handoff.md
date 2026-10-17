@@ -257,3 +257,14 @@ ports 3000/8001 to VM loopback 3000/8001. Keep the terminal open, then browse
 http://127.0.0.1:3000 (UI) or http://127.0.0.1:8001/docs (API).
 Google Cloud access and GitHub sign-in are separate accounts/permissions.
 No public firewall ports are opened, and the helper does not restart the VM stack.
+
+
+## Latest command-center continuation (supersedes earlier UI-only limitations)
+
+The new root UI and `/workbench` are now the monochrome command center. The old
+workbench/CLI guide is at `/workbench/tools`; three-track demo/wiki at `/demo`.
+The isolated preview is loopback 3004/8004; the old 3000/8001 services were stopped
+at the user's request. One-click public imports are now opt-in on this local
+preview; private/hosted import and durable job recovery remain unimplemented.
+See [current walkthrough, gates and boundaries](t09-command-center.md).
+T-09 remains IN_PROGRESS; main has not been merged.

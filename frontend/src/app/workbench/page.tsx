@@ -1,2 +1,2 @@
-import Workbench from "@/components/Workbench";
-export default function WorkbenchPage() { return <Workbench />; }
+import CommandCenter from "@/components/CommandCenter";
+export default function WorkbenchPage() { return <CommandCenter />; }

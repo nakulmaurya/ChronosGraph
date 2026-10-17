@@ -18,7 +18,7 @@ try {
   const context = await browser.newContext({viewport:{width:1560,height:1050},reducedMotion:'reduce'});
   page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
-  await page.goto(FRONTEND+'/workbench');
+  await page.goto(FRONTEND+'/workbench/tools');
   await page.getByLabel('Workbench repository').selectOption(tenant);
   await page.getByRole('heading',{name:'Repo map & search',exact:true}).waitFor();
   const snapshotEvidence=page.getByRole('region',{name:'Snapshot connection evidence',exact:true});

@@ -148,3 +148,12 @@
   checks, plan/result/GRAPH.COPY parity and reproducible measurement script.
   Latest gates: 152 backend, 17 frontend, 39 UI pass. Existing graphs are not
   auto-migrated; no main merge, status IN_PROGRESS.
+
+## Command center continuation — explicit priorities
+- [x] Remove terminal friction: opt-in local one-click public GitHub import; actual Click import and automatic selection verified.
+- [x] Prove the integration workflow: real public import + graph/source/impact UI + separate stdio MCP save/recall demonstration (no new video).
+- [ ] Actual external coding-agent trial / fair comparative evaluation (not substituted by scripted MCP integration).
+- [x] Graph-first monochrome redesign + four sequential persona self-reviews and corrected mobile canvas checks.
+See tasks/assignments/T-09-command-center.md. T-09 remains IN_PROGRESS.
+
+Latest checkpoint: 164 backend, 19 frontend, typecheck/build and 54 browser checks pass; accepted policy ledgers unchanged, owned test graphs removed. See tasks/reports/T-09-command-center.md.

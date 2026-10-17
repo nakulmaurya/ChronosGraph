@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "@xyflow/react/dist/style.css";
 import "./globals.css";
 export const metadata: Metadata = {
-  title: "ChronosGraph · Flight Recorder",
+  title: "ChronosGraph · Repository Command Center",
   description:
-    "Local FalkorDB graph workbench. Disposable audits, policy lineage and verified playbook replay.",
+    "Explore repository dependencies, inspect functions, preview changes, and follow coding-agent activity with FalkorDB.",
 };
 export default function RootLayout({
   children,

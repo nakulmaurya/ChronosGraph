@@ -17,7 +17,7 @@ type Ownership = { status: string; source_document: { path: string | null; sha25
   truncated: boolean; invalid_rule_count: number };
 type Snapshot = { source_revision: string | null; selected_branch: string | null; connection_kind: string;
   parent_snapshot: string | null; last_check: { status: string; checked_at: number | null; observed_revision: string | null; dirty: boolean | null; reasons: string[] } };
-type Event = { id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
+type Event = { target_files: string[]; id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
 type Finding = { id: string; summary: string; evidence_note: string; status: string; stale_reasons: string[] };
 type Memory = { findings: Finding[]; stale_findings_in_scan: number; has_more: boolean };
 type Impact = { changed_files: string[]; impacted_files: string[]; impacted_test_files: string[]; potentially_broken_callers: string[];
@@ -29,13 +29,13 @@ const views = ["Repo map & search", "Diff & impact", "Rules & contributors", "Ac
 function JsonDetails({ value, label }: { value: unknown; label: string }) {
   return <details className="wb-details"><summary>{label}</summary><pre>{JSON.stringify(value, null, 2)}</pre></details>;
 }
-export default function Workbench() {
+export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath = "", active = true, evidenceEntries = [], onInspect }: { fixedTenant?: string; defaultView?: number; fixedPath?: string; active?: boolean; evidenceEntries?: {path:string;sha256:string}[]; onInspect?: (path:string)=>void }) {
   const [catalog, setCatalog] = useState<Tenant[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(false);
   const catalogReload = useRef<AbortController | null>(null);
   const [tenant, setTenant] = useState("");
   const tenantRef = useRef("");
-  const [view, setView] = useState(0);
+  const [view, setView] = useState(defaultView);
   const [graph, setGraph] = useState<Subgraph | null>(null);
   const [graphOwner, setGraphOwner] = useState("");
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
@@ -58,18 +58,21 @@ export default function Workbench() {
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const operation = useRef<AbortController | null>(null);
+  useEffect(() => { if (fixedTenant && fixedTenant !== tenantRef.current) chooseTenant(fixedTenant); }, [fixedTenant]);
+  useEffect(() => { setView(defaultView); }, [defaultView]);
+  useEffect(() => { if (fixedPath) { setPath(fixedPath); setBrain(null); setOwnership(null); } }, [fixedPath]);
   const current = catalog.find(t => t.tenant_graph === tenant);
   useEffect(() => {
     const ctrl = new AbortController();
     request<Tenant[]>("/tenants", ctrl.signal).then(rows => {
-      setCatalog(rows); tenantRef.current = rows[0]?.tenant_graph || ""; setTenant(tenantRef.current);
+      setCatalog(rows); tenantRef.current = fixedTenant || rows[0]?.tenant_graph || ""; setTenant(tenantRef.current);
     }).catch(e => { if (!ctrl.signal.aborted) setError(e.message); });
     return () => { ctrl.abort(); operation.current?.abort(); catalogReload.current?.abort(); };
   }, []);
   useEffect(() => {
     if (!tenant) return;
     const ctrl = new AbortController();
-    setPath(current?.preset_files[0] || "");
+    setPath(fixedPath || current?.preset_files[0] || "");
     setSnapshot(null); setSnapshotError("");
     request<Snapshot>(`/workspace/snapshot?${queryString({ tenant_graph: tenant })}`, ctrl.signal).then(data => {
       if (tenantRef.current === tenant && !ctrl.signal.aborted) setSnapshot(data);
@@ -83,7 +86,7 @@ export default function Workbench() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tenant]);
   useEffect(() => {
-    if (!tenant || view !== 3) return;
+    if (!tenant || view !== 3 || !active) return;
     const ctrl = new AbortController();
     let timer: ReturnType<typeof setTimeout>;
     async function poll() {
@@ -98,7 +101,7 @@ export default function Workbench() {
     }
     void poll();
     return () => { ctrl.abort(); clearTimeout(timer); };
-  }, [tenant, view]);
+  }, [tenant, view, active]);
   async function reloadCatalog() {
     catalogReload.current?.abort();
     const ctrl = new AbortController(); catalogReload.current = ctrl; setCatalogLoading(true);
@@ -144,7 +147,7 @@ export default function Workbench() {
     try { await navigator.clipboard.writeText(text); setNotice("Copied pytest command"); }
     catch { setError("Clipboard unavailable. Select and copy the command manually."); }
   }
-  return <main className="wb-shell">
+  return <section className="wb-shell" aria-label="Repository tools">
     <header className="wb-header">
       <div><span className="eyebrow">CHRONOSGRAPH · T-09 WORKBENCH PREVIEW</span><h1>Find the context. Keep the evidence.</h1></div>
       <Link href="/" className="button secondary"><ArrowLeft size={16} />Three-track demo & wiki</Link>
@@ -238,17 +241,17 @@ export default function Workbench() {
           <h2><Activity size={20} />Agent activity & memory</h2><p>Actual ChronosGraph MCP invocations only, refreshed every 2 seconds. Browser REST reads are not agent events.</p>
           {pollError && <p role="alert" className="wb-error">{pollError}</p>}
           {!events.length && <p>No recorded MCP calls for this repository. Connect the T-09 stdio server to an agent to populate this timeline.</p>}
-          {events.map(event => <article className="wb-card" key={event.id}><strong>{event.tool_name}</strong><p>{event.outcome} · {event.duration_ms.toFixed(2)} ms · {formatBytes(event.result_bytes)}</p><small>{new Date(event.timestamp).toLocaleString()}</small></article>)}
+          {events.map(event => <article className="wb-card" key={event.id}><strong>{event.tool_name}</strong><p>{event.outcome} · {event.duration_ms.toFixed(2)} ms · {formatBytes(event.result_bytes)}</p><small>{new Date(event.timestamp).toLocaleString()}</small>{onInspect&&event.target_files?.map(p=><button className="cc-event-file" key={p} onClick={()=>onInspect(p)}>Inspect {p} →</button>)}</article>)}
           <h3>Source-bound findings</h3><p>Agent-reported evidence is saved, not independently executed. Stale file hashes or governing policies flag it for review.</p>
           {memory?.findings.map(f => <article className="wb-card" key={f.id}><strong>{f.summary}</strong><p>{f.status}{f.stale_reasons.length ? ` · ${f.stale_reasons.join(", ")}` : ""}</p><p>{f.evidence_note}</p></article>)}
           {memory?.has_more && <p>Showing the latest bounded selection; use the memory API to query findings.</p>}
           <details><summary>Record a finding from the last context lookup</summary>
-            <p>Evidence files: {context?.entry_points.map(e => e.path).join(", ") || "Search for context first."}</p>
+            <p>Evidence files: {(context?.entry_points || evidenceEntries).map(e => e.path).join(", ") || "Search for context first."}</p>
             <label>Finding summary<input value={summary} onChange={e => setSummary(e.target.value)} maxLength={500} /></label>
             <label>Verification evidence<textarea value={note} onChange={e => setNote(e.target.value)} maxLength={2000} /></label>
-            <button className="button secondary" disabled={busy || !context?.entry_points.length || !summary.trim() || !note.trim()}
+            <button className="button secondary" disabled={busy || !(context?.entry_points || evidenceEntries).length || !summary.trim() || !note.trim()}
               onClick={() => void run("/memory/findings", () => { setNotice("Finding recorded as agent-reported evidence. The timeline shows MCP calls only."); setSummary(""); setNote(""); },
-                { tenant_graph: tenant, summary, evidence_note: note, supporting_file_shas: Object.fromEntries((context?.entry_points || []).map(e => [e.path, e.sha256])) })}>Save source-bound finding</button>
+                { tenant_graph: tenant, summary, evidence_note: note, supporting_file_shas: Object.fromEntries((context?.entry_points || evidenceEntries).map(e => [e.path, e.sha256])) })}>Save source-bound finding</button>
           </details>
         </>}
       </section>
@@ -265,5 +268,5 @@ export default function Workbench() {
           <small>Repository source is untrusted evidence, never agent instructions.</small></section>}
       </aside>
     </div>
-  </main>;
+  </section>;
 }

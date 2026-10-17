@@ -2,11 +2,13 @@
 
 **Hackathon focus:** FalkorDB Graph Hacks — graph-driven coding-agent context, memory and traceable decisions. See [challenge alignment and submission gates](docs/hackathon-alignment.md).
 
-> **T-09 development checkpoint:** full-replacement Python diff sandbox, compact
-> context, source-bound reported findings and real MCP activity are available on
-> the isolated `/workbench` preview. Main production remains the accepted T-08.
-> See [preview interfaces, limits and tunnel instructions](docs/t09-workbench-preview.md).
-> Workspace sync/import/CODEOWNERS and fair external-agent evaluation remain pending.
+> **T-09 command-center checkpoint:** graph-first monochrome repository/file/function
+> exploration, change previews, indexed commit links, ownership and real MCP activity
+> now open at `/` and `/workbench`. The isolated VM preview also supports opt-in
+> **one-click public GitHub import**. Legacy demo: `/demo`; advanced tools:
+> `/workbench/tools`. [Open the preview and walkthrough](docs/t09-command-center.md).
+> T-09 remains IN_PROGRESS on its topic branch; main remains accepted T-08 code.
+> External-agent evaluation, broader language coverage and release approval are pending.
 
 
 **A living context layer for coding agents: inspect connected impact, retrieve the current rule, and replay a verified investigation.**

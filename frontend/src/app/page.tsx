@@ -1,4 +1,2 @@
-import Arena from "@/components/Arena";
-export default function Page() {
-  return <Arena />;
-}
+import CommandCenter from "@/components/CommandCenter";
+export default function Page() { return <CommandCenter />; }

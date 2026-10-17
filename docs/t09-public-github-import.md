@@ -137,3 +137,14 @@ starts an import. A separate live public-Click CLI receipt verifies real API,
 archive, graph/index and context integration, then removes only its test tenant.
 No external-agent A/B improvement trial, Windows/macOS run or independent review
 is claimed. See `tasks/reports/T-09.md` for actual checkpoint results.
+
+
+## Latest command-center continuation (supersedes earlier UI-only limitations)
+
+The new root UI and `/workbench` are now the monochrome command center. The old
+workbench/CLI guide is at `/workbench/tools`; three-track demo/wiki at `/demo`.
+The isolated preview is loopback 3004/8004; the old 3000/8001 services were stopped
+at the user's request. One-click public imports are now opt-in on this local
+preview; private/hosted import and durable job recovery remain unimplemented.
+See [current walkthrough, gates and boundaries](t09-command-center.md).
+T-09 remains IN_PROGRESS; main has not been merged.

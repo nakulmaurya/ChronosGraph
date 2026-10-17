@@ -74,7 +74,7 @@ async function noOverflow() {
   );
 }
 try {
-  await page.goto(FRONTEND);
+  await page.goto(FRONTEND.replace(/\/$/, "") + "/demo");
   await page.locator("#tenant").waitFor();
   await page.waitForFunction(
     () =>

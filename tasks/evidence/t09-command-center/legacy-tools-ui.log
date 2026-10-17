@@ -1,0 +1,10 @@
+PASS Selected branch and timestamped CLI freshness are visible without claiming live sync
+PASS Native compact context and exact symbol source render
+PASS Full replacement preview removes native import and call edges; cleanup verified
+PASS Native rule lineage and bounded contributors remain distinct from declared owners
+PASS Declared owner is traced through native graph rules to pinned source evidence
+PASS Real FastMCP protocol event is visible in a separate API/browser process
+PASS Browser saves and recalls explicitly agent-reported source-hash-bound findings
+PASS All four preview views fit 390px without horizontal page overflow
+PASS Unsafe replacement paths fail closed with an actionable browser error
+PASS No browser runtime errors

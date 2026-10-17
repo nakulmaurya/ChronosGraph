@@ -14,6 +14,12 @@ def workspace_snapshot(tenant_graph):
       m.import_selected_blob_verification AS import_blob_verification,
       m.history_scope AS history_scope LIMIT 1''')
     data = records[0] if records else {}
+    # Legacy seeded graphs have per-file provenance but no RepoMetadata. Use it
+    # only if every captured file agrees on exactly one non-null revision.
+    if not data.get('source_revision'):
+        revisions, _ = read(tenant, 'MATCH (f:File) RETURN DISTINCT f.source_revision AS revision LIMIT 2')
+        if len(revisions)==1 and revisions[0]['revision']:
+            data['source_revision']=revisions[0]['revision']
     return {'tenant_graph':tenant, 'repository':data.get('repository'),
             'source_revision':data.get('source_revision'),
             'connection_kind':data.get('connection_kind') or 'PINNED_SNAPSHOT_NO_LOCAL_CONNECTION',

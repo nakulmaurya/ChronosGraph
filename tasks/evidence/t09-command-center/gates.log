@@ -1,0 +1,21 @@
+........................................................................ [ 87%]
+....................                                                     [100%]
+164 passed in 35.55s
+curl: (56) Recv failure: Connection reset by peer
+PASS [vibe coder] Graph and simple navigation are visible before opening any technical details
+PASS [junior developer] Folder → file → function drill-down exposes exact captured source and importers
+PASS [junior developer] Symbol search locates a real path without knowledge of tenant IDs or graph query syntax
+PASS [senior developer] Replacement preview removes actual import/call relationships and verifies clone cleanup
+PASS [senior developer] Draft change and result survive map navigation; no silent editor reset
+PASS [senior developer] Unsafe paths are rejected and stale successful impact results are invalidated
+PASS [maintainer] Commit-linked file changes are navigable with historical-versus-indexed source clearly separated
+PASS [maintainer] Declared CODEOWNERS remain separate from Git authors and current policy
+PASS [vibe coder] Actual separate stdio MCP tool activity and saved evidence are visible and link back to the file
+PASS [all four] All five views fit 390/768/1560px and the graph refits with visible nodes after resize
+PASS [maintainer] Browser intake refuses unsafe URLs before launching a worker
+PASS [vibe coder] One-click real public GitHub import completes, auto-selects saved version, and locates Click Command source
+PASS [maintainer] Public archive view does not fabricate unavailable commit history
+PASS [maintainer] Cross-origin job creation is refused
+PASS [all four] No browser runtime errors
+COMMAND_CENTER_GATES_PASS
+{"identical": true, "before_sha256": "646a5f7cd34ec667d83a63f5cbaeb70d1d712e70c3d21a3087bb8b4cb7097497", "after_sha256": "646a5f7cd34ec667d83a63f5cbaeb70d1d712e70c3d21a3087bb8b4cb7097497", "owned_graphs_removed": ["repo_test_cde7d3e03ef4407bb8b902af2400df82", "repo_github_080c216f464a41808ad453442febd7af"], "remaining_test_or_sandbox_graphs": []}

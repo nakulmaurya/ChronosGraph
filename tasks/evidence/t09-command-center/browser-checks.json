@@ -1,0 +1,84 @@
+{
+  "checks": [
+    {
+      "persona": "vibe coder",
+      "check": "Graph and simple navigation are visible before opening any technical details",
+      "status": "PASS"
+    },
+    {
+      "persona": "junior developer",
+      "check": "Folder → file → function drill-down exposes exact captured source and importers",
+      "status": "PASS"
+    },
+    {
+      "persona": "junior developer",
+      "check": "Symbol search locates a real path without knowledge of tenant IDs or graph query syntax",
+      "status": "PASS"
+    },
+    {
+      "persona": "senior developer",
+      "check": "Replacement preview removes actual import/call relationships and verifies clone cleanup",
+      "status": "PASS"
+    },
+    {
+      "persona": "senior developer",
+      "check": "Draft change and result survive map navigation; no silent editor reset",
+      "status": "PASS"
+    },
+    {
+      "persona": "senior developer",
+      "check": "Unsafe paths are rejected and stale successful impact results are invalidated",
+      "status": "PASS"
+    },
+    {
+      "persona": "maintainer",
+      "check": "Commit-linked file changes are navigable with historical-versus-indexed source clearly separated",
+      "status": "PASS"
+    },
+    {
+      "persona": "maintainer",
+      "check": "Declared CODEOWNERS remain separate from Git authors and current policy",
+      "status": "PASS"
+    },
+    {
+      "persona": "vibe coder",
+      "check": "Actual separate stdio MCP tool activity and saved evidence are visible and link back to the file",
+      "status": "PASS"
+    },
+    {
+      "persona": "all four",
+      "check": "All five views fit 390/768/1560px and the graph refits with visible nodes after resize",
+      "status": "PASS"
+    },
+    {
+      "persona": "maintainer",
+      "check": "Browser intake refuses unsafe URLs before launching a worker",
+      "status": "PASS"
+    },
+    {
+      "persona": "vibe coder",
+      "check": "One-click real public GitHub import completes, auto-selects saved version, and locates Click Command source",
+      "status": "PASS"
+    },
+    {
+      "persona": "maintainer",
+      "check": "Public archive view does not fabricate unavailable commit history",
+      "status": "PASS"
+    },
+    {
+      "persona": "maintainer",
+      "check": "Cross-origin job creation is refused",
+      "status": "PASS"
+    },
+    {
+      "persona": "all four",
+      "check": "No browser runtime errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "owned_imports": [
+    "repo_github_080c216f464a41808ad453442febd7af"
+  ],
+  "review_kind": "SEQUENTIAL_SELF_REVIEW_NOT_INDEPENDENT_USERS"
+}

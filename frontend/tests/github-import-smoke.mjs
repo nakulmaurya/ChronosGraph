@@ -17,7 +17,7 @@ try {
     if (!['GET','HEAD','OPTIONS'].includes(r.method())) mutations.push(r.url());
     if (!['localhost','127.0.0.1'].includes(new URL(r.url()).hostname)) external.push(r.url());
   });
-  await page.goto(frontend+'/workbench');
+  await page.goto(frontend+'/workbench/tools');
   await page.getByLabel('Workbench repository').locator('option').first().waitFor({state:'attached'});
   await page.getByText('Connect a public GitHub repository · local CLI setup',{exact:true}).click();
   const panel=page.locator('.wb-import-guide');

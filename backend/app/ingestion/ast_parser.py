@@ -41,6 +41,7 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
                 "name": node.name, "qualified_name": self.qualify(node.name),
                 "file_path": path, "start_line": node.lineno, "end_line": node.end_lineno,
                 "bases": [ast.unparse(b) for b in node.bases],
+                "docstring": (ast.get_docstring(node) or "")[:2000],
             })
             # Class bases and decorators execute in the enclosing scope.
             for expr in [*node.decorator_list, *node.bases]:
@@ -59,6 +60,7 @@ def parse_python_source(source_code: str, file_path: str) -> dict[str, Any]:
                 "is_async": isinstance(node, ast.AsyncFunctionDef),
                 "start_line": node.lineno, "end_line": node.end_lineno,
                 "parent_scope": scope_name,
+                "docstring": (ast.get_docstring(node) or "")[:2000],
                 "owner_class": next((n for n, t in reversed(self.scopes) if t == "class"), None),
             })
             for expr in [*node.decorator_list, *node.args.defaults,

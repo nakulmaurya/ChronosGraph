@@ -1,0 +1,60 @@
+{
+  "tenant_graph": "repo_test_cde7d3e03ef4407bb8b902af2400df82",
+  "stats": {
+    "tenant_graph": "repo_test_cde7d3e03ef4407bb8b902af2400df82",
+    "nodes": 23,
+    "files": 5,
+    "functions": 5,
+    "classes": 0,
+    "contributors": 1,
+    "indexed_records": 2,
+    "edges": 29,
+    "repository": "command-center-example",
+    "source_revision": "4a015d2b88ec6c3a4c6187994d6dad2a99909da3",
+    "declared_ownership": {
+      "status": "INDEXED",
+      "source_path": "CODEOWNERS",
+      "matched_files": 1,
+      "invalid_rule_count": 0,
+      "diagnostics": [],
+      "basis": "Declared at pinned commit; GitHub identity/access not verified"
+    },
+    "extracted_repository_rules": 0,
+    "resolved_calls": 1,
+    "unresolved_calls": 3,
+    "parse_errors": [],
+    "history_records": 2,
+    "history_file_links": 6,
+    "policy_files": [
+      "src/pkg/a.py",
+      "src/pkg/b.py",
+      "src/pkg/__init__.py"
+    ],
+    "pagerank_method": "native_falkordb_pagerank_normalized",
+    "ownership_limit": "Bounded Git author evidence, not verified maintainers or exhaustive ownership."
+  },
+  "steps": [
+    {
+      "tool": "locate_context",
+      "status": "PASS"
+    },
+    {
+      "tool": "get_symbol_source",
+      "status": "PASS"
+    },
+    {
+      "tool": "simulate_diff_impact",
+      "status": "PASS"
+    },
+    {
+      "tool": "record_verified_finding",
+      "status": "PASS"
+    },
+    {
+      "tool": "recall_task_memory",
+      "status": "PASS"
+    }
+  ],
+  "evaluation_kind": "SCRIPTED_REAL_STDIO_MCP_INTEGRATION_NOT_EXTERNAL_MODEL_AGENT",
+  "model_calls": 0
+}
