@@ -1,7 +1,7 @@
 /** Real temporary Git worktrees; concurrent edit is explicitly injected. */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, writeFile, unlink, rm } from "node:fs/promises";
+import { mkdtemp, writeFile, unlink, rm, chmod } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
@@ -82,6 +82,10 @@ test("C: concurrent edits, wrong HEAD and binary candidates fail closed", async 
     );
     await writeFile(join(r.root, "binary.py"), Buffer.from([0, 255]));
     await assert.rejects(() => captureCandidate(r.root, r.revision), /Binary/);
+    await unlink(join(r.root, "binary.py"));
+    await writeFile(join(r.root, "new_executable.py"), "value=4\n");
+    await chmod(join(r.root, "new_executable.py"), 0o755);
+    await assert.rejects(() => captureCandidate(r.root, r.revision), /executable addition/);
   } finally {
     await rm(r.root, { recursive: true, force: true });
   }

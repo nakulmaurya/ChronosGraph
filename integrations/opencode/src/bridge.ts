@@ -143,7 +143,22 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
     expected_revision: binding.expected_revision,
   };
   const ensureRun = async (session: string, parent?: string) => {
-    if (state.runs[session]) return state.runs[session];
+    if (state.runs[session]) {
+      const existing = state.runs[session];
+      if (parent && existing.parent_session_id !== parent) {
+        if (existing.parent_session_id)
+          throw Error("Conflicting late parent session");
+        existing.parent_session_id = parent;
+        await rt.enqueue(
+          existing,
+          "SESSION_LINKED",
+          `parent:${session}:${parent}`,
+          { parent_session_id: parent },
+        );
+        await save();
+      }
+      return existing;
+    }
     await requireCleanStart(directory, binding.expected_revision);
     const identity = await workspaceIdentity(
       directory,
@@ -163,6 +178,7 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
       id: value.id,
       overlay_digest: identity.overlay_digest,
       session_id: session,
+      ...(parent ? { parent_session_id: parent } : {}),
       sequence: 0,
       seen: {},
       queue: [],
@@ -377,7 +393,18 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
           value,
           "compact_" + hash(binding.pack_id).slice(0, 32),
         );
-        if (!output.context.includes(text)) output.context.push(text);
+        if (!output.context.includes(text)) {
+          output.context.push(text);
+          await emit(
+            input.sessionID,
+            "CONTEXT_COMPACTION_INJECTED",
+            `compact-context:${hash(text)}:${hash(JSON.stringify(output.context))}`,
+            {
+              delivery_id: "compact_" + hash(binding.pack_id).slice(0, 32),
+              injection_bytes: Buffer.byteLength(text, "utf8"),
+            },
+          );
+        }
       });
     },
     "tool.execute.before": async (input, output) => {
@@ -417,6 +444,41 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
               throw Error(`Proposal ${key} conflicts with managed binding`);
           }
           Object.assign(output.args, expected);
+          const detail = await request(
+            `${binding.task_id}?${new URLSearchParams(scope)}`,
+          );
+          const assignment = (detail.assignments || []).find(
+            (a: any) => a.run_id === run.id,
+          );
+          if (assignment) {
+            if (assignment.role !== "WORKER" || assignment.status !== "CLAIMED")
+              throw Error(
+                "Only current claimed worker may submit the assigned candidate",
+              );
+            for (const path of current.manifest.entries.map((e) => e.path))
+              if (!assignment.allowed_paths.includes(path))
+                throw Error(`Candidate path outside assignment: ${path}`);
+            if (
+              output.args.assignment_id !== undefined &&
+              output.args.assignment_id !== assignment.id
+            )
+              throw Error("Proposal assignment conflicts with claimed run");
+            if (
+              output.args.claim_version !== undefined &&
+              output.args.claim_version !== assignment.claim_version
+            )
+              throw Error("Proposal claim version is stale");
+            Object.assign(output.args, {
+              assignment_id: assignment.id,
+              claim_version: assignment.claim_version,
+            });
+          }
+          const finalCapture = await captureCandidate(
+            directory,
+            binding.expected_revision,
+          );
+          if (finalCapture.digest !== current.digest)
+            throw Error("Concurrent edit while validating assignment");
         });
       }
       // No tool input, prompt or output body is retained.

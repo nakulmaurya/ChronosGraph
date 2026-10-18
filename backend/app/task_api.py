@@ -2,6 +2,8 @@
 from fastapi import APIRouter, HTTPException, Request
 from app.local_boundary import local_ui_origins
 from app.services import task_runtime as runtime
+from app.services import task_assignments as assignments
+from app.services.task_assignments import AssignmentInput, TransitionInput
 
 router = APIRouter(prefix='/api/v1/tasks', tags=['local-task-runtime'])
 
@@ -69,3 +71,15 @@ def discover_candidates(tenant_graph: str, expected_revision: str, query: str):
     return {'selection_required':True, 'pack_created':False,
             'candidates':[{'path':e['path'],'why':e['why_included']} for e in result['entry_points']],
             'coverage':result['coverage']}
+
+
+@router.post('/{task_id}/assignments')
+def create_assignment(task_id: str, body: 'AssignmentInput', request: Request):
+    local_bridge(request)
+    return assignments.create(task_id, body)
+
+
+@router.post('/{task_id}/assignments/{assignment_id}/transitions')
+def transition_assignment(task_id: str, assignment_id: str, body: 'TransitionInput', request: Request):
+    local_bridge(request)
+    return assignments.transition(task_id, assignment_id, body)

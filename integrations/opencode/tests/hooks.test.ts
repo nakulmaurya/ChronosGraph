@@ -568,3 +568,30 @@ test("B measurement: same-machine ordinary tool hook samples (fault fixture, not
       }),
   );
 });
+
+test("F: late explicit parent survives an already-created local run", async () => {
+  const f = await fixture();
+  try {
+    const h: any = await f.plugin();
+    await h["chat.message"]({ sessionID: "ses_fault" }, f.output());
+    await h.event({
+      event: {
+        type: "session.created",
+        properties: { info: { id: "ses_fault", parentID: "ses_parent" } },
+      },
+    });
+    await sleep(80);
+    assert.equal(
+      (await f.stored()).runs.ses_fault.parent_session_id,
+      "ses_parent",
+    );
+    assert.ok(
+      f.state.requests.some(
+        (e: any) =>
+          e.kind === "SESSION_LINKED" && e.parent_session_id === "ses_parent",
+      ),
+    );
+  } finally {
+    await f.close();
+  }
+});

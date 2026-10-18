@@ -6,7 +6,8 @@ import { API_BASE, request } from '@/lib/api';
 type Run = { id: string; session_id: string; plan_id: string; pack_id: string; status: string; telemetry_status: string; missing_sequences: number[];
   usage_totals: Record<string, number>; usage_basis?:string;usage_integrity?:string;cost_reconciliation_mismatches?:string[]; harness_reported_cost: number | null;
   events: { sequence: number; kind: string; tool_name?: string; paths: string[]; observed_at_ms: number }[] };
-type Task = { task: { id: string; title: string; current_plan_id: string }; plans: { id: string; version: number; payload_json: string }[]; runs: Run[]; truncated: boolean };
+type Assignment = { id:string; owner:string; role:string; status:string; version:number; claim_version:number; deliverable:string; allowed_paths:string[]; predecessor_id?:string; reports_json:string; path_boundary:string };
+type Task = { assignments?:Assignment[]; task: { id: string; title: string; current_plan_id: string }; plans: { id: string; version: number; payload_json: string }[]; runs: Run[]; truncated: boolean };
 export default function TaskRuntime({ tenant, revision, target }: { tenant: string; revision: string; target: string }) {
   const [title, setTitle] = useState('');
   const [acceptance, setAcceptance] = useState('');
@@ -15,6 +16,7 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
   const [pack, setPack] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [pathLimit, setPathLimit] = useState(100);
   const selection = useRef('');
   selection.current = `${tenant}:${revision}`;
   useEffect(() => { setTaskId(''); setDetail(null); setPack(null); setError(''); setBusy(false); }, [tenant, revision]);
@@ -45,7 +47,7 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
         acceptance: acceptance.split('\n').map(x => x.trim()).filter(Boolean), request_key: crypto.randomUUID() });
       if (selection.current !== selected) return;
       setTaskId(d.task.id); setDetail(d);
-      const p = await post<Record<string, unknown>>(`/${d.task.id}/context-packs`, { ...scope, plan_id: d.task.current_plan_id, budget_equivalents: 2500 });
+      const p = await post<Record<string, unknown>>(`/${d.task.id}/context-packs`, { ...scope, plan_id: d.task.current_plan_id, budget_equivalents: 2500, analysis_path_limit: pathLimit });
       if (selection.current === selected) setPack(p);
     } catch (e) { if (selection.current === selected) setError(e instanceof Error ? e.message : 'Task creation failed'); }
     finally { if (selection.current === selected) setBusy(false); }
@@ -56,13 +58,16 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
     <label>Task objective<input value={title} onChange={e => setTitle(e.target.value)} maxLength={300}/></label>
     <label>Acceptance checks (one per line)<textarea value={acceptance} onChange={e => setAcceptance(e.target.value)} maxLength={4000}/></label>
     <p>Exact context target: <code>{target || 'Select a file first'}</code></p>
-    <button disabled={busy || !revision || !target || !title.trim() || !acceptance.trim()} onClick={() => void create()}>Create task and bounded context pack</button>
+    <label>Analysis path limit (1–100)<input type="number" min={1} max={100} value={pathLimit} onChange={e => setPathLimit(Number(e.target.value))}/></label>
+    <p>Lower limits explicitly narrow analyzed scope; omitted relationships remain unproven. Mandatory rules inside that scope are never silently dropped.</p>
+    <button disabled={busy || !Number.isInteger(pathLimit) || pathLimit < 1 || pathLimit > 100 || !revision || !target || !title.trim() || !acceptance.trim()} onClick={() => void create()}>Create task and bounded context pack</button>
     {!revision && <p role="status">Loading snapshot identity before task operations…</p>}
     <label>Resume task ID<input disabled={!revision} value={taskId} onChange={e => { setTaskId(e.target.value); setDetail(null); setPack(null); }} placeholder="task_…"/></label>
     {error && <p role="alert" className="wb-error">{error}</p>}
     {detail && <>
       <h4>{detail.task.title}</h4><p>Task <code>{detail.task.id}</code><br/>Current plan <code>{detail.task.current_plan_id}</code></p>
       {detail.plans.map(p => <details key={p.id}><summary>Immutable plan v{p.version}{p.id === detail.task.current_plan_id ? ' · current' : ' · historical'}</summary><pre>{JSON.stringify(JSON.parse(p.payload_json), null, 2)}</pre></details>)}
+      {!!detail.assignments?.length && <section aria-label="Explicit worker handoffs"><h4>Explicit worker handoffs</h4><p>One active assignment per task. Writing workers use separate owned worktrees. Path limits are advisory outside captured proposals; these records are not worker leases or approval.</p>{detail.assignments.map(a => <details key={a.id}><summary>{a.role.toLowerCase()} · {a.owner} · {a.status === 'CLAIMED' ? 'Working under current claim' : a.status === 'RETURNED' ? 'Candidate returned; review pending' : a.status === 'CORRECTION_REQUESTED' ? 'Correction requested' : a.status === 'CLOSED' ? 'Handoff closed; verification separate' : 'Awaiting claim'}</summary><p>{a.deliverable}</p><p>Allowed paths: {a.allowed_paths.join(', ')}</p><p>Claim version {a.claim_version}; record version {a.version}.</p><pre>{JSON.stringify({assignment:a.id, predecessor:a.predecessor_id, reports:JSON.parse(a.reports_json)},null,2)}</pre></details>)}</section>}
       {!detail.runs.length && <p>No bound harness run yet. Generating configuration is not proof of connection.</p>}
       {detail.runs.map(run => <article className="wb-card" key={run.id}>
         <strong>{runStatusLabel(run.status)}</strong><p>{telemetryLabel(run.telemetry_status)}</p><details><summary>Raw harness status and identity</summary><code>{run.status} · {run.telemetry_status}</code></details><p>Session <code>{run.session_id}</code><br/>Run <code>{run.id}</code><br/>Context <code>{run.pack_id}</code></p>

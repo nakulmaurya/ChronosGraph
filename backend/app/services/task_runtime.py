@@ -51,6 +51,7 @@ class PackInput(Scoped):
     plan_id: str
     budget_equivalents: int = Field(default=2500, ge=1500, le=3000)
     expansion_paths: list[str] = Field(default_factory=list, max_length=20)
+    analysis_path_limit: int = Field(default=100, ge=1, le=100)
 
 
 class RunInput(Scoped):
@@ -79,7 +80,7 @@ class Usage(BaseModel):
     cache_read_tokens: int = Field(ge=0)
     cache_write_tokens: int = Field(ge=0)
     cost: float | None = Field(default=None, ge=0)
-    # OpenCode assistant message counters are cumulative, not stream deltas.
+    # Legacy label preserved; actual message tokens are latest-step while cost accumulates.
     basis: Literal['OPENCODE_ASSISTANT_MESSAGE_CUMULATIVE','OPENCODE_COMPLETED_STEP_PART']
 
     @model_validator(mode='after')
@@ -107,10 +108,11 @@ class EventInput(Scoped):
     event_id: str = Field(min_length=1, max_length=200)
     source_event_id: str = Field(min_length=1, max_length=200)
     sequence: int = Field(ge=1, le=1000000)
-    kind: Literal['SESSION_CREATED', 'TOOL_STARTED', 'TOOL_COMPLETED', 'TOOL_ERROR',
+    kind: Literal['SESSION_CREATED', 'SESSION_LINKED', 'CONTEXT_COMPACTION_INJECTED', 'TOOL_STARTED', 'TOOL_COMPLETED', 'TOOL_ERROR',
                   'USAGE', 'COMPACTED', 'IDLE', 'SESSION_ERROR', 'CONTEXT_DELIVERED', 'CONTEXT_INJECTED', 'CONTEXT_PERSISTED', 'USAGE_RECONCILIATION', 'USAGE_EXPORT_RECONCILED', 'DISCONNECTED']
     observed_at_ms: int = Field(ge=0)
     session_id: str = Field(min_length=1, max_length=200)
+    parent_session_id: str | None = Field(default=None,max_length=200)
     tool_name: str | None = Field(default=None, max_length=200)
     call_id: str | None = Field(default=None, max_length=200)
     paths: list[str] = Field(default_factory=list, max_length=40)
@@ -187,7 +189,7 @@ def revise_plan(task_id, req: PlanInput):
     return task_detail(req.tenant_graph, req.expected_revision, task_id)
 
 
-def analysis_scope(tenant, target, expansion_paths):
+def analysis_scope(tenant, target, expansion_paths, path_limit=100):
     """Resolve exact identity and bounded graph scope BEFORE presentation trimming."""
     from app.services.diff_impact import safe_path
     for path in expansion_paths:
@@ -203,6 +205,8 @@ def analysis_scope(tenant, target, expansion_paths):
         raise HTTPException(422, {'code':'NO_CONTEXT_TARGET' if not root_paths else 'AMBIGUOUS_CONTEXT_TARGET',
             'candidates':root_paths, 'action':'Discover candidates, then explicitly select an exact captured file or qualified symbol; no pack created'})
     seeds = sorted(set(root_paths + expansion_paths))
+    if len(seeds) > path_limit:
+        raise HTTPException(422, {'code':'SCOPE_SEEDS_EXCEED_LIMIT','action':'Increase explicit analysis_path_limit to retain every selected seed'})
     related, _ = read(tenant, '''MATCH (f:File) WHERE f.path IN $paths
         MATCH (f)-[:IMPORTS*1..3]-(other:File)
         RETURN DISTINCT other.path AS path ORDER BY path LIMIT 101''', {'paths':seeds})
@@ -210,10 +214,10 @@ def analysis_scope(tenant, target, expansion_paths):
         WHERE f.path IN $paths RETURN DISTINCT other.path AS path ORDER BY path LIMIT 101''', {'paths':seeds})
     all_paths = sorted(set(seeds + [r['path'] for r in related + calls]))
     # Seeds are never lost even when bounded expansion is truncated.
-    paths = seeds + [p for p in all_paths if p not in seeds][:100-len(seeds)]
+    paths = seeds + [p for p in all_paths if p not in seeds][:path_limit-len(seeds)]
     return {'exact_target':{'query':target,'path':root_paths[0]}, 'paths':sorted(paths),
-            'import_horizon':3,'direct_call_horizon':1,'path_limit':100,
-            'truncated':len(all_paths)>100 or len(related)>100 or len(calls)>100,
+            'import_horizon':3,'direct_call_horizon':1,'path_limit':path_limit,
+            'truncated':len(all_paths)>path_limit or len(related)>100 or len(calls)>100,
             'unresolved_relationships':'Dynamic/external calls and paths beyond these bounds are not proven covered',
             'expansion_handle':{'operation':'CREATE_NEW_PACK_WITH_EXPANSION_PATHS','target':target}}
 
@@ -233,7 +237,7 @@ def build_pack(task_id, req: PackInput):
         require_snapshot(req.tenant_graph, req.expected_revision)
         p = plan(req.tenant_graph, task_id, req.plan_id)
         intent = json.loads(p['payload_json'])
-        scope = analysis_scope(req.tenant_graph, intent['target'], req.expansion_paths)
+        scope = analysis_scope(req.tenant_graph, intent['target'], req.expansion_paths, req.analysis_path_limit)
         paths = scope['paths']
         context = locate_context(req.tenant_graph, scope['exact_target']['path'], budget_bytes=8192, trim_presentation=False)
         # Deduplicate before trimming or rejecting, not afterwards.
@@ -338,6 +342,21 @@ def bind_run(task_id, req: RunInput):
         found, _ = read(req.tenant_graph, 'MATCH (r:ChangeAgentRun {id:$id}) RETURN r', {'id': run_id})
         if found:
             prior = dict(found[0]['r'].properties)
+            old_identity = {k:prior.get(k) for k in req.model_dump()}
+            if old_identity.get('parent_session_id') is None and req.parent_session_id:
+                old_identity['parent_session_id'] = req.parent_session_id
+                if digest(old_identity) != props['binding_digest']:
+                    raise HTTPException(409, 'Late parent conflicts with existing run identity')
+                require_lease(lease)
+                db_manager.query(req.tenant_graph, 'MATCH (r:ChangeAgentRun {id:$id}) SET r.parent_session_id=$parent,r.binding_digest=$digest',
+                    {'id':run_id,'parent':req.parent_session_id,'digest':props['binding_digest']})
+                return {**prior,'parent_session_id':req.parent_session_id,'binding_digest':props['binding_digest']}
+            if prior.get('parent_session_id') and req.parent_session_id is None:
+                with_parent = digest({**req.model_dump(),'parent_session_id':prior['parent_session_id']})
+                if prior.get('binding_digest') == with_parent: props['binding_digest'] = with_parent
+            if req.parent_session_id and prior.get('parent_session_id') == req.parent_session_id:
+                original_without = digest({**req.model_dump(),'parent_session_id':None})
+                if prior.get('binding_digest') == original_without: props['binding_digest'] = original_without
             if prior.get('binding_digest') != props['binding_digest']:
                 raise HTTPException(409, 'Session already bound with different plan, pack or workspace identity')
             return prior
@@ -373,6 +392,13 @@ def record_event(run_id, req: EventInput):
         run = node(req.tenant_graph, 'ChangeAgentRun', run_id)
         if run.get('session_id') != req.session_id:
             raise HTTPException(409, 'Event session does not match bound run')
+        if req.kind == 'SESSION_LINKED':
+            if not req.parent_session_id or req.parent_session_id == req.session_id:
+                raise HTTPException(422, 'Require distinct explicit parent session')
+            if run.get('parent_session_id') and run['parent_session_id'] != req.parent_session_id:
+                raise HTTPException(409, 'Conflicting parent session; explicit reconciliation required')
+        elif req.parent_session_id is not None:
+            raise HTTPException(422, 'Parent linkage belongs only to SESSION_LINKED events')
         event_key = digest({'run': run_id, 'source': req.source_event_id})
         existing, _ = read(req.tenant_graph, 'MATCH (e:HarnessEvent {id:$id}) RETURN e', {'id': event_key})
         if existing:
@@ -389,6 +415,9 @@ def record_event(run_id, req: EventInput):
                  'digest': identity, 'payload_json': canonical(payload), 'kind': req.kind,
                  'received_at': int(time.time()), 'provenance': 'LOCAL_PLUGIN_REPORTED_HARNESS_OBSERVATION'}
         require_lease(lease)
+        if req.kind == 'SESSION_LINKED':
+            db_manager.query(req.tenant_graph, 'MATCH (r:ChangeAgentRun {id:$id}) SET r.parent_session_id=$parent',
+                {'id':run_id,'parent':req.parent_session_id})
         db_manager.query(req.tenant_graph, '''MATCH (r:ChangeAgentRun {id:$run})
             CREATE (e:HarnessEvent) SET e=$props CREATE (r)-[:HAS_EVENT]->(e)''', {'run': run_id, 'props': props})
         return {'accepted': True, 'duplicate': False}
@@ -423,6 +452,8 @@ def task_detail(tenant, revision, task_id):
         run['status'] = {'IDLE': 'IDLE_NOT_SUCCESS', 'SESSION_ERROR': 'SESSION_ERROR',
                          'DISCONNECTED': 'DISCONNECTED'}.get(latest, 'BOUND_NOT_COMPLETED')
         result['runs'].append(run)
+    from app.services.task_assignments import listing
+    result['assignments'] = listing(tenant, task_id)
     return result
 
 

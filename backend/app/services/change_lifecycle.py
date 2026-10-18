@@ -56,6 +56,8 @@ class ProposalInput(BaseModel):
     pack_id: str | None = None
     agent_run_id: str | None = None
     overlay_digest: str | None = Field(default=None, pattern=r'^[0-9a-f]{64}$')
+    assignment_id: str | None = Field(default=None,max_length=200)
+    claim_version: int | None = Field(default=None,ge=1)
     declared_rationale: str | None = Field(default=None, max_length=2000)
     evidence_refs: list[EvidenceReference] = Field(default_factory=list,max_length=10)
     candidate_origin: Literal['GENERATED_CANDIDATE','OBSERVED_WORKTREE'] = 'GENERATED_CANDIDATE'
@@ -195,6 +197,10 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
             from app.services.task_runtime import validate_binding, validate_proposal_scope
             validate_binding(tenant, req.expected_revision, *binding)
             validate_proposal_scope(tenant, req.task_id, req.pack_id, req.proposed_files)
+        from app.services.task_assignments import validate_candidate
+        assignment = validate_candidate(tenant, req.task_id, req.agent_run_id, req.proposed_files, req.assignment_id, req.claim_version) if managed else None
+        if not managed and (req.assignment_id is not None or req.claim_version is not None):
+            raise HTTPException(422, 'Assignment requires a managed run')
         hashes = _hashes(tenant, list(req.proposed_files))
         # None means absent at the base; additions are protected against later appearance.
         hashes = {p: hashes.get(p) for p in req.proposed_files}
@@ -217,6 +223,7 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
         if managed:
             payload['managed_binding'] = binding
             payload['declared_rationale'] = req.declared_rationale
+        if assignment: payload['assignment'] = assignment
         proposal_hash = digest(payload)
         found, _ = read(tenant, 'MATCH (p:ChangeProposal {idempotency_key:$key}) RETURN p', {'key': req.idempotency_key})
         if found:
@@ -241,6 +248,8 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
              'policy_digest': policy_digest(tenant, list(req.proposed_files)), 'status': 'PROPOSED',
              'touched_paths': sorted(req.proposed_files), 'created_at': int(time.time()), 'task_id': 'task_' + uuid.uuid4().hex,
              'agent_run_id': 'run_' + uuid.uuid4().hex}
+        if assignment:
+            p.update(assignment_id=assignment['assignment_id'],claim_version=assignment['claim_version'])
         if managed:
             p.update(task_id=req.task_id, agent_run_id=req.agent_run_id, plan_id=req.plan_id,
                      pack_id=req.pack_id, overlay_digest=req.overlay_digest,

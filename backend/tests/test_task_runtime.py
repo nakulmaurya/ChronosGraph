@@ -269,3 +269,71 @@ def test_internal_locator_keeps_bounded_graph_before_managed_pack_budget(ingeste
     assert raw['payload_bytes'] > 2048
     limited = locate_context(tenant, 'src/pkg/a.py', budget_bytes=2048)
     assert limited['payload_bytes'] <= 2048
+
+
+def test_serialized_assignments_refuse_stale_claim_paths_and_plan(ingested):
+    from app.services import task_assignments as a
+    scope,tid,pid,pack,run=setup(ingested)
+    def create(run,owner,role='WORKER'):
+        return a.create(tid,a.AssignmentInput(**scope,plan_id=pid,pack_id=pack['id'],run_id=run['id'],owner=owner,
+            role=role,deliverable='Preserve helper contract',allowed_paths=['src/pkg/a.py'],acceptance=['Caller remains valid']))
+    worker=create(run,'worker-one')
+    def change(item,action,version=None):
+        return a.transition(tid,item['id'],a.TransitionInput(**scope,owner=item['owner'],expected_version=item['version'] if version is None else version,action=action,report='Explicit declared handoff; not test evidence'))
+    claimed=change(worker,'CLAIM')
+    reviewer_run=rt.bind_run(tid,rt.RunInput(**scope,plan_id=pid,pack_id=pack['id'],session_id='ses_reviewer',worktree_id='separate-readonly-tree',overlay_digest='b'*64,harness_version='1.19.3'))
+    reviewer=create(reviewer_run,'reviewer','REVIEWER')
+    with pytest.raises(HTTPException):change(reviewer,'CLAIM')
+    with pytest.raises(HTTPException):change(claimed,'RETURN',version=0)
+    with pytest.raises(HTTPException):a.validate_candidate(scope['tenant_graph'],tid,run['id'],['src/pkg/b.py'],worker['id'],1)
+    assert a.validate_candidate(scope['tenant_graph'],tid,run['id'],['src/pkg/a.py'],worker['id'],1)['claim_version']==1
+    returned=change(claimed,'RETURN');correction=change(returned,'REQUEST_CORRECTION');reclaimed=change(correction,'CLAIM')
+    assert reclaimed['claim_version']==2
+    with pytest.raises(HTTPException):a.validate_candidate(scope['tenant_graph'],tid,run['id'],['src/pkg/a.py'],worker['id'],1)
+    final=change(reclaimed,'RETURN');assert change(reviewer,'CLAIM')['status']=='CLAIMED'
+    assert len(json.loads(final['reports_json']))==5
+    rt.revise_plan(tid,rt.PlanInput(**scope,parent_plan_id=pid,objective='Revised requirements',acceptance=['New check'],target='src/pkg/a.py'))
+    with pytest.raises(HTTPException):change(final,'CLOSE')
+
+
+def test_late_parent_link_is_explicit_and_conflict_safe(ingested):
+    scope,tid,pid,pack,run=setup(ingested)
+    rt.record_event(run['id'],event(scope,1,'SESSION_LINKED',parent_session_id='ses_parent'))
+    assert rt.node(scope['tenant_graph'],'ChangeAgentRun',run['id'])['parent_session_id']=='ses_parent'
+    req=rt.RunInput(**scope,plan_id=pid,pack_id=pack['id'],session_id='ses_actual',worktree_id='owned-test-worktree',overlay_digest='a'*64,harness_version='1.19.3')
+    assert rt.bind_run(tid,req)['id']==run['id']
+    assert rt.bind_run(tid,req.model_copy(update={'parent_session_id':'ses_parent'}))['id']==run['id']
+    with pytest.raises(HTTPException):rt.record_event(run['id'],event(scope,2,'SESSION_LINKED',parent_session_id='different_parent'))
+
+
+def test_overlapping_worker_claims_serialize_and_writers_cannot_share_tree(ingested):
+    from app.services import task_assignments as a
+    scope,tid,pid,pack,run=setup(ingested)
+    def assign(run,owner):
+        return a.create(tid,a.AssignmentInput(**scope,plan_id=pid,pack_id=pack['id'],run_id=run['id'],owner=owner,role='WORKER',deliverable='Edit owned helper',allowed_paths=['src/pkg/a.py'],acceptance=['Preserve contract']))
+    first=assign(run,'first')
+    shared=rt.bind_run(tid,rt.RunInput(**scope,plan_id=pid,pack_id=pack['id'],session_id='shared-tree',worktree_id=run['worktree_id'],overlay_digest='a'*64,harness_version='1.19.3'))
+    with pytest.raises(HTTPException):assign(shared,'shared')
+    separate=rt.bind_run(tid,rt.RunInput(**scope,plan_id=pid,pack_id=pack['id'],session_id='distinct-tree',worktree_id='other-owned-tree',overlay_digest='b'*64,harness_version='1.19.3'))
+    second=assign(separate,'second')
+    def claim(item):
+        try:
+            return a.transition(tid,item['id'],a.TransitionInput(**scope,owner=item['owner'],expected_version=0,action='CLAIM',report='Native concurrent claim test'))['status']
+        except HTTPException as err:return err.status_code
+    with ThreadPoolExecutor(max_workers=2) as pool:results=list(pool.map(claim,[first,second]))
+    assert results.count('CLAIMED')==1 and results.count(409)==1
+
+
+def test_explicit_narrow_scope_retains_seed_and_refuses_omitted_candidate(ingested):
+    scope,tid,pid,_,_=setup(ingested)
+    narrow=rt.build_pack(tid,rt.PackInput(**scope,plan_id=pid,analysis_path_limit=1))
+    analyzed=narrow['manifest']['analysis_scope']
+    assert analyzed['paths']==['src/pkg/a.py'] and analyzed['path_limit']==1
+    assert analyzed['truncated'] is True
+    assert len(narrow['manifest']['source_pins'])==1
+    with pytest.raises(HTTPException) as exc:
+        rt.validate_proposal_scope(scope['tenant_graph'],tid,narrow['id'],['outside.py'])
+    assert exc.value.detail['code']=='CONTEXT_SCOPE_EXPANSION_REQUIRED'
+    with pytest.raises(HTTPException) as exc:
+        rt.build_pack(tid,rt.PackInput(**scope,plan_id=pid,analysis_path_limit=1,expansion_paths=['new.py']))
+    assert exc.value.detail['code']=='SCOPE_SEEDS_EXCEED_LIMIT'

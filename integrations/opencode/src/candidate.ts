@@ -117,8 +117,8 @@ export async function captureCandidate(
       let bytes: Buffer | null = null;
       try {
         const stat = await lstat(join(directory, path));
-        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 128000)
-          throw Error("Unsupported nonregular or large candidate: " + path);
+        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 128000 || (base === null && (stat.mode & 0o111) !== 0))
+          throw Error("Unsupported nonregular, executable addition or large candidate: " + path);
         bytes = await readFile(join(directory, path));
       } catch (e) {
         if ((e as NodeJS.ErrnoException).code !== "ENOENT") throw e;
