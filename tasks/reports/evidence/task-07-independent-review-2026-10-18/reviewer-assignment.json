@@ -1,0 +1,32 @@
+{
+  "tenant_graph": "repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee",
+  "expected_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+  "plan_id": "plan_b2481e86f777458ab609224836495caf",
+  "pack_id": "pack_44db4093d43a4ebfbf3f9b2a4cc16fcd",
+  "run_id": "run_8af0e0b766505039b09fb751cfbcfa47",
+  "owner": "task7-independent-reviewer",
+  "role": "REVIEWER",
+  "deliverable": "Independent acceptance review of exact reconstructed candidate; read-only source review and verification, no approval or edits",
+  "allowed_paths": [
+    "client.py",
+    "worker.py",
+    "tests/test_retry_after.py"
+  ],
+  "acceptance": [
+    "Review exact canonical manifest and complete diff against frozen requirements",
+    "Independently run repository and frozen acceptance tests",
+    "Inspect current decision and incident applicability, report gaps",
+    "Return explicit ACCEPTED / CHANGES_REQUESTED / BLOCKED / UNVERIFIED verdict, not proposal approval"
+  ],
+  "predecessor_id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+  "id": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+  "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+  "worktree_id": "52aa19803329432e04efe4af7770e247126a93212ac60f8b2334ebb377d2892d",
+  "status": "CLAIMED",
+  "version": 1,
+  "claim_version": 1,
+  "created_at": 1792327258,
+  "reports_json": "[{\"action\":\"CLAIM\",\"claim_version\":1,\"evidence_ids\":[],\"expected_revision\":\"fabe543f8f010433a58f93d8cb7698f77e39e6b0\",\"expected_version\":0,\"observed_at\":1792327258,\"owner\":\"task7-independent-reviewer\",\"provenance\":\"LOCAL_CLIENT_DECLARED_NOT_TEST_ATTESTATION\",\"report\":\"Fresh actual reviewer session; no worker conversation transcript supplied. Exact captured candidate staged only after clean baseline initialization.\",\"tenant_graph\":\"repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee\",\"unresolved\":[],\"version\":1}]",
+  "coordination_basis": "SERIALIZED_ONE_ACTIVE_ASSIGNMENT_PER_TASK_NO_WORKER_LEASE",
+  "path_boundary": "ADVISORY_OUTSIDE_MEDIATED_PROPOSAL_CAPTURE"
+}

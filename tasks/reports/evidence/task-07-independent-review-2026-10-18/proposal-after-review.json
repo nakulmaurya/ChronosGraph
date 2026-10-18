@@ -1,0 +1,571 @@
+{
+  "id": "prop_64084206f032410a923823abd797e75b",
+  "idempotency_key": "task3-new-reconstruction-retry-after-v1",
+  "task_title": "NEW reconstruction: opt-in retry_after preserving timeout contract",
+  "tenant_graph": "repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee",
+  "base_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+  "actor_principal": "MCP_AGENT",
+  "client_id": "mcp-agent",
+  "proposal_hash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f",
+  "candidate_origin": "OBSERVED_WORKTREE",
+  "candidate_digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+  "candidate_provenance": "LOCAL_PLUGIN_REPORTED_NOT_ATTESTED",
+  "policy_digest": "febc5921ad2a169a51534ad013af6de09c73312077edaebaef35b7eef5791793",
+  "status": "PROPOSED",
+  "touched_paths": [
+    "client.py",
+    "tests/test_retry_after.py",
+    "worker.py"
+  ],
+  "created_at": 1792326752,
+  "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+  "agent_run_id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+  "assignment_id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+  "claim_version": 1,
+  "plan_id": "plan_b2481e86f777458ab609224836495caf",
+  "pack_id": "pack_44db4093d43a4ebfbf3f9b2a4cc16fcd",
+  "overlay_digest": "9aae91f40c21ee61c12de9180146af8bd971ca70068a782d50edae447c431857",
+  "declared_rationale": "NEW reconstruction (not restored original output), owned synthetic organization, not an upstream defect. Default/None preserves the exact ADR-002 timeout envelope {'ok': False, 'reason': 'timeout'} for existing queue workers; a nonnegative int including 0 opt-in adds retry_after while retaining ok/reason; bool and nonint raise TypeError and negative int raises ValueError. worker.should_retry forwards retry_after by keyword to timeout_result and returns the boolean negation of its ok field, preserving the INC-007 retry branch (result['ok']) and active ADR-002. ADR-001 exception-first is SUPERSEDED and not applied. Acceptance: default/None envelope, zero/positive, invalid/negative, keyword-only, forwarded value, and both monkeypatched dependency ok=True/ok=False branches; repository tests and frozen independent checks observed passing (39 passed, candidate digest 466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982, operator-observed local evidence, not approved execution or proof of completeness).",
+  "rationale_provenance": "AGENT_DECLARED_NOT_HIDDEN_REASONING",
+  "base_file_shas": {
+    "client.py": "0606750cfac544988e19204c945a74391effe821ead28bc731ddbdc21def7be6",
+    "tests/test_retry_after.py": null,
+    "worker.py": "a593c5ee231ba22f811e3add721b3272bffd180507745b48d0d520f8b7e37c67"
+  },
+  "proposed_files": {
+    "client.py": "\"\"\"Owned synthetic organization example, not a reported upstream defect.\"\"\"\ndef timeout_result(*, retry_after=None):\n    result = {'ok': False, 'reason': 'timeout'}\n    if retry_after is None:\n        return result\n    if isinstance(retry_after, bool) or not isinstance(retry_after, int):\n        raise TypeError('retry_after must be a nonnegative int')\n    if retry_after < 0:\n        raise ValueError('retry_after must be nonnegative')\n    result['retry_after'] = retry_after\n    return result\n",
+    "tests/test_retry_after.py": "import pytest\n\nimport client\nimport worker\n\n\ndef test_default_returns_exact_envelope():\n    assert client.timeout_result() == {'ok': False, 'reason': 'timeout'}\n\n\ndef test_none_returns_exact_envelope():\n    assert client.timeout_result(retry_after=None) == {\n        'ok': False, 'reason': 'timeout'}\n\n\ndef test_zero_adds_retry_after():\n    assert client.timeout_result(retry_after=0) == {\n        'ok': False, 'reason': 'timeout', 'retry_after': 0}\n\n\ndef test_positive_adds_retry_after():\n    assert client.timeout_result(retry_after=5) == {\n        'ok': False, 'reason': 'timeout', 'retry_after': 5}\n\n\n@pytest.mark.parametrize('value', [True, False, 1.5, '3', [1], object()])\ndef test_nonint_retry_after_raises_type_error(value):\n    with pytest.raises(TypeError):\n        client.timeout_result(retry_after=value)\n\n\ndef test_negative_retry_after_raises_value_error():\n    with pytest.raises(ValueError):\n        client.timeout_result(retry_after=-1)\n\n\ndef test_timeout_result_retry_after_is_keyword_only():\n    with pytest.raises(TypeError):\n        client.timeout_result(3)\n\n\ndef test_should_retry_retry_after_is_keyword_only():\n    with pytest.raises(TypeError):\n        worker.should_retry(3)\n\n\ndef test_should_retry_forwards_retry_after(monkeypatch):\n    seen = {}\n\n    def fake(*, retry_after=None):\n        seen['retry_after'] = retry_after\n        return {'ok': False, 'reason': 'timeout'}\n\n    monkeypatch.setattr(worker, 'timeout_result', fake)\n    assert worker.should_retry(retry_after=7) is True\n    assert seen['retry_after'] == 7\n\n\ndef test_should_retry_forwarded_default_is_none(monkeypatch):\n    seen = {}\n\n    def fake(*, retry_after=None):\n        seen['retry_after'] = retry_after\n        return {'ok': False, 'reason': 'timeout'}\n\n    monkeypatch.setattr(worker, 'timeout_result', fake)\n    assert worker.should_retry() is True\n    assert seen['retry_after'] is None\n\n\ndef test_should_retry_ok_false_branch(monkeypatch):\n    monkeypatch.setattr(\n        worker, 'timeout_result',\n        lambda *, retry_after=None: {'ok': False, 'reason': 'timeout'})\n    assert worker.should_retry() is True\n\n\ndef test_should_retry_ok_true_branch(monkeypatch):\n    monkeypatch.setattr(\n        worker, 'timeout_result',\n        lambda *, retry_after=None: {'ok': True, 'reason': 'timeout'})\n    assert worker.should_retry() is False\n",
+    "worker.py": "from client import timeout_result\n\ndef should_retry(*, retry_after=None):\n    return not timeout_result(retry_after=retry_after)['ok']\n"
+  },
+  "candidate_manifest": {
+    "base_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+    "entries": [
+      {
+        "base_sha256": "0606750cfac544988e19204c945a74391effe821ead28bc731ddbdc21def7be6",
+        "operation": "MODIFY",
+        "path": "client.py",
+        "result_sha256": "774acc12cb587a346b641ddcfedc4bf1442ebd49a93a3059c22410d0f4baae20"
+      },
+      {
+        "base_sha256": null,
+        "operation": "ADD",
+        "path": "tests/test_retry_after.py",
+        "result_sha256": "6ccb6aab227f9cdbdd5a994f17797a3aa7df59be3d70a96ffd119933ce50b500"
+      },
+      {
+        "base_sha256": "a593c5ee231ba22f811e3add721b3272bffd180507745b48d0d520f8b7e37c67",
+        "operation": "MODIFY",
+        "path": "worker.py",
+        "result_sha256": "0f293543ec0a8015bcc98c575f485c2f9110ce0cc98d81b5bfb7e763e2f29f51"
+      }
+    ],
+    "schema_version": 1
+  },
+  "evidence_refs": [
+    {
+      "decision_id": "org_0ebce70d495d1b67382b64c3_adr-002",
+      "excerpt_id": "d6a6db70d55bb09a5cba94690844060a5116225b6e724364a28c7300121fbf6e",
+      "source_sha256": "ab5dfd6ba2bd6ff11812175300914187ad836f7b7e1d8b5cfd03d56453f797a1"
+    },
+    {
+      "decision_id": "org_0ebce70d495d1b67382b64c3_adr-002",
+      "excerpt_id": "99609080444f6c36445653dd6960113051caa49e1ece60ba27ba77a24a4051ea",
+      "source_sha256": "b749fa040b9e0e7b350bd2e90941e1932f70f784a4c62fcf376e7e96f8141d05"
+    }
+  ],
+  "validated_evidence": {
+    "caution": "Current source-backed applicability, not policy adjudication or approval",
+    "gaps": [],
+    "references": [
+      {
+        "chains": [
+          {
+            "decision": {
+              "conflict_group": "timeout-contract",
+              "data_kind": "OWNED_SYNTHETIC",
+              "id": "org_0ebce70d495d1b67382b64c3_adr-002",
+              "manifest_sha256": "0ebce70d495d1b67382b64c3365bc8e2edb8ecae5da5de27e5f362ed2e33e0ce",
+              "rationale": "INC-007 showed the existing retry branch is bypassed by timeout exceptions.",
+              "required_action": "Publish a migration plan, update contract tests, and obtain Compatibility Platform review before switching to exceptions.",
+              "rule": "Timeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.",
+              "scope_symbol": "module_root",
+              "source_path": ".chronosgraph/organization.json",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_type": "ORGANIZATIONAL_MANIFEST",
+              "source_url": "",
+              "status": "ACTIVE",
+              "valid_from": 0,
+              "valid_to": 0,
+              "validity_basis": "EXPLICIT_MANIFEST_AT_PINNED_REVISION_NOT_CALENDAR_VALIDITY"
+            },
+            "document": {
+              "end_line": 6,
+              "excerpt": "# ADR-002 \u2014 preserve the timeout result envelope\nOwned synthetic organization; fictional decision and incident.\nStatus: ACTIVE. Replaces ADR-001's exception-first proposal.\nTimeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.\nBefore switching to exceptions, publish a migration plan and update contract tests.\nThe Compatibility Platform team must review the migration.",
+              "id": "d6a6db70d55bb09a5cba94690844060a5116225b6e724364a28c7300121fbf6e",
+              "path": "docs/ADR-002.md",
+              "role": "DECISION_DOCUMENT",
+              "sha256": "ab5dfd6ba2bd6ff11812175300914187ad836f7b7e1d8b5cfd03d56453f797a1",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            },
+            "file_path": "client.py",
+            "motivating_incident": {
+              "end_line": 5,
+              "excerpt": "# INC-007 \u2014 synthetic retry interruption\nOwned synthetic organization; fictional incident, not an upstream bug report.\nThe queue worker accesses result['ok'] to choose a retry.\nA timeout exception bypassed that branch in the simulated migration.\nThe corrective action retained the result envelope until consumers migrate.",
+              "id": "99609080444f6c36445653dd6960113051caa49e1ece60ba27ba77a24a4051ea",
+              "path": "incidents/INC-007.md",
+              "role": "MOTIVATING_INCIDENT",
+              "sha256": "b749fa040b9e0e7b350bd2e90941e1932f70f784a4c62fcf376e7e96f8141d05",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            }
+          }
+        ],
+        "decision_id": "org_0ebce70d495d1b67382b64c3_adr-002",
+        "excerpt_id": "d6a6db70d55bb09a5cba94690844060a5116225b6e724364a28c7300121fbf6e",
+        "source_sha256": "ab5dfd6ba2bd6ff11812175300914187ad836f7b7e1d8b5cfd03d56453f797a1",
+        "status": "VALIDATED_PINNED_SOURCE_CHAIN_NOT_APPROVAL"
+      },
+      {
+        "chains": [
+          {
+            "decision": {
+              "conflict_group": "timeout-contract",
+              "data_kind": "OWNED_SYNTHETIC",
+              "id": "org_0ebce70d495d1b67382b64c3_adr-002",
+              "manifest_sha256": "0ebce70d495d1b67382b64c3365bc8e2edb8ecae5da5de27e5f362ed2e33e0ce",
+              "rationale": "INC-007 showed the existing retry branch is bypassed by timeout exceptions.",
+              "required_action": "Publish a migration plan, update contract tests, and obtain Compatibility Platform review before switching to exceptions.",
+              "rule": "Timeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.",
+              "scope_symbol": "module_root",
+              "source_path": ".chronosgraph/organization.json",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_type": "ORGANIZATIONAL_MANIFEST",
+              "source_url": "",
+              "status": "ACTIVE",
+              "valid_from": 0,
+              "valid_to": 0,
+              "validity_basis": "EXPLICIT_MANIFEST_AT_PINNED_REVISION_NOT_CALENDAR_VALIDITY"
+            },
+            "document": {
+              "end_line": 6,
+              "excerpt": "# ADR-002 \u2014 preserve the timeout result envelope\nOwned synthetic organization; fictional decision and incident.\nStatus: ACTIVE. Replaces ADR-001's exception-first proposal.\nTimeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.\nBefore switching to exceptions, publish a migration plan and update contract tests.\nThe Compatibility Platform team must review the migration.",
+              "id": "d6a6db70d55bb09a5cba94690844060a5116225b6e724364a28c7300121fbf6e",
+              "path": "docs/ADR-002.md",
+              "role": "DECISION_DOCUMENT",
+              "sha256": "ab5dfd6ba2bd6ff11812175300914187ad836f7b7e1d8b5cfd03d56453f797a1",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            },
+            "file_path": "client.py",
+            "motivating_incident": {
+              "end_line": 5,
+              "excerpt": "# INC-007 \u2014 synthetic retry interruption\nOwned synthetic organization; fictional incident, not an upstream bug report.\nThe queue worker accesses result['ok'] to choose a retry.\nA timeout exception bypassed that branch in the simulated migration.\nThe corrective action retained the result envelope until consumers migrate.",
+              "id": "99609080444f6c36445653dd6960113051caa49e1ece60ba27ba77a24a4051ea",
+              "path": "incidents/INC-007.md",
+              "role": "MOTIVATING_INCIDENT",
+              "sha256": "b749fa040b9e0e7b350bd2e90941e1932f70f784a4c62fcf376e7e96f8141d05",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            }
+          }
+        ],
+        "decision_id": "org_0ebce70d495d1b67382b64c3_adr-002",
+        "excerpt_id": "99609080444f6c36445653dd6960113051caa49e1ece60ba27ba77a24a4051ea",
+        "source_sha256": "b749fa040b9e0e7b350bd2e90941e1932f70f784a4c62fcf376e7e96f8141d05",
+        "status": "VALIDATED_PINNED_SOURCE_CHAIN_NOT_APPROVAL"
+      }
+    ],
+    "status": "EXPLICIT_CITATIONS_VALIDATED"
+  },
+  "impact_summary": {
+    "active_rules": [
+      {
+        "id": "org_0ebce70d495d1b67382b64c3_adr-002",
+        "rule": "Timeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers."
+      }
+    ],
+    "added_dependencies": [
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_default_returns_exact_envelope",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_negative_retry_after_raises_value_error",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_none_returns_exact_envelope",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_nonint_retry_after_raises_type_error",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_positive_adds_retry_after",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_should_retry_forwarded_default_is_none",
+        "target": "worker.py:should_retry"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_should_retry_forwards_retry_after",
+        "target": "worker.py:should_retry"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_should_retry_ok_false_branch",
+        "target": "worker.py:should_retry"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_should_retry_ok_true_branch",
+        "target": "worker.py:should_retry"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_should_retry_retry_after_is_keyword_only",
+        "target": "worker.py:should_retry"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_timeout_result_retry_after_is_keyword_only",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "CALLS",
+        "source": "tests/test_retry_after.py:test_zero_adds_retry_after",
+        "target": "client.py:timeout_result"
+      },
+      {
+        "relationship": "IMPORTS",
+        "source": "tests/test_retry_after.py",
+        "target": "client.py"
+      },
+      {
+        "relationship": "IMPORTS",
+        "source": "tests/test_retry_after.py",
+        "target": "worker.py"
+      }
+    ],
+    "analysis_limits": {
+      "call_resolution": "conservative Python static expressions; dynamic dispatch unresolved",
+      "captured_file_limit": 10000,
+      "source_byte_limit": 16000000
+    },
+    "call_coverage": {
+      "after": {
+        "excluded_non_function_scope": 2,
+        "function_scope": 27,
+        "observed": 29
+      },
+      "before": {
+        "excluded_non_function_scope": 0,
+        "function_scope": 3,
+        "observed": 3
+      },
+      "receiver_basis": "Lexical class candidate only; inherited overrides and runtime dispatch are not resolved"
+    },
+    "changed_files": [
+      "client.py",
+      "tests/test_retry_after.py",
+      "worker.py"
+    ],
+    "declared_ownership": {
+      "basis": "DECLARED_AT_PINNED_COMMIT_NOT_VERIFIED_IDENTITY_OR_ACCESS",
+      "declarations": [
+        {
+          "file_path": "client.py",
+          "owner": "@chronos-example/compatibility",
+          "owner_kind": "TEAM",
+          "pattern": "/client.py",
+          "source_line": 2
+        },
+        {
+          "file_path": "worker.py",
+          "owner": "@chronos-example/compatibility",
+          "owner_kind": "TEAM",
+          "pattern": "/worker.py",
+          "source_line": 3
+        }
+      ],
+      "invalid_rule_count": 0,
+      "organizational_evidence": {
+        "basis": "EXPLICIT_PINNED_MANIFEST_AND_CODEOWNERS_NOT_AUTOMATIC_POLICY_ADJUDICATION",
+        "chains": [
+          {
+            "decision": {
+              "conflict_group": "timeout-contract",
+              "data_kind": "OWNED_SYNTHETIC",
+              "id": "org_0ebce70d495d1b67382b64c3_adr-001",
+              "manifest_sha256": "0ebce70d495d1b67382b64c3365bc8e2edb8ecae5da5de27e5f362ed2e33e0ce",
+              "rationale": "Earlier exception-first proposal, retired after the incident.",
+              "required_action": "Historical proposal only; do not apply as current requirement.",
+              "rule": "Raise TimeoutError for transport timeouts.",
+              "scope_symbol": "module_root",
+              "source_path": ".chronosgraph/organization.json",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_type": "ORGANIZATIONAL_MANIFEST",
+              "source_url": "",
+              "status": "SUPERSEDED",
+              "valid_from": 0,
+              "valid_to": 0,
+              "validity_basis": "EXPLICIT_MANIFEST_AT_PINNED_REVISION_NOT_CALENDAR_VALIDITY"
+            },
+            "document": {
+              "end_line": 4,
+              "excerpt": "# ADR-001 \u2014 exception-first proposal (SUPERSEDED)\nOwned synthetic organization; fictional decision.\nThe original proposal raised TimeoutError for transport timeouts.\nThis proposal was retired by ADR-002 after INC-007 exposed existing consumers.",
+              "id": "bd1bc4dcf90a22fbb7f952dabd99901c46b5d619b19c7e98e5567a4655500ac6",
+              "path": "docs/ADR-001.md",
+              "role": "DECISION_DOCUMENT",
+              "sha256": "b5e29e83d46e06857d4d790cb21cb4afe9c58621e302dd55ec468c4e8fcb4a39",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            },
+            "file_path": "client.py",
+            "motivating_incident": {
+              "end_line": 5,
+              "excerpt": "# INC-007 \u2014 synthetic retry interruption\nOwned synthetic organization; fictional incident, not an upstream bug report.\nThe queue worker accesses result['ok'] to choose a retry.\nA timeout exception bypassed that branch in the simulated migration.\nThe corrective action retained the result envelope until consumers migrate.",
+              "id": "99609080444f6c36445653dd6960113051caa49e1ece60ba27ba77a24a4051ea",
+              "path": "incidents/INC-007.md",
+              "role": "MOTIVATING_INCIDENT",
+              "sha256": "b749fa040b9e0e7b350bd2e90941e1932f70f784a4c62fcf376e7e96f8141d05",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            }
+          },
+          {
+            "decision": {
+              "conflict_group": "timeout-contract",
+              "data_kind": "OWNED_SYNTHETIC",
+              "id": "org_0ebce70d495d1b67382b64c3_adr-002",
+              "manifest_sha256": "0ebce70d495d1b67382b64c3365bc8e2edb8ecae5da5de27e5f362ed2e33e0ce",
+              "rationale": "INC-007 showed the existing retry branch is bypassed by timeout exceptions.",
+              "required_action": "Publish a migration plan, update contract tests, and obtain Compatibility Platform review before switching to exceptions.",
+              "rule": "Timeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.",
+              "scope_symbol": "module_root",
+              "source_path": ".chronosgraph/organization.json",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_type": "ORGANIZATIONAL_MANIFEST",
+              "source_url": "",
+              "status": "ACTIVE",
+              "valid_from": 0,
+              "valid_to": 0,
+              "validity_basis": "EXPLICIT_MANIFEST_AT_PINNED_REVISION_NOT_CALENDAR_VALIDITY"
+            },
+            "document": {
+              "end_line": 6,
+              "excerpt": "# ADR-002 \u2014 preserve the timeout result envelope\nOwned synthetic organization; fictional decision and incident.\nStatus: ACTIVE. Replaces ADR-001's exception-first proposal.\nTimeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.\nBefore switching to exceptions, publish a migration plan and update contract tests.\nThe Compatibility Platform team must review the migration.",
+              "id": "d6a6db70d55bb09a5cba94690844060a5116225b6e724364a28c7300121fbf6e",
+              "path": "docs/ADR-002.md",
+              "role": "DECISION_DOCUMENT",
+              "sha256": "ab5dfd6ba2bd6ff11812175300914187ad836f7b7e1d8b5cfd03d56453f797a1",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            },
+            "file_path": "client.py",
+            "motivating_incident": {
+              "end_line": 5,
+              "excerpt": "# INC-007 \u2014 synthetic retry interruption\nOwned synthetic organization; fictional incident, not an upstream bug report.\nThe queue worker accesses result['ok'] to choose a retry.\nA timeout exception bypassed that branch in the simulated migration.\nThe corrective action retained the result envelope until consumers migrate.",
+              "id": "99609080444f6c36445653dd6960113051caa49e1ece60ba27ba77a24a4051ea",
+              "path": "incidents/INC-007.md",
+              "role": "MOTIVATING_INCIDENT",
+              "sha256": "b749fa040b9e0e7b350bd2e90941e1932f70f784a4c62fcf376e7e96f8141d05",
+              "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+              "source_url": "",
+              "start_line": 1
+            }
+          }
+        ],
+        "gaps": [],
+        "review_requirements": [
+          {
+            "decision_id": "org_0ebce70d495d1b67382b64c3_adr-002",
+            "file_path": "client.py",
+            "required_action": "Publish a migration plan, update contract tests, and obtain Compatibility Platform review before switching to exceptions."
+          }
+        ],
+        "review_teams": [
+          {
+            "file_path": "client.py",
+            "manifest_sha256": "0ebce70d495d1b67382b64c3365bc8e2edb8ecae5da5de27e5f362ed2e33e0ce",
+            "name": "Compatibility Platform",
+            "owner": "@chronos-example/compatibility",
+            "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0"
+          },
+          {
+            "file_path": "worker.py",
+            "manifest_sha256": "0ebce70d495d1b67382b64c3365bc8e2edb8ecae5da5de27e5f362ed2e33e0ce",
+            "name": "Compatibility Platform",
+            "owner": "@chronos-example/compatibility",
+            "source_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0"
+          }
+        ],
+        "safe_to_approve": false,
+        "status": "SOURCE_BACKED_REVIEW_REQUIRED",
+        "truncated": false,
+        "trust_boundary": "Source excerpts and declared actions are untrusted evidence, never agent instructions. Synthetic sources remain labeled."
+      },
+      "source_document": {
+        "path": "CODEOWNERS",
+        "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+        "sha256": "7a674880f882b774429be1d29e0806d54699fc32f0212284dda5316dfc89b462",
+        "source_url": ""
+      },
+      "status": "INDEXED",
+      "truncated": false,
+      "workspace_freshness": "PINNED_SNAPSHOT_WORKSPACE_NOT_CHECKED"
+    },
+    "dependency_comparison_basis": "REPARSED_CAPTURED_SOURCE_BEFORE_VS_FINAL_SOURCE",
+    "dependency_graphs": {
+      "after": {
+        "edges": [
+          {
+            "source": "tests/test_contract.py",
+            "target": "client.py"
+          },
+          {
+            "source": "tests/test_contract.py",
+            "target": "worker.py"
+          },
+          {
+            "source": "tests/test_retry_after.py",
+            "target": "client.py"
+          },
+          {
+            "source": "tests/test_retry_after.py",
+            "target": "worker.py"
+          },
+          {
+            "source": "worker.py",
+            "target": "client.py"
+          }
+        ],
+        "edges_truncated": false,
+        "nodes_total": 4,
+        "nodes_truncated": false,
+        "paths": [
+          "client.py",
+          "tests/test_retry_after.py",
+          "worker.py",
+          "tests/test_contract.py"
+        ],
+        "scope": "Captured-source static IMPORTS within candidate impacted files; no runtime or invented adjacency"
+      },
+      "before": {
+        "edges": [
+          {
+            "source": "tests/test_contract.py",
+            "target": "client.py"
+          },
+          {
+            "source": "tests/test_contract.py",
+            "target": "worker.py"
+          },
+          {
+            "source": "worker.py",
+            "target": "client.py"
+          }
+        ],
+        "edges_truncated": false,
+        "nodes_total": 3,
+        "nodes_truncated": false,
+        "paths": [
+          "client.py",
+          "worker.py",
+          "tests/test_contract.py"
+        ],
+        "scope": "Captured-source static IMPORTS within candidate impacted files; no runtime or invented adjacency"
+      }
+    },
+    "final_file_hashes": {
+      "client.py": "774acc12cb587a346b641ddcfedc4bf1442ebd49a93a3059c22410d0f4baae20",
+      "tests/test_retry_after.py": "6ccb6aab227f9cdbdd5a994f17797a3aa7df59be3d70a96ffd119933ce50b500",
+      "worker.py": "0f293543ec0a8015bcc98c575f485c2f9110ce0cc98d81b5bfb7e763e2f29f51"
+    },
+    "impacted_files": [
+      "client.py",
+      "tests/test_contract.py",
+      "tests/test_retry_after.py",
+      "worker.py"
+    ],
+    "impacted_test_files": [
+      "tests/test_contract.py",
+      "tests/test_retry_after.py"
+    ],
+    "model_calls": 0,
+    "parse_coverage": {
+      "after_failed_files": [],
+      "basis": "PARSE_FAILURES_HAVE_NO_STATIC_DEPENDENCIES_NOT_NO_IMPACT",
+      "before_failed_files": []
+    },
+    "post_patch_impacted_files": [
+      "client.py",
+      "tests/test_contract.py",
+      "tests/test_retry_after.py",
+      "worker.py"
+    ],
+    "potentially_broken_callers": [
+      "tests/test_contract.py:test_timeout_contract",
+      "worker.py:should_retry"
+    ],
+    "pre_patch_impacted_files": [
+      "client.py",
+      "tests/test_contract.py",
+      "tests/test_retry_after.py",
+      "worker.py"
+    ],
+    "recommended_pytest_command": "pytest -- tests/test_contract.py tests/test_retry_after.py",
+    "removed_dependencies": [],
+    "removed_or_signature_changed_symbols": [
+      "client.py:timeout_result",
+      "worker.py:should_retry"
+    ],
+    "sandbox_cleaned_up": true,
+    "sandbox_clone_time_ms": 93.05,
+    "sandbox_graph_name": "sandbox_pr_fdb424db",
+    "semantics": "FULL_FILE_REPLACEMENT",
+    "source_revisions": [
+      "fabe543f8f010433a58f93d8cb7698f77e39e6b0"
+    ],
+    "source_type": "AST_DIFF_REPLACEMENT_SIMULATION",
+    "tenant_graph": "repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee",
+    "test_collection": {
+      "candidate_test_files": [
+        "tests/test_contract.py",
+        "tests/test_retry_after.py"
+      ],
+      "classification_basis": "PYTEST_DEFAULT_FILENAME_PATTERNS_NOT_COLLECTED",
+      "custom_collection": "UNKNOWN",
+      "deleted_candidate_test_files": [],
+      "runnable_candidate_test_files": [
+        "tests/test_contract.py",
+        "tests/test_retry_after.py"
+      ],
+      "safe_to_skip_other_tests": false
+    },
+    "test_selection_basis": "PRE_POST_UNION_STATIC_CANDIDATES_NOT_SAFE_SKIP_PROOF",
+    "unresolved_calls": 12
+  },
+  "governing_decision_ids": [
+    "org_0ebce70d495d1b67382b64c3_adr-002"
+  ],
+  "executions": [],
+  "approval_scope": "Exact immutable proposal only; not an external-client security boundary"
+}
