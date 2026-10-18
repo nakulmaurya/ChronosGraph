@@ -10,11 +10,46 @@ entry point (only when configured and present), clearer agent handoff status,
 collapsed technical metadata and read-only context-pack recovery on task resume.
 It does not change backend behavior or approve/execute/integrate a candidate.
 
-The exact source and deployment verification receipt is linked here after the
-release checks complete. Until then, this section is release preparation, not
-new deployment or full-suite certification.
+## Exact application and verification
 
+**Application source and deployed frontend/API:**
+`44bb68b459f83dbdc091ceecf4cd60ded72b379b`.
+Subsequent documentation/media publication commits do not change this application build.
+The inspected prepared source is separately pinned to
+`fabe543f8f010433a58f93d8cb7698f77e39e6b0`.
+
+Fresh scoped checks for this application release:
+- 47 frontend unit checks passed; frontend typecheck passed.
+- Clean isolated VM production build passed.
+- Deployed read-only browser walkthrough passed: prepared entry, captured file graph,
+  organizational evidence, task resume/current plan, reviewer report, context retrieval,
+  exact candidate comparison and pending human approval.
+- Narrow viewport: 390px document width at 390px viewport; no JavaScript or failed
+  HTTP responses observed in the successful walkthrough.
+- Controlled browser-only regressions passed for a changed current plan with no run
+  and a failed replacement context-pack fetch. Old context is not relabeled as current.
+- GitHub [Command center correctness](https://github.com/nakulmaurya/ChronosGraph/actions/runs/39147469784)
+  passed both frontend and native-command-center jobs for `44bb68b`.
+- Scoped source audit: 100 existing evidence hashes checked; no audit findings.
+
+Backend behavior is unchanged from the prior application baseline; tonight's local
+release verification did not rerun unrelated backend suites or the 39 historical
+candidate checks. Counts are not combined with earlier runs. Review assistance
+found one stale-context issue; it was fixed and the two browser regressions above
+confirmed the fix at runtime.
+
+The existing managed preview was updated on loopback 3004/8004 with the prepared
+DB6381, startup seeding disabled, and import/execution flags off. A prior working
+service override and rollback receipt were retained. The public submission uses
+**complete local setup plus the public video**, not a publicly authenticated SaaS.
+
+**Candidate state rechecked after deployment:** PROPOSED, unchanged exact candidate
+digest, zero execution records. Worker/reviewer returns and retained 39-check
+review evidence do not grant human approval or prove complete harness telemetry.
+
+[**Narrated working video and captions**](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission) ·
 [Demo guide](release-demo.md) · [Setup](../README.md#start-locally) ·
+[Preview operation](preview-access.md) · [Scoped release receipt](release-verification-20261018.md) ·
 [Limitations and evaluation](limitations-and-evaluation.md).
 
 <details>

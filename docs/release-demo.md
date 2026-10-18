@@ -6,6 +6,10 @@ This is a read-only walkthrough of a working application with a **prepared owned
 synthetic organization/incident** and persisted actual agent activity. It is not
 a new live model run, new test execution, human approval or merged candidate.
 
+## Released recording
+
+[Watch with synthetic voiceover](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-narrated-walkthrough.mp4). [Transcript/captions and release identity](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission). The exported walkthrough is approximately three minutes twenty-five seconds; authenticated organizer limits remain unverified.
+
 ## Open the example
 
 Follow [current managed-preview access](preview-access.md). On a configured
