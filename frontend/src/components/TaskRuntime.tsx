@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
-import { declaredReturnReport, handoffStatusLabel, runStatusLabel, telemetryLabel, usageBasisLabel } from '@/lib/task-runtime';
+import { isCurrentContextPack, declaredReturnReport, handoffStatusLabel, runStatusLabel, telemetryLabel, usageBasisLabel } from '@/lib/task-runtime';
 import { API_BASE, request } from '@/lib/api';
 
 type Run = { id: string; session_id: string; plan_id: string; pack_id: string; status: string; telemetry_status: string; missing_sequences: number[];
@@ -14,12 +14,13 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
   const [taskId, setTaskId] = useState('');
   const [detail, setDetail] = useState<Task | null>(null);
   const [pack, setPack] = useState<Record<string, unknown> | null>(null);
+  const [packNotice,setPackNotice]=useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [pathLimit, setPathLimit] = useState(100);
   const selection = useRef('');
   selection.current = `${tenant}:${revision}`;
-  useEffect(() => { setTaskId(new URLSearchParams(window.location.search).get('task') || ''); setDetail(null); setPack(null); setError(''); setBusy(false); }, [tenant, revision]);
+  useEffect(() => { setTaskId(new URLSearchParams(window.location.search).get('task') || ''); setDetail(null); setPack(null); setPackNotice(''); setError(''); setBusy(false); }, [tenant, revision]);
   const scope = { tenant_graph: tenant, expected_revision: revision };
   useEffect(() => {
     if (!taskId || !revision) return;
@@ -35,12 +36,14 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
   }, [tenant, revision, taskId]);
   const resumePackId=detail?.runs.find(run=>run.plan_id===detail.task.current_plan_id)?.pack_id;
   useEffect(()=>{
-    if(!taskId||!resumePackId||!revision)return;
+    setPack(null);
+    if(!taskId||!resumePackId||!revision){setPackNotice('No recorded context pack for this current plan.');return;}
+    setPackNotice('Loading current-plan context…');
     const ctrl=new AbortController();
     request<Record<string,unknown>>(`/tasks/${encodeURIComponent(taskId)}/context-packs/${encodeURIComponent(resumePackId)}?${new URLSearchParams({tenant_graph:tenant,expected_revision:revision})}`,ctrl.signal)
-      .then(p=>{if(!ctrl.signal.aborted)setPack(p);}).catch(e=>{if(!ctrl.signal.aborted)setError(`Context unavailable: ${e instanceof Error?e.message:'Retry by reloading task'}`);});
+      .then(p=>{if(!ctrl.signal.aborted){setPack(p);setPackNotice('');}}).catch(e=>{if(!ctrl.signal.aborted){setPack(null);setPackNotice(`Context unavailable: ${e instanceof Error?e.message:'Reload task to retry'}`);}});
     return()=>ctrl.abort();
-  },[tenant,revision,taskId,resumePackId]);
+  },[tenant,revision,taskId,resumePackId,detail?.task.current_plan_id]);
   async function post<T>(path: string, body: unknown): Promise<T> {
     const response = await fetch(`${API_BASE}/tasks${path}`, { method: 'POST', signal: AbortSignal.timeout(65000),
       headers: { 'Content-Type': 'application/json', 'X-ChronosGraph-Action': 'task-runtime' }, body: JSON.stringify(body) });
@@ -86,6 +89,7 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
         <details><summary>Recorded tool activity and transport events</summary>{run.events.slice(-30).map(e => <p key={e.sequence}>#{e.sequence} {e.kind} {e.tool_name || ''}{e.paths?.length ? ` · ${e.paths.join(', ')}` : ''}</p>)}</details>
       </article>)}
     </>}
-    {pack && <details><summary>Bounded context pack and setup identity</summary><pre>{JSON.stringify({ tenant_graph: tenant, expected_revision: revision, task_id: detail?.task.id, plan_id: detail?.task.current_plan_id, pack_id: pack.id }, null, 2)}</pre><p>{String(pack.serialized_bytes)} serialized bytes · {String(pack.estimated_token_equivalents)} estimated token equivalents, not billed tokens.</p><pre>{JSON.stringify(pack.manifest, null, 2)}</pre></details>}
+    {detail && !isCurrentContextPack(pack,detail.task.id,detail.task.current_plan_id,resumePackId) && <p role="status">{packNotice || "Current-plan context unavailable; no old pack is substituted."}</p>}
+    {pack && detail && isCurrentContextPack(pack,detail.task.id,detail.task.current_plan_id,resumePackId) && <details><summary>Bounded context pack and setup identity</summary><pre>{JSON.stringify({ tenant_graph: tenant, expected_revision: revision, task_id: detail?.task.id, plan_id: detail?.task.current_plan_id, pack_id: pack.id }, null, 2)}</pre><p>{String(pack.serialized_bytes)} serialized bytes · {String(pack.estimated_token_equivalents)} estimated token equivalents, not billed tokens.</p><pre>{JSON.stringify(pack.manifest, null, 2)}</pre></details>}
   </section>;
 }

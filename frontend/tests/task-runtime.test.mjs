@@ -16,3 +16,14 @@ test('Declared review report remains explicit plain evidence',()=>{
  assert.equal(declaredReturnReport('bad'),'');assert.equal(declaredReturnReport('{}'),'');
  assert.equal(declaredReturnReport('[{"action":"RETURN","report":"39 checks passed; not approval"}]'),'39 checks passed; not approval');
 });
+
+import {isCurrentContextPack} from '../src/lib/task-runtime.ts';
+test('Context panel never labels historical pack as current plan evidence',()=>{
+ const pack={id:'pack-a',task_id:'task',plan_id:'plan-a'};
+ assert.equal(isCurrentContextPack(pack,'task','plan-a','pack-a'),true);
+ assert.equal(isCurrentContextPack(pack,'task','plan-b'),false);
+ assert.equal(isCurrentContextPack(pack,'other','plan-a','pack-a'),false);
+ assert.equal(isCurrentContextPack(pack,'task','plan-a','pack-b'),false);
+ assert.equal(isCurrentContextPack(null,'task','plan-a'),false);
+ assert.equal(isCurrentContextPack(pack,'task','plan-a'),true);
+});

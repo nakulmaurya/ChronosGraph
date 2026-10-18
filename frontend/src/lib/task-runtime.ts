@@ -22,3 +22,7 @@ export function handoffStatusLabel(role:string,status:string,reportsJson:string)
 export function declaredReturnReport(reportsJson:string):string {
   try {const rows=JSON.parse(reportsJson);if(!Array.isArray(rows))return '';const row=[...rows].reverse().find(x=>x?.action==='RETURN');return typeof row?.report==='string'?row.report:'';}catch{return '';}
 }
+
+export function isCurrentContextPack(pack:Record<string,unknown>|null,taskId:string,planId?:string,runPackId?:string):boolean {
+ return !!pack && !!taskId && !!planId && pack.task_id===taskId && pack.plan_id===planId && (!runPackId || pack.id===runPackId);
+}
