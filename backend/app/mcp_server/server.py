@@ -84,18 +84,18 @@ def get_symbol_source(file_path: str,symbol_name: str,tenant_graph: str='repo_fa
 @mcp.tool
 @instrument("record_verified_finding")
 def record_verified_finding(summary: str,evidence_note: str,supporting_file_shas: dict[str,str],
-        tenant_graph: str='repo_falkordb_py',verification_command: str='', expected_revision: str | None=None) -> dict:
-    """LESSON: Save agent-reported verification evidence bound to exact indexed file hashes; no command is executed."""
+        tenant_graph: str='repo_falkordb_py',verification_command: str='', expected_revision: str | None=None, reuse_scope: str='UNSPECIFIED') -> dict:
+    """LESSON: Save agent-reported verification evidence bound to exact indexed file hashes; no command is executed. For predecessor reuse, explicitly declare reuse_scope FILE_LOCAL or STATIC_NEIGHBORHOOD; otherwise reuse requires revalidation."""
     from app.models import FindingRequest
     from app.services.task_memory import record_finding
     return record_finding(FindingRequest(tenant_graph=tenant_graph,summary=summary,evidence_note=evidence_note,
-        supporting_file_shas=supporting_file_shas,verification_command=verification_command))
+        supporting_file_shas=supporting_file_shas,verification_command=verification_command,reuse_scope=reuse_scope))
 
 
 @mcp.tool
 @instrument("recall_task_memory")
 def recall_task_memory(query: str='',tenant_graph: str='repo_falkordb_py',include_stale: bool=False, expected_revision: str | None=None) -> dict:
-    """LESSON: Recall source/policy-bound findings after compaction; stale evidence is not replay authority."""
+    """LESSON: Recall source/policy-bound findings after compaction; stale evidence is not replay authority. historical_candidates validates only the declared predecessor connection and scope, never a new test execution."""
     from app.services.task_memory import recall_findings
     return recall_findings(tenant_graph,query,include_stale)
 

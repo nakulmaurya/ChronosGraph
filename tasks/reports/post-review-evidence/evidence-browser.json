@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Readable active decision, incident, revision/hash, explicit synthetic label and review team (1560px)",
+    "Historical candidate stays distinct, scoped validation and no new test-run claim (1560px)",
+    "Saved proposal review shows decision-to-incident-to-team package, no approval or execution (1560px)",
+    "Readable active decision, incident, revision/hash, explicit synthetic label and review team (390px)",
+    "Historical candidate stays distinct, scoped validation and no new test-run claim (390px)",
+    "Saved proposal review shows decision-to-incident-to-team package, no approval or execution (390px)",
+    "No uncaught browser errors"
+  ],
+  "errors": []
+}

@@ -7,6 +7,7 @@ from app.db.queries import (CYPHER_HYBRID_VECTOR_DECISION_SEARCH,
     CYPHER_FILE_OWNERSHIP_AND_LINEAGE, CYPHER_SUPERSEDE_DECISION)
 from app.models import (BrainQueryRequest, PolicyOverrideRequest, PolicyLineageResponse, BlindAgentComparison)
 from app.services.mutation_guard import mutation_guard, require_lease
+from app.services.organization import organizational_context
 from app.services.common import (tenant_exists, check_file, bounded_text, read, graph_payload, LOCKS)
 
 
@@ -48,7 +49,7 @@ def ask_brain(req: BrainQueryRequest) -> PolicyLineageResponse:
                          'Controlled oldest-document baseline did not select a superseded rule.')
         baseline_note += ' This is a deterministic comparison, not a measured LLM/RAG result. Demo policies are labeled; vectors are lexical hashes, not semantic embeddings.'
         experts = [e for item in lineage for e in item['top_experts'] if e.get('login')]
-        return PolicyLineageResponse(file_path=path,active_decisions=active,superseded_decisions=old,repository_constraints=extracted,
+        return PolicyLineageResponse(organizational_evidence=organizational_context(tenant,[path]),file_path=path,active_decisions=active,superseded_decisions=old,repository_constraints=extracted,
             top_experts=experts,blind_agent_comparison=BlindAgentComparison(
                 verdict='CONTROLLED_STALE_RULE' if obsolete else 'CONTROLLED_BASELINE_NO_ERROR',
                 mistake_summary=baseline_note,obsolete_rule_followed=obsolete,steps_taken=1,duration_ms=base_ms),

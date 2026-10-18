@@ -1,0 +1,13 @@
+{
+  "owned_demo_tenants": [
+    "repo_test_evidence_ad2f32cc3f094d9fa337ecaee1e4ffbe",
+    "repo_test_evidence_789ba90cef2e40c4a6ebf5045731abb1"
+  ],
+  "all_removed": true,
+  "remaining_graphs": [
+    "repo_falkordb_code_graph",
+    "repo_falkordb_py",
+    "repo_graphrag_sdk",
+    "repo_mcp_python_sdk"
+  ]
+}

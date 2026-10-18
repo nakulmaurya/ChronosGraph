@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Activity, ArrowLeft, GitBranch, Search, ShieldCheck, Terminal } from "lucide-react";
 import { request } from "@/lib/api";
+import OrganizationEvidence from "./OrganizationEvidence";
 import GitHubImportGuide from "./GitHubImportGuide";
 import { finalStateInput, formatBytes, queryString } from "@/lib/workbench";
 import type { Brain, Subgraph, Tenant } from "@/lib/types";
@@ -12,14 +13,14 @@ type Entry = { path: string; sha256: string; revision: string; pagerank: number;
   symbols: { name: string; signature: string; start_line: number; end_line: number }[] };
 type Context = { entry_points: Entry[]; payload_bytes: number; payload_token_equivalents: number;
   related_importers: { path: string }[]; active_rules: { id: string; rule: string }[]; coverage: { truncated: boolean } };
-type Ownership = { status: string; source_document: { path: string | null; sha256: string | null; revision: string | null };
+type Ownership = { organizational_evidence?: import("@/lib/types").OrganizationalEvidence; status: string; source_document: { path: string | null; sha256: string | null; revision: string | null };
   declarations: { file_path: string; owner: string | null; owner_kind: string | null; pattern: string; source_line: number }[];
   truncated: boolean; invalid_rule_count: number };
 type Snapshot = { source_revision: string | null; selected_branch: string | null; connection_kind: string;
   parent_snapshot: string | null; last_check: { status: string; checked_at: number | null; observed_revision: string | null; dirty: boolean | null; reasons: string[] } };
 type Event = { selection_reasons?:unknown[]; target_files: string[]; id: string; timestamp: number; tool_name: string; summary: string; duration_ms: number; outcome: string; result_bytes: number };
 type Finding = { id: string; summary: string; evidence_note: string; status: string; stale_reasons: string[];verification_basis?:string;proposal_id?:string;supporting_file_shas?:Record<string,string>;absent_base_files?:string[];base_revision?:string;result_file_hashes_json?:string;governing_decision_ids_json?:string };
-type Memory = { findings: Finding[]; stale_findings_in_scan: number; has_more: boolean };
+type Memory = { historical_candidates?: { status: string; predecessor: string | null; findings: (Finding & { origin_revision: string; validated_for_revision: string; revalidation_reasons: string[]; reuse_scope: string })[] }; findings: Finding[]; stale_findings_in_scan: number; has_more: boolean };
 type Impact = { changed_files: string[]; impacted_files: string[]; impacted_test_files: string[]; potentially_broken_callers: string[];
   added_dependencies: { relationship: string; source: string; target: string }[];
   removed_dependencies: { relationship: string; source: string; target: string }[];
@@ -215,6 +216,7 @@ export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath
           <button className="button primary" disabled={busy || !path || !tenant} onClick={() => void run<Brain>("/track3/ask-brain", setBrain,
             { tenant_graph: tenant, file_path: path, question: "Show current and superseded governing rules and commit contributors" })}>Inspect rules & contributors</button>
           {brain && <>
+            <OrganizationEvidence evidence={brain.organizational_evidence} />
             <h3>ACTIVE local rules</h3>{brain.active_decisions.map((r, i) => <article className="wb-card" key={i}>{String(r.rule ?? r.active_rule ?? "")}</article>)}
             <details className="wb-details"><summary>Superseded history (not current instructions)</summary>{brain.superseded_decisions.map((r,i)=><article className="wb-card" key={i}><s>{String(r.rule??r.old_rule??r.active_rule??"Historical rule")}</s><JsonDetails label="Validity and recorded evidence" value={r}/></article>)}</details>
             <JsonDetails label="Source-extracted constraints" value={brain.repository_constraints} />
@@ -227,7 +229,7 @@ export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath
           <button className="button secondary" disabled={busy || !path || !tenant} onClick={() => void run<Ownership>(
             `/context/owners?${queryString({ tenant_graph: tenant, file_path: path })}`, setOwnership)}>Trace declared owners</button>
           {ownership && <section className="wb-card" aria-label="Declared owner evidence">
-            <p>{ownership.status}</p>
+            <p>{ownership.status}</p><OrganizationEvidence evidence={ownership.organizational_evidence} />
             <p>File → matching rule → declared owner. Pinned commit evidence, not verified GitHub identity or access.</p>
             {ownership.declarations.map((d, i) => <p key={i}><strong>{d.owner || "No declared owner (matching rule clears owners)"}</strong><br />
               <code>{d.pattern}</code> · {ownership.source_document.path}:{d.source_line}</p>)}
@@ -244,6 +246,10 @@ export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath
           {events.map(event => <article className="wb-card" key={event.id}><strong>{event.tool_name}</strong><p>{event.outcome} · {event.duration_ms.toFixed(2)} ms · {formatBytes(event.result_bytes)}</p><small>{new Date(event.timestamp).toLocaleString()}</small>{!!event.selection_reasons?.length&&<JsonDetails label="Why this context was selected" value={event.selection_reasons}/>}{onInspect&&event.target_files?.map(p=><button className="cc-event-file" key={p} onClick={()=>onInspect(p)}>Inspect {p} →</button>)}</article>)}
           <h3>Source-bound findings</h3><p>Evidence labels distinguish unverified client reports from observed local worktree tests. Source hashes and governing policies determine freshness; saved source is not automatically changed.</p>
           {memory?.findings.map(f => <article className="wb-card" key={f.id}><strong>{f.summary}</strong><p>{f.status}{f.stale_reasons.length ? ` · ${f.stale_reasons.join(", ")}` : ""}</p><p>{f.evidence_note}</p><small>{f.verification_basis||"AGENT_REPORTED_EVIDENCE_NOT_INDEPENDENTLY_EXECUTED"}</small>{f.proposal_id&&<p>Proposal: <code>{f.proposal_id}</code></p>}<JsonDetails label="Supporting source and policy evidence" value={{base_revision:f.base_revision,files:f.supporting_file_shas,absent_at_base:f.absent_base_files,proposed_result_hashes:f.result_file_hashes_json,decisions:f.governing_decision_ids_json}}/></article>)}
+          {memory?.historical_candidates && <section aria-label="Predecessor finding validation"><h3>Previous snapshot evidence</h3>
+            <p>{memory.historical_candidates.status} · Read-only validation; original findings stay in the predecessor. No test was rerun on this revision.</p>
+            {memory.historical_candidates.findings.map(f=><article className="wb-card" key={f.id}><strong>{f.summary}</strong><p>{f.status} · {f.reuse_scope}</p><p>{f.evidence_note}</p><p>{[...f.stale_reasons,...f.revalidation_reasons].join(", ")}</p><p>Original revision: <code>{f.origin_revision}</code><br/>Validated scope at: <code>{f.validated_for_revision}</code></p></article>)}
+          </section>}
           {memory?.has_more && <p>Showing the latest bounded selection; use the memory API to query findings.</p>}
           <details><summary>Record a finding from the last context lookup</summary>
             <p>Evidence files: {(context?.entry_points || evidenceEntries).map(e => e.path).join(", ") || "Search for context first."}</p>

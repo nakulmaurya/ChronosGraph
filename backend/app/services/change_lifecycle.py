@@ -151,7 +151,7 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
                                                  file_bodies=req.proposed_files))
         rules = _rules(tenant, list(req.proposed_files))
         impact['active_rules'] = rules
-        impact['declared_ownership'] = ownership_for_paths(tenant, list(req.proposed_files), limit=100)
+        impact['declared_ownership'] = ownership_for_paths(tenant, list(req.proposed_files), limit=100, include_organization=True)
         ident = 'prop_' + uuid.uuid4().hex
         p = {'id': ident, 'idempotency_key': req.idempotency_key, 'task_title': req.task_title,
              'tenant_graph': tenant, 'base_revision': req.expected_revision, 'actor_principal': actor,

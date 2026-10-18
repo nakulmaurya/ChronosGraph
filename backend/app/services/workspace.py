@@ -35,5 +35,6 @@ def workspace_snapshot(tenant_graph):
                 'selected_blob_verification':data.get('import_blob_verification'),
                 'history_scope':data.get('history_scope'),
                 'scope':'PYTHON_AST_AND_SELECTED_SUPPORT_FILES_NOT_WHOLE_REPO_SEMANTICS'},
+            'memory_carry_forward':{'mode':'READ_ONLY_ON_DEMAND_PREDECESSOR_VALIDATION','read_operation':'recall_task_memory','test_results_reexecuted':False},
             'sync_semantics':'NEW_IMMUTABLE_SNAPSHOT_OLD_GRAPH_AND_FINDINGS_UNCHANGED',
             'model_calls':0}

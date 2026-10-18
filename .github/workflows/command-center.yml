@@ -55,7 +55,7 @@ jobs:
       - name: Known-answer workflow, source accuracy and stale-memory regressions
         run: python -m pytest backend/tests/test_workflow_benchmarks.py -k 'known_answer or recovery_active_only or metric_edge_cases or owned_graph' -v
       - name: Post-review source, classification and active-policy regressions
-        run: python -m pytest backend/tests/test_post_review_correctness.py backend/tests/test_context_memory.py -v
+        run: python -m pytest backend/tests/test_post_review_correctness.py backend/tests/test_context_memory.py backend/tests/test_organization_evidence.py backend/tests/test_memory_carryforward.py -v
       - name: Crash recovery of receipt and graph
         run: PYTHON_BIN=$(command -v python) bash scripts/verify-database-persistence.sh
       - name: Cleanup owned service

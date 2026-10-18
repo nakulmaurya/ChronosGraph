@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "data_kind": "OWNED_SYNTHETIC",
+  "teams": [
+    {
+      "owner": "@chronos-example/compatibility",
+      "name": "Compatibility Platform"
+    }
+  ],
+  "decisions": [
+    {
+      "conflict_group": "timeout-contract",
+      "governs": [
+        "client.py"
+      ],
+      "incident": {
+        "path": "incidents/INC-007.md",
+        "start_line": 1,
+        "end_line": 5
+      },
+      "id": "adr-001",
+      "status": "SUPERSEDED",
+      "rule": "Raise TimeoutError for transport timeouts.",
+      "rationale": "Earlier exception-first proposal, retired after the incident.",
+      "required_action": "Historical proposal only; do not apply as current requirement.",
+      "document": {
+        "path": "docs/ADR-001.md",
+        "start_line": 1,
+        "end_line": 4
+      }
+    },
+    {
+      "conflict_group": "timeout-contract",
+      "governs": [
+        "client.py"
+      ],
+      "incident": {
+        "path": "incidents/INC-007.md",
+        "start_line": 1,
+        "end_line": 5
+      },
+      "id": "adr-002",
+      "status": "ACTIVE",
+      "supersedes": "adr-001",
+      "rule": "Timeouts must retain {'ok': False, 'reason': 'timeout'} for existing queue workers.",
+      "rationale": "INC-007 showed the existing retry branch is bypassed by timeout exceptions.",
+      "required_action": "Publish a migration plan, update contract tests, and obtain Compatibility Platform review before switching to exceptions.",
+      "document": {
+        "path": "docs/ADR-002.md",
+        "start_line": 1,
+        "end_line": 6
+      }
+    }
+  ]
+}

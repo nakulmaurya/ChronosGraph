@@ -4,6 +4,7 @@ import { request } from "@/lib/api";
 import { operatorRequest } from "@/lib/operator-api";
 import { queryString } from "@/lib/workbench";
 import { changedRegion, type ChangeImpact } from "@/lib/change-planning";
+import OrganizationEvidence from "./OrganizationEvidence";
 import { proposalStatusLabel, type OwnershipEvidence } from "@/lib/proposals";
 
 type Execution = {
@@ -459,6 +460,7 @@ export default function ChangeProposals({
             ) : (
               <p>No active local rules were recorded for the changed files.</p>
             )}
+            <OrganizationEvidence evidence={owners?.organizational_evidence} />
             <h4>Declared owners</h4>
             {owners?.declarations?.length ? (
               <ul>

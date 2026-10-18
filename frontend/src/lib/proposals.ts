@@ -1,3 +1,4 @@
+import type { OrganizationalEvidence } from "./types";
 /** Human labels preserve the backend status, which remains visible as audit evidence. */
 export function proposalStatusLabel(status: string): string {
   return (
@@ -15,6 +16,7 @@ export function proposalStatusLabel(status: string): string {
   );
 }
 export type OwnershipEvidence = {
+  organizational_evidence?: OrganizationalEvidence;
   source_document?: { path?: string | null };
   truncated?: boolean;
   declarations?: {

@@ -275,6 +275,9 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
         from app.ingestion.codeowners import index_codeowners
         declared_ownership = index_codeowners(graph,root,revision,origin,known,
             document=prepared_snapshot["ownership_document"] if prepared_snapshot else None)
+        from app.ingestion.organization import index_organization
+        organization = index_organization(graph,root,revision,origin,known) if prepared_snapshot is None else {
+            'status':'NOT_INDEXED_ARCHIVE_IMPORT','decisions':0}
         linked = append_history(graph,history,origin,known)
         policy_paths = []
         if seed_demo_policies:
@@ -294,7 +297,7 @@ def _ingest_repo(source, tenant, ref, seed_demo_policies, *, snapshot_metadata=N
            'history_limit':40 if prepared_snapshot is None else 0,
            'history_scope':'latest_commits_at_source_revision' if prepared_snapshot is None else 'NOT_FETCHED_GITHUB_ARCHIVE'})
         return {**snapshot_stats(tenant),'repository':repository,'source_revision':revision,
-            'declared_ownership':declared_ownership,
+            'declared_ownership':declared_ownership,'organization':organization,
             'extracted_repository_rules':extracted_rules,'resolved_calls':len(calls),'unresolved_calls':unresolved,'parse_errors':errors,
             'history_records':len(history),'history_file_links':linked,'policy_files':policy_paths,
             'pagerank_method':'native_falkordb_pagerank_normalized',

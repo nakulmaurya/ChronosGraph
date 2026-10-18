@@ -63,6 +63,7 @@ export interface Audit {
   subgraph: Subgraph;
 }
 export interface Brain {
+  organizational_evidence?: OrganizationalEvidence;
   repository_constraints?: RecordData[];
   file_path: string;
   active_decisions: RecordData[];
@@ -100,3 +101,11 @@ export type Result =
   | { kind: "audit"; data: Audit }
   | { kind: "brain"; data: Brain }
   | { kind: "memory"; data: Investigation };
+
+export type OrganizationalExcerpt = { path: string; start_line: number; end_line: number; excerpt: string; sha256: string; source_revision: string };
+export type OrganizationalEvidence = {
+  status: string; truncated: boolean; safe_to_approve: false;
+  chains: { file_path: string; decision: { status: string; rule: string; rationale: string; required_action: string; data_kind: string }; document: OrganizationalExcerpt | null; motivating_incident: OrganizationalExcerpt | null }[];
+  review_teams: { name: string; owner: string; file_path: string }[];
+  gaps: { reason: string; file_path?: string }[];
+};

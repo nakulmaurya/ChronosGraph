@@ -96,6 +96,7 @@ class PolicyOverrideRequest(BaseModel):
 
 
 class PolicyLineageResponse(BaseModel):
+    organizational_evidence: Dict[str, Any] = Field(default_factory=dict)
     repository_constraints: List[Dict[str, Any]] = Field(default_factory=list)
     file_path: str
     active_decisions: List[Dict[str, Any]]
@@ -154,6 +155,7 @@ class DiffImpactRequest(BaseModel):
 
 
 class FindingRequest(BaseModel):
+    reuse_scope: Literal["UNSPECIFIED", "FILE_LOCAL", "STATIC_NEIGHBORHOOD"] = "UNSPECIFIED"
     tenant_graph: str = "repo_falkordb_py"
     summary: str = Field(min_length=1, max_length=500)
     evidence_note: str = Field(min_length=1, max_length=2000)

@@ -1,0 +1,3 @@
+# Owned synthetic team declaration, not an existing GitHub organization.
+/client.py @chronos-example/compatibility
+/worker.py @chronos-example/compatibility
