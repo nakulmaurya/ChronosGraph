@@ -1,0 +1,36 @@
+{
+  "scope": "Isolated local validation; not VM/deployed preview",
+  "python": "3.13.14",
+  "platform": "Linux-6.18.49-x86_64-with-glibc2.34",
+  "redis_version": "8.6.2",
+  "redis_modules": [
+    {
+      "name": "vectorset",
+      "ver": 1,
+      "path": "",
+      "args": []
+    },
+    {
+      "name": "graph",
+      "ver": 41803,
+      "path": "/data/venv/lib64/python3.13/site-packages/redislite/bin/falkordb.so",
+      "args": []
+    }
+  ],
+  "packages": {
+    "falkordb": "1.8.0",
+    "falkordblite": "0.10.0",
+    "fastapi": "0.143.1",
+    "pytest": "9.1.1",
+    "fastmcp": "4.1.0"
+  },
+  "node": "v24.14.1",
+  "native_loader": "Isolated Ubuntu libc 2.39 loader; no host library replacement",
+  "dependency_lock": "backend/requirements-linux-py313.lock",
+  "corpus_graphs": [
+    "repo_falkordb_py",
+    "repo_graphrag_sdk",
+    "repo_mcp_python_sdk",
+    "repo_falkordb_code_graph"
+  ]
+}

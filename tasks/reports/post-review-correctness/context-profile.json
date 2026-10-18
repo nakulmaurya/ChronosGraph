@@ -1,0 +1,183 @@
+{
+  "tenant": "repo_test_fresh_audit_e690725f41bb4e10b51c356047ca5085",
+  "query": "_ensure_ontology_initialized",
+  "expected_path": "graphrag_sdk/src/graphrag_sdk/api/main.py",
+  "baseline": "dd8f44a context_locator with current shared dependencies",
+  "baseline_locator_sha256": "2361a403308307062696f32733882b8051b1a9387dcfa6216c57ddcaeb1eed4a",
+  "order": "20 paired samples with seeded randomized within-pair order",
+  "warmups_per_mode": 1,
+  "samples_per_mode": 20,
+  "latency_ms": {
+    "legacy": {
+      "p50": 89.19380950004552,
+      "p95": 108.20472700004302,
+      "samples": [
+        90.39872799996829,
+        87.91163199998664,
+        88.43283700002758,
+        111.38038500007497,
+        88.10253000001467,
+        87.82778599993435,
+        90.51071999999749,
+        90.16881700006252,
+        88.59854999991512,
+        89.19509300005757,
+        89.0286600000536,
+        89.19252600003347,
+        108.20472700004302,
+        89.44254100003945,
+        87.38495199997942,
+        89.34089199999562,
+        87.85692800006473,
+        88.65832600008616,
+        89.50700099990172,
+        93.27658200004407
+      ]
+    },
+    "exact_lookup": {
+      "p50": 6.909617500014065,
+      "p95": 7.116383000038695,
+      "samples": [
+        6.935096999995949,
+        6.868163000035565,
+        6.5735079999740265,
+        7.041103000005933,
+        6.90418800002135,
+        6.8216550000670395,
+        6.994024000050558,
+        7.065752000016801,
+        6.996647000050871,
+        6.881416000055651,
+        6.6881120000061856,
+        6.6682859999218635,
+        6.8049319999090585,
+        7.0251280000093175,
+        7.116383000038695,
+        6.730831000027138,
+        6.790908999960266,
+        6.91504700000678,
+        6.923225000036837,
+        7.210876999920401
+      ]
+    }
+  },
+  "same_expected_entry": true,
+  "same_target_import_routes": true,
+  "target_import_routes": {
+    "legacy": [
+      [
+        "graphrag_sdk/examples/01_quickstart.py",
+        "graphrag_sdk/src/graphrag_sdk/__init__.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/src/graphrag_sdk/__init__.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/src/graphrag_sdk/api/__init__.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/conftest.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_backfill.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_facade.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_grounded_abstention.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_integration.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_llm_verified_resolution.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_mapping_proposal.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_ontology_evolve.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ]
+    ],
+    "exact_lookup": [
+      [
+        "graphrag_sdk/examples/01_quickstart.py",
+        "graphrag_sdk/src/graphrag_sdk/__init__.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/src/graphrag_sdk/__init__.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/src/graphrag_sdk/api/__init__.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/conftest.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_backfill.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_cypher_retrieval_wiring.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_facade.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_grounded_abstention.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_integration.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_llm_verified_resolution.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_mapping_proposal.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ],
+      [
+        "graphrag_sdk/tests/test_ontology_evolve.py",
+        "graphrag_sdk/src/graphrag_sdk/api/main.py"
+      ]
+    ]
+  },
+  "entry_inventory_files": {
+    "legacy": 154,
+    "exact_lookup": 1
+  },
+  "exact_symbol_plan": "Results\n    Project\n        Conditional Traverse | (s)->(f:File)\n            Node By Index Scan | (s:Function)",
+  "index_scan_confirmed": true,
+  "limitations": [
+    "Exact candidate mode intentionally omits incidental lexical-only entry files",
+    "General prose uses the inventory fallback",
+    "Policy/memory/ownership expansion may still scan graph inventories",
+    "Same-host service timing; not an independent agent benchmark or guarantee of <50ms"
+  ],
+  "model_calls": 0
+}

@@ -1,0 +1,115 @@
+{
+  "checks": [
+    {
+      "check": "Live tenant catalog and initial source graph",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 1 live audit, impacted nodes and verified sandbox cleanup",
+      "status": "PASS"
+    },
+    {
+      "check": "T-07 visible static test candidates, safe full-suite fallback and copyable pytest command",
+      "status": "PASS"
+    },
+    {
+      "check": "Real commit scope, AST snippet editor, clone cleanup and above-fold audit comparison",
+      "status": "PASS"
+    },
+    {
+      "check": "T-07 real unified diff matches captured source and is AST-parsed only in disposable clone",
+      "status": "PASS"
+    },
+    {
+      "check": "Interactive node selection, metadata and draggable positions",
+      "status": "PASS"
+    },
+    {
+      "check": "Exact backend Cypher drawer",
+      "status": "PASS"
+    },
+    {
+      "check": "Full API payload remains accessible behind focused graph view",
+      "status": "PASS"
+    },
+    {
+      "check": "Track navigation retains clearly labeled real evidence without a blank canvas",
+      "status": "PASS"
+    },
+    {
+      "check": "T-07 measured candidate-source bytes and persisted compiled MCP context slice; zero models",
+      "status": "PASS"
+    },
+    {
+      "check": "Replay keeps two dimmed historical cold branches, actual cyan path and measured comparison",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 2 real 5-to-3 replay, two dead ends pruned and zero-model telemetry",
+      "status": "PASS"
+    },
+    {
+      "check": "Scenario changes invalidate replay availability",
+      "status": "PASS"
+    },
+    {
+      "check": "Backend stale-playbook refusal is surfaced and replay disabled",
+      "status": "PASS"
+    },
+    {
+      "check": "Track 3 active/superseded policies, times, scope and provenance",
+      "status": "PASS"
+    },
+    {
+      "check": "Explicit confirmed override writes real lineage and invalidates UI replay",
+      "status": "PASS"
+    },
+    {
+      "check": "Tenant switch clears results and loads SDK-specific policy data",
+      "status": "PASS"
+    },
+    {
+      "check": "MCP 15-tool template, editable cwd, Escape and focus restoration",
+      "status": "PASS"
+    },
+    {
+      "check": "Network failure explains recovery without fake fallback data",
+      "status": "PASS"
+    },
+    {
+      "check": "390px mobile layouts: all three tracks and MCP dialog, no page overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "T-08 brain lint and compact use live graph counts and LESSON recovery",
+      "status": "PASS"
+    },
+    {
+      "check": "T-08 live Obsidian note wikilinks, source ledger, bounded copied ResumeSnapshot and ZIP export",
+      "status": "PASS"
+    },
+    {
+      "check": "T-08 MCP platform guidance and actual portable-skill path clipboard",
+      "status": "PASS"
+    },
+    {
+      "check": "T-08 v1.4 HUD and 390px wiki modal without page overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "No uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "measurements": [
+    {
+      "tenant": "repo_falkordb_py",
+      "cold_duration_ms": 28.759,
+      "warm_duration_ms": 16.657,
+      "latency_speedup_factor": 1.727,
+      "cold_actions": 5,
+      "warm_actions": 3
+    }
+  ],
+  "browserErrors": []
+}

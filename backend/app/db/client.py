@@ -37,9 +37,12 @@ class FalkorDBManager:
             "CREATE INDEX FOR (c:CommitFileChange) ON (c.id)",
             "CREATE INDEX FOR (p:PullRequest) ON (p.commit_sha)",
             "CREATE INDEX FOR (fn:Function) ON (fn.qualified_name)",
+            "CREATE INDEX FOR (fn:Function) ON (fn.name)",
             "CREATE INDEX FOR (c:Class) ON (c.qualified_name)",
+            "CREATE INDEX FOR (c:Class) ON (c.name)",
             "CREATE INDEX FOR (p:PullRequest) ON (p.number)",
             "CREATE INDEX FOR (d:Decision) ON (d.id)",
+            "CREATE INDEX FOR (d:Decision) ON (d.status)",
             "CREATE INDEX FOR (s:StateNode) ON (s.id)",
             "CREATE INDEX FOR (inv:Investigation) ON (inv.id)",
         ]

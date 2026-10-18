@@ -4,6 +4,7 @@ Rebuild static CALLS from captured source after replacements (including inbound
 callers). Never execute code, apply a patch to disk, or mutate the base tenant.
 """
 from __future__ import annotations
+from app.services.test_selection import is_test_file, selection_receipt
 import hashlib
 import shlex
 import uuid
@@ -247,7 +248,7 @@ def simulate_diff(req):
             after_impact = _blast(graph, changed_paths)
             impacted = sorted(before_impact | after_impact)
             tests = sorted(p for p in impacted if p in sources or p in final_sources
-                           if PurePosixPath(p).name.startswith('test_') or p.startswith('tests/'))
+                           if is_test_file(p))
             # Deleted tests are evidence, never suggested as runnable pytest arguments.
             runnable = [p for p in tests if p in final_sources]
             def dep_rows(entries):
@@ -266,6 +267,7 @@ def simulate_diff(req):
                 'post_patch_impacted_files': sorted(after_impact), 'impacted_test_files': tests,
                 'recommended_pytest_command': 'pytest -- ' + ' '.join(shlex.quote(p) for p in runnable) if runnable else '',
                 'test_selection_basis': 'PRE_POST_UNION_STATIC_CANDIDATES_NOT_SAFE_SKIP_PROOF',
+                'test_collection': selection_receipt(impacted, set(sources) - set(final_sources)),
                 'final_file_hashes': {p: items[p]['file']['sha256'] for p in changed_paths if p in items},
                 'source_revisions': sorted({r[3] for r in captured if r[3]}),
                 'call_coverage': {

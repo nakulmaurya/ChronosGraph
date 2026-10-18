@@ -1,5 +1,6 @@
 """Deterministic read-only graph wiki. Source evidence is data, not agent instructions."""
 from __future__ import annotations
+from app.services.test_selection import is_test_file, selection_receipt
 import hashlib
 import json
 import os
@@ -140,7 +141,7 @@ def context_stats(tenant,file_path=None):
         sizes,_=read(tenant,'''MATCH (f:File) RETURN f.path AS path,f.source_utf8_bytes AS bytes,
             f.source_chars AS chars,f.loc AS lines''')
         available=bool(sizes) and all(isinstance(r['bytes'],int) and isinstance(r['chars'],int) for r in sizes)
-        tests=sorted(r['path'] for r in sizes if r['path'].startswith('tests/') or 'test_' in r['path'])
+        tests=sorted(r['path'] for r in sizes if is_test_file(r['path']))
         selected=sorted(set(paths)&set(tests))
         import shlex
         command='pytest -- '+' '.join(shlex.quote(p) for p in selected) if selected else 'pytest'
@@ -168,6 +169,7 @@ def context_stats(tenant,file_path=None):
         return {'tenant_graph':tenant,'fingerprint':version,'indexed_files':len(sizes),'ast_symbols':count[0]['n'],
             'raw_repo_lines':sum(r['lines'] or 0 for r in sizes),**byte_metrics(raw,chars,compact,available),
             'slice':compact,'track1':{**audit,'impacted_test_files':selected,'total_repo_test_files':len(tests),
+                'test_collection':selection_receipt(paths),
                 'recommended_pytest_command':command,'selection_basis':'BOUNDED_STATIC_CANDIDATES_NOT_SAFE_SKIP_PROOF'},
             'track2':memory,'track3':{'basis':'Resume includes ACTIVE local rules only; history remains in wiki notes.'}}
 
@@ -371,10 +373,11 @@ def brain_wiki_slice(tenant,file_path=None):
         chars=sum(r['chars'] for r in files) if available else 0
         metric=byte_metrics(raw,chars,body,available)
         import shlex
-        tests=sorted(r['path'] for r in files if r['path'].startswith('tests/') or 'test_' in r['path'])
-        all_tests,_=read(tenant,"MATCH (f:File) WHERE f.path STARTS WITH 'tests/' OR f.path CONTAINS 'test_' RETURN count(f) AS n")
+        tests=sorted(r['path'] for r in files if is_test_file(r['path']))
+        all_files,_=read(tenant,"MATCH (f:File) RETURN f.path AS path")
+        test_count=sum(is_test_file(r['path']) for r in all_files)
         metric.update(raw_files_bytes=raw,raw_est_tokens=chars//4,slice_est_tokens=len(body)//4,
-            affected_pytest_files=tests,total_repo_test_files=all_tests[0]['n'],
+            affected_pytest_files=tests,total_repo_test_files=test_count,test_collection=selection_receipt([r['path'] for r in files]),
             recommended_pytest_command='pytest -- '+' '.join(shlex.quote(p) for p in tests) if tests else 'pytest',
             connected_files=[r['path'] for r in sorted(files,key=lambda r:r['path'])],
             basis='Captured decoded-source UTF-8 bytes and Unicode chars//4 versus this exact Markdown note; bounded static import/call candidates, not safe-skip proof or billed savings.')

@@ -181,8 +181,11 @@ def context_locate(tenant_graph: str,query: str,budget_bytes: int=4096):
 
 
 @app.get('/api/v1/context/symbol-source')
-def context_symbol_source(tenant_graph: str,file_path: str,symbol_name: str):
-    return symbol_source(tenant_graph,file_path,symbol_name)
+def context_symbol_source(tenant_graph: str,file_path: str,symbol_name: str,
+        start_byte: int=0,max_bytes: int=8000,expected_source_sha256: str | None=None,
+        expected_source_revision: str | None=None):
+    return symbol_source(tenant_graph,file_path,symbol_name,start_byte,max_bytes,
+                         expected_source_sha256,expected_source_revision)
 
 
 @app.post('/api/v1/memory/findings')

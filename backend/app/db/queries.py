@@ -119,10 +119,11 @@ RETURN
 """
 
 CYPHER_HYBRID_VECTOR_DECISION_SEARCH = """
-CALL db.idx.vector.queryNodes('Decision', 'embedding', 4, vecf32($query_embedding))
-YIELD node AS d, score
-WHERE d.status = 'ACTIVE'
-MATCH (d)-[:GOVERNS]->(f:File)
+MATCH (d:Decision {status:'ACTIVE'})-[:GOVERNS]->(f:File)
+WHERE d.embedding IS NOT NULL
+WITH d,f,vec.cosineDistance(d.embedding,vecf32($query_embedding)) AS score
+ORDER BY score,d.id,f.path
+LIMIT 4
 OPTIONAL MATCH (d)-[:SUPERSEDED]->(old_d:Decision)
 OPTIONAL MATCH (c:Contributor)-[:AUTHORED]->(pr:PullRequest)-[:MODIFIES]->(f)
 RETURN

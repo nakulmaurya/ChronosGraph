@@ -1,4 +1,5 @@
 """Disposable dependency scenarios; static impact is not proof of a runtime outage."""
+from app.services.test_selection import is_test_file
 import uuid
 import shlex
 from fastapi import HTTPException
@@ -74,9 +75,8 @@ def audit_sandbox(req: SandboxAuditRequest) -> SandboxAuditResponse:
             obsolete=stale[0]['rule'] if stale and stale[0]['status']=='SUPERSEDED' else None
             real_files={p for p in files if p!=scenario}
             missed=len(real_files-direct-set(paths))
-            test_paths = {r[0] for r in sandbox_graph.ro_query("""MATCH (f:File)
-                WHERE f.path STARTS WITH 'tests/' OR f.path CONTAINS 'test_'
-                RETURN DISTINCT f.path""").result_set if r[0] != scenario}
+            test_paths = {r[0] for r in sandbox_graph.ro_query(
+                'MATCH (f:File) RETURN DISTINCT f.path').result_set if is_test_file(r[0]) and r[0] != scenario}
             selected_tests = sorted((real_files | set(paths)) & test_paths)
             reduction = round(100 * (1-len(selected_tests)/len(test_paths)), 2) if test_paths else 0.0
             # No shell execution; quote paths and terminate options. Empty selection

@@ -14,6 +14,7 @@ import time
 import uuid
 
 from app.db.client import db_manager
+from app.services.test_selection import is_test_file as is_test
 from app.models import DiffImpactRequest
 from app.services.command_center import overview, search_repository
 from app.services.context_locator import locate_context, symbol_source
@@ -50,12 +51,6 @@ def timed(call, samples):
     return {'samples': samples, 'warmups': 1, 'p50_ms': round(percentile(values, .5), 3),
             'p95_ms': round(percentile(values), 3), 'max_ms': round(max(values), 3),
             'samples_ms': [round(v, 3) for v in values]}
-
-
-def is_test(path):
-    """Python test-file denominator, not collected pytest cases or fixture modules."""
-    name = path.rsplit('/', 1)[-1]
-    return name.endswith('.py') and (name.startswith('test_') or name.endswith('_test.py'))
 
 
 def reduction(total, selected):
@@ -229,6 +224,7 @@ def evaluate_repository(tenant, samples=20):
             'added_dependencies': impact['added_dependencies'], 'removed_dependencies': impact['removed_dependencies'],
             'analysis_ms': round(elapsed, 3), 'clone_ms': impact['sandbox_clone_time_ms'],
             'sandbox_cleaned_up': impact['sandbox_cleaned_up'], 'unresolved_calls': impact['unresolved_calls'],
+            'test_collection': impact['test_collection'],
             'parse_coverage': impact['parse_coverage'], 'test_impact_precision': None, 'test_impact_recall': None,
             'basis': 'Static candidate reduction by test FILE count, not tests safely skipped; no untrusted pytest executed'}
         # Measure copy/delete independently, including existence verification.
