@@ -1,6 +1,6 @@
 # Task 10 — final verification packet (PREPARED, NOT RUN)
 
-This is the next gate, not a new browser/test receipt. Start only after Agent 2 explicitly finishes or pauses its measured Task 9 window. Do not stop, build, import, restart services or run parallel agent workloads during that window.
+This is an assignment packet, not an execution receipt. See the [observed scoped read-only verification](../reports/TASK-10-READONLY-BROWSER-VERIFICATION.md) for completed checks and remaining exclusions. Start only after Agent 2 explicitly finishes or pauses its measured Task 9 window. Do not stop, build, import, restart services or run parallel agent workloads during that window.
 
 ## Freeze and authority
 

@@ -1,6 +1,6 @@
 # Current-checkpoint read-only browser smoke
 
-**Prepared and locally contract-tested; real ChronosGraph desktop/mobile gate NOT RUN.** This is a scoped Task 10 helper, not an application feature, provider trial, recording or release certificate. Follow the [verification packet](../tasks/assignments/TASK-10-FINAL-VERIFICATION.md) for manual checks outside its coverage.
+**Implemented and exercised against the actual read-only Task 3/7 checkpoint at desktop/mobile widths.** See the [observed verification report](../tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md) for exact source, failed-first-attempt correction, screenshots and remaining limitations. This is a scoped Task 10 helper, not an application feature, provider trial, recording or release certificate. Follow the [verification packet](../tasks/assignments/TASK-10-FINAL-VERIFICATION.md) for manual checks outside its coverage.
 
 ## Before running against the product
 
@@ -42,3 +42,19 @@ CHROMIUM_PATH="$(command -v chromium)" node frontend/tests/support/check-readonl
 ```
 
 The second command launches a temporary loopback HTTP fixture and actual local Chromium. It checks only the network guard (allowed GET, blocked POST/foreign origin/WebSocket), not ChronosGraph endpoints or UI. Its server/browser are closed on exit. The fixture does not change or mock any application endpoint. Keep its PASS separate from Task 10 product verification.
+
+## Optional GET-only ownership / keyboard supplement
+
+After the same quiet-window/service preflight, use a separate new output directory:
+
+```bash
+CHROMIUM_PATH="$(command -v chromium)" node frontend/tests/task-checkpoint-readonly-supplement.mjs \
+  --run /absolute/path/checkpoint-readonly.json /absolute/path/new-supplement-directory
+```
+
+This current-fixture supplement inspects `client.py` via the existing GET owners
+button, expands current/historical decision and incident sources, checks Enter/
+Escape focus behavior for the connection modal, and scrolls the actual reviewer
+RETURN verdict into view. It does not click Inspect rules & contributors (a POST),
+record an override, install MCP or approve anything. Source excerpts remain owned
+synthetic evidence. Automated results still need inspected screenshots.

@@ -1,0 +1,84 @@
+{
+  "status": "PASS_SCOPED_VISUAL_REVIEW_WITH_DOCUMENTED_LIMITATIONS",
+  "reviewed_at": "2026-10-18T13:45:28.167999+00:00",
+  "reviewer": "Agent1 screenshot inspection, not independent human/accessibility review",
+  "screenshots": [
+    {
+      "path": "attempt-02/task-runtime-1560.png",
+      "sha256": "df6087f282cc180a7d15f5efc478294e4d05800bdb216519fa6a7f5fcf53fff8"
+    },
+    {
+      "path": "attempt-02/task-runtime-390.png",
+      "sha256": "0654750200bb8b3e5145f5b7e2f9daa881f2ab95e964884628f40e862440cae2"
+    },
+    {
+      "path": "attempt-02/pending-proposal-1560.png",
+      "sha256": "906977eef20e9000608e054e66dc240c20b8630403c9b06a839fa556b7c2a819"
+    },
+    {
+      "path": "attempt-02/pending-proposal-390.png",
+      "sha256": "c49cf2145e115e58d8220d2b335bbdba1f589a551b7c6099f5056170f27f3a0e"
+    },
+    {
+      "path": "supplement-02/ownership-1560.png",
+      "sha256": "1b87eb9b79c97d3e33de5eacf80f65e90b4e4a4b0820f2a752a6f3901af8c634"
+    },
+    {
+      "path": "supplement-02/ownership-390.png",
+      "sha256": "d8cce38bdd4b78f021cb05d67f2cd515dcbc2337e29f261018dd1b0292ba6fec"
+    },
+    {
+      "path": "supplement-02/reviewer-return-scrolled-1560.png",
+      "sha256": "04ed1af3ac04763b1c19f953d96a702244ec4e9da454ea0075971fe0296bacec"
+    },
+    {
+      "path": "supplement-02/reviewer-return-scrolled-390.png",
+      "sha256": "0367fbab7b6c1fe6a2ee59ad8398cca53bd91290dd76594a6be6debe023d3976"
+    }
+  ],
+  "checks": [
+    "Task/proposal content inspected at desktop and mobile widths",
+    "Long identifiers wrap; JSON report panes are independently scrollable",
+    "Actual accepted reviewer RETURN is visible after focused inner scrolling",
+    "Current and superseded decision excerpts, incident, source revision/hash and declared team are visible",
+    "Latest ownership captures are byte-identical to the directly inspected supplement-01 images",
+    "No visual overlap observed in inspected portions; no page-wide overflow in automated proposal check"
+  ],
+  "limitations": [
+    "Generic RETURNED reviewer summary still says review pending; actual RETURN verdict is separate",
+    "Resumed task does not reload a context-pack panel or file target automatically",
+    "Proposal citation links were not tested as cross-tab navigation; ownership chain was inspected explicitly via GET owners",
+    "Scrollable JSON is inspectable but verbose and not a dedicated reviewer-verdict summary",
+    "No physical device, screen-reader certification, other browsers or full failure/restart lifecycle tested"
+  ],
+  "attempt_history": [
+    {
+      "attempt": "attempt-01",
+      "status": "FAIL",
+      "finding": "Runner asserted snapshot title before asynchronous snapshot identity loaded; build identity itself had matched",
+      "change": "Wait for full snapshot title attribute; no application-source edit"
+    },
+    {
+      "attempt": "attempt-02",
+      "status": "AUTOMATED_PASS",
+      "viewports": [
+        1560,
+        390
+      ]
+    },
+    {
+      "attempt": "supplement-01",
+      "status": "AUTOMATED_PASS_CAPTURE_POSITION_LIMIT",
+      "finding": "At mobile width, scrolling JSON to bottom omitted the accepted-verdict line from capture"
+    },
+    {
+      "attempt": "supplement-02",
+      "status": "AUTOMATED_PASS_VERDICT_VISIBLE",
+      "change": "Align actual verdict text range inside report scroll pane; no application-source edit"
+    }
+  ],
+  "no_human_approval": true,
+  "no_proposal_execution": true,
+  "no_new_agent_or_model_run": true,
+  "final_release_certification": false
+}

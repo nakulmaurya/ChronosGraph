@@ -48,9 +48,11 @@ test('CLAIM acceptance instructions do not substitute for actual reviewer RETURN
  const d=data();d.task.assignments[1].reports_json=JSON.stringify([{action:'CLAIM',report:'reviewer verdict ACCEPTED'},{action:'RETURN',report:'verdict BLOCKED'}]);
  assert.throws(()=>validateReadbacks(config,d));
 });
-test('runner requires explicit execution and never invokes mutating APIRequest methods',async()=>{
- const source=await readFile(new URL('./task-checkpoint-readonly-smoke.mjs',import.meta.url),'utf8');
- assert.match(source,/process\.argv\[2\], '--run'/);
- assert.doesNotMatch(source,/context\.request\.(post|put|patch|delete|fetch)\(/);
- assert.doesNotMatch(source,/(Approve exact proposal|execute-disposable-worktree|Create task and bounded context pack).*\.click/);
+test('runners require explicit execution and never invoke mutating APIRequest methods',async()=>{
+ for(const name of ['task-checkpoint-readonly-smoke.mjs','task-checkpoint-readonly-supplement.mjs']){
+  const source=await readFile(new URL('./'+name,import.meta.url),'utf8');
+  assert.match(source,/process\.argv\[2\],\s*'--run'/);
+  assert.doesNotMatch(source,/context\.request\.(post|put|patch|delete|fetch)\(/);
+  assert.doesNotMatch(source,/(Approve exact proposal|execute-disposable-worktree|Create task and bounded context pack).*\.click/);
+ }
 });

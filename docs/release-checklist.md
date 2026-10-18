@@ -8,8 +8,11 @@
 The historical published gates below do **not** certify the newer task-runtime
 checkpoint. Use the [Task 10 verification packet](../tasks/assignments/TASK-10-FINAL-VERIFICATION.md)
 for required matching UI/API, desktop/mobile and current worker/reviewer evidence.
-It is prepared, not executed. Application source was last frozen at `8e83804`;
-the separately reviewed candidate remains unintegrated and unapproved.
+The [observed read-only checkpoint verification](../tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md)
+passed matching declarations, scoped desktop/mobile and selected ownership/keyboard
+checks at application `8e83804`, with failures and limits retained. Broader final
+release gates are not certified; the separately reviewed candidate remains
+unintegrated and unapproved.
 
 The [Task 11 analysis template](../tasks/reports/templates/TASK-11-COMPARISON-ANALYSIS.md)
 is deliberately unfilled pending the four actual Task 9 trial receipts. Do not run

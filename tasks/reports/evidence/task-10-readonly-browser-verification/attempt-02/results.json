@@ -1,0 +1,243 @@
+{
+  "status": "AUTOMATED_PASS_MANUAL_REVIEW_PENDING",
+  "scope": "Read-only current checkpoint; no task/proposal creation, approval, execution, override or model run",
+  "started_at": "2026-10-18T13:37:29.186Z",
+  "config": {
+    "frontendURL": "http://127.0.0.1:3004/workbench",
+    "apiURL": "http://127.0.0.1:18015/api/v1",
+    "applicationCommit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+    "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+    "tenant": "repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee",
+    "taskId": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+    "planId": "plan_b2481e86f777458ab609224836495caf",
+    "packId": "pack_44db4093d43a4ebfbf3f9b2a4cc16fcd",
+    "workerAssignment": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+    "reviewerAssignment": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+    "workerRun": "run_4f194b9967e6afbf3a6232a90b9319f6",
+    "reviewerRun": "run_8af0e0b766505039b09fb751cfbcfa47",
+    "candidateDigest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+    "proposalId": "prop_64084206f032410a923823abd797e75b",
+    "proposalHash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f"
+  },
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1560,
+        "height": 1000
+      },
+      "status": "AUTOMATED_PASS_MANUAL_REVIEW_PENDING",
+      "screenshots": [
+        "task-runtime-1560.png",
+        "pending-proposal-1560.png"
+      ],
+      "page_errors": [],
+      "console_errors": [],
+      "request_failures": [],
+      "cancelled_requests": [],
+      "before": {
+        "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+        "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+        "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+        "plan_id": "plan_b2481e86f777458ab609224836495caf",
+        "assignments": [
+          {
+            "id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+            "role": "WORKER",
+            "status": "RETURNED",
+            "claim_version": 1
+          },
+          {
+            "id": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+            "role": "REVIEWER",
+            "status": "RETURNED",
+            "claim_version": 1
+          }
+        ],
+        "runs": [
+          {
+            "id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 73,
+            "missing_sequences": []
+          },
+          {
+            "id": "run_8af0e0b766505039b09fb751cfbcfa47",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 57,
+            "missing_sequences": []
+          }
+        ],
+        "proposal": {
+          "id": "prop_64084206f032410a923823abd797e75b",
+          "status": "PROPOSED",
+          "candidate_digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+          "proposal_hash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f",
+          "execution_count": 0
+        },
+        "caveat": "Observed local metadata and a declared review report; not human approval, test re-execution, build attestation or end-to-end task success."
+      },
+      "after": {
+        "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+        "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+        "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+        "plan_id": "plan_b2481e86f777458ab609224836495caf",
+        "assignments": [
+          {
+            "id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+            "role": "WORKER",
+            "status": "RETURNED",
+            "claim_version": 1
+          },
+          {
+            "id": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+            "role": "REVIEWER",
+            "status": "RETURNED",
+            "claim_version": 1
+          }
+        ],
+        "runs": [
+          {
+            "id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 73,
+            "missing_sequences": []
+          },
+          {
+            "id": "run_8af0e0b766505039b09fb751cfbcfa47",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 57,
+            "missing_sequences": []
+          }
+        ],
+        "proposal": {
+          "id": "prop_64084206f032410a923823abd797e75b",
+          "status": "PROPOSED",
+          "candidate_digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+          "proposal_hash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f",
+          "execution_count": 0
+        },
+        "caveat": "Observed local metadata and a declared review report; not human approval, test re-execution, build attestation or end-to-end task success."
+      },
+      "overflow": {
+        "width": 1560,
+        "scrollWidth": 1560
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "AUTOMATED_PASS_MANUAL_REVIEW_PENDING",
+      "screenshots": [
+        "task-runtime-390.png",
+        "pending-proposal-390.png"
+      ],
+      "page_errors": [],
+      "console_errors": [],
+      "request_failures": [],
+      "cancelled_requests": [],
+      "before": {
+        "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+        "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+        "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+        "plan_id": "plan_b2481e86f777458ab609224836495caf",
+        "assignments": [
+          {
+            "id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+            "role": "WORKER",
+            "status": "RETURNED",
+            "claim_version": 1
+          },
+          {
+            "id": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+            "role": "REVIEWER",
+            "status": "RETURNED",
+            "claim_version": 1
+          }
+        ],
+        "runs": [
+          {
+            "id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 73,
+            "missing_sequences": []
+          },
+          {
+            "id": "run_8af0e0b766505039b09fb751cfbcfa47",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 57,
+            "missing_sequences": []
+          }
+        ],
+        "proposal": {
+          "id": "prop_64084206f032410a923823abd797e75b",
+          "status": "PROPOSED",
+          "candidate_digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+          "proposal_hash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f",
+          "execution_count": 0
+        },
+        "caveat": "Observed local metadata and a declared review report; not human approval, test re-execution, build attestation or end-to-end task success."
+      },
+      "after": {
+        "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+        "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+        "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+        "plan_id": "plan_b2481e86f777458ab609224836495caf",
+        "assignments": [
+          {
+            "id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+            "role": "WORKER",
+            "status": "RETURNED",
+            "claim_version": 1
+          },
+          {
+            "id": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+            "role": "REVIEWER",
+            "status": "RETURNED",
+            "claim_version": 1
+          }
+        ],
+        "runs": [
+          {
+            "id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 73,
+            "missing_sequences": []
+          },
+          {
+            "id": "run_8af0e0b766505039b09fb751cfbcfa47",
+            "status": "IDLE_NOT_SUCCESS",
+            "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+            "event_count": 57,
+            "missing_sequences": []
+          }
+        ],
+        "proposal": {
+          "id": "prop_64084206f032410a923823abd797e75b",
+          "status": "PROPOSED",
+          "candidate_digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+          "proposal_hash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f",
+          "execution_count": 0
+        },
+        "caveat": "Observed local metadata and a declared review report; not human approval, test re-execution, build attestation or end-to-end task success."
+      },
+      "overflow": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "blocked_requests": [],
+  "errors": [],
+  "manual_screenshot_review": "PENDING",
+  "chromium_version": "153.0.8010.12",
+  "finished_at": "2026-10-18T13:37:34.934Z"
+}

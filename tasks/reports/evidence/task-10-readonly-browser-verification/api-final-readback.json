@@ -1,0 +1,44 @@
+{
+  "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+  "revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+  "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+  "plan_id": "plan_b2481e86f777458ab609224836495caf",
+  "assignments": [
+    {
+      "id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+      "role": "WORKER",
+      "status": "RETURNED",
+      "claim_version": 1
+    },
+    {
+      "id": "assignment_a04c4c6ab9f64ba98d50c159e3db4996",
+      "role": "REVIEWER",
+      "status": "RETURNED",
+      "claim_version": 1
+    }
+  ],
+  "runs": [
+    {
+      "id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+      "status": "IDLE_NOT_SUCCESS",
+      "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+      "event_count": 73,
+      "missing_sequences": []
+    },
+    {
+      "id": "run_8af0e0b766505039b09fb751cfbcfa47",
+      "status": "IDLE_NOT_SUCCESS",
+      "telemetry_status": "PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF",
+      "event_count": 57,
+      "missing_sequences": []
+    }
+  ],
+  "proposal": {
+    "id": "prop_64084206f032410a923823abd797e75b",
+    "status": "PROPOSED",
+    "candidate_digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982",
+    "proposal_hash": "73363633bf5a8f741550fdfc33dc75d559b4a8a5b03297ad7055584573ea1e6f",
+    "execution_count": 0
+  },
+  "caveat": "Observed local metadata and a declared review report; not human approval, test re-execution, build attestation or end-to-end task success."
+}

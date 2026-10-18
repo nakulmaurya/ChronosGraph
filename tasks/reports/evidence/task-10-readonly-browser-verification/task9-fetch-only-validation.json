@@ -1,0 +1,12 @@
+{
+  "status": "FETCH_ONLY_SCOPE_AND_PAYLOAD_PASS",
+  "commit": "4b81658c0c7ca010b69c6467c1c1b621f9deea61",
+  "parent": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+  "new_files": 59,
+  "original_payload_hashes_verified": 53,
+  "original_manifest_byte_identical": true,
+  "historical_report_unchanged": true,
+  "working_tree_checkout_changed": false,
+  "merged": false,
+  "readiness_approval": false
+}

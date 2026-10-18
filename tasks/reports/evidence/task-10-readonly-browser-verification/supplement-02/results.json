@@ -1,0 +1,52 @@
+{
+  "status": "AUTOMATED_PASS_MANUAL_REVIEW_PENDING",
+  "started_at": "2026-10-18T13:41:00.322Z",
+  "scope": "GET ownership chain, keyboard modal, scroll retained reviewer report; no model or mutation",
+  "rows": [
+    {
+      "viewport": {
+        "width": 1560,
+        "height": 1000
+      },
+      "status": "AUTOMATED_PASS_MANUAL_REVIEW_PENDING",
+      "page_errors": [],
+      "console_errors": [],
+      "http_errors": [],
+      "screenshots": [
+        "ownership-1560.png",
+        "reviewer-return-scrolled-1560.png"
+      ],
+      "keyboard_modal": "PASS",
+      "report_scroll": {
+        "scrollTop": 366,
+        "clientHeight": 458,
+        "scrollHeight": 824,
+        "verdict_visible": true
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "AUTOMATED_PASS_MANUAL_REVIEW_PENDING",
+      "page_errors": [],
+      "console_errors": [],
+      "http_errors": [],
+      "screenshots": [
+        "ownership-390.png",
+        "reviewer-return-scrolled-390.png"
+      ],
+      "keyboard_modal": "PASS",
+      "report_scroll": {
+        "scrollTop": 856,
+        "clientHeight": 458,
+        "scrollHeight": 1492,
+        "verdict_visible": true
+      }
+    }
+  ],
+  "blocked_requests": [],
+  "manual_screenshot_review": "PENDING",
+  "finished_at": "2026-10-18T13:41:05.411Z"
+}

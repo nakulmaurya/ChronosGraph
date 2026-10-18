@@ -61,6 +61,7 @@ try {
       await verify(page.getByRole('combobox', {name:'Repository', exact:true})).toHaveValue(c.tenant);
       const identity = page.getByLabel('Application and saved snapshot identity', {exact:true});
       await verify(identity).toContainText('Matched build declarations');
+      await verify(identity.locator('code').nth(2)).toHaveAttribute('title', c.revision);
       assert.deepEqual(await identity.locator('code').evaluateAll(nodes => nodes.map(n => n.title)),
         [c.applicationCommit, c.applicationCommit, c.revision], 'full UI/API/snapshot declarations');
       const runtime = page.getByRole('region', {name:'Task runtime', exact:true});
