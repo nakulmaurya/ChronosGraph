@@ -1,7 +1,9 @@
 # Documentation index
 
 Start with the [project README](../README.md) and [current release status](current-release.md).
-`main` is the canonical current source; dated T-xx/FINAL/BULK/OPENCODE reports are
+For the unpublished review checkpoint, use [the review package entrypoint](../REVIEW-PACKAGE.md)
+and its accompanying exact-commit manifest, not the shared published `main`.
+`main` remains the published source; dated T-xx/FINAL/BULK/OPENCODE reports are
 checkpoint evidence, not automatically current deployment or readiness claims.
 
 ## Use the product
@@ -28,6 +30,10 @@ checkpoint evidence, not automatically current deployment or readiness claims.
 - [Benchmark methodology/results](../tasks/reports/BENCHMARK-REPORT.md)
 - [Machine-readable benchmark results](../tasks/reports/benchmark-results.json)
 - [Real-model user verification](../tasks/reports/OPENCODE-USER-01.md)
+- [Current scoped Task 10 browser verification](../tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md)
+- [Task 9 observed pilot evidence](../tasks/reports/TASK-09-OBSERVED-COMPARISON.md)
+- [Task 11 reconciled comparison](../tasks/reports/TASK-11-COMPARISON-ANALYSIS.md)
+- [External reviewer brief](../tasks/reviews/EXTERNAL-REVIEW-BRIEF.md)
 
 ## Historical design material
 

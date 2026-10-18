@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "form": "categorical-bars",
+  "mode": "grouped",
+  "title": "Graph-enabled trials recorded more input in both task pairs",
+  "aside": "Reported input tokens only; one attempt per cell, no causal or billing inference",
+  "labels": [
+    "Invalid-character diagnostics",
+    "has_tool lookup"
+  ],
+  "axis": {
+    "zero": true
+  },
+  "colorMap": {
+    "Ordinary": "blue",
+    "Graph-enabled": "purple"
+  },
+  "series": [
+    {
+      "label": "Ordinary",
+      "valueKind": "count",
+      "role": "base",
+      "data": [
+        22081,
+        32918
+      ]
+    },
+    {
+      "label": "Graph-enabled",
+      "valueKind": "count",
+      "role": "subject",
+      "data": [
+        33239,
+        99651
+      ]
+    }
+  ]
+}

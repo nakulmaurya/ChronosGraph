@@ -1,0 +1,17 @@
+test_binary_content_is_scanned (test_source_package.SourcePackageTests.test_binary_content_is_scanned) ... ok
+test_clean_tree_and_valid_evidence_manifest (test_source_package.SourcePackageTests.test_clean_tree_and_valid_evidence_manifest) ... ok
+test_forbidden_paths_and_private_key_findings_are_redacted (test_source_package.SourcePackageTests.test_forbidden_paths_and_private_key_findings_are_redacted) ... ok
+test_hash_mismatch (test_source_package.SourcePackageTests.test_hash_mismatch) ... ok
+test_manifest_path_traversal_rejected (test_source_package.SourcePackageTests.test_manifest_path_traversal_rejected) ... ok
+test_symlinks_rejected (test_source_package.SourcePackageTests.test_symlinks_rejected) ... ok
+test_untracked_secret_is_not_packaged_but_dirty_state_is_visible (test_source_package.SourcePackageTests.test_untracked_secret_is_not_packaged_but_dirty_state_is_visible) ... ok
+test_changed_usage_with_refreshed_file_hash_still_fails (test_task9_analysis.Task9AnalysisTests.test_changed_usage_with_refreshed_file_hash_still_fails) ... ok
+test_duplicate_trial_with_refreshed_file_hash_still_fails (test_task9_analysis.Task9AnalysisTests.test_duplicate_trial_with_refreshed_file_hash_still_fails) ... ok
+test_manifest_path_escape_refused (test_task9_analysis.Task9AnalysisTests.test_manifest_path_escape_refused) ... ok
+test_tampered_original_bytes_fail (test_task9_analysis.Task9AnalysisTests.test_tampered_original_bytes_fail) ... ok
+test_valid_records_and_pairs (test_task9_analysis.Task9AnalysisTests.test_valid_records_and_pairs) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.115s
+
+OK

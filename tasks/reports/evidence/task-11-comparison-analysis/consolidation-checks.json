@@ -1,0 +1,16 @@
+{
+  "scope": "New reporting/helper checks only; no model/candidate/app tests rerun",
+  "relative_links_checked": 119,
+  "broken_links": 0,
+  "bash_fences_syntax": "PASS",
+  "offline_helper_tests": 12,
+  "upstream_license": {
+    "source_repository": "https://github.com/modelcontextprotocol/python-sdk",
+    "revision": "754254c08fe1c3eda18b69da3d336106fe8d72d6",
+    "path": "LICENSE",
+    "sha256": "5e13dbbc1d120fc2a03cecde7c91424ae2d7de11b63d58ded2f4431e261ee50d"
+  },
+  "agent2_audit_sha256": "a58e6adbba7f4066a49b6eb16c2646ed1cf5480ee14ad72957351508d874c0f5",
+  "sealed_payload": "Unchanged; originals and 53 hashes independently reconciled",
+  "chart": "Canonical categorical-bars build static preflight PASS; card version 0d2f0f1261eee4fc575ee016d2c123534da072a0eb2045d789ef7ffd178ad652"
+}

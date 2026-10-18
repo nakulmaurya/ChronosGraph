@@ -14,13 +14,19 @@ checks at application `8e83804`, with failures and limits retained. Broader fina
 release gates are not certified; the separately reviewed candidate remains
 unintegrated and unapproved.
 
-The [Task 11 analysis template](../tasks/reports/templates/TASK-11-COMPARISON-ANALYSIS.md)
-is deliberately unfilled pending the four actual Task 9 trial receipts. Do not run
-heavy release gates while that measured window is active. The offline helper
+The [Task 11 observed analysis](../tasks/reports/TASK-11-COMPARISON-ANALYSIS.md)
+now reconciles the four sealed Task 9 receipts; the old template remains historical
+preparation. The measured window has ended, but this reporting work does not rerun
+heavy release gates. The offline helper
 `scripts/check-source-package.py --ref COMMIT --output /absolute/local-report.json`
 checks only a committed source tree and evidence hashes; it neither contacts the
 VM/database nor creates or approves a final ZIP. Final packaging must independently
 verify the chosen commit, archive contents, private-file exclusions and checksums.
+The Task 9 original full-diff whitespace check returns exit 2 on retained immutable
+diagnostics/logs/patches; do not describe all evidence whitespace checks as green.
+New reporting files must pass their separately scoped check. Review ZIPs include
+sanitized but identifying provenance; exclude private homes/exports/graph dumps,
+and retain the [upstream SDK notice](../third_party/README.md).
 
 ## Current publication gate
 

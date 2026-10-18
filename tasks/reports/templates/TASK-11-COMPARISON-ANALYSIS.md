@@ -1,5 +1,9 @@
 # Task 11 — four-trial comparison analysis (UNFILLED TEMPLATE)
 
+**Historical preparation template.** The completed observed analysis is
+[Task 11 reconciled comparison](../TASK-11-COMPARISON-ANALYSIS.md); do not treat
+the original pending fields below as current execution status.
+
 **PENDING actual Task 9 receipts and manual review. No comparison result, speedup, cost reduction or graph advantage is asserted here.** Never replace missing observations with zero. Keep earlier interrupted experiments and setup failures distinct from these four trials.
 
 ## Evidence lock (fill before calculating)

@@ -3,6 +3,23 @@
 > Source of truth: PRD `docs/prd.md`, Architecture `docs/architecture.md`. Updated: 2026-10-15.
 > Multi-agent statuses: TODO, ASSIGNED, IN_PROGRESS, READY_FOR_REVIEW, CHANGES_REQUESTED, BLOCKED, DONE.
 
+## Unpublished review checkpoint — 2026-10-18
+
+This numbered checkpoint sequence is separate from the historical `T-xx`
+milestones below. Its application base is `8e83804`; the exact source ZIP
+commit is in its accompanying package manifest. No shared-main push/deployment
+or approval/integration of the separately captured candidate is implied.
+
+| Checkpoint | Observed state / boundary |
+| --- | --- |
+| Tasks 3–5 | Scoped recovery/backend/plugin/frontend checks retained; [report](reports/TASKS-03-04-05-2026-10-18.md). |
+| Task 7 | Fresh reviewer accepted the bounded synthetic candidate; not human approval or whole-app integration; [report](reviews/TASK-07-INDEPENDENT-REVIEW-2026-10-18.md). |
+| Task 8 | Recovery/demo documentation prepared; not a new restore exercise or recording. |
+| Task 9 | Four one-shot cells retained; two native final answers, two permission stops with unresolved findings; [observations](reports/TASK-09-OBSERVED-COMPARISON.md). Evidence-only import integrated locally. |
+| Task 10 | Scoped desktop/mobile read-only PASS, not all broader release gates; [report](reports/TASK-10-READONLY-BROWSER-VERIFICATION.md). |
+| Task 11 | Offline public-record reconciliation/report complete; no advantage/savings established; [analysis](reports/TASK-11-COMPARISON-ANALYSIS.md). |
+| Task 12 | Source review packaging only; exact artifact integrity/results are recorded in the accompanying ZIP manifest, not release approval. [Package entrypoint](../REVIEW-PACKAGE.md). |
+
 ## Milestones (vertical slices)
 | Milestone | User-visible proof | Dependencies | Status |
 |---|---|---|---|
