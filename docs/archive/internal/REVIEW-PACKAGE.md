@@ -19,14 +19,14 @@ remain **evidence, not integrated application code**.
 
 ## Read in this order
 
-1. [External review brief](tasks/reviews/EXTERNAL-REVIEW-BRIEF.md).
-2. [Current source status](docs/current-release.md).
-3. [Tasks 3–5 checks](tasks/reports/TASKS-03-04-05-2026-10-18.md),
-   [fresh Task 7 review](tasks/reviews/TASK-07-INDEPENDENT-REVIEW-2026-10-18.md),
-   [actual Task 10 read-only browser checks](tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md).
-4. [Task 9 original observed evidence](tasks/reports/TASK-09-OBSERVED-COMPARISON.md)
-   and [Task 11 reconciled analysis](tasks/reports/TASK-11-COMPARISON-ANALYSIS.md).
-5. [Third-party notices](third_party/README.md) for copied upstream SDK context.
+1. [External review brief](../../../tasks/reviews/EXTERNAL-REVIEW-BRIEF.md).
+2. [Current source status](../../current-release.md).
+3. [Tasks 3–5 checks](../../../tasks/reports/TASKS-03-04-05-2026-10-18.md),
+   [fresh Task 7 review](../../../tasks/reviews/TASK-07-INDEPENDENT-REVIEW-2026-10-18.md),
+   [actual Task 10 read-only browser checks](../../../tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md).
+4. [Task 9 original observed evidence](../../../tasks/reports/TASK-09-OBSERVED-COMPARISON.md)
+   and [Task 11 reconciled analysis](../../../tasks/reports/TASK-11-COMPARISON-ANALYSIS.md).
+5. [Third-party notices](../../../third_party/README.md) for copied upstream SDK context.
 
 Four runtime-check sets passed, but only two native agent turns finished.
 Both lookup turns remain permission-stopped with convention/typechecker findings.
@@ -43,8 +43,8 @@ Task 9 runner/analysis scripts or candidate patches as a startup workflow: their
 historical defaults and private inputs are not a portable environment.
 
 For an intentionally isolated local application installation, follow
-[platform setup](docs/t09-platform-setup.md), the root README and
-[task-bridge setup](integrations/opencode/README.md). The documented verification
+[platform setup](../../t09-platform-setup.md), the root README and
+[task-bridge setup](../../../integrations/opencode/README.md). The documented verification
 environment was Linux/Python 3.13/Node 24 with native FalkorDB. Dependencies, Docker,
 external repositories and pinned OpenCode are not bundled. Their installation may
 require network access and user review. Source ZIP startup/installation on a

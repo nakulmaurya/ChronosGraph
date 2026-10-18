@@ -1,172 +1,120 @@
 # ChronosGraph
 
-## See what your coding agents change—and the evidence behind it.
+### See what your coding agents change—and the evidence behind it.
 
-A **visual oversight and shared-context layer for coding agents, powered by FalkorDB**.
+A visual oversight and shared-context layer for coding agents, powered by **FalkorDB**.
 
-ChronosGraph connects code dependencies, architectural decisions, ownership,
-agent handoffs, and proposed patches. Developers can inspect the context behind
-a change, review linked evidence, and retain control over approval.
+Explore code relationships, understand project decisions, follow agent handoffs,
+and review the exact patch before deciding what happens next.
 
-**[Start the working project](#start-locally)** · **[Demo guide](docs/release-demo.md)** ·
-**[Judge’s guide](docs/judges-guide.md)** · **[Current release](docs/current-release.md)**
+**[Watch the demo](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.mp4)** · **[Get started](#start-locally)** · **[Documentation](docs/README.md)**
 
-[![ChronosGraph captured dependency graph and file inspector](docs/assets/chronosgraph-connected-review.png)](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
+[![ChronosGraph dependency graph and file inspector](docs/assets/chronosgraph-connected-review.png)](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.mp4)
 
-**[Real-bug case study · Kokoro narration · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4)** · [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.srt) · [Script](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-script.md)
+*The 4:34 walkthrough uses a prepared synthetic project with recorded agent activity. The proposed change remains pending human approval.*
 
-A real ChronosGraph stale-context bug, reproduced on the old build and rejected
-by the fixed build using clearly labeled controlled browser regression inputs.
-[Exact source versions and verification](docs/context-integrity-regression.md).
-This is not a FalkorDB engine fix or a new live coding-agent run.
+## From an agent patch to an informed decision
 
-[Continuous product-UI walkthrough · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.mp4) · [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.srt).
-This alternative shows actual navigation, not a slide deck. It is a prepared
-synthetic workflow with recorded agent evidence, not a matching OpenCode
-terminal/UI split-screen or a new live run.
+A patch is only part of the story. What depends on the changed code? Which
+requirements apply? What did the reviewer check? What exactly are you approving?
 
-[Connected workflow · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4) ·
-[All recording sources, captions and evidence manifests](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission).
-The supporting workflow uses a prepared synthetic organization/incident and
-real retained agent records on app `44bb68b`; its candidate stays unapproved.
+ChronosGraph brings that context into one workspace.
 
-## The developer problem
-
-“The agent produced a patch. What might it affect, which constraints apply,
-what did the reviewer check, and exactly what am I approving?”
-
-For a developer supervising coding agents in an unfamiliar or evolving codebase,
-a patch alone is not enough. ChronosGraph makes the captured relationships and
-review evidence inspectable alongside the exact proposed contents. It complements
-an agent, Git and real tests; it does not replace engineering judgment.
-
-## One connected workflow
-
-1. **Explore:** select an exact saved revision; follow a file’s imports, callers
-   and definitions in the graph or equivalent table.
-2. **Understand:** inspect governing decisions, their source excerpts and incident
-   rationale, plus declared ownership. Superseded decisions remain history.
-3. **Share context:** retain an immutable task plan and bounded, revision-aware
-   context pack; hand a candidate from worker to a separate reviewer.
-4. **Review:** inspect the exact candidate diff, declared rationale, bounded
-   potential impact, reviewer report and actual test observations.
-5. **Decide:** keep human approval separate from agent acceptance and execution.
-   Reconsider evidence when its source or governing rules change.
-
-The prepared `retry_after` example uses an **owned synthetic organization and
-incident**. It shows recorded real OpenCode worker/reviewer activity, not a new
-live model run. The candidate preserves the timeout result contract, forwards an
-optional delay through the worker and adds regression tests. Its agent reviewer
-accepted the bounded candidate after its own 39-check run; this is historical
-observed evidence, **not human approval or integration**.
-
-## Why FalkorDB is central
-
-FalkorDB stores and traverses the connected source, decisions, task context,
-assignments and evidence. Removing it removes repository navigation, applicable
-rule lookup, task/handoff retrieval and proposal analysis—not just the drawing.
-FastAPI and the MCP server use the same selected saved graph. Next.js presents
-its captured relationships and review controls.
-
-## All three hackathon tracks
-
-| Track | The same connected workflow demonstrates |
+| Capability | What you can do |
 | --- | --- |
-| **Agents That Act on Connected Data** | Captured caller/dependency paths and governing decisions support investigation and proposal review. |
-| **Agent Memory and Coordination** | Persistent task context, immutable plans and separate serialized worker/reviewer handoffs. Not an autonomous concurrent scheduler. |
-| **Company Brain** | Code linked to architecture decisions, incident excerpts and explicitly mapped review teams. Synthetic organizational records are labeled. |
+| **Explore code** | Navigate captured file dependencies, function calls and source excerpts. |
+| **Understand requirements** | Inspect governing decisions, incident evidence and declared ownership. |
+| **Share context** | Keep task plans and bounded context tied to a saved source revision. |
+| **Follow handoffs** | Inspect separate worker and reviewer records without losing the task context. |
+| **Review exact changes** | Compare proposed contents with their supporting evidence before a human decision. |
+
+### One connected workflow
+
+**Explore → Understand → Share context → Review → Decide**
+
+Start with a file, follow its captured relationships, inspect the decisions that
+apply, and open the task and proposed change. Agent review, test observations,
+human approval and execution remain separate.
 
 ## Start locally
 
-Requirements: Git, Bash, **Python 3.11+**, **Node 20.9+**, Docker and npm. The
-witnessed development environment is Linux/Python 3.13/Node 24. Use WSL2 + Docker
-on Windows; see [platform notes](docs/t09-platform-setup.md).
+You need **Python 3.11+**, **Node.js 20.9+**, Git, Bash, npm and Docker.
+Windows users can use WSL2 with Docker. [Platform setup](docs/t09-platform-setup.md).
 
 ```sh
 git clone https://github.com/nakulmaurya/ChronosGraph.git
 cd ChronosGraph
-git checkout main
 bash scripts/start-local.sh
 ```
 
-Open **http://127.0.0.1:3001**. The launcher installs dependencies, starts its own
-loopback FalkorDB, seeds the configured public-source examples and starts API
-8000 and frontend 3001. Initial downloads take time. Ctrl-C stops its owned
-processes/container; **the default launcher database is ephemeral**. Do not point
-its seeder at unrelated data. [Durability and recovery](docs/task-runtime-hardening-recovery.md)
-and [OpenCode integration](integrations/opencode/README.md) are separate explicit
-setups; a fresh clone does not recreate historical agent sessions.
+Open **http://127.0.0.1:3001**.
 
-For opt-in public repository imports:
+The launcher installs dependencies, starts a local FalkorDB instance, loads the
+configured examples, and starts the API and frontend. Initial setup requires
+network access. Press **Ctrl-C** to stop the processes and container it started.
+The default launcher database is ephemeral; use the [persistence guide](docs/task-runtime-hardening-recovery.md)
+for retained work. A fresh installation does not recreate recorded agent sessions.
+
+To enable public Python repository imports:
 
 ```sh
 CHRONOSGRAPH_ENABLE_BROWSER_IMPORT=1 bash scripts/start-local.sh
 ```
 
-Click **Import repository** and provide a permitted public Python GitHub repository.
-A saved import pins source; it does not run imported code. For the existing
-persisted prepared example and trusted VM tunnel, follow [demo access](docs/preview-access.md).
-The supported submission fallback is complete local setup, not a claimed public
-multi-user deployment.
+Choose **Import repository** in the application. Importing source does not run it.
+For coding-agent integration, follow the [OpenCode setup guide](integrations/opencode/README.md).
+
+## Why FalkorDB
+
+The graph connects code, requirements and change evidence—not just the diagram.
+FalkorDB queries retrieve dependencies, governing decisions, task context and
+proposal bindings. FastAPI and the MCP tools use the same selected source graph;
+the Next.js interface makes those relationships inspectable.
+
+**Stack:** Next.js · TypeScript · React Flow · FastAPI · Python · FalkorDB · MCP
 
 ## Graph model and actual queries
 
-These are implementation names, not a conceptual replacement schema:
+Code relationships use `File`, `Function`, `IMPORTS`, `DEFINES` and `CALLS`.
+Decisions govern files; task plans, context packs and agent runs retain the
+connections behind a proposal.
 
-- `(File)-[:IMPORTS]->(File)`, `(File)-[:DEFINES]->(Function)` and
-  `(Function)-[:CALLS]->(Function)` support bounded dependency exploration.
-- `(Decision)-[:GOVERNS]->(File)`, `SUPPORTED_BY` and `MOTIVATED_BY` links to
-  `OrganizationalExcerpt`, and `SUPERSEDED` decision history connect requirements
-  to pinned evidence. `(OrganizationTeam)-[:OWNS]->(File)` comes from explicit
-  CODEOWNERS/team mapping, not inferred identity or access.
-- `(ChangeTask)-[:HAS_PLAN]->(PlanVersion)-[:HAS_CONTEXT]->(ContextPack)`,
-  `(ChangeTask)-[:HAS_ASSIGNMENT]->(TaskAssignment)-[:ASSIGNED_RUN]->(ChangeAgentRun)`
-  and `(ChangeAgentRun)-[:USES_CONTEXT]->(ContextPack)` retain task continuity.
+See the [graph model and query guide](docs/graph-model.md),
+[canonical Cypher queries](backend/app/db/queries.py), and [architecture](docs/architecture.md).
 
-Example bounded query used in impact analysis:
+## Demos and documentation
 
-```cypher
-MATCH (target:File)
-WHERE target.path IN $modified_files
-OPTIONAL MATCH (downstream:File)-[:IMPORTS*1..3]->(target)
-RETURN target.path, collect(DISTINCT downstream.path)
-```
+- [Product walkthrough](docs/release-demo.md) — recorded UI navigation, task context and proposal review.
+- [Real-bug case study](docs/context-integrity-regression.md) — a stale-context defect, its fix and controlled before/after verification.
+- [Documentation](docs/README.md) — setup, integrations and technical guides.
+- [Current release](docs/current-release.md) — application version and scoped verification.
 
-Inspect the real implementation:
-[canonical Cypher](backend/app/db/queries.py),
-[context locator](backend/app/services/context_locator.py),
-[organization ingestion](backend/app/ingestion/organization.py),
-[task/context records](backend/app/services/task_runtime.py),
-[handoffs](backend/app/services/task_assignments.py),
-[proposal lifecycle](backend/app/services/change_lifecycle.py).
-`GRAPH.COPY` provides disposable graph analysis; it is not an OS security sandbox.
-The controlled playbook uses `shortestPath` in the canonical query module; it is
-not a learned general agent scheduler. [Architecture](docs/architecture.md).
+<details>
+<summary>Hackathon tracks</summary>
 
-## Verification and limitations
+One workflow connects all three FalkorDB hackathon tracks:
 
-[Current release](docs/current-release.md) is the source of truth for the
-application revision, current checks, deployment identity and video. Historical
-receipts retain their original commit and scope; overlapping counts are not added.
-The prepared candidate remains separate from the application release.
+- **Agents That Act on Connected Data:** dependency and governing-decision context for coding investigations.
+- **Agent Memory and Coordination:** persistent task context and serialized worker/reviewer handoffs.
+- **Company Brain:** engineering knowledge connecting code, ownership, decisions and incidents.
 
-Analysis is Python-focused, static and bounded; omitted/dynamic relationships
-are not proof of no impact. Agent acceptance is not human approval. Idle or
-missing telemetry is not completion. Trusted local execution is not hostile-code
-isolation, and loopback checks are not multi-user authentication.
+</details>
 
-The observed comparison **did not establish token, cost or speed savings**.
-Unfavorable results and earlier benchmark limitations remain available in
-[limitations and evaluation](docs/limitations-and-evaluation.md). No failure
-history was deleted to improve the presentation.
+## Scope
 
-## AI assistance and participant contribution
+Analysis is Python-focused, static and bounded. Agent acceptance is not human
+approval, and incomplete telemetry is not proof of completion. The current setup
+is intended for trusted local operation, not hostile-code isolation or a public
+multi-user service. [Limitations and evaluation](docs/limitations-and-evaluation.md).
 
-AI coding assistants were used for implementation, review assistance,
-documentation, testing workflows and media preparation. Recorded reviewer
-acceptance is an agent report, not a human audit. The participant defined and
-iterated on the intended developer workflow and supplied the VM/project access;
-this conversation records those inputs. The participant must supply their own
-truthful account of personally written code, checks performed and technical
-understanding in the organizer submission; no unobserved human verification is
-claimed here. [Third-party notices](THIRD_PARTY_NOTICES.md).
+## License
+
+[MIT](LICENSE). See [third-party notices](THIRD_PARTY_NOTICES.md).
+
+<details>
+<summary>Credits</summary>
+
+AI tools assisted development, testing, documentation and review. Demo narration
+uses a Kokoro stock voice. [Project notes](docs/project-notes.md).
+
+</details>

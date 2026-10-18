@@ -19,7 +19,7 @@ approval/integration of the separately captured candidate is implied.
 | Task 9 | Four one-shot cells retained; two native final answers, two permission stops with unresolved findings; [observations](reports/TASK-09-OBSERVED-COMPARISON.md). Evidence-only import integrated locally. |
 | Task 10 | Scoped desktop/mobile read-only PASS, not all broader release gates; [report](reports/TASK-10-READONLY-BROWSER-VERIFICATION.md). |
 | Task 11 | Offline public-record reconciliation/report complete; no advantage/savings established; [analysis](reports/TASK-11-COMPARISON-ANALYSIS.md). |
-| Task 12 | Source review packaging only; exact artifact integrity/results are recorded in the accompanying ZIP manifest, not release approval. [Package entrypoint](../REVIEW-PACKAGE.md). |
+| Task 12 | Source review packaging only; exact artifact integrity/results are recorded in the accompanying ZIP manifest, not release approval. [Package entrypoint](../docs/archive/internal/REVIEW-PACKAGE.md). |
 
 ## Milestones (vertical slices)
 | Milestone | User-visible proof | Dependencies | Status |
