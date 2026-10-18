@@ -1,0 +1,18 @@
+Exporting session: ses_eb0eedcbeffeVY3304YibTfTXe
+Traceback (most recent call last):
+  File "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/application/tasks/experiments/agent-comparison-01/runner.py", line 157, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/application/tasks/experiments/agent-comparison-01/runner.py", line 122, in main
+    (root/f'private-trial-{a.trial:02d}-session-export.json').write_text(raw);data=json.loads(raw)
+                                                                                   ~~~~~~~~~~^^^^^
+  File "/usr/lib/python3.13/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/lib/python3.13/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/json/decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Unterminated string starting at: line 58 column 15 (char 65524)

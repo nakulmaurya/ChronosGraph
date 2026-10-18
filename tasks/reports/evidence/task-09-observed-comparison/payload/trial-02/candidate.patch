@@ -1,0 +1,107 @@
+diff --git a/src/mcp/server/mcpserver/server.py b/src/mcp/server/mcpserver/server.py
+index 7efa291..823b3b6 100644
+--- a/src/mcp/server/mcpserver/server.py
++++ b/src/mcp/server/mcpserver/server.py
+@@ -530,6 +530,10 @@ class MCPServer(Generic[LifespanResultT]):
+             for info in tools
+         ]
+ 
++    def has_tool(self, name: str) -> bool:
++        """Return whether a tool is registered under the exact, case-sensitive name."""
++        return self._tool_manager.has_tool(name)
++
+     async def call_tool(
+         self, name: str, arguments: dict[str, Any], context: Context[LifespanResultT, Any] | None = None
+     ) -> CallToolResult | InputRequiredResult:
+diff --git a/src/mcp/server/mcpserver/tools/tool_manager.py b/src/mcp/server/mcpserver/tools/tool_manager.py
+index 9e7910e..0900c94 100644
+--- a/src/mcp/server/mcpserver/tools/tool_manager.py
++++ b/src/mcp/server/mcpserver/tools/tool_manager.py
+@@ -36,6 +36,10 @@ class ToolManager:
+         """List all registered tools."""
+         return list(self._tools.values())
+ 
++    def has_tool(self, name: str) -> bool:
++        """Return whether a tool is registered under the exact, case-sensitive name."""
++        return name in self._tools
++
+     def add_tool(
+         self,
+         fn: Callable[..., Any],
+diff --git a/tests/server/mcpserver/test_tool_manager.py b/tests/server/mcpserver/test_tool_manager.py
+index 221828c..c810d22 100644
+--- a/tests/server/mcpserver/test_tool_manager.py
++++ b/tests/server/mcpserver/test_tool_manager.py
+@@ -904,3 +904,72 @@ class TestRemoveTools:
+         # Remove with correct case
+         manager.remove_tool("test_func")
+         assert manager.get_tool("test_func") is None
++
++
++def test_tool_manager_has_tool_true_for_registered_name():
++    def greet(name: str) -> str:  # pragma: no cover
++        """Greet someone."""
++        return f"Hello, {name}!"
++
++    manager = ToolManager()
++    manager.add_tool(greet)
++
++    assert manager.has_tool("greet") is True
++
++
++def test_tool_manager_has_tool_false_for_missing_empty_and_wrong_case():
++    def register_user(user_id: int) -> int:  # pragma: no cover
++        """Register a user."""
++        return user_id
++
++    manager = ToolManager()
++    manager.add_tool(register_user)
++
++    assert manager.has_tool("missing") is False
++    assert manager.has_tool("") is False
++    assert manager.has_tool("Register_User") is False
++
++
++def test_tool_manager_has_tool_false_after_removal():
++    def greet(name: str) -> str:  # pragma: no cover
++        """Greet someone."""
++        return f"Hello, {name}!"
++
++    manager = ToolManager()
++    manager.add_tool(greet)
++    manager.remove_tool("greet")
++
++    assert manager.has_tool("greet") is False
++
++
++def test_tool_manager_has_tool_does_not_mutate_or_execute():
++    calls: list[int] = []
++
++    def tracked(x: int) -> int:
++        calls.append(x)
++        return x
++
++    manager = ToolManager()
++    manager.add_tool(tracked)
++
++    assert manager.has_tool("tracked") is True
++    assert manager.has_tool("tracked") is True
++    assert calls == []
++    assert [tool.name for tool in manager.list_tools()] == ["tracked"]
++
++
++def test_mcpserver_has_tool_delegates_to_manager():
++    app = MCPServer()
++
++    @app.tool()
++    def echo(message: str) -> str:  # pragma: no cover
++        """Echo a message back."""
++        return message
++
++    assert app.has_tool("echo") is True
++    assert app.has_tool("missing") is False
++    assert app.has_tool("Echo") is False
++    assert app.has_tool("") is False
++
++    app.remove_tool("echo")
++    assert app.has_tool("echo") is False

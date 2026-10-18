@@ -1,0 +1,94 @@
+{
+  "status": "PREPARATORY_EVIDENCE_IMPORT_READY_FOR_REVIEW",
+  "checked_at": "2026-10-18T13:40:40.704859+00:00",
+  "base_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+  "branch": "task9/sanitized-evidence-import",
+  "source_archive_sha256": "d10680bf885c3f2e166be261010e25cb854336096122be76745be988001aa156",
+  "source_archive_bytes": 110203,
+  "original_payload_manifest_entries": 53,
+  "payload_files_including_manifest": 54,
+  "all_original_payload_hashes_match": true,
+  "payload_manifest_sha256": "585e700b1645b23d8cfc2860344c622fca7487860ff5bbec3fbc9868b42be887",
+  "new_report_sha256": "79c4cb7d919cad8d329f0f1bd7f1833d4ad6bf0a91f8d90aeed4aa2576557a4d",
+  "earlier_report_git_blob": "b172caff544059803d79b0cd9a1a1d51029ca508",
+  "earlier_report_unchanged": true,
+  "relative_links": [
+    {
+      "target": "evidence/task-09-observed-comparison/source/task9-sanitized-evidence.tar.gz",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/source/task9-sanitized-evidence.tar.gz.sha256",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/payload/SHA256-MANIFEST.json",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/payload/TASK9-REPORT.md",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/payload/comparison-results.json",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/payload/trials.csv",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/payload/analyze.py",
+      "exists": true
+    },
+    {
+      "target": "AGENT-COMPARISON-01.md",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/import-verification.json",
+      "exists": true
+    },
+    {
+      "target": "evidence/task-09-observed-comparison/import-whitespace-check.txt",
+      "exists": true
+    }
+  ],
+  "targeted_private_data_scan": {
+    "findings": [],
+    "checks": [
+      "private_key_material",
+      "provider_secret_token",
+      "bearer_credential",
+      "jwt_credential",
+      "raw_reasoning_part",
+      "raw_export_messages"
+    ],
+    "limitations": "Targeted patterns plus allowlisted paths/schema/diff inspection, not an exhaustive security audit. References to private paths/hashes retained as historical provenance; no raw reasoning/exports imported."
+  },
+  "new_product_tests_builds_services_models_trials": "NOT_RUN_BY_ASSIGNMENT",
+  "no_trial_candidates_integrated": true,
+  "no_sealed_candidate_or_receipt_changes": true,
+  "not_readiness_approval": true,
+  "full_staged_whitespace_check": {
+    "exit": 2,
+    "status": "FAIL_RETAINED_IMMUTABLE_EVIDENCE_WHITESPACE",
+    "affected_original_payload_paths": [
+      "tasks/reports/evidence/task-09-observed-comparison/payload/profile.txt",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/candidate.patch",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/candidate.patch",
+      "tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log"
+    ],
+    "all_findings_are_original_hashed_log_patch_or_profile": true,
+    "receipt": "import-whitespace-check.txt",
+    "no_sealed_payload_changes": true
+  },
+  "new_wrapper_and_import_metadata_whitespace_check": "PASS",
+  "recovery_guard_stop": "Recovery guard initially allowed only .log/.patch and stopped on sealed profile.txt; broadened only to that exact original manifest member after inspecting all nine affected paths. No payload changes.",
+  "initial_import_script_stop": "Stopped before commit on full diff whitespace exit2; resumed same owned worktree without changing any sealed payload. No model/task/test reruns."
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "frozen_at_utc": "2026-10-18T11:17:36.495196+00:00",
+  "repository": "https://github.com/modelcontextprotocol/python-sdk",
+  "revision": "754254c08fe1c3eda18b69da3d336106fe8d72d6",
+  "harness": "OpenCode 1.19.3",
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "provider": "opencode",
+  "attempts_per_cell": 1,
+  "wall_budget_seconds": 900,
+  "order_seed": 20261018,
+  "order": [
+    {
+      "task": "structured-invalid-characters",
+      "condition": "ordinary"
+    },
+    {
+      "task": "has-tool-lookup",
+      "condition": "ordinary"
+    },
+    {
+      "task": "structured-invalid-characters",
+      "condition": "graph"
+    },
+    {
+      "task": "has-tool-lookup",
+      "condition": "graph"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "has-tool-lookup",
+      "target": "src/mcp/server/mcpserver/server.py",
+      "test": "accept_has_tool.py",
+      "description": "Requested additive synchronous lookup across MCPServer and ToolManager, a real multi-file dependency maintenance task; not an upstream bug report.",
+      "prompt": "Add synchronous has_tool(name: str) -> bool APIs to MCPServer and its ToolManager. ToolManager checks exact case-sensitive registration membership without mutating state or executing the tool; MCPServer delegates to its manager. Missing/empty/differently-cased names return False, registered names True, removed names False. Preserve existing get/list/add/remove/call behavior. Add focused repository tests. Do not change other public APIs. Do not commit, submit/approve proposals or install dependencies. Finish with actual checks and unresolved issues."
+    },
+    {
+      "id": "structured-invalid-characters",
+      "target": "src/mcp/shared/tool_name_validation.py",
+      "test": "accept_invalid_chars.py",
+      "description": "Requested additive structured validation diagnostics with early-return and constructor compatibility; a bounded API/data-model maintenance task, not a reported defect.",
+      "prompt": "Extend ToolNameValidationResult with invalid_characters: list[str] using an independent default list. Preserve existing two-positional-argument construction and all existing is_valid/warnings behavior. In the invalid-character branch of validate_tool_name, expose the already-computed unique invalid characters in first-seen order, including Unicode. Valid names and the existing empty/overlength early returns expose an empty list. Do not alter warning text, logging behavior, regex or existing validation order. Add focused repository tests. Do not commit, submit/approve proposals or install dependencies. Finish with actual checks and unresolved issues."
+    }
+  ],
+  "permissions": "Same native tool permission policy in both conditions; all writes/bash reviewed once by operator. Graph condition adds only ChronosGraph MCP and managed context bridge.",
+  "cache_policy": "Fresh isolated HOME/config/data/state/cache per attempt; source worktrees reset to pinned revision. Provider-side free-model cache cannot be reset or controlled; report cache-read/write categories separately.",
+  "comparison_policy": "All attempts retained. Provider/installation/operator interruptions reported, no silent reruns. Success requires frozen external tests, selected existing regressions and no unintended source changes. Small 4-run pilot, not statistical proof. Wall time includes operator permission waits; report them separately when observable.",
+  "prior_exposure": "The repository was previously indexed and used for different display-name/path-refactor tasks; these two task instances were not used to tune ChronosGraph. Source was inspected to define independent acceptance; agents receive no solution patches.",
+  "cost_policy": "Free model; zero reported charge is not proof of paid-equivalent savings. Preserve completed-step token categories; provider retry usage remains unknown.",
+  "ingestion_policy": "Fresh immutable graph snapshot before graph attempts; account for elapsed ingestion/refresh separately, do not include prior graph findings.",
+  "acceptance_sha256": {
+    "accept_has_tool.py": "81ea1f51981e31f8b3a7e3708493e8debef063e7b3eec5edcc1bba0d174e2a34",
+    "accept_invalid_chars.py": "7c69c1d72949c50ebff94786cd8691073809f40acdb2bad70d5b3be2cd5f86d6"
+  },
+  "setup_amendment": {
+    "at_utc": "2026-10-18T11:30:12.896538+00:00",
+    "before_any_agent_trial": true,
+    "retained_failed_setup": "Default 100-path mandatory pack exceeded budget at trial-3 preparation; HTTP422 CONSTRAINT_OVERFLOW. No agent trial had started.",
+    "explicit_graph_analysis_path_limit": 12,
+    "limitations": "Same requested task and tools; graph managed pack explicitly bounds scope to 12 paths and marks truncation. It is not comprehensive impact coverage. Out-of-scope proposals require expansion. No mandatory rule within selected scope removed."
+  }
+}

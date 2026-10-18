@@ -1,0 +1,1 @@
+Initial local report-normalization script failed before CSV creation: loop variable p shadowed trial directory. Fixed variable naming only. Initial profiler then reported file missing; CSV regenerated and profiler rerun. No trial/source/check/model changes.

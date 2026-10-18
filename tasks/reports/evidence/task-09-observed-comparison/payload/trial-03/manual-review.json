@@ -1,0 +1,12 @@
+{
+  "trial": 3,
+  "requirement_behavior_review": "PASS_BOUNDED_SCOPE",
+  "unintended_source_changes": "NONE_FOUND",
+  "repository_conventions": "PASS_IN_REVIEWED_DIFF",
+  "new_test_functions_missing_return_annotation": [],
+  "new_no_cover_pragmas": 0,
+  "static_typecheck": "OBSERVED_ZERO_ERRORS_WITH_MISSING_VENV_NOTICE",
+  "native_completion": "FINAL_RESPONSE",
+  "candidate_digest": "e9f42a9afe7cdec095d5b2541d8be8eac7f63ba8cdb6af70ca7359e492771b22",
+  "scope": "Operator independently inspected complete candidate diff and frozen checks; not a merge approval or independent-human audit."
+}

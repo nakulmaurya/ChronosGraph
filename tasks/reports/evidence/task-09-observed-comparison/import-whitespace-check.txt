@@ -1,0 +1,108 @@
+Initial full staged diff whitespace check failed (exit 2). Reproduced during import-only recovery; all findings constrained to original sealed .log/.patch/profile payload files. No payload bytes altered.
+
+tasks/reports/evidence/task-09-observed-comparison/payload/profile.txt:42: new blank line at EOF.
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:11: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:15: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:16: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:21: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:24: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:26: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:33: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:89: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/candidate.patch:90: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:368: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_caller_cancel_courtesy_write_is_bounded_when_the_transport_is_wedged[trio-mockclock] 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:372: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_timeout_courtesy_cancel_write_is_bounded_when_the_transport_is_wedged[trio-mockclock] 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:376: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_shutdown_error_response_write_is_bounded_when_the_transport_is_wedged[trio-mockclock] 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:428: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_plan_outbound_with_related_request_id_drops_resumption_hints_but_keeps_abandon_cancel 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:688: trailing whitespace.
++tests/shared/test_tool_name_validation.py::test_issue_tool_name_warning_logs_warnings 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:699: trailing whitespace.
++tests/shared/test_tool_name_validation.py::test_validate_and_warn_tool_name_returns_false_for_invalid_name 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-01/existing-regressions.log:719: trailing whitespace.
++tests/shared/test_tool_name_validation.py::test_validate_and_warn_tool_name_logs_warnings_for_invalid_name 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/candidate.patch:8: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/candidate.patch:23: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:66: trailing whitespace.
++tests/server/mcpserver/prompts/test_manager.py::TestPromptManager::test_add_duplicate_prompt 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:116: trailing whitespace.
++tests/server/mcpserver/resources/test_resource_manager.py::test_init_with_resources 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:121: trailing whitespace.
++tests/server/mcpserver/resources/test_resource_manager.py::test_add_duplicate_resource 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:125: trailing whitespace.
++tests/server/mcpserver/resources/test_resource_manager.py::test_warn_on_duplicate_resources 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:585: trailing whitespace.
++tests/server/mcpserver/test_tool_manager.py::TestAddTools::test_init_with_tools 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:595: trailing whitespace.
++tests/server/mcpserver/test_tool_manager.py::TestAddTools::test_add_lambda_with_no_name 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-02/existing-regressions.log:604: trailing whitespace.
++tests/server/mcpserver/test_tool_manager.py::TestAddTools::test_warn_on_duplicate_tools 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:13: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:17: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:18: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:23: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:26: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:28: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:35: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:43: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:44: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:107: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:108: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/candidate.patch:107: new blank line at EOF.
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:368: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_caller_cancel_courtesy_write_is_bounded_when_the_transport_is_wedged[trio-mockclock] 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:372: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_timeout_courtesy_cancel_write_is_bounded_when_the_transport_is_wedged[trio-mockclock] 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:376: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_shutdown_error_response_write_is_bounded_when_the_transport_is_wedged[trio-mockclock] 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:428: trailing whitespace.
++tests/shared/test_jsonrpc_dispatcher.py::test_plan_outbound_with_related_request_id_drops_resumption_hints_but_keeps_abandon_cancel 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:692: trailing whitespace.
++tests/shared/test_tool_name_validation.py::test_issue_tool_name_warning_logs_warnings 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:703: trailing whitespace.
++tests/shared/test_tool_name_validation.py::test_validate_and_warn_tool_name_returns_false_for_invalid_name 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-03/existing-regressions.log:723: trailing whitespace.
++tests/shared/test_tool_name_validation.py::test_validate_and_warn_tool_name_logs_warnings_for_invalid_name 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/candidate.patch:8: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/candidate.patch:23: trailing whitespace.
++ 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:66: trailing whitespace.
++tests/server/mcpserver/prompts/test_manager.py::TestPromptManager::test_add_duplicate_prompt 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:116: trailing whitespace.
++tests/server/mcpserver/resources/test_resource_manager.py::test_init_with_resources 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:121: trailing whitespace.
++tests/server/mcpserver/resources/test_resource_manager.py::test_add_duplicate_resource 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:125: trailing whitespace.
++tests/server/mcpserver/resources/test_resource_manager.py::test_warn_on_duplicate_resources 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:585: trailing whitespace.
++tests/server/mcpserver/test_tool_manager.py::TestAddTools::test_init_with_tools 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:595: trailing whitespace.
++tests/server/mcpserver/test_tool_manager.py::TestAddTools::test_add_lambda_with_no_name 
+tasks/reports/evidence/task-09-observed-comparison/payload/trial-04/existing-regressions.log:604: trailing whitespace.
++tests/server/mcpserver/test_tool_manager.py::TestAddTools::test_warn_on_duplicate_tools 

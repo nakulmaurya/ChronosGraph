@@ -1,0 +1,108 @@
+diff --git a/src/mcp/shared/tool_name_validation.py b/src/mcp/shared/tool_name_validation.py
+index 96c34f7..8215b2b 100644
+--- a/src/mcp/shared/tool_name_validation.py
++++ b/src/mcp/shared/tool_name_validation.py
+@@ -31,10 +31,14 @@ class ToolNameValidationResult:
+     Attributes:
+         is_valid: Whether the tool name conforms to SEP-986 requirements.
+         warnings: List of warning messages for non-conforming aspects.
++        invalid_characters: Unique invalid characters found in the name, in
++            first-seen order. Empty when the name is valid or when validation
++            short-circuits before the invalid-character check.
+     """
+ 
+     is_valid: bool
+     warnings: list[str] = field(default_factory=lambda: [])
++    invalid_characters: list[str] = field(default_factory=lambda: [])
+ 
+ 
+ def validate_tool_name(name: str) -> ToolNameValidationResult:
+@@ -89,7 +93,7 @@ def validate_tool_name(name: str) -> ToolNameValidationResult:
+         warnings.append(f"Tool name contains invalid characters: {', '.join(repr(c) for c in invalid_chars)}")
+         warnings.append("Allowed characters are: A-Z, a-z, 0-9, underscore (_), dash (-), and dot (.)")
+ 
+-        return ToolNameValidationResult(is_valid=False, warnings=warnings)
++        return ToolNameValidationResult(is_valid=False, warnings=warnings, invalid_characters=invalid_chars)
+ 
+     return ToolNameValidationResult(is_valid=True, warnings=warnings)
+ 
+diff --git a/tests/shared/test_tool_name_validation.py b/tests/shared/test_tool_name_validation.py
+index cbf27b8..5444258 100644
+--- a/tests/shared/test_tool_name_validation.py
++++ b/tests/shared/test_tool_name_validation.py
+@@ -5,6 +5,7 @@ import logging
+ import pytest
+ 
+ from mcp.shared.tool_name_validation import (
++    ToolNameValidationResult,
+     issue_tool_name_warning,
+     validate_and_warn_tool_name,
+     validate_tool_name,
+@@ -101,6 +102,67 @@ def test_validate_tool_name_rejects_unicode_characters() -> None:
+     assert result.is_valid is False
+ 
+ 
++# Tests for ToolNameValidationResult.invalid_characters
++
++
++def test_invalid_characters_exposes_unique_chars_in_first_seen_order() -> None:
++    """Invalid characters should be unique and preserve first-seen order."""
++    result = validate_tool_name("user name@domain,com")
++    assert result.invalid_characters == [" ", "@", ","]
++
++
++def test_invalid_characters_deduplicates_repeated_characters() -> None:
++    """Repeated invalid characters should appear only once."""
++    result = validate_tool_name("a/b/c")
++    assert result.invalid_characters == ["/"]
++
++
++def test_invalid_characters_includes_unicode() -> None:
++    """Unicode characters should be exposed verbatim."""
++    result = validate_tool_name("user-\u00f1ame\u4e2d")
++    assert result.invalid_characters == ["\u00f1", "\u4e2d"]
++
++
++@pytest.mark.parametrize(
++    "tool_name",
++    ["getUser", "get_user_profile", "a", "a" * 128],
++    ids=["simple_alphanumeric", "with_underscores", "single_character", "max_length_128"],
++)
++def test_invalid_characters_empty_for_valid_names(tool_name: str) -> None:
++    """Valid names should expose an empty list of invalid characters."""
++    result = validate_tool_name(tool_name)
++    assert result.is_valid is True
++    assert result.invalid_characters == []
++
++
++def test_invalid_characters_empty_for_empty_name() -> None:
++    """The empty-name early return should expose an empty list."""
++    result = validate_tool_name("")
++    assert result.invalid_characters == []
++
++
++def test_invalid_characters_empty_for_overlength_name() -> None:
++    """The overlength early return should expose an empty list."""
++    result = validate_tool_name("a" * 129)
++    assert result.invalid_characters == []
++
++
++def test_tool_name_validation_result_supports_two_positional_arguments() -> None:
++    """Existing two-positional-argument construction must keep working."""
++    result = ToolNameValidationResult(True, [])
++    assert result.is_valid is True
++    assert result.warnings == []
++    assert result.invalid_characters == []
++
++
++def test_tool_name_validation_result_invalid_characters_default_is_independent() -> None:
++    """The default list must not be shared between instances."""
++    first = ToolNameValidationResult(True, [])
++    second = ToolNameValidationResult(True, [])
++    first.invalid_characters.append("/")
++    assert second.invalid_characters == []
++
++
+ # Tests for validate_tool_name function - warnings for problematic patterns
+ 
+ 

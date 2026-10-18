@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-18T13:30:09.841305+00:00",
+  "headline": "Four observed one-shot trials complete; no graph advantage or savings established.",
+  "provenance": {
+    "vm_task9_root": "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task9",
+    "source_revision": "754254c08fe1c3eda18b69da3d336106fe8d72d6",
+    "application_revision": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+    "grain": "One row per native measured OpenCode attempt",
+    "population": "All four frozen ordered cells, no exclusions, no reruns",
+    "models": "opencode/deepseek-v4.1-flash-free",
+    "harness": "1.19.3",
+    "budget_seconds": 900,
+    "order_seed": 20261018,
+    "snapshot_scope_paths": 12,
+    "raw_source": "Native export messages and step-finish parts, frozen verification logs, candidate manifests, operator events",
+    "protocol_sha256": "31827cb48c2a684660fb08197aca3775cbb05294d8ebf4c8310aad143b22d459"
+  },
+  "profile_review": {
+    "row_count": 4,
+    "nulls": 0,
+    "duplicate_trial_ids": 0,
+    "warnings_resolution": "Profiler constant warnings resolved: attempts=1 by frozen design, cache_write=0 and reported_cost=0 are exported observations, retry_usage=UNKNOWN is deliberately preserved; identifiers/categorical repeated values are intentional; no rows dropped. No interpolation or missing-as-zero. UNKNOWN retry usage is categorical, not a number. Wide token/time ranges are retained observations, not outlier exclusions.",
+    "profile_file": "profile.txt"
+  },
+  "summary": {
+    "attempts": 4,
+    "attempts_per_cell": 1,
+    "frozen_runtime_check_passes": 4,
+    "native_final_responses": 2,
+    "permission_stopped": 2,
+    "convention_changes_requested": 2,
+    "candidate_unchanged_checks": 4,
+    "provider_message_errors": 0,
+    "model_cost_reported": 0,
+    "retry_usage": "UNKNOWN"
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "task": "structured-invalid-characters",
+      "condition": "ordinary",
+      "attempts": 1,
+      "native_terminal": "FINAL_RESPONSE",
+      "external_passed": 3,
+      "regression_passed": 991,
+      "prompt_to_last_message_seconds": 420.84398317337036,
+      "prompt_to_terminal_observation_seconds": 488.51026344299316,
+      "wall_to_collection_seconds": 494.7472093105316,
+      "startup_seconds": 64.41424632072449,
+      "input": 22081,
+      "output": 2466,
+      "reasoning": 1246,
+      "cache_read": 220800,
+      "cache_write": 0,
+      "reported_cost": 0,
+      "retry_usage": "UNKNOWN",
+      "tool_calls": 15,
+      "tool_errors": 0,
+      "read_attempts": 3,
+      "repeated_path_reads": 0,
+      "operator_allow_once": 10,
+      "operator_reject": 0,
+      "context_part_bytes": 0,
+      "repository_convention_issues": 0
+    },
+    {
+      "trial": 2,
+      "task": "has-tool-lookup",
+      "condition": "ordinary",
+      "attempts": 1,
+      "native_terminal": "PERMISSION_STOP_NO_FINAL_RESPONSE",
+      "external_passed": 2,
+      "regression_passed": 647,
+      "prompt_to_last_message_seconds": 462.1112880706787,
+      "prompt_to_terminal_observation_seconds": 515.7409255504608,
+      "wall_to_collection_seconds": 521.8577954769135,
+      "startup_seconds": 8.156908988952637,
+      "input": 32918,
+      "output": 3733,
+      "reasoning": 2459,
+      "cache_read": 409856,
+      "cache_write": 0,
+      "reported_cost": 0,
+      "retry_usage": "UNKNOWN",
+      "tool_calls": 22,
+      "tool_errors": 1,
+      "read_attempts": 5,
+      "repeated_path_reads": 1,
+      "operator_allow_once": 17,
+      "operator_reject": 1,
+      "context_part_bytes": 0,
+      "repository_convention_issues": 9
+    },
+    {
+      "trial": 3,
+      "task": "structured-invalid-characters",
+      "condition": "graph",
+      "attempts": 1,
+      "native_terminal": "FINAL_RESPONSE",
+      "external_passed": 3,
+      "regression_passed": 995,
+      "prompt_to_last_message_seconds": 323.89915680885315,
+      "prompt_to_terminal_observation_seconds": 341.35697650909424,
+      "wall_to_collection_seconds": 347.6135256290436,
+      "startup_seconds": 65.77688956260681,
+      "input": 33239,
+      "output": 3743,
+      "reasoning": 1771,
+      "cache_read": 275712,
+      "cache_write": 0,
+      "reported_cost": 0,
+      "retry_usage": "UNKNOWN",
+      "tool_calls": 17,
+      "tool_errors": 0,
+      "read_attempts": 3,
+      "repeated_path_reads": 1,
+      "operator_allow_once": 13,
+      "operator_reject": 0,
+      "context_part_bytes": 12660,
+      "repository_convention_issues": 0
+    },
+    {
+      "trial": 4,
+      "task": "has-tool-lookup",
+      "condition": "graph",
+      "attempts": 1,
+      "native_terminal": "PERMISSION_STOP_NO_FINAL_RESPONSE",
+      "external_passed": 2,
+      "regression_passed": 647,
+      "prompt_to_last_message_seconds": 585.5154650211334,
+      "prompt_to_terminal_observation_seconds": 624.7075779438019,
+      "wall_to_collection_seconds": 631.2928509712219,
+      "startup_seconds": 17.207568407058716,
+      "input": 99651,
+      "output": 6397,
+      "reasoning": 786,
+      "cache_read": 805120,
+      "cache_write": 0,
+      "reported_cost": 0,
+      "retry_usage": "UNKNOWN",
+      "tool_calls": 22,
+      "tool_errors": 2,
+      "read_attempts": 7,
+      "repeated_path_reads": 0,
+      "operator_allow_once": 14,
+      "operator_reject": 1,
+      "context_part_bytes": 12168,
+      "repository_convention_issues": 7
+    }
+  ],
+  "details": [
+    {
+      "trial": 1,
+      "models": [
+        "opencode/deepseek-v4.1-flash-free"
+      ],
+      "completed_steps": 14,
+      "message_step_usage_crosscheck": "PASS",
+      "tool_counts": {
+        "bash": 6,
+        "grep": 1,
+        "read": 3,
+        "glob": 1,
+        "edit": 4
+      },
+      "tool_statuses": {
+        "completed": 15
+      },
+      "nonzero_shell_exits": [
+        "prt_14f0d64bd001yIybNILoKDiovb"
+      ],
+      "failed_tools": [],
+      "context_injections": [],
+      "review": {
+        "trial": 1,
+        "requirement_behavior_review": "PASS_BOUNDED_SCOPE",
+        "unintended_source_changes": "NONE_FOUND",
+        "repository_conventions": "PASS_IN_REVIEWED_DIFF",
+        "new_test_functions_missing_return_annotation": [],
+        "new_no_cover_pragmas": 0,
+        "static_typecheck": "OBSERVED_ZERO_ERRORS_WITH_MISSING_VENV_NOTICE",
+        "native_completion": "FINAL_RESPONSE",
+        "candidate_digest": "724aa8f203747b324bc5a7f31265623da6d7b0954bbec2543425d84228fa9b1e",
+        "scope": "Operator independently inspected complete candidate diff and frozen checks; not a merge approval or independent-human audit."
+      },
+      "candidate_files": [
+        "src/mcp/shared/tool_name_validation.py",
+        "tests/shared/test_tool_name_validation.py"
+      ],
+      "candidate_digest": "724aa8f203747b324bc5a7f31265623da6d7b0954bbec2543425d84228fa9b1e",
+      "private_export_sha256": "137cda0af0383c0f9b6a409fc1b46708d378313951c32a83d19dbf5225a5bd88"
+    },
+    {
+      "trial": 2,
+      "models": [
+        "opencode/deepseek-v4.1-flash-free"
+      ],
+      "completed_steps": 17,
+      "message_step_usage_crosscheck": "PASS",
+      "tool_counts": {
+        "bash": 14,
+        "read": 5,
+        "edit": 3
+      },
+      "tool_statuses": {
+        "completed": 21,
+        "error": 1
+      },
+      "nonzero_shell_exits": [],
+      "failed_tools": [
+        {
+          "part_id": "prt_14f179b6a001X8XmtPtx9oERzH",
+          "tool": "bash",
+          "status": "error",
+          "time": {
+            "start": 1792328309868,
+            "end": 1792328342990
+          },
+          "shell_exit": null,
+          "input": {
+            "command": "mkdir -p /tmp/opencode && cat > /tmp/opencode/pyrightconfig.json <<'EOF'\n{\n  \"typeCheckingMode\": \"strict\",\n  \"include\": [\n    \"/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-02/src/mcp\",\n    \"/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-02/src/mcp-types/mcp_types\"\n  ],\n  \"extraPaths\": [\n    \"/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-02/src\",\n    \"/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-02/src/mcp-types\"\n  ]\n}\nEOF\ncd /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-02 && /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/python -m pyright --project /tmp/opencode/pyrightconfig.json 2>&1 | grep -E \"error:|errors,\" | grep -vE \"WARNING\" | tail -30"
+          },
+          "error": "The user rejected permission to use this specific tool call.",
+          "command_purpose": [
+            "typecheck_or_typecheck_setup"
+          ]
+        }
+      ],
+      "context_injections": [],
+      "review": {
+        "trial": 2,
+        "requirement_behavior_review": "PASS_BOUNDED_SCOPE",
+        "unintended_source_changes": "NONE_FOUND",
+        "repository_conventions": "CHANGES_REQUESTED",
+        "new_test_functions_missing_return_annotation": [
+          "test_tool_manager_has_tool_true_for_registered_name",
+          "test_tool_manager_has_tool_false_for_missing_empty_and_wrong_case",
+          "test_tool_manager_has_tool_false_after_removal",
+          "test_tool_manager_has_tool_does_not_mutate_or_execute",
+          "test_mcpserver_has_tool_delegates_to_manager"
+        ],
+        "new_no_cover_pragmas": 4,
+        "static_typecheck": "NOT_PASS_UNRESOLVED_DIAGNOSTICS",
+        "native_completion": "PERMISSION_STOP_NO_FINAL_RESPONSE",
+        "candidate_digest": "31380ee4dccf0ce3b699133fa0556abb443cc444497c7d5f9a39e4d865009dff",
+        "scope": "Operator independently inspected complete candidate diff and frozen checks; not a merge approval or independent-human audit."
+      },
+      "candidate_files": [
+        "src/mcp/server/mcpserver/server.py",
+        "src/mcp/server/mcpserver/tools/tool_manager.py",
+        "tests/server/mcpserver/test_tool_manager.py"
+      ],
+      "candidate_digest": "31380ee4dccf0ce3b699133fa0556abb443cc444497c7d5f9a39e4d865009dff",
+      "private_export_sha256": "e80638942668d6aeba780c88aec28567614346079907ee97b20493cee994835c"
+    },
+    {
+      "trial": 3,
+      "models": [
+        "opencode/deepseek-v4.1-flash-free"
+      ],
+      "completed_steps": 11,
+      "message_step_usage_crosscheck": "PASS",
+      "tool_counts": {
+        "chronosgraph_inspect_repository_snapshot": 1,
+        "read": 3,
+        "edit": 6,
+        "bash": 6,
+        "grep": 1
+      },
+      "tool_statuses": {
+        "completed": 17
+      },
+      "nonzero_shell_exits": [],
+      "failed_tools": [],
+      "context_injections": [
+        {
+          "id": "prt_217e8108800eb62988351fe97968012b",
+          "utf8_bytes": 12660
+        }
+      ],
+      "review": {
+        "trial": 3,
+        "requirement_behavior_review": "PASS_BOUNDED_SCOPE",
+        "unintended_source_changes": "NONE_FOUND",
+        "repository_conventions": "PASS_IN_REVIEWED_DIFF",
+        "new_test_functions_missing_return_annotation": [],
+        "new_no_cover_pragmas": 0,
+        "static_typecheck": "OBSERVED_ZERO_ERRORS_WITH_MISSING_VENV_NOTICE",
+        "native_completion": "FINAL_RESPONSE",
+        "candidate_digest": "e9f42a9afe7cdec095d5b2541d8be8eac7f63ba8cdb6af70ca7359e492771b22",
+        "scope": "Operator independently inspected complete candidate diff and frozen checks; not a merge approval or independent-human audit."
+      },
+      "candidate_files": [
+        "src/mcp/shared/tool_name_validation.py",
+        "tests/shared/test_tool_name_validation.py"
+      ],
+      "candidate_digest": "e9f42a9afe7cdec095d5b2541d8be8eac7f63ba8cdb6af70ca7359e492771b22",
+      "private_export_sha256": "83eca1c1c74c625ce92a77f8989fa380399c6c475e78b0df56b491f2809044a2"
+    },
+    {
+      "trial": 4,
+      "models": [
+        "opencode/deepseek-v4.1-flash-free"
+      ],
+      "completed_steps": 20,
+      "message_step_usage_crosscheck": "PASS",
+      "tool_counts": {
+        "bash": 12,
+        "read": 7,
+        "edit": 3
+      },
+      "tool_statuses": {
+        "completed": 20,
+        "error": 2
+      },
+      "nonzero_shell_exits": [],
+      "failed_tools": [
+        {
+          "part_id": "prt_14f216e86001a8jeln2Iya3dXV",
+          "tool": "read",
+          "status": "error",
+          "time": {
+            "start": 1792328953547,
+            "end": 1792328953562
+          },
+          "shell_exit": null,
+          "input": {
+            "filePath": "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-04/src/mcp/server/mcpserver/tools.py"
+          },
+          "error": "File not found: /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-04/src/mcp/server/mcpserver/tools.py\n\nDid you mean one of these?\n/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-04/src/mcp/server/mcpserver/tools"
+        },
+        {
+          "part_id": "prt_14f292e9a001B7k0SljYaNW9xu",
+          "tool": "bash",
+          "status": "error",
+          "time": {
+            "start": 1792329461408,
+            "end": 1792329489372
+          },
+          "shell_exit": null,
+          "input": {
+            "command": "cat > /tmp/pyrightconfig.json <<'EOF'\n{\n  \"typeCheckingMode\": \"strict\",\n  \"extraPaths\": [\n    \"/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-04/src\",\n    \"/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-04/src/mcp-types\"\n  ],\n  \"reportUnusedFunction\": false,\n  \"reportPrivateUsage\": false\n}\nEOF\n/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/pyright --project /tmp/pyrightconfig.json src/mcp/server/mcpserver/tools/tool_manager.py src/mcp/server/mcpserver/server.py 2>&1 | tail -30",
+            "timeout": 180000
+          },
+          "error": "The user rejected permission to use this specific tool call.",
+          "command_purpose": [
+            "typecheck_or_typecheck_setup"
+          ]
+        }
+      ],
+      "context_injections": [
+        {
+          "id": "prt_dce66a0da0004b63d0e70336c5284d3a",
+          "utf8_bytes": 12168
+        }
+      ],
+      "review": {
+        "trial": 4,
+        "requirement_behavior_review": "PASS_BOUNDED_SCOPE",
+        "unintended_source_changes": "NONE_FOUND",
+        "repository_conventions": "CHANGES_REQUESTED",
+        "new_test_functions_missing_return_annotation": [
+          "test_tool_manager_has_tool_true_for_registered_name",
+          "test_tool_manager_has_tool_false_for_missing_empty_and_miscased_names",
+          "test_tool_manager_has_tool_false_after_removal",
+          "test_tool_manager_has_tool_does_not_mutate_or_execute",
+          "test_mcpserver_has_tool_delegates_to_manager"
+        ],
+        "new_no_cover_pragmas": 2,
+        "static_typecheck": "NOT_PASS_UNRESOLVED_DIAGNOSTICS",
+        "native_completion": "PERMISSION_STOP_NO_FINAL_RESPONSE",
+        "candidate_digest": "e602cc367a30846b5a146289355f1a9e140e24875069deeae1438015265e822b",
+        "scope": "Operator independently inspected complete candidate diff and frozen checks; not a merge approval or independent-human audit."
+      },
+      "candidate_files": [
+        "src/mcp/server/mcpserver/server.py",
+        "src/mcp/server/mcpserver/tools/tool_manager.py",
+        "tests/server/mcpserver/test_tool_manager.py"
+      ],
+      "candidate_digest": "e602cc367a30846b5a146289355f1a9e140e24875069deeae1438015265e822b",
+      "private_export_sha256": "ede00f9b24b0223314a6d91aee738588220f9fb31670ee9937865ec040442a02"
+    }
+  ],
+  "matched_descriptive_differences": [
+    {
+      "task": "structured-invalid-characters",
+      "ordinary_trial": 1,
+      "graph_trial": 3,
+      "graph_minus_ordinary_native_wall_seconds": -96.94482636451721,
+      "graph_minus_ordinary_input": 11158,
+      "causal_inference": "NOT_IDENTIFIABLE_FROM_ONE_ORDERED_ATTEMPT_PER_CELL_WITH_CAVEATS"
+    },
+    {
+      "task": "has-tool-lookup",
+      "ordinary_trial": 2,
+      "graph_trial": 4,
+      "graph_minus_ordinary_native_wall_seconds": 123.40417695045471,
+      "graph_minus_ordinary_input": 66733,
+      "causal_inference": "NOT_IDENTIFIABLE_FROM_ONE_ORDERED_ATTEMPT_PER_CELL_WITH_CAVEATS"
+    }
+  ],
+  "comparison_plan": [
+    {
+      "grain": "attempt",
+      "population": "all four frozen cells",
+      "unit": "outcome and test counts",
+      "finding": "All runtime checks passed; only two native final responses",
+      "derivation": "native finish + retained interruption + independent verifier",
+      "disposition": "table",
+      "reason": "Engineering audit with only four confounded observations; compact status table communicates exact failures better than an inferential plot."
+    },
+    {
+      "grain": "attempt",
+      "population": "all four cells",
+      "unit": "seconds and separately reported token categories",
+      "finding": "Graph used more observed input in each task pair; native wall direction differs across tasks",
+      "derivation": "preserve raw categories, last-message end minus native prompt issuance",
+      "disposition": "table",
+      "reason": "No controlled speed/cost inference possible; report raw values, no pooled ranking or additive token total."
+    }
+  ],
+  "limitations": [
+    "One attempt per cell; fixed order and no statistical or causal inference.",
+    "Trial1 overlapped Agent1 Task7 free model review and small pytest/export/hash workload; all runs use shared VM/provider.",
+    "Wall intervals include operator permission waits, network/provider and local tools. Not provider-only latency; operator-only waits not independently separable.",
+    "Both has_tool turns stopped after operator rejected unowned shared /tmp typechecker config writes. No model restart or continuation.",
+    "Pyright output reported 15 errors in ordinary has_tool and 39 in graph has_tool (latter also checks test file); scopes differ and totals are not a comparative quality metric. Missing .venv/source-resolution diagnostics retained; root cause not proven. Shell pipelines can report exit0 despite diagnostics.",
+    "Each has_tool candidate adds five tests without return annotations; ordinary adds four no-cover pragmas, graph two. Runtime success is not repository-wide readiness.",
+    "All four frozen collectors initially failed on truncated CLI JSON captured through PIPE. Original failures retained; regular-file capture wrapper ran the same collector logic, no trial reruns.",
+    "Graph doctor pending0 but completeness NOT_PROVEN. Exported synthetic context does not prove exact provider consumption or billing effects.",
+    "Graph scope12paths, static unresolved calls and shallow one-commit history; no comprehensive impact/ownership claim.",
+    "Free-model reported cost0 does not establish paid-equivalent savings. Provider cache uncontrolled, retry usage UNKNOWN.",
+    "Original pre-reboot interrupted pilot remains incomplete/unknown; Task6 reconstructed pilot-v2 is separately disclosed.",
+    "No approval/merge/push/deployment; source candidates remain isolated."
+  ]
+}

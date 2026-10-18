@@ -1,0 +1,18 @@
+{
+  "trial": 2,
+  "requirement_behavior_review": "PASS_BOUNDED_SCOPE",
+  "unintended_source_changes": "NONE_FOUND",
+  "repository_conventions": "CHANGES_REQUESTED",
+  "new_test_functions_missing_return_annotation": [
+    "test_tool_manager_has_tool_true_for_registered_name",
+    "test_tool_manager_has_tool_false_for_missing_empty_and_wrong_case",
+    "test_tool_manager_has_tool_false_after_removal",
+    "test_tool_manager_has_tool_does_not_mutate_or_execute",
+    "test_mcpserver_has_tool_delegates_to_manager"
+  ],
+  "new_no_cover_pragmas": 4,
+  "static_typecheck": "NOT_PASS_UNRESOLVED_DIAGNOSTICS",
+  "native_completion": "PERMISSION_STOP_NO_FINAL_RESPONSE",
+  "candidate_digest": "31380ee4dccf0ce3b699133fa0556abb443cc444497c7d5f9a39e4d865009dff",
+  "scope": "Operator independently inspected complete candidate diff and frozen checks; not a merge approval or independent-human audit."
+}

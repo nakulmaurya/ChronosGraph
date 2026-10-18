@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-18T13:25:13.364442+00:00",
+  "attempts": [
+    1,
+    1,
+    1,
+    1
+  ],
+  "candidates": [
+    {
+      "trial": 1,
+      "attempts": 1,
+      "candidate_digest": "724aa8f203747b324bc5a7f31265623da6d7b0954bbec2543425d84228fa9b1e",
+      "matches_post_verification": true,
+      "head": "754254c08fe1c3eda18b69da3d336106fe8d72d6"
+    },
+    {
+      "trial": 2,
+      "attempts": 1,
+      "candidate_digest": "31380ee4dccf0ce3b699133fa0556abb443cc444497c7d5f9a39e4d865009dff",
+      "matches_post_verification": true,
+      "head": "754254c08fe1c3eda18b69da3d336106fe8d72d6"
+    },
+    {
+      "trial": 3,
+      "attempts": 1,
+      "candidate_digest": "e9f42a9afe7cdec095d5b2541d8be8eac7f63ba8cdb6af70ca7359e492771b22",
+      "matches_post_verification": true,
+      "head": "754254c08fe1c3eda18b69da3d336106fe8d72d6"
+    },
+    {
+      "trial": 4,
+      "attempts": 1,
+      "candidate_digest": "e602cc367a30846b5a146289355f1a9e140e24875069deeae1438015265e822b",
+      "matches_post_verification": true,
+      "head": "754254c08fe1c3eda18b69da3d336106fe8d72d6"
+    }
+  ],
+  "frozen_runner_and_acceptance_hashes": "PASS",
+  "no_more_model_trials": true
+}

@@ -1,0 +1,507 @@
+{
+  "trial": 3,
+  "task": "structured-invalid-characters",
+  "condition": "graph",
+  "session": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+  "started_at": 1792328501.9088433,
+  "collected_at": 1792328849.522368,
+  "wall_seconds_to_collection": 347.6135256290436,
+  "completed_steps": [
+    {
+      "reason": "tool-calls",
+      "snapshot": "235a7719e6df38480e6f44c8ad76a681c43d5a56",
+      "type": "step-finish",
+      "tokens": {
+        "total": 18707,
+        "input": 16600,
+        "output": 261,
+        "reasoning": 54,
+        "cache": {
+          "write": 0,
+          "read": 1792
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1ae9e9001nLneYNe4y2VL46",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1a9cf8001a08kT6dyov1X1X"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "f31dca9970ee28bfa6435b71c3375e1f1de83150",
+      "type": "step-finish",
+      "tokens": {
+        "total": 23947,
+        "input": 4525,
+        "output": 430,
+        "reasoning": 688,
+        "cache": {
+          "write": 0,
+          "read": 18304
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1b9aed001NBiuIRLbdHuq9X",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1aea47001xXS3O23tLX6812"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "31b958f0ee140870be232ff5fdab7acbd3a8ac6f",
+      "type": "step-finish",
+      "tokens": {
+        "total": 24857,
+        "input": 1189,
+        "output": 827,
+        "reasoning": 57,
+        "cache": {
+          "write": 0,
+          "read": 22784
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1c2453001OBM8H0Bvt12BFT",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1b9b6a001kJzlzRu8pAV3Zd"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "31b958f0ee140870be232ff5fdab7acbd3a8ac6f",
+      "type": "step-finish",
+      "tokens": {
+        "total": 25071,
+        "input": 936,
+        "output": 141,
+        "reasoning": 58,
+        "cache": {
+          "write": 0,
+          "read": 23936
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1d299c00141HFtG17tYC1bc",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1c25160013pw96Xigq8scqb"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "31b958f0ee140870be232ff5fdab7acbd3a8ac6f",
+      "type": "step-finish",
+      "tokens": {
+        "total": 29061,
+        "input": 3767,
+        "output": 251,
+        "reasoning": 211,
+        "cache": {
+          "write": 0,
+          "read": 24832
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1d61b7001a2rQE4fuaU8kF3",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1d29f8001p1kDJG4PZbhe1T"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "31b958f0ee140870be232ff5fdab7acbd3a8ac6f",
+      "type": "step-finish",
+      "tokens": {
+        "total": 30419,
+        "input": 1449,
+        "output": 365,
+        "reasoning": 61,
+        "cache": {
+          "write": 0,
+          "read": 28544
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1dc6dd001YpGRKICB4Aq8Mc",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1d620b001LHDPkzcxPG7VI2"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "31b958f0ee140870be232ff5fdab7acbd3a8ac6f",
+      "type": "step-finish",
+      "tokens": {
+        "total": 30851,
+        "input": 608,
+        "output": 108,
+        "reasoning": 183,
+        "cache": {
+          "write": 0,
+          "read": 29952
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1ddb2e0012S5kVvHT7uF9uc",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1dc748001EU7QgS37yecEKD"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "4a40ba9b6bbbd5cf9c6f087b7ed84cadeac524ca",
+      "type": "step-finish",
+      "tokens": {
+        "total": 31996,
+        "input": 726,
+        "output": 624,
+        "reasoning": 182,
+        "cache": {
+          "write": 0,
+          "read": 30464
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1e941e001IVLj04CfjY2UO0",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1ddb7f001anOpwVPNJkLc2Q"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "4a40ba9b6bbbd5cf9c6f087b7ed84cadeac524ca",
+      "type": "step-finish",
+      "tokens": {
+        "total": 32305,
+        "input": 929,
+        "output": 272,
+        "reasoning": 0,
+        "cache": {
+          "write": 0,
+          "read": 31104
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1eded2001GRoJfHcGQMnZ6H",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1e945c001UCLlDnfQvqjWna"
+    },
+    {
+      "reason": "tool-calls",
+      "snapshot": "4a40ba9b6bbbd5cf9c6f087b7ed84cadeac524ca",
+      "type": "step-finish",
+      "tokens": {
+        "total": 32810,
+        "input": 480,
+        "output": 178,
+        "reasoning": 152,
+        "cache": {
+          "write": 0,
+          "read": 32000
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1f638d001s4hanw59aeW89R",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1edf1b001zhDguZR2VL3UVy"
+    },
+    {
+      "reason": "stop",
+      "snapshot": "4a40ba9b6bbbd5cf9c6f087b7ed84cadeac524ca",
+      "type": "step-finish",
+      "tokens": {
+        "total": 34441,
+        "input": 2030,
+        "output": 286,
+        "reasoning": 125,
+        "cache": {
+          "write": 0,
+          "read": 32000
+        }
+      },
+      "cost": 0,
+      "id": "prt_14f1f7b9b001ExIJWXBAse1KXd",
+      "sessionID": "ses_eb0e564a7ffeIZZ2bDLHzSC5O7",
+      "messageID": "msg_14f1f63cc001TiuST4ZHplz0Ry"
+    }
+  ],
+  "usage_categories": {
+    "input": 33239,
+    "output": 3743,
+    "reasoning": 1771,
+    "cache_read": 275712,
+    "cache_write": 0
+  },
+  "harness_reported_cost": 0,
+  "provider_retry_usage": "UNKNOWN",
+  "tools": [
+    {
+      "id": "prt_14f1ab243001xBL4WOf1FRvhrU",
+      "tool": "chronosgraph_inspect_repository_snapshot",
+      "status": "completed",
+      "paths": [],
+      "command": null,
+      "input_digest": "18f78c36db05e63a8cb248cd1d9e6b45e67836d8dac806afb6a59a760e66d20e",
+      "time": {
+        "start": 1792328512152,
+        "end": 1792328526166
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1ab29d001IkAO8jOBAWBlQ3",
+      "tool": "read",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/src/mcp/shared/tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "ac91a50ed16f1f00de6506c518cfdfd0815d88bd75ccceb94da0318090fb268e",
+      "time": {
+        "start": 1792328512218,
+        "end": 1792328512400
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1ab2de001RC9JmW42gNbnUh",
+      "tool": "read",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/tests/shared/test_tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "c62f4a931a13fc1cda5a223b3e924a11dd63cd10c0ee46a91e6274592052f95d",
+      "time": {
+        "start": 1792328512277,
+        "end": 1792328512439
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1b0534001D6FRhx77PxQgOZ",
+      "tool": "edit",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/src/mcp/shared/tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "82be16d32ab412b8526aa55d0b42474f127f5cdb7e7322183470ab26c01a2eb8",
+      "time": {
+        "start": 1792328533514,
+        "end": 1792328563467
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1b060f001zedUZ9KH9Xwh30",
+      "tool": "edit",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/src/mcp/shared/tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "13d7eff4162d38f573360c709985248c873d2dfa9ed14d65c78ab7ea1be773da",
+      "time": {
+        "start": 1792328533609,
+        "end": 1792328571517
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1bac77001MjXD3KBZtOjT2w",
+      "tool": "edit",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/tests/shared/test_tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "53fadd2f5e46f2a3c48527d61297eef70d89d901ed58e21ab8241bad43eb452c",
+      "time": {
+        "start": 1792328576714,
+        "end": 1792328606621
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1ca3b8001ZuBoMfRy535O4a",
+      "tool": "bash",
+      "status": "completed",
+      "paths": [],
+      "command": "PYTHONPATH=src /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/python -m pytest tests/shared/test_tool_name_validation.py -q",
+      "input_digest": "b5209458ff2165ab4a200d95eba5bfd85db23e21a2fb80bb8df87a4e59677e37",
+      "time": {
+        "start": 1792328639513,
+        "end": 1792328673644
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1d389f001lveRAtB4tqbLZm",
+      "tool": "bash",
+      "status": "completed",
+      "paths": [],
+      "command": "ls /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ | grep -E 'ruff|pyright' ; echo \"---diff---\"; git --no-pager diff --stat",
+      "input_digest": "fff10aaff2a37a64fae1a74d850bb54cde237d3f0bbbbdd10f905086f772d44d",
+      "time": {
+        "start": 1792328677637,
+        "end": 1792328687963
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1d390a001Mt1JEfA3ac1ypJ",
+      "tool": "read",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/src/mcp/shared/tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "42a0a7797f0aa5815c14ada9e41767f4bcf98fc9f1e4a183c99b06d5c1d51435",
+      "time": {
+        "start": 1792328677698,
+        "end": 1792328677754
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1d72ee001KOSopOwC3XmVMN",
+      "tool": "bash",
+      "status": "completed",
+      "paths": [],
+      "command": "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff format --check src/mcp/shared/tool_name_validation.py tests/shared/test_tool_name_validation.py; echo \"=== ruff check ===\"; /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff check src/mcp/shared/tool_name_validation.py tests/shared/test_tool_name_validation.py",
+      "input_digest": "7327a83170bad26976749246aacea6cb79886ef010fc80a050ace6ddbd2bb2ef",
+      "time": {
+        "start": 1792328692621,
+        "end": 1792328704712
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1d7393001QSSFrvaZx3zo8b",
+      "tool": "bash",
+      "status": "completed",
+      "paths": [],
+      "command": "PYTHONPATH=src /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/pyright src/mcp/shared/tool_name_validation.py 2>&1 | tail -20",
+      "input_digest": "48aa9737308996c7642ac0b270f901c4f8edb0d07058ffb3058320cf3e12818a",
+      "time": {
+        "start": 1792328692730,
+        "end": 1792328713922
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1dd96c001ETC5IXxURqvloS",
+      "tool": "grep",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03",
+        "ToolNameValidationResult"
+      ],
+      "command": null,
+      "input_digest": "189de14e6d8a80216f8295e3f69836955cb127424c7a1f0ac1f12651a1c79d0c",
+      "time": {
+        "start": 1792328718751,
+        "end": 1792328719043
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1df38f001B4B7pJoB2d2Cds",
+      "tool": "edit",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/tests/shared/test_tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "7ad4f60985227687384918ef6d83681e3fd98749a8d4647f21fe92d587855781",
+      "time": {
+        "start": 1792328725516,
+        "end": 1792328750244
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1df410001LUyhBBY8O7K5d9",
+      "tool": "edit",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/tests/shared/test_tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "9f55b2e18310a2d484772a9b5722e7e6a07dad9b1dbca84d998fcb2131df9b36",
+      "time": {
+        "start": 1792328725642,
+        "end": 1792328758304
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1df48d001UUK3VZ9CKyPoDu",
+      "tool": "edit",
+      "status": "completed",
+      "paths": [
+        "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-03/tests/shared/test_tool_name_validation.py"
+      ],
+      "command": null,
+      "input_digest": "2b17e364dd1e1cfeb7f204d99d6502d9eba40a9ffb232e93c96b08dd3830e258",
+      "time": {
+        "start": 1792328725778,
+        "end": 1792328766361
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1ea34a0011L5wC4DtHuagkx",
+      "tool": "bash",
+      "status": "completed",
+      "paths": [],
+      "command": "PYTHONPATH=src /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/python -m pytest tests/shared/test_tool_name_validation.py -q 2>&1 | tail -5; echo \"=== ruff ===\"; /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff format --check src/mcp/shared/tool_name_validation.py tests/shared/test_tool_name_validation.py && /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff check src/mcp/shared/tool_name_validation.py tests/shared/test_tool_name_validation.py",
+      "input_digest": "6413fab51d4155898510fc92649302f92064c2124f64ee0f62e4f685e70319b3",
+      "time": {
+        "start": 1792328770604,
+        "end": 1792328785545
+      },
+      "error": null
+    },
+    {
+      "id": "prt_14f1ef48d001ByOpiAptKqzJWu",
+      "tool": "bash",
+      "status": "completed",
+      "paths": [],
+      "command": "PYTHONPATH=src /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/pyright tests/shared/test_tool_name_validation.py 2>&1 | tail -3; echo \"=== diff ===\"; git --no-pager diff",
+      "input_digest": "763f62fb91095545aa121d9593ff8b36f322ab733b069df47f87a413357abe9e",
+      "time": {
+        "start": 1792328791285,
+        "end": 1792328819531
+      },
+      "error": null
+    }
+  ],
+  "explicit_read_count": 3,
+  "repeated_explicit_reads": 1,
+  "source_reads_in_shell_commands": "REQUIRES_MANUAL_CLASSIFICATION_FROM_RETAINED_COMMANDS",
+  "context_injections": [
+    {
+      "id": "prt_217e8108800eb62988351fe97968012b",
+      "utf8_bytes": 12660
+    }
+  ],
+  "errors": [],
+  "success": "CHECKS_PASS_REQUIRES_MANUAL_REQUIREMENTS_AND_UNINTENDED_DIFF_REVIEW",
+  "interruption_reason": null,
+  "attempt_state": "OBSERVED_EXPORT_NOT_SUCCESS",
+  "operator_waits": "INCLUDED_IN_WALL_TIME; retain permission log, not provider latency",
+  "independent_checks": {
+    "acceptance": 0,
+    "existing-regressions": 0,
+    "diff-check": 0,
+    "candidate-unchanged": 0
+  },
+  "candidate_digest": "e9f42a9afe7cdec095d5b2541d8be8eac7f63ba8cdb6af70ca7359e492771b22",
+  "observed_completion": {
+    "observed_at": 1792328843.2658198,
+    "last_message": "msg_14f1f63cc001TiuST4ZHplz0Ry",
+    "finish": "stop",
+    "error": null,
+    "model_end_at": 1792328825808,
+    "started_at": 1792328501.9088433,
+    "deadline_at": 1792329401.9088433,
+    "interruption_reason": null,
+    "export_sha256": "83eca1c1c74c625ce92a77f8989fa380399c6c475e78b0df56b491f2809044a2"
+  },
+  "verification_process_exit": 0,
+  "frozen_collector_initial_exit": 1
+}

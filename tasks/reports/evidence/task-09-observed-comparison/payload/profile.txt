@@ -1,0 +1,42 @@
+## /data/analysis/task9/trials.csv
+
+- Shape: 4 rows x 26 columns
+- Duplicate rows: 0
+- Candidate key columns (distinct == rows): trial, prompt_to_last_message_seconds, prompt_to_terminal_observation_seconds, wall_to_collection_seconds, startup_seconds
+
+| column | type | non-null | distinct | values |
+| --- | --- | --- | --- | --- |
+| trial | number | 100% | 4 | 1 → 4, mean 2.5 |
+| task | text | 100% | 2 | top: structured-invalid-characters (2), has-tool-lookup (2) |
+| condition | text | 100% | 2 | top: ordinary (2), graph (2) |
+| attempts | number | 100% | 1 | 1 → 1, mean 1 |
+| native_terminal | text | 100% | 2 | top: FINAL_RESPONSE (2), PERMISSION_STOP_NO_FINAL_RESPONSE (2) |
+| external_passed | number | 100% | 2 | 2 → 3, mean 2.5 |
+| regression_passed | number | 100% | 3 | 647 → 995, mean 820 |
+| prompt_to_last_message_seconds | number | 100% | 4 | 323.9 → 585.5, mean 448.1 |
+| prompt_to_terminal_observation_seconds | number | 100% | 4 | 341.4 → 624.7, mean 492.6 |
+| wall_to_collection_seconds | number | 100% | 4 | 347.6 → 631.3, mean 498.9 |
+| startup_seconds | number | 100% | 4 | 8.157 → 65.78, mean 38.89 |
+| input | number | 100% | 4 | 22,081 → 99,651, mean 4.697e+04 |
+| output | number | 100% | 4 | 2,466 → 6,397, mean 4,085 |
+| reasoning | number | 100% | 4 | 786 → 2,459, mean 1,566 |
+| cache_read | number | 100% | 4 | 220,800 → 805,120, mean 427,872 |
+| cache_write | number | 100% | 1 | 0 → 0, mean 0 |
+| reported_cost | number | 100% | 1 | 0 → 0, mean 0 |
+| retry_usage | text | 100% | 1 | top: UNKNOWN (4) |
+| tool_calls | number | 100% | 3 | 15 → 22, mean 19 |
+| tool_errors | number | 100% | 3 | 0 → 2, mean 0.75 |
+| read_attempts | number | 100% | 3 | 3 → 7, mean 4.5 |
+| repeated_path_reads | number | 100% | 2 | 0 → 1, mean 0.5 |
+| operator_allow_once | number | 100% | 4 | 10 → 17, mean 13.5 |
+| operator_reject | number | 100% | 2 | 0 → 1, mean 0.5 |
+| context_part_bytes | number | 100% | 3 | 0 → 12,660, mean 6,207 |
+| repository_convention_issues | number | 100% | 3 | 0 → 9, mean 4 |
+
+**Warnings:**
+
+- ⚠️ `attempts` is constant
+- ⚠️ `cache_write` is constant
+- ⚠️ `reported_cost` is constant
+- ⚠️ `retry_usage` is constant
+

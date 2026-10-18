@@ -1,0 +1,91 @@
+diff --git a/src/mcp/shared/tool_name_validation.py b/src/mcp/shared/tool_name_validation.py
+index 96c34f7..5643a52 100644
+--- a/src/mcp/shared/tool_name_validation.py
++++ b/src/mcp/shared/tool_name_validation.py
+@@ -31,10 +31,12 @@ class ToolNameValidationResult:
+     Attributes:
+         is_valid: Whether the tool name conforms to SEP-986 requirements.
+         warnings: List of warning messages for non-conforming aspects.
++        invalid_characters: Unique invalid characters found, in first-seen order.
+     """
+ 
+     is_valid: bool
+     warnings: list[str] = field(default_factory=lambda: [])
++    invalid_characters: list[str] = field(default_factory=lambda: [])
+ 
+ 
+ def validate_tool_name(name: str) -> ToolNameValidationResult:
+@@ -89,7 +91,7 @@ def validate_tool_name(name: str) -> ToolNameValidationResult:
+         warnings.append(f"Tool name contains invalid characters: {', '.join(repr(c) for c in invalid_chars)}")
+         warnings.append("Allowed characters are: A-Z, a-z, 0-9, underscore (_), dash (-), and dot (.)")
+ 
+-        return ToolNameValidationResult(is_valid=False, warnings=warnings)
++        return ToolNameValidationResult(is_valid=False, warnings=warnings, invalid_characters=invalid_chars)
+ 
+     return ToolNameValidationResult(is_valid=True, warnings=warnings)
+ 
+diff --git a/tests/shared/test_tool_name_validation.py b/tests/shared/test_tool_name_validation.py
+index cbf27b8..b947d1c 100644
+--- a/tests/shared/test_tool_name_validation.py
++++ b/tests/shared/test_tool_name_validation.py
+@@ -5,6 +5,7 @@ import logging
+ import pytest
+ 
+ from mcp.shared.tool_name_validation import (
++    ToolNameValidationResult,
+     issue_tool_name_warning,
+     validate_and_warn_tool_name,
+     validate_tool_name,
+@@ -99,6 +100,52 @@ def test_validate_tool_name_rejects_unicode_characters() -> None:
+     """Names with unicode characters should be rejected."""
+     result = validate_tool_name("user-\u00f1ame")  # n with tilde
+     assert result.is_valid is False
++    assert result.invalid_characters == ["\u00f1"]
++
++
++def test_validate_tool_name_exposes_invalid_characters_in_first_seen_order() -> None:
++    """Invalid characters are exposed unique and in first-seen order, including unicode."""
++    result = validate_tool_name("user \u00f1ame@domain,\u00f1.com")
++    assert result.is_valid is False
++    assert result.invalid_characters == [" ", "\u00f1", "@", ","]
++
++
++@pytest.mark.parametrize(
++    "tool_name",
++    ["getUser", "a" * 128],
++    ids=["valid_name", "max_length_valid_name"],
++)
++def test_validate_tool_name_valid_names_expose_no_invalid_characters(tool_name: str) -> None:
++    """Valid names expose an empty invalid_characters list."""
++    result = validate_tool_name(tool_name)
++    assert result.is_valid is True
++    assert result.invalid_characters == []
++
++
++def test_validate_tool_name_empty_name_exposes_no_invalid_characters() -> None:
++    """The empty-name early return exposes an empty invalid_characters list."""
++    assert validate_tool_name("").invalid_characters == []
++
++
++def test_validate_tool_name_overlength_name_exposes_no_invalid_characters() -> None:
++    """The overlength early return exposes an empty invalid_characters list."""
++    assert validate_tool_name("a" * 129).invalid_characters == []
++
++
++def test_tool_name_validation_result_default_invalid_characters_are_independent() -> None:
++    """Each result gets its own invalid_characters list, not a shared default."""
++    first = ToolNameValidationResult(True)
++    second = ToolNameValidationResult(True)
++    first.invalid_characters.append("!")
++    assert second.invalid_characters == []
++
++
++def test_tool_name_validation_result_supports_two_positional_arguments() -> None:
++    """The existing (is_valid, warnings) positional construction still works."""
++    result = ToolNameValidationResult(False, ["w"])
++    assert result.is_valid is False
++    assert result.warnings == ["w"]
++    assert result.invalid_characters == []
+ 
+ 
+ # Tests for validate_tool_name function - warnings for problematic patterns

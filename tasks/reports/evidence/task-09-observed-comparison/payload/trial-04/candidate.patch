@@ -1,0 +1,119 @@
+diff --git a/src/mcp/server/mcpserver/server.py b/src/mcp/server/mcpserver/server.py
+index 7efa291..573f7bd 100644
+--- a/src/mcp/server/mcpserver/server.py
++++ b/src/mcp/server/mcpserver/server.py
+@@ -530,6 +530,10 @@ class MCPServer(Generic[LifespanResultT]):
+             for info in tools
+         ]
+ 
++    def has_tool(self, name: str) -> bool:
++        """Check whether a tool is registered under the exact, case-sensitive name."""
++        return self._tool_manager.has_tool(name)
++
+     async def call_tool(
+         self, name: str, arguments: dict[str, Any], context: Context[LifespanResultT, Any] | None = None
+     ) -> CallToolResult | InputRequiredResult:
+diff --git a/src/mcp/server/mcpserver/tools/tool_manager.py b/src/mcp/server/mcpserver/tools/tool_manager.py
+index 9e7910e..b7e224e 100644
+--- a/src/mcp/server/mcpserver/tools/tool_manager.py
++++ b/src/mcp/server/mcpserver/tools/tool_manager.py
+@@ -32,6 +32,10 @@ class ToolManager:
+         """Get tool by name."""
+         return self._tools.get(name)
+ 
++    def has_tool(self, name: str) -> bool:
++        """Check whether a tool is registered under the exact, case-sensitive name."""
++        return name in self._tools
++
+     def list_tools(self) -> list[Tool]:
+         """List all registered tools."""
+         return list(self._tools.values())
+diff --git a/tests/server/mcpserver/test_tool_manager.py b/tests/server/mcpserver/test_tool_manager.py
+index 221828c..802b391 100644
+--- a/tests/server/mcpserver/test_tool_manager.py
++++ b/tests/server/mcpserver/test_tool_manager.py
+@@ -904,3 +904,84 @@ class TestRemoveTools:
+         # Remove with correct case
+         manager.remove_tool("test_func")
+         assert manager.get_tool("test_func") is None
++
++
++def test_tool_manager_has_tool_true_for_registered_name():
++    """ToolManager.has_tool reports True for an exactly-matching registered name."""
++
++    def add(a: int, b: int) -> int:
++        """Add two numbers."""
++        return a + b
++
++    manager = ToolManager()
++    manager.add_tool(add)
++
++    assert manager.has_tool("add") is True
++
++
++def test_tool_manager_has_tool_false_for_missing_empty_and_miscased_names():
++    """ToolManager.has_tool is case-sensitive and rejects missing and empty names."""
++
++    def add(a: int, b: int) -> int:  # pragma: no cover
++        """Add two numbers."""
++        return a + b
++
++    manager = ToolManager()
++    manager.add_tool(add)
++
++    assert manager.has_tool("addition") is False
++    assert manager.has_tool("") is False
++    assert manager.has_tool("Add") is False
++
++
++def test_tool_manager_has_tool_false_after_removal():
++    """ToolManager.has_tool reports False for a name that was removed."""
++
++    def add(a: int, b: int) -> int:  # pragma: no cover
++        """Add two numbers."""
++        return a + b
++
++    manager = ToolManager()
++    manager.add_tool(add)
++    manager.remove_tool("add")
++
++    assert manager.has_tool("add") is False
++
++
++def test_tool_manager_has_tool_does_not_mutate_or_execute():
++    """ToolManager.has_tool inspects membership without running or changing the tool."""
++
++    calls: list[int] = []
++
++    def record(x: int) -> int:
++        """Record the call and echo the value."""
++        calls.append(x)
++        return x
++
++    manager = ToolManager()
++    manager.add_tool(record)
++    before = manager.list_tools()
++
++    assert manager.has_tool("record") is True
++    assert manager.has_tool("missing") is False
++
++    assert calls == []
++    assert manager.list_tools() == before
++
++
++def test_mcpserver_has_tool_delegates_to_manager():
++    """MCPServer.has_tool mirrors its ToolManager, including case sensitivity and removal."""
++    app = MCPServer()
++
++    @app.tool()
++    def greet(name: str) -> str:
++        """Greet someone."""
++        return f"Hello, {name}!"
++
++    assert app.has_tool("greet") is True
++    assert app.has_tool("Greet") is False
++    assert app.has_tool("") is False
++    assert app.has_tool("missing") is False
++
++    app.remove_tool("greet")
++    assert app.has_tool("greet") is False

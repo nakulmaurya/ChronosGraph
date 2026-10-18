@@ -1,0 +1,5 @@
+{
+  "original_collect_exit": 1,
+  "correction": "Supported CLI export output captured via regular file rather than PIPE; original failure retained; collector logic and trial prompts/source/checks unchanged",
+  "frozen_runner_sha256": "719e6baac7081da47aaef9accad3ce7b8b4dc5b0c83dc95ba9008001034e0b6d"
+}

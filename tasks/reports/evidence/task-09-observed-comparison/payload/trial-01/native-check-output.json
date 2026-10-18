@@ -1,0 +1,26 @@
+[
+  {
+    "part_id": "prt_14f0d1460001VfCZzw3e2rqQkp",
+    "command": "PYTHONPATH=src /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/python -m pytest tests/shared/test_tool_name_validation.py -q 2>&1 | tail -25",
+    "output": "\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:109 Tool name validation warning for \"invalid name\":\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:111   - Tool name contains spaces, which may cause parsing issues\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:111   - Tool name contains invalid characters: ' '\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:111   - Allowed characters are: A-Z, a-z, 0-9, underscore (_), dash (-), and dot (.)\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:112 Tool registration will proceed, but this may cause compatibility issues.\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:113 Consider updating the tool name to conform to the MCP tool naming standard.\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:114 See SEP-986 (https://modelcontextprotocol.io/specification/2025-11-25/server/tools#tool-names) for more details.\n\u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\ntests/shared/test_tool_name_validation.py::test_validate_and_warn_tool_name_logs_warnings_for_invalid_name \n\u001b[1m-------------------------------- live log call ---------------------------------\u001b[0m\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:109 Tool name validation warning for \"invalid name\":\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:111   - Tool name contains spaces, which may cause parsing issues\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:111   - Tool name contains invalid characters: ' '\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:111   - Allowed characters are: A-Z, a-z, 0-9, underscore (_), dash (-), and dot (.)\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:112 Tool registration will proceed, but this may cause compatibility issues.\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:113 Consider updating the tool name to conform to the MCP tool naming standard.\n\u001b[33mWARNING \u001b[0m mcp.shared.tool_name_validation:tool_name_validation.py:114 See SEP-986 (https://modelcontextprotocol.io/specification/2025-11-25/server/tools#tool-names) for more details.\n\u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\ntests/shared/test_tool_name_validation.py::test_validate_and_warn_tool_name_no_warnings_for_clean_valid_name \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\ntests/shared/test_tool_name_validation.py::test_edge_cases[only_dots] \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\ntests/shared/test_tool_name_validation.py::test_edge_cases[only_dashes] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\ntests/shared/test_tool_name_validation.py::test_edge_cases[only_slashes] \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\ntests/shared/test_tool_name_validation.py::test_edge_cases[mixed_valid_invalid] \u001b[32mPASSED\u001b[0m\u001b[32m [100%]\u001b[0m\nResults (0.13s):\n        38 passed\n",
+    "shell_exit": 0
+  },
+  {
+    "part_id": "prt_14f0d64bd001yIybNILoKDiovb",
+    "command": "ls /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ | grep -E 'ruff|pyright|uv' ; which uv ruff pyright 2>/dev/null",
+    "output": "pyright\npyright-langserver\npyright-python\npyright-python-langserver\nruff\nuvicorn\n/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff\n/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/pyright\n",
+    "shell_exit": 1
+  },
+  {
+    "part_id": "prt_14f0e0af6001rJohpJAj6Dai4W",
+    "command": "/home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff format src/mcp/shared/tool_name_validation.py tests/shared/test_tool_name_validation.py && /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/ruff check src/mcp/shared/tool_name_validation.py tests/shared/test_tool_name_validation.py",
+    "output": "2 files left unchanged\nAll checks passed!\n",
+    "shell_exit": 0
+  },
+  {
+    "part_id": "prt_14f0e0b65001WRJV5Q2L4SJwD1",
+    "command": "PYTHONPATH=src /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/sdk-env/bin/pyright src/mcp/shared/tool_name_validation.py 2>&1 | tail -15",
+    "output": "venv .venv subdirectory not found in venv path /home/nakulmaurya13579/chronos-work/prerequisites-20261018T121225Z/task6/pilot-v2/trial-01.\n0 errors, 0 warnings, 0 informations\nWARNING: there is a new pyright version available (v1.1.405 -> v1.1.414).\nPlease install the new version or set PYRIGHT_PYTHON_FORCE_VERSION to `latest`\n\n",
+    "shell_exit": 0
+  }
+]
