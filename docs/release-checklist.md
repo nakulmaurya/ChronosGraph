@@ -3,6 +3,22 @@
 > Current source: `main`. See the [documentation index](README.md) and
 > [release status](current-release.md); dated checkpoint details below retain their original scope.
 
+## Unpublished task-runtime checkpoint — pending final verification
+
+The historical published gates below do **not** certify the newer task-runtime
+checkpoint. Use the [Task 10 verification packet](../tasks/assignments/TASK-10-FINAL-VERIFICATION.md)
+for required matching UI/API, desktop/mobile and current worker/reviewer evidence.
+It is prepared, not executed. Application source was last frozen at `8e83804`;
+the separately reviewed candidate remains unintegrated and unapproved.
+
+The [Task 11 analysis template](../tasks/reports/templates/TASK-11-COMPARISON-ANALYSIS.md)
+is deliberately unfilled pending the four actual Task 9 trial receipts. Do not run
+heavy release gates while that measured window is active. The offline helper
+`scripts/check-source-package.py --ref COMMIT --output /absolute/local-report.json`
+checks only a committed source tree and evidence hashes; it neither contacts the
+VM/database nor creates or approves a final ZIP. Final packaging must independently
+verify the chosen commit, archive contents, private-file exclusions and checksums.
+
 ## Current publication gate
 
 - Latest hackathon application and benchmark work integrated into `main`.

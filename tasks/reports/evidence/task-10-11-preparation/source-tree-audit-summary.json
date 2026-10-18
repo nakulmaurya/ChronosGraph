@@ -1,0 +1,11 @@
+{
+  "status": "PASS_SCOPED_TREE_AUDIT",
+  "commit": "5e0ad30a5b45b06890a6793eaee21ed5e2443598",
+  "working_tree_dirty": true,
+  "tracked_entries": 629,
+  "total_bytes": 4873187,
+  "evidence_hashes_checked": 40,
+  "findings": [],
+  "scope": "Exact committed tree only; all blob bytes pattern-scanned. No Git history, ignored/untracked files, databases, dependency audit, archive generation or final release approval. Dirty state is reported, not included. Passing heuristics do not prove absence of secrets. Final ZIP must use the audited commit, exclude .git, and be independently inspected.",
+  "inventory_note": "Full per-file inventory retained outside source in the operator workspace; this receipt is the scoped summary, not an archive manifest."
+}
