@@ -1,4 +1,4 @@
-# Three-minute connected demonstration
+# Connected workflow demonstration
 
 ChronosGraph — **See what your coding agents change—and the evidence behind it.**
 
@@ -6,9 +6,22 @@ This is a read-only walkthrough of a working application with a **prepared owned
 synthetic organization/incident** and persisted actual agent activity. It is not
 a new live model run, new test execution, human approval or merged candidate.
 
-## Released recording
+## Released recordings
 
-[Watch with synthetic voiceover](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-narrated-walkthrough.mp4). [Transcript/captions and release identity](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission). The exported walkthrough is approximately three minutes twenty-five seconds; authenticated organizer limits remain unverified.
+[Watch the 4:34 Kokoro-narrated connected workflow](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4).
+[Script, two-line captions, evidence manifest and portable recorder](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
+are published alongside it. The stock `af_heart` voice was generated locally
+with Kokoro; this is disclosed on screen. Prepared records and edited reading
+holds are identified in the manifest.
+
+The [real stale-context regression](context-integrity-regression.md) is separate
+from the synthetic candidate: the actual old UI retains stale context under a
+new plan, while the fixed UI rejects it in two controlled browser cases.
+
+The [earlier 3:25 walkthrough](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-narrated-walkthrough.mp4)
+remains supplementary. The shot list below is the original three-minute rehearsal
+plan, not the final exported chapter timing. Authenticated organizer video limits
+remain unverified.
 
 ## Open the example
 

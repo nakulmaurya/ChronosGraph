@@ -27,7 +27,8 @@ guarantee that a proposed change is correct.
 The previous verified application baseline was `8e83804`; the deadline presentation release and its exact verification are recorded in [current release](current-release.md). The earlier external-review ZIP is pinned to
 `0c6be418`, not necessarily the latest documentation commit.
 
-[Open the three-minute prepared demonstration](release-demo.md).
+[Open the connected demonstration](release-demo.md). Also inspect the
+[real stale-context bug and controlled before/after verification](context-integrity-regression.md).
 
 ## Follow one connected workflow
 

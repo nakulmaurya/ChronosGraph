@@ -8,14 +8,18 @@ ChronosGraph connects code dependencies, architectural decisions, ownership,
 agent handoffs, and proposed patches. Developers can inspect the context behind
 a change, review linked evidence, and retain control over approval.
 
-**[Start the working project](#start-locally)** · **[Three-minute demo guide](docs/release-demo.md)** ·
+**[Start the working project](#start-locally)** · **[Demo guide](docs/release-demo.md)** ·
 **[Judge’s guide](docs/judges-guide.md)** · **[Current release](docs/current-release.md)**
 
 [![ChronosGraph captured dependency graph and file inspector](docs/assets/chronosgraph-connected-review.png)](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
 
-**[Watch the narrated working walkthrough](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-narrated-walkthrough.mp4)** · [Transcript and captions](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
+**[Watch the connected workflow · Kokoro narration · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4)** · [Transcript and captions](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
 
 Prepared synthetic organization/incident, real retained agent records; app `44bb68b`. No candidate approval or execution in the recording.
+
+[Real bug fixed: stale context under a new plan](docs/context-integrity-regression.md).
+Actual before/after source builds were checked with controlled browser inputs;
+the old build reproduced both cases and the fixed build rejected stale evidence.
 
 ## The developer problem
 

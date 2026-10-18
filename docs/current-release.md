@@ -47,6 +47,20 @@ service override and rollback receipt were retained. The public submission uses
 digest, zero execution records. Worker/reviewer returns and retained 39-check
 review evidence do not grant human approval or prove complete harness telemetry.
 
+## Demonstration and real-bug evidence
+
+The [real stale-context regression](context-integrity-regression.md) compares
+actual old and fixed source builds under controlled browser-only inputs. Both
+failure modes reproduced before the fix and rejected old context after it.
+A fresh frontend rerun passed all 47 existing tests; no historical counts are
+combined. No database writes, model runs or candidate approvals were performed.
+
+A separate [4:34 Kokoro-narrated connected workflow](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4)
+shows the prepared synthetic project and recorded actual agent activity.
+[Captions, script, source manifest and reusable recorder](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
+accompany it. It is not an upstream bug fix. The older 3:25 walkthrough remains
+supplementary, not the final Kokoro export.
+
 [**Narrated working video and captions**](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission) ·
 [Demo guide](release-demo.md) · [Setup](../README.md#start-locally) ·
 [Preview operation](preview-access.md) · [Scoped release receipt](release-verification-20261018.md) ·
