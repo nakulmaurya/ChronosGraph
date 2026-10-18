@@ -1,0 +1,18 @@
+{
+  "basis": "Metadata received before SSH outage; full candidate JSON remains on VM, not replaced by this file",
+  "base_revision": "b9c6e297861b6a813a3174f88297c52f290c6602",
+  "candidate_digest": "e6693fb0e9e0089f36601496442e04e0fdfcc8cb7fbb7024796e1f50aca53e31",
+  "paths": [
+    "client.py",
+    "tests/test_retry_after.py",
+    "worker.py"
+  ],
+  "source_unchanged_during_test_only_correction": true,
+  "external_plus_repository_checks": {
+    "passed": 35,
+    "elapsed_seconds": 0.05,
+    "basis": "Independent operator invocation, not approved proposal execution"
+  },
+  "reviewer_final_review": "NOT_COMPLETED",
+  "proposal_submission_ack": "UNCONFIRMED"
+}

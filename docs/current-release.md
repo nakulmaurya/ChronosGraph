@@ -4,6 +4,8 @@
 
 The current isolated checkout adds an opt-in OpenCode 1.19.3 task/context/event bridge and managed proposal evidence. See the [setup and compatibility boundary](../integrations/opencode/README.md) and [new verification report](../tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md). This is not a claim that `main` or any shared preview runs the checkpoint. Existing deployments were left unchanged.
 
+**Latest local code checkpoint: ebb747d.** See [hardening 02](../tasks/reports/TASK-RUNTIME-HARDENING-02.md) for current 19 adapter / 37 frontend checks, build and honest native/browser blockers. The earlier 399 and intermediate 401 native counts are historical for their own code states. The four-cell public pilot is prepared but has no completed scored result; its first prompt start is unconfirmed after SSH interruption. Nothing has been pushed, merged or deployed to the shared preview.
+
 The sections below retain the earlier published release status and historical measurements. They do not describe the new checkpoint's test counts, adapter acceptance or deployment identity; the new report does. In particular, the old 506-import result remains historical evidence, not a claim that a freshly indexed snapshot still has that exact defect.
 
 ## Historical source and publication

@@ -1,0 +1,221 @@
+{
+  "basis": "actual factory + real local files + controlled HTTP fault fixture; not agent/model timing",
+  "budget_ms": 250,
+  "samples": [
+    {
+      "mode": "healthy",
+      "sample": 1,
+      "elapsed_ms": 1.724380999999994
+    },
+    {
+      "mode": "healthy",
+      "sample": 2,
+      "elapsed_ms": 1.2433630000000448
+    },
+    {
+      "mode": "healthy",
+      "sample": 3,
+      "elapsed_ms": 1.234939999999824
+    },
+    {
+      "mode": "healthy",
+      "sample": 4,
+      "elapsed_ms": 1.6793640000000778
+    },
+    {
+      "mode": "healthy",
+      "sample": 5,
+      "elapsed_ms": 1.9314359999998487
+    },
+    {
+      "mode": "healthy",
+      "sample": 6,
+      "elapsed_ms": 4.531791000000339
+    },
+    {
+      "mode": "healthy",
+      "sample": 7,
+      "elapsed_ms": 1.5935249999997723
+    },
+    {
+      "mode": "healthy",
+      "sample": 8,
+      "elapsed_ms": 1.263904999999795
+    },
+    {
+      "mode": "healthy",
+      "sample": 9,
+      "elapsed_ms": 0.7776890000000094
+    },
+    {
+      "mode": "healthy",
+      "sample": 10,
+      "elapsed_ms": 1.2754490000002079
+    },
+    {
+      "mode": "healthy",
+      "sample": 11,
+      "elapsed_ms": 1.978476000000228
+    },
+    {
+      "mode": "healthy",
+      "sample": 12,
+      "elapsed_ms": 3.8372900000003938
+    },
+    {
+      "mode": "healthy",
+      "sample": 13,
+      "elapsed_ms": 2.030395000000226
+    },
+    {
+      "mode": "healthy",
+      "sample": 14,
+      "elapsed_ms": 1.4460149999999885
+    },
+    {
+      "mode": "healthy",
+      "sample": 15,
+      "elapsed_ms": 1.5337930000000597
+    },
+    {
+      "mode": "healthy",
+      "sample": 16,
+      "elapsed_ms": 1.87682599999971
+    },
+    {
+      "mode": "healthy",
+      "sample": 17,
+      "elapsed_ms": 1.9078970000000481
+    },
+    {
+      "mode": "healthy",
+      "sample": 18,
+      "elapsed_ms": 1.6488900000003923
+    },
+    {
+      "mode": "healthy",
+      "sample": 19,
+      "elapsed_ms": 1.3841339999999036
+    },
+    {
+      "mode": "healthy",
+      "sample": 20,
+      "elapsed_ms": 1.883893000000171
+    },
+    {
+      "mode": "outage",
+      "sample": 1,
+      "elapsed_ms": 1.3916610000001128
+    },
+    {
+      "mode": "outage",
+      "sample": 2,
+      "elapsed_ms": 0.9467680000002474
+    },
+    {
+      "mode": "outage",
+      "sample": 3,
+      "elapsed_ms": 0.6577729999999065
+    },
+    {
+      "mode": "outage",
+      "sample": 4,
+      "elapsed_ms": 0.9237410000000637
+    },
+    {
+      "mode": "outage",
+      "sample": 5,
+      "elapsed_ms": 0.6454130000001896
+    },
+    {
+      "mode": "outage",
+      "sample": 6,
+      "elapsed_ms": 1.049015000000054
+    },
+    {
+      "mode": "outage",
+      "sample": 7,
+      "elapsed_ms": 0.7549839999996948
+    },
+    {
+      "mode": "outage",
+      "sample": 8,
+      "elapsed_ms": 0.9933710000000247
+    },
+    {
+      "mode": "outage",
+      "sample": 9,
+      "elapsed_ms": 0.6637959999998202
+    },
+    {
+      "mode": "outage",
+      "sample": 10,
+      "elapsed_ms": 0.9189570000003187
+    },
+    {
+      "mode": "outage",
+      "sample": 11,
+      "elapsed_ms": 0.759581999999682
+    },
+    {
+      "mode": "outage",
+      "sample": 12,
+      "elapsed_ms": 1.151068000000123
+    },
+    {
+      "mode": "outage",
+      "sample": 13,
+      "elapsed_ms": 1.0401259999998729
+    },
+    {
+      "mode": "outage",
+      "sample": 14,
+      "elapsed_ms": 1.0095719999999346
+    },
+    {
+      "mode": "outage",
+      "sample": 15,
+      "elapsed_ms": 0.732010000000173
+    },
+    {
+      "mode": "outage",
+      "sample": 16,
+      "elapsed_ms": 0.7216920000000755
+    },
+    {
+      "mode": "outage",
+      "sample": 17,
+      "elapsed_ms": 0.6962319999997817
+    },
+    {
+      "mode": "outage",
+      "sample": 18,
+      "elapsed_ms": 1.1958660000000236
+    },
+    {
+      "mode": "outage",
+      "sample": 19,
+      "elapsed_ms": 0.7936150000000453
+    },
+    {
+      "mode": "outage",
+      "sample": 20,
+      "elapsed_ms": 0.9896420000000035
+    }
+  ],
+  "machine_basis": "Local Linux sandbox, same test process and host for both modes; not VM and not model timing",
+  "summaries": {
+    "healthy": {
+      "n": 20,
+      "median_ms": 1.664127000000235,
+      "p95_nearest_rank_ms": 3.8372900000003938,
+      "max_ms": 4.531791000000339
+    },
+    "outage": {
+      "n": 20,
+      "median_ms": 0.9213490000001912,
+      "p95_nearest_rank_ms": 1.1958660000000236,
+      "max_ms": 1.3916610000001128
+    }
+  }
+}

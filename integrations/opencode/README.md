@@ -57,23 +57,26 @@ All paths below are under `/api/v1/tasks`. Mutation requests require `X-ChronosG
 | Create task + initial immutable plan | `POST /` (without trailing slash) | title, objective, acceptance array, target, request_key |
 | Inspect/resume | `GET /{task}` | scope query parameters |
 | Supersede plan, compare-and-set | `POST /{task}/plans` | parent_plan_id, objective, acceptance, target |
-| Build immutable context pack | `POST /{task}/context-packs` | current plan_id; budget_equivalents 1500–3000 (default 2500) |
+| Build immutable context pack | `POST /{task}/context-packs` | current plan_id; budget_equivalents 1500–3000 (default 2500); analysis_path_limit 1–100 (default 100); optional expansion_paths |
 | Read and revalidate pack | `GET /{task}/context-packs/{pack}` | scope query parameters |
 | Bind actual harness session | `POST /{task}/runs` | plan_id, pack_id, session_id, optional parent_session_id, worktree_id, overlay_digest, harness_version |
-| Append bounded observed event | `POST /{task}/runs/{run}/events` | schema_version 1, event/source IDs, sequence, kind, observed_at_ms, session_id, payload_digest; allowlisted metadata only |
+| Append bounded observed event | `POST /{task}/runs/{run}/events` | schema_version 1 (legacy) or 2 (completed-step), event/source IDs, sequence, kind, observed_at_ms, session_id, payload_digest; allowlisted metadata only |
+
+[Hardening, serialized assignment API, migration and interrupted-run recovery](../../docs/task-runtime-hardening-recovery.md).
 
 Use the actual returned IDs. A revised plan invalidates old packs and managed proposals. Rebinding an existing session to different context is rejected: explicitly archive project telemetry/configuration and create a fresh session/worktree for a new binding, preserving prior evidence. There is no silent migration or generic scheduler.
 
 ## Event, context and review semantics
 
-- First chat receives one bounded context pack; compaction adds the same revalidated context through the pinned compaction hook. `CONTEXT_DELIVERED` proves hook delivery only, not billed provider consumption.
-- No prompts, reasoning text, arbitrary tool arguments, or tool-output bodies are retained in the event graph. Only session IDs, tool names/call IDs, safe path metadata, statuses and reported usage counters are captured.
-- The project-local queue is written before delivery, retried on later hooks/disposal, and deduplicated by run/source event plus payload. Server acceptance also rejects conflicting sequence/event reuse. Pending events can remain if no later hook occurs; inspect local queue and server gaps rather than assuming automatic recovery.
-- Bounds: 250 pending client events, 2000 client dedup entries/server events per run; detail returns the last 100 events, at most 10 runs/100 plans, and explicit truncation indicators. These bounds are not a complete audit-log service.
-- OpenCode assistant-message counters are cumulative; newest source-sequence update replaces older counters for that message. Input/output/cache/reasoning stay separate; `token_total` is unknown. Harness-reported cost is not an independently verified invoice. Zero on a free model does not prove production cost savings.
-- Idle means `IDLE_NOT_SUCCESS`. Actual checks, source review and exact-content human approval remain separate.
-- Managed proposals require task/plan/pack/run/initial-overlay identities plus an explicitly declared rationale. The existing MCP proposal tool and review controls are retained. Plan/source/policy staleness invalidates the binding; approval never transfers to changed content.
+- Mandatory context freshness remains synchronous/fail-closed. First chat uses a stable synthetic block; preparation, hook injection and supported SDK observation of a persisted host part are distinct. Unconfirmed delivery remains safely reconcilable. None proves provider consumption or exactly-once delivery.
+- No prompts, reasoning text or arbitrary tool-input/output bodies are retained in the event graph. Safe metadata, stable IDs, statuses and reported usage categories are retained. Raw private harness exports are separate and never belong in source archives.
+- A background drain uploads atomically persisted local receipts with bounded timeout/backoff/jitter. Permanent failures are retained in quarantine, stale binding requires reconciliation, saturation/unobserved state remains visible and disposal is bounded. Linux flock enforces one writer per state file. Do not clear evidence to make a queue look healthy.
+- Bounds: 250 pending events, 2000 dedup/server event entries per run, detail last 100 events, at most 10 runs/100 plans, explicit truncation. Retention exhaustion is not a complete audit service or permission to discard receipts.
+- v2 completed-step parts with stable session/message/part IDs are the authoritative observed usage basis. Input/output/reasoning/cache read/write remain separate. Message cumulative cost is reconciliation only, not another additive cost source. Legacy cumulative messages remain labelled separately; provider retry usage and a guessed token_total are unknown. Zero free-model charge is not paid-model savings.
+- Clean managed start; complete supported-text changed/add/delete candidate manifest and digest; immediate recapture prevents mixed local observations. Tracked metadata changes are not excluded. Binary/symlink/mode/large-file and non-Python proposal limitations explicitly refuse. A plugin observation is not independent runner attestation.
+- Assigned proposals require the current WORKER claim/version and allowed paths; complete task/plan/pack/run/candidate/evidence bindings are validated. Current decision/excerpt/hash citations differ from a declared rationale. Missing citations do not imply no policy exists. Changed content or stale context never inherits approval.
+- Idle means IDLE_NOT_SUCCESS. Local assignment reports, tests, candidate verification, task success and exact human approval remain separate. Roles are explicit serialized records, not leases, authenticated users or OS write controls.
 
 ## Verification and limitations
 
-See `tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md` and its evidence directory for actual native-test and live-harness receipts, including failures encountered and corrected. The synthetic read-only investigation and documentation patch are integration acceptance, **not** an agent speed/cost comparison or an untuned public-repository task. No worker lease/fencing scheduler, context-mode integration, arbitrary-client support, final-tree overlay index, or universal token-saving claim is included in this checkpoint.
+See `tasks/reports/TASK-RUNTIME-HARDENING-02.md` for the latest checkpoint and blockers, and `tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md` for the earlier checkpoint and its evidence directory for actual native-test and live-harness receipts, including failures encountered and corrected. The synthetic read-only investigation and documentation patch are integration acceptance, **not** an agent speed/cost comparison or an untuned public-repository task. No worker lease/fencing scheduler, context-mode integration, arbitrary-client support, final-tree overlay index, or universal token-saving claim is included in this checkpoint.

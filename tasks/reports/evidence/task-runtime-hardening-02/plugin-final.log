@@ -1,0 +1,42 @@
+
+> chronosgraph-opencode-local@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ project bridge rejects remote origins and wrong snapshot identity (1.30851ms)
+✔ metadata paths cannot escape selected worktree (0.292921ms)
+✔ actual git identity changes on tracked, staged and untracked edits (50.605032ms)
+✔ C: clean start refuses dirty state without losing user files; observed add/edit/delete is complete (99.129617ms)
+✔ C: concurrent edits, wrong HEAD and binary candidates fail closed (55.828545ms)
+✔ A: receipt upload failure after pack fetch must not abort the first context-bearing turn (137.319822ms)
+FAULT_HOOK_OVERHEAD_MS 2.0097529999999892
+✔ B: slow telemetry must not be on the ordinary tool critical path (250ms fault-test budget) (453.388401ms)
+✔ B: two plugin writers cannot mutate the same project state concurrently (20.837274ms)
+✔ A: same-message retry is duplicate-free; later turn skips only after SDK persistence evidence (72.472004ms)
+✔ A: restart without host confirmation reinjects; persisted message reconciles on next restart (159.559127ms)
+✔ A: stale pack refuses chat and managed proposal; compaction is bounded per output (58.545706ms)
+✔ B: outage queue survives restart and eventually drains without changing event identity (276.363449ms)
+✔ B: permanent rejected head is quarantined, later events drain; stale binding stops visibly (143.682036ms)
+✔ B: retention exhaustion preserves originals, explicitly counts unobserved; dispose is bounded (777.271508ms)
+✔ B: kernel lock excludes another process and releases after abrupt process death (295.712142ms)
+✔ E: completed steps replay stably; message costs reconcile without duplicating step usage (136.42976ms)
+✔ C: factory rejects dirty start; proposal hook captures every observed source change (201.30061ms)
+HOOK_MEASUREMENT_JSON={"basis":"actual factory + real local files + controlled HTTP fault fixture; not agent/model timing","budget_ms":250,"samples":[{"mode":"healthy","sample":1,"elapsed_ms":1.724380999999994},{"mode":"healthy","sample":2,"elapsed_ms":1.2433630000000448},{"mode":"healthy","sample":3,"elapsed_ms":1.234939999999824},{"mode":"healthy","sample":4,"elapsed_ms":1.6793640000000778},{"mode":"healthy","sample":5,"elapsed_ms":1.9314359999998487},{"mode":"healthy","sample":6,"elapsed_ms":4.531791000000339},{"mode":"healthy","sample":7,"elapsed_ms":1.5935249999997723},{"mode":"healthy","sample":8,"elapsed_ms":1.263904999999795},{"mode":"healthy","sample":9,"elapsed_ms":0.7776890000000094},{"mode":"healthy","sample":10,"elapsed_ms":1.2754490000002079},{"mode":"healthy","sample":11,"elapsed_ms":1.978476000000228},{"mode":"healthy","sample":12,"elapsed_ms":3.8372900000003938},{"mode":"healthy","sample":13,"elapsed_ms":2.030395000000226},{"mode":"healthy","sample":14,"elapsed_ms":1.4460149999999885},{"mode":"healthy","sample":15,"elapsed_ms":1.5337930000000597},{"mode":"healthy","sample":16,"elapsed_ms":1.87682599999971},{"mode":"healthy","sample":17,"elapsed_ms":1.9078970000000481},{"mode":"healthy","sample":18,"elapsed_ms":1.6488900000003923},{"mode":"healthy","sample":19,"elapsed_ms":1.3841339999999036},{"mode":"healthy","sample":20,"elapsed_ms":1.883893000000171},{"mode":"outage","sample":1,"elapsed_ms":1.3916610000001128},{"mode":"outage","sample":2,"elapsed_ms":0.9467680000002474},{"mode":"outage","sample":3,"elapsed_ms":0.6577729999999065},{"mode":"outage","sample":4,"elapsed_ms":0.9237410000000637},{"mode":"outage","sample":5,"elapsed_ms":0.6454130000001896},{"mode":"outage","sample":6,"elapsed_ms":1.049015000000054},{"mode":"outage","sample":7,"elapsed_ms":0.7549839999996948},{"mode":"outage","sample":8,"elapsed_ms":0.9933710000000247},{"mode":"outage","sample":9,"elapsed_ms":0.6637959999998202},{"mode":"outage","sample":10,"elapsed_ms":0.9189570000003187},{"mode":"outage","sample":11,"elapsed_ms":0.759581999999682},{"mode":"outage","sample":12,"elapsed_ms":1.151068000000123},{"mode":"outage","sample":13,"elapsed_ms":1.0401259999998729},{"mode":"outage","sample":14,"elapsed_ms":1.0095719999999346},{"mode":"outage","sample":15,"elapsed_ms":0.732010000000173},{"mode":"outage","sample":16,"elapsed_ms":0.7216920000000755},{"mode":"outage","sample":17,"elapsed_ms":0.6962319999997817},{"mode":"outage","sample":18,"elapsed_ms":1.1958660000000236},{"mode":"outage","sample":19,"elapsed_ms":0.7936150000000453},{"mode":"outage","sample":20,"elapsed_ms":0.9896420000000035}]}
+✔ B measurement: same-machine ordinary tool hook samples (fault fixture, not provider timing) (593.671681ms)
+✔ F: late explicit parent survives an already-created local run (135.44023ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4686.330451
+npm notice
+npm notice New minor version of npm available! 11.11.0 -> 11.21.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.21.1
+npm notice To update run: npm install -g npm@11.21.1
+npm notice
+
+> chronosgraph-opencode-local@0.1.0 typecheck
+> tsc --noEmit
+

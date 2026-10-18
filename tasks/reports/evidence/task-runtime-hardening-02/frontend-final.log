@@ -1,0 +1,49 @@
+
+> chronosgraph-arena@0.1.0 test
+> node --import ./tests/register-typescript.mjs --test tests/*.test.mjs --run
+
+✔ agent config uses explicit executable, cwd and database without shell interpolation (1.525949ms)
+✔ invalid backendDirectory is refused: "relative/backend" (0.273868ms)
+✔ invalid pythonExecutable is refused: "python -m evil" (0.12998ms)
+✔ invalid databasePort is refused: "0" (0.171915ms)
+✔ invalid databasePort is refused: "65536" (0.103638ms)
+✔ invalid databasePort is refused: "6379; echo bad" (0.079241ms)
+✔ invalid databaseHost is refused: "localhost\nX=1" (0.113738ms)
+✔ handoff binds both tenant and commit and refuses missing or malformed identity (0.481822ms)
+✔ proposal survives navigation only within the selected tenant and commit (2.421968ms)
+✔ invalid or unavailable tab storage fails safely (0.34803ms)
+✔ changed region shows removed and added source without mutating inputs (1.673003ms)
+✔ large changed-region display reports truncation instead of hiding it (0.399578ms)
+✔ dependency rendering preserves only API evidence, including isolated files (0.748096ms)
+✔ folder breadcrumbs remain inside the repository (1.46889ms)
+✔ map omissions are made visible (0.184619ms)
+✔ public intake guide prepares inspect before confirmed import; no browser fetching (1.895848ms)
+✔ command builder rejects shell injection, private URL forms and revision expressions (0.410749ms)
+✔ blank fields use main, resolve latest at execution and generate a unique saved name (0.281874ms)
+✔ unsafe evidence links are never actionable (0.878057ms)
+✔ timestamps distinguish open intervals from real epoch seconds (1.738996ms)
+✔ measured timing and metadata formatting (0.16813ms)
+✔ graph layout preserves evidence identity and filters dangling edges (0.89637ms)
+✔ API preserves HTTP scope conflict details (21.55915ms)
+✔ API explains network failure without inventing data (0.357682ms)
+✔ focused view preserves policies, real edges, and full payload (0.409345ms)
+✔ semantic lanes distinguish targets, impacts, active policy and history (0.205181ms)
+✔ replay shows actual historical cold branches without inventing edges or mutating telemetry (4.422641ms)
+✔ comparison uses observed values, not fixed benchmark numbers (7.309671ms)
+✔ T-07 compatible responses retain measured baseline comparison (6.970013ms)
+✔ proposal labels describe candidate tests without claiming deployed or universally correct code (1.386834ms)
+✔ stale proposal labels explain the next review action and retain unknown states (0.231288ms)
+✔ build identity never guesses missing or malformed commits (1.578248ms)
+✔ UI and API declarations distinguish match, mismatch and unknown (0.17232ms)
+✔ Task statuses never equate idle with verified success (0.751439ms)
+✔ context query values remain encoded, not interpreted as extra parameters (1.597966ms)
+✔ byte labels use KiB and preserve sub-kibibyte measurements (0.152119ms)
+✔ final source map accepts additions, empty files, deletes; rejects malformed shapes (0.950271ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3803.621193

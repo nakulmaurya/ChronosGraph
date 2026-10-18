@@ -1,0 +1,8 @@
+{
+  "recorded_at_utc": "2026-10-18T11:41:52.516554+00:00",
+  "observed_error": "Connection timed out during banner exchange; port 22",
+  "latest_native_exit": "UNCONFIRMED",
+  "pilot_first_prompt_start": "UNCONFIRMED",
+  "pending_proposal_new_status_readback": "BLOCKED",
+  "shared_services_restarted": false
+}
