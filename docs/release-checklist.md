@@ -3,7 +3,7 @@
 > Current source: `main`. See the [documentation index](README.md) and
 > [release status](current-release.md); dated checkpoint details below retain their original scope.
 
-## Unpublished task-runtime checkpoint — pending final verification
+## Task-runtime source publication — broader final gates remain open
 
 The historical published gates below do **not** certify the newer task-runtime
 checkpoint. Use the [Task 10 verification packet](../tasks/assignments/TASK-10-FINAL-VERIFICATION.md)

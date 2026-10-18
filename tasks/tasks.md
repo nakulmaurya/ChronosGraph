@@ -3,12 +3,13 @@
 > Source of truth: PRD `docs/prd.md`, Architecture `docs/architecture.md`. Updated: 2026-10-15.
 > Multi-agent statuses: TODO, ASSIGNED, IN_PROGRESS, READY_FOR_REVIEW, CHANGES_REQUESTED, BLOCKED, DONE.
 
-## Unpublished review checkpoint — 2026-10-18
+## Judge-facing source/review checkpoint — 2026-10-18
 
 This numbered checkpoint sequence is separate from the historical `T-xx`
 milestones below. Its application base is `8e83804`; the exact source ZIP
-commit is in its accompanying package manifest. No shared-main push/deployment
-or approval/integration of the separately captured candidate is implied.
+commit is in its accompanying package manifest. The owner separately authorized
+GitHub source publication to `main` and a full-evidence branch. No deployment or
+approval/integration of the separately captured candidate is implied.
 
 | Checkpoint | Observed state / boundary |
 | --- | --- |

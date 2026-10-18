@@ -1,5 +1,12 @@
 # Third-party source included in ChronosGraph
 
+## modelcontextprotocol/python-sdk — retained comparison source context
+
+Task 9 evidence includes pinned SDK source/diff context. See
+[attribution and scope](third_party/README.md) and the verbatim
+[upstream MIT copyright/permission notice](third_party/modelcontextprotocol-python-sdk-LICENSE).
+Trial candidates are evidence, not upstream-approved or integrated SDK changes.
+
 ## sbdchd/codeowners — MIT
 
 - Upstream: https://github.com/sbdchd/codeowners

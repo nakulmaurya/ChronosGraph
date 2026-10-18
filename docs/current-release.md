@@ -1,14 +1,22 @@
 # Current release status
 
-## Unpublished task-runtime integration checkpoint
+## Latest judge-facing source — task-runtime integration checkpoint
 
-The current isolated checkout adds an opt-in OpenCode 1.19.3 task/context/event bridge and managed proposal evidence. See the [setup and compatibility boundary](../integrations/opencode/README.md) and [new verification report](../tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md). This is not a claim that `main` or any shared preview runs the checkpoint. Existing deployments were left unchanged.
+`main` is the judge-facing source target; `experiments/full-evidence-2026-10-18`
+preserves the complete source/evidence checkpoint. See the [judge's guide](judges-guide.md).
+The implementation adds an opt-in OpenCode 1.19.3 task/context/event bridge and managed proposal evidence. See the [setup and compatibility boundary](../integrations/opencode/README.md) and [initial verification report](../tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md). Source publication is not a claim that any shared preview runs this checkpoint. Existing deployments are unchanged by Git operations.
 
 **Verified local application checkpoint: `8e83804`.** [Tasks 3–5 recovery verification](../tasks/reports/TASKS-03-04-05-2026-10-18.md) records 403 native backend tests, 19 plugin tests, 37 frontend tests, both typechecks and production build passing. The reconstructed behavioral candidate has a persisted unapproved proposal and 39 independent checks passing. [Task 7 fresh independent review](../tasks/reviews/TASK-07-INDEPENDENT-REVIEW-2026-10-18.md) accepted only that bounded candidate after its own 39-pass run. [Task 10 actual desktop/mobile browser verification](../tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md) passed the scoped read-only workflow, fresh frontend build and 44 local frontend unit checks. It did not approve/execute the candidate or certify broader mutating/recovery/integration gates.
 
 The [four-cell Task 9 observed pilot](../tasks/reports/TASK-09-OBSERVED-COMPARISON.md) and [Task 11 analysis](../tasks/reports/TASK-11-COMPARISON-ANALYSIS.md) are now integrated as documentation/evidence only. Two native turns finished; two lookup turns were permission-stopped with unresolved convention/typechecker findings despite passing selected runtime checks. Graph input was higher in both pairs; elapsed direction differed. **No graph advantage or savings established.** Earlier interrupted attempts remain historical/indeterminate, not rescored by these later observations.
 
-No candidate or application source was integrated by this reporting work. No push, shared-main integration or deployment to the preview occurred. Review packaging is not submission or release approval. [Current external review scope](../tasks/reviews/EXTERNAL-REVIEW-BRIEF.md) and [third-party notices](../third_party/README.md) accompany the evidence; sanitized provenance is not anonymous.
+No separately captured candidate was integrated by the reporting/publication work.
+The owner authorized publication of the latest checkpoint to GitHub `main` and a
+separate full-evidence branch. Publication changes source refs, not preview
+services or proposal approval/execution. The review ZIP remains pinned to
+`0c6be418`; later publication-documentation changes do not retroactively update it.
+Review packaging/publication is not submission or release approval.
+[Current external review scope](../tasks/reviews/EXTERNAL-REVIEW-BRIEF.md) and [third-party notices](../third_party/README.md) accompany the evidence; sanitized provenance is not anonymous.
 
 The sections below retain the earlier published release status and historical measurements. They do not describe the new checkpoint's test counts, adapter acceptance or deployment identity; the new report does. In particular, the old 506-import result remains historical evidence, not a claim that a freshly indexed snapshot still has that exact defect.
 

@@ -2,7 +2,18 @@
 
 **A shared, revision-aware context and evidence layer for coding agents, with persistent memory and human review of exact proposed changes.**
 
-## Unpublished task-runtime checkpoint
+## Latest judge-facing source
+
+**Use `main` for the latest implementation and evidence.**
+Start with the [judge's guide](docs/judges-guide.md), then the
+[current verification status](docs/current-release.md).
+`experiments/full-evidence-2026-10-18` preserves the full source/evidence
+checkpoint for deeper review; `build/task-context-opencode-integration`
+retains the implementation lineage. Historical reports remain dated evidence,
+not claims that every gate passed on every commit. Source publication does not
+deploy the preview or approve a pending candidate.
+
+## Task-runtime checkpoint — opt-in local integration
 
 This checkout adds an opt-in **OpenCode 1.19.3** bridge: task → immutable plan → bounded context pack → actual harness events/usage → evidence-linked pending proposal. It is local trusted-client integration, **not an OS security layer or a general multi-agent scheduler**.
 
@@ -13,7 +24,7 @@ This checkout adds an opt-in **OpenCode 1.19.3** bridge: task → immutable plan
 **Task 9 observed pilot, not an efficiency win:** four sequential one-shot free-model OpenCode trials are retained. All four frozen runtime-check sets passed; only the two invalid-character trials returned native final answers. Both lookup trials were permission-stopped and retain convention/typechecker findings. Graph input was higher in both pairs and wall timing was mixed. **No graph advantage, speed/token/cost savings or cross-session memory benefit is established.** [Observed evidence](tasks/reports/TASK-09-OBSERVED-COMPARISON.md) · [Task 11 reconciled analysis](tasks/reports/TASK-11-COMPARISON-ANALYSIS.md) · [External review brief](tasks/reviews/EXTERNAL-REVIEW-BRIEF.md). Imported scripts are historical evidence, not a supported rerun workflow. Sanitized records retain usernames, absolute paths and session IDs; they are not anonymous. [Upstream attribution](third_party/README.md) accompanies copied SDK source context.
 [Current recovery guide](docs/task-runtime-hardening-recovery.md) · [Prepared demo and narration](docs/task-runtime-checkpoint-demo.md) · [Task 8 documentation checks](tasks/reports/TASK-08-RECOVERY-DOCS-2026-10-18.md). These are preparation, not a new recording or final browser verification.
 
-The checkpoint is isolated from existing deployments; it has not been pushed or integrated into the shared `main` branch or preview. Local evidence integration does not integrate the separately captured behavioral candidate. The release and benchmark text below describes the earlier published baseline, not a fresh result for this checkpoint. For a source review ZIP, use the exact commit and checksum in its accompanying package manifest, not a fresh clone of `main`.
+The checkpoint remains isolated from existing deployments. Publishing its source to `main` does not update the preview or integrate the separately captured behavioral candidate. The release and benchmark text below describes the earlier published baseline, not a fresh result for this checkpoint. The earlier review ZIP is pinned to `0c6be418`; later source-publication documentation does not change that ZIP. Use its exact commit/checksum when reviewing that artifact.
 
 Your coding agent sees a function. You need to see the connected consequences.
 ChronosGraph brings both into one monochrome command center: explore a repository,
@@ -21,13 +32,14 @@ inspect a proposed change, approve its exact contents, observe candidate tests i
 an explicitly trusted local worktree, and retain evidence that expires when code
 or policy changes.
 
-**Primary release branch: `main`.** The latest hackathon implementation,
-including FINAL-01 and FINAL-BENCHMARK-01, is integrated from
-`build/final-hackathon-release` (verified application baseline `479e987`).
+**Primary judge-facing branch: `main`.** It includes the current task-runtime
+checkpoint (verified application baseline `8e83804`) and observed review evidence.
+The earlier FINAL-01 / FINAL-BENCHMARK-01 release from
+`build/final-hackathon-release` remains historical baseline `479e987`.
 
 [Documentation index](docs/README.md) · [Current release status](docs/current-release.md) ·
 [Full walkthrough and media](docs/full-walkthrough.md)
-**Current bounded workflow: VERIFIED with a real OpenCode/DeepSeek agent.**
+**Earlier published bounded workflow: VERIFIED with a real OpenCode/DeepSeek agent.**
 The earlier deny-all diagnostic 403 was recovered with normal Build permissions
 (`bash: ask`). A real model authored coordinated proposals; browser approval,
 observed candidate pytest, fresh-session recall and policy-stale invalidation passed.

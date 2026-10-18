@@ -1,9 +1,10 @@
 # Documentation index
 
 Start with the [project README](../README.md) and [current release status](current-release.md).
-For the unpublished review checkpoint, use [the review package entrypoint](../REVIEW-PACKAGE.md)
-and its accompanying exact-commit manifest, not the shared published `main`.
-`main` remains the published source; dated T-xx/FINAL/BULK/OPENCODE reports are
+For the latest source, use `main` and [the judge's guide](judges-guide.md).
+For the earlier pinned source ZIP, use [the review package entrypoint](../REVIEW-PACKAGE.md)
+and its accompanying exact-commit manifest; do not substitute a newer checkout.
+Dated T-xx/FINAL/BULK/OPENCODE reports are
 checkpoint evidence, not automatically current deployment or readiness claims.
 
 ## Use the product
@@ -13,7 +14,7 @@ checkpoint evidence, not automatically current deployment or readiness claims.
 - [Public GitHub ingestion boundaries](t09-public-github-import.md)
 - [Local workspace connect/check/refresh](t09-local-workspaces.md)
 - [Coding-client/OpenCode integration](opencode-integration.md)
-- [Unpublished task-bridge setup](../integrations/opencode/README.md)
+- [Opt-in task-bridge setup](../integrations/opencode/README.md)
 - [Current task-runtime recovery and migration](task-runtime-hardening-recovery.md)
 - [Current checkpoint demo and narration script](task-runtime-checkpoint-demo.md)
 - [Proposal, approval, execution and memory lifecycle](final-lifecycle.md)

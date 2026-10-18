@@ -3,7 +3,20 @@
 > Current source: `main`. See the [documentation index](README.md) and
 > [release status](current-release.md); dated checkpoint details below retain their original scope.
 
-## Current handoff — integrated hackathon release
+## Current handoff — judge-facing task-runtime source
+
+The owner authorized the latest checkpoint for GitHub `main`, with the complete
+source/evidence preserved on `experiments/full-evidence-2026-10-18` and the
+implementation lineage on `build/task-context-opencode-integration`.
+Start with the [judge's guide](judges-guide.md), [current status](current-release.md),
+[Task 10 scoped browser verification](../tasks/reports/TASK-10-READONLY-BROWSER-VERIFICATION.md)
+and [Task 11 comparison](../tasks/reports/TASK-11-COMPARISON-ANALYSIS.md).
+Application baseline is `8e83804`; the earlier review ZIP is exact `0c6be418`.
+Publication is a source operation, not VM deployment, whole-release certification,
+or approval/integration of the separate pending candidate. The evidence branch
+includes sanitized identifying provenance, not private agent homes/exports/dumps.
+
+## Historical handoff — earlier integrated hackathon release
 
 The canonical source is now `main`, integrating `build/final-hackathon-release`
 through verified application baseline `479e987` plus documentation updates.
