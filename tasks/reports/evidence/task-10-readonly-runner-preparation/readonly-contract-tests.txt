@@ -1,0 +1,15 @@
+✔ configuration requires explicit loopback identities (3.128006ms)
+✔ guard rejects mutation verbs and foreign origins without logging query values (0.274185ms)
+✔ matching metadata remains explicitly unapproved and idle (1.12871ms)
+✔ mixed revisions, candidate digests and run bindings are rejected (1.053893ms)
+✔ approval, execution, telemetry gaps and unrelated predecessor are not clean passes (1.084749ms)
+✔ CLAIM acceptance instructions do not substitute for actual reviewer RETURN (0.252706ms)
+✔ runner requires explicit execution and never invokes mutating APIRequest methods (8.191072ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66.298022

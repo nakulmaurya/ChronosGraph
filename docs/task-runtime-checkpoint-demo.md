@@ -39,3 +39,23 @@ Show the actual error and stop the affected segment. Preserve the current run an
 ## Closing line
 
 “An agent proposes. A person decides. ChronosGraph keeps the connected evidence inspectable—and makes the boundaries of that evidence explicit.”
+
+## Optional comparison-workflow segment — prepared, not newly recorded
+
+Append this only after Task 9 evidence is handed off. It is a narration outline,
+not a claim that a new video, live comparison or final result already exists.
+Keep the exact task/run identifiers and recording timestamp visible; label retained
+terminal captures as replayed evidence, never LIVE.
+
+| Show | Suggested narration |
+| --- | --- |
+| Actual public SDK task and pinned revision | “This comparison uses two requested maintenance features in a public Python SDK, not invented upstream defects. The source revision, checks, model and permissions are held to the declared protocol.” |
+| Ordinary OpenCode TUI | “The ordinary agent can search, read, edit and test normally. We are not deliberately disabling its usual tools to make the graph look better.” |
+| Graph-assisted OpenCode beside ChronosGraph | “The second mode keeps those tools and adds a bounded context pack and ChronosGraph MCP. The connection badge alone proves neither a useful graph query nor a successful task; the retained tool receipts show what was actually called.” |
+| A real graph response and resulting edit, if observed | “Here is the specific relationship or requirement the agent received. We check whether that evidence changed the edit. If it did not, we report that too; tool activity alone is not a graph advantage.” |
+| Retained independent checks and complete diff | “Independent acceptance checks and selected existing regressions inspect the candidate. We also review unintended edits. A passing selected suite is not the entire SDK test suite, and an idle agent is not an accepted result.” |
+| Actual final per-trial evidence table, once analyzed | “There is one run per task and mode. Permission waits, provider uncertainty, setup overhead and shared-machine interference stay visible. Free-model charge and incomplete usage are not a token-savings result. The conclusion is limited to what these receipts support.” |
+
+Do not prewrite a winning result, substitute earlier twelve-trial footage, hide a
+failed attempt or record an extra agent run while the separate measured window is
+active. Until Task 11 is complete, end this segment with “Results pending analysis.”

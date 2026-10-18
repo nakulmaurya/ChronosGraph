@@ -26,6 +26,14 @@ Run Chromium at desktop 1560×1000 and mobile 390×844; record actual dimensions
 - [ ] At mobile width, inspect horizontal overflow, wrapping of IDs, usable controls, expanded evidence and navigation. Check keyboard focus and accessible labels on desktop; no formal accessibility sign-off.
 - [ ] If a request fails, preserve the old result with the actual error and distinguish stale display from new success. Do not break shared services to provoke a failure.
 
+## Prepared read-only automation
+
+Use the [read-only smoke helper instructions](../../docs/task-checkpoint-readonly-smoke.md)
+only after the measured window is clear. Its example configuration pins this task;
+copy/verify owned URLs before explicit `--run`. Authoring/contract-testing the runner
+is not a Task 10 product PASS. Automated success still requires inspected screenshots
+and the remaining manual evidence/keyboard/policy-chain checks above.
+
 ## Other browser suites — separate scopes
 
 | Suite | Scope / preconditions | Gate meaning |

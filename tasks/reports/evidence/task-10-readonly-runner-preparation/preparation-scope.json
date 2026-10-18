@@ -1,0 +1,26 @@
+{
+  "status": "LOCAL_RUNNER_PREPARATION_ONLY",
+  "baseline_documentation_commit": "c8583c32ec3b60e0ec8f9089747c2573054fdce7",
+  "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+  "application_source_changes": false,
+  "vm_calls": 0,
+  "provider_calls": 0,
+  "frontend_unit_tests": {
+    "passed": 44,
+    "failed": 0,
+    "new_contract_tests": 7
+  },
+  "local_guard_fixture": "PASS_NOT_PRODUCT_UI",
+  "product_desktop_mobile_gate": "NOT_RUN",
+  "manual_screenshot_review": "NOT_RUN",
+  "relative_document_targets_checked": 14,
+  "example_bindings_checked_against_retained_receipts": 12,
+  "first_guard_attempt": {
+    "status": "FAILED_BEFORE_BROWSER_LAUNCH",
+    "reason": "Default /usr/bin/chromium executable absent in this sandbox",
+    "server_closed": true
+  },
+  "correction": "Retried local fixture with explicit CHROMIUM_PATH=/usr/local/bin/chromium; successful guard check retained. No VM changes or dependency installation.",
+  "final_zip": "NOT_CREATED",
+  "new_recording_or_voiceover": "NOT_CREATED"
+}
