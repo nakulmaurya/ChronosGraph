@@ -10,6 +10,8 @@ export function proposalStatusLabel(status: string): string {
         EXECUTED_VERIFIED: "Candidate tests passed",
         EXECUTED_FAILED: "Candidate tests failed",
         STALE_SNAPSHOT: "Code changed — review a new proposal",
+        STALE_TASK_CONTEXT: "Task context changed — review a new proposal",
+        STALE_CITED_EVIDENCE: "Cited source changed — review a new proposal",
         STALE_POLICY: "Rules changed — review a new proposal",
       } as Record<string, string>
     )[status] || status

@@ -103,6 +103,14 @@ def index_organization(graph, root, revision, origin, known):
         return {'status':'NO_EXPLICIT_MANIFEST','decisions':0}
     # Called only within new-snapshot ingestion: its existing failure cleanup
     # deletes this owned graph if any write fails. Never enrich a saved graph.
+    # Fresh snapshots retain full SHA-256 pins for the non-Python policy sources too.
+    # Existing immutable graphs are not enriched in place; absent pins require refresh.
+    pins={MANIFEST:data['sha256']}
+    for row in data['decisions']:
+        for role in ('document','incident'):
+            pins[row[role]['path']]=row[role]['sha256']
+    graph.query('UNWIND $pins AS pin MATCH (f:TrackedFile {path:pin.path}) SET f.sha256=pin.sha256',
+                {'pins':[{'path':p,'sha256':s} for p,s in sorted(pins.items())]})
     for row in data['decisions']:
         props = {k:row[k] for k in ('id','rule','rationale','required_action','conflict_group','status')}
         props.update(source_type='ORGANIZATIONAL_MANIFEST',data_kind=data['data_kind'],

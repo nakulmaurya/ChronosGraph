@@ -10,7 +10,8 @@ import re
 import time
 import uuid
 from fastapi import HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+from typing import Literal
 from app.db.client import db_manager
 from app.models import DiffImpactRequest
 from app.services.common import read, tenant_exists
@@ -18,6 +19,28 @@ from app.services.diff_impact import simulate_diff, safe_path
 from app.services.mutation_guard import mutation_guard, require_lease
 from app.services.ownership import ownership_for_paths
 from app.services.task_memory import policy_digest
+
+
+class CandidateEntry(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    path: str = Field(min_length=1, max_length=1024)
+    operation: Literal['ADD','MODIFY','DELETE']
+    base_sha256: str | None = Field(pattern=r'^[0-9a-f]{64}$')
+    result_sha256: str | None = Field(pattern=r'^[0-9a-f]{64}$')
+
+
+class CandidateManifest(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    schema_version: Literal[1]
+    base_revision: str = Field(pattern=r'^[0-9a-f]{40}$')
+    entries: list[CandidateEntry] = Field(min_length=1,max_length=20)
+
+
+class EvidenceReference(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    decision_id: str = Field(min_length=1,max_length=200)
+    excerpt_id: str = Field(pattern=r'^[0-9a-f]{64}$')
+    source_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
 
 
 class ProposalInput(BaseModel):
@@ -34,6 +57,10 @@ class ProposalInput(BaseModel):
     agent_run_id: str | None = None
     overlay_digest: str | None = Field(default=None, pattern=r'^[0-9a-f]{64}$')
     declared_rationale: str | None = Field(default=None, max_length=2000)
+    evidence_refs: list[EvidenceReference] = Field(default_factory=list,max_length=10)
+    candidate_origin: Literal['GENERATED_CANDIDATE','OBSERVED_WORKTREE'] = 'GENERATED_CANDIDATE'
+    candidate_manifest: CandidateManifest | None = None
+    candidate_digest: str | None = Field(default=None, pattern=r'^[0-9a-f]{64}$')
 
 
 class DecisionInput(BaseModel):
@@ -121,6 +148,13 @@ def _fresh(tenant, p, expected):
             if exc.status_code not in (404, 409):
                 raise
             reason = 'STALE_TASK_CONTEXT'
+    if not reason and p.get('evidence_refs_json'):
+        from app.services.proposal_evidence import validate_references
+        try:
+            refs=[EvidenceReference(**r) for r in json.loads(p['evidence_refs_json'])]
+            validate_references(tenant,expected,json.loads(p['proposed_files_json']),refs)
+        except HTTPException:
+            reason='STALE_CITED_EVIDENCE'
     if reason:
         db_manager.query(tenant, '''MATCH (p:ChangeProposal {id:$id})
             SET p.status=$status,p.approved_proposal_hash=null''', {'id': p['id'], 'status': reason})
@@ -158,13 +192,28 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
                 raise HTTPException(422, 'Managed proposals require task, plan, pack, run and overlay digest together')
             if not req.declared_rationale or not req.declared_rationale.strip():
                 raise HTTPException(422, 'Managed proposals require a concise declared rationale, not hidden reasoning')
-            from app.services.task_runtime import validate_binding
+            from app.services.task_runtime import validate_binding, validate_proposal_scope
             validate_binding(tenant, req.expected_revision, *binding)
+            validate_proposal_scope(tenant, req.task_id, req.pack_id, req.proposed_files)
         hashes = _hashes(tenant, list(req.proposed_files))
         # None means absent at the base; additions are protected against later appearance.
         hashes = {p: hashes.get(p) for p in req.proposed_files}
+        from app.services.proposal_evidence import validate_references
+        citations = validate_references(tenant,req.expected_revision,req.proposed_files,req.evidence_refs)
+        candidate = {'schema_version':1, 'base_revision':req.expected_revision, 'entries':[
+            {'path':path, 'operation':'DELETE' if text is None else 'ADD' if hashes[path] is None else 'MODIFY',
+             'base_sha256':hashes[path], 'result_sha256':hashlib.sha256(text.encode()).hexdigest() if text is not None else None}
+             for path,text in sorted(req.proposed_files.items())]}
+        if req.candidate_origin == 'OBSERVED_WORKTREE' and (req.candidate_manifest is None or req.candidate_digest is None):
+            raise HTTPException(422, 'Observed worktree requires a complete manifest and digest; this is a plugin report, not runner attestation')
+        if req.candidate_manifest is not None and req.candidate_manifest.model_dump() != candidate:
+            raise HTTPException(409, 'Candidate manifest does not match the complete proposed files and captured base hashes')
+        if req.candidate_digest is not None and req.candidate_digest != digest(candidate):
+            raise HTTPException(409, 'Candidate digest does not match canonical manifest')
         payload = {'tenant_graph': tenant, 'base_revision': req.expected_revision,
-                   'base_file_shas': hashes, 'proposed_files': req.proposed_files}
+                   'base_file_shas': hashes, 'proposed_files': req.proposed_files,
+                   'candidate_origin':req.candidate_origin, 'candidate_manifest':candidate,
+                   'evidence_refs':[r.model_dump() for r in req.evidence_refs]}
         if managed:
             payload['managed_binding'] = binding
             payload['declared_rationale'] = req.declared_rationale
@@ -185,6 +234,9 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
              'tenant_graph': tenant, 'base_revision': req.expected_revision, 'actor_principal': actor,
              'client_id': req.client_id, 'base_file_shas_json': canonical(hashes),
              'proposed_files_json': canonical(req.proposed_files), 'proposal_hash': proposal_hash,
+             'candidate_origin':req.candidate_origin, 'candidate_manifest_json':canonical(candidate),
+             'candidate_digest':digest(candidate), 'evidence_refs_json':canonical([r.model_dump() for r in req.evidence_refs]),
+             'validated_evidence_json':canonical(citations), 'candidate_provenance':'LOCAL_PLUGIN_REPORTED_NOT_ATTESTED' if req.candidate_origin=='OBSERVED_WORKTREE' else 'GENERATED_NOT_WORKTREE_OBSERVED',
              'impact_summary_json': canonical(impact), 'governing_decision_ids_json': canonical([r['id'] for r in rules]),
              'policy_digest': policy_digest(tenant, list(req.proposed_files)), 'status': 'PROPOSED',
              'touched_paths': sorted(req.proposed_files), 'created_at': int(time.time()), 'task_id': 'task_' + uuid.uuid4().hex,
@@ -281,6 +333,8 @@ def _record_execution(proposal_id, req, provenance, runner, worktree_revision, l
         status = ('EXECUTED_VERIFIED' if req.exit_code == 0 else 'EXECUTED_FAILED') if observed else 'APPROVED'
         e = {'id': 'exec_' + uuid.uuid4().hex, 'idempotency_key': req.idempotency_key,
              'proposal_id': proposal_id, 'proposal_hash': req.proposal_hash, 'runner_principal': runner,
+             'candidate_digest':p.get('candidate_digest','LEGACY_UNAVAILABLE'),
+             'candidate_verification_basis':'RUNNER_MATERIALIZED_EXACT_PROPOSAL' if observed else 'UNVERIFIED_CLIENT_DECLARATION',
              'provenance_kind': provenance, 'worktree_revision': worktree_revision,
              'command_executed': req.command_executed, 'exit_code': req.exit_code,
              'output_excerpt': req.output_excerpt, 'recorded_at': int(time.time()), 'payload_hash': payload_hash,

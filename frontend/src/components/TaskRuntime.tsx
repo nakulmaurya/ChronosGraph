@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
+import { runStatusLabel, telemetryLabel, usageBasisLabel } from '@/lib/task-runtime';
 import { API_BASE, request } from '@/lib/api';
 
 type Run = { id: string; session_id: string; plan_id: string; pack_id: string; status: string; telemetry_status: string; missing_sequences: number[];
-  usage_totals: Record<string, number>; harness_reported_cost: number | null;
+  usage_totals: Record<string, number>; usage_basis?:string;usage_integrity?:string;cost_reconciliation_mismatches?:string[]; harness_reported_cost: number | null;
   events: { sequence: number; kind: string; tool_name?: string; paths: string[]; observed_at_ms: number }[] };
 type Task = { task: { id: string; title: string; current_plan_id: string }; plans: { id: string; version: number; payload_json: string }[]; runs: Run[]; truncated: boolean };
 export default function TaskRuntime({ tenant, revision, target }: { tenant: string; revision: string; target: string }) {
@@ -64,9 +65,9 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
       {detail.plans.map(p => <details key={p.id}><summary>Immutable plan v{p.version}{p.id === detail.task.current_plan_id ? ' · current' : ' · historical'}</summary><pre>{JSON.stringify(JSON.parse(p.payload_json), null, 2)}</pre></details>)}
       {!detail.runs.length && <p>No bound harness run yet. Generating configuration is not proof of connection.</p>}
       {detail.runs.map(run => <article className="wb-card" key={run.id}>
-        <strong>{run.status}</strong><p>{run.telemetry_status}</p><p>Session <code>{run.session_id}</code><br/>Run <code>{run.id}</code><br/>Context <code>{run.pack_id}</code></p>
+        <strong>{runStatusLabel(run.status)}</strong><p>{telemetryLabel(run.telemetry_status)}</p><details><summary>Raw harness status and identity</summary><code>{run.status} · {run.telemetry_status}</code></details><p>Session <code>{run.session_id}</code><br/>Run <code>{run.id}</code><br/>Context <code>{run.pack_id}</code></p>
         {!!run.missing_sequences.length && <p role="alert">Missing sequence receipts: {run.missing_sequences.join(', ')}</p>}
-        <details><summary>OpenCode-reported usage categories · not a billing total</summary><pre>{JSON.stringify(run.usage_totals, null, 2)}</pre><p>Reported cost: {run.harness_reported_cost === null ? 'Unknown' : run.harness_reported_cost}. Cache/reasoning categories are not added again to a guessed total.</p></details>
+        <details><summary>OpenCode-reported usage categories · not a billing total</summary><p>{usageBasisLabel(run.usage_basis)}. {run.usage_integrity}</p><pre>{JSON.stringify(run.usage_totals, null, 2)}</pre><p>Provider retry usage remains unknown. Message cumulative costs are reconciliation only, never added again.</p>{!!run.cost_reconciliation_mismatches?.length&&<p role="alert">Usage/cost reconciliation has unresolved messages.</p>}<p>Reported cost: {run.harness_reported_cost === null ? 'Unknown' : run.harness_reported_cost}. Cache/reasoning categories are not added again to a guessed total.</p></details>
         {run.events.slice(-30).map(e => <p key={e.sequence}>#{e.sequence} {e.kind} {e.tool_name || ''}{e.paths?.length ? ` · ${e.paths.join(', ')}` : ''}</p>)}
       </article>)}
     </>}

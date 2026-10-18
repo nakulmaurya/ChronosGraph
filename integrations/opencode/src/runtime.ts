@@ -281,7 +281,7 @@ export class LocalRuntime {
     const e: Envelope = {
       tenant_graph: this.binding.tenant_graph,
       expected_revision: this.binding.expected_revision,
-      schema_version: 1,
+      schema_version: 2,
       event_id: randomUUID(),
       source_event_id: key,
       sequence: ++run.sequence,

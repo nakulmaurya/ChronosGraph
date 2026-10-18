@@ -102,7 +102,7 @@ def _entry_inventory(tenant, query):
     return files, strategy
 
 
-def locate_context(tenant_graph, query, budget_bytes=4096):
+def locate_context(tenant_graph, query, budget_bytes=4096, *, trim_presentation=True):
     tenant = tenant_exists(tenant_graph)
     if not query.strip() or len(query) > 200 or not 2048 <= budget_bytes <= 8192:
         raise HTTPException(422, 'Require query 1..200 characters and byte budget 2048..8192')
@@ -175,6 +175,15 @@ def locate_context(tenant_graph, query, budget_bytes=4096):
             encoded = json.dumps(result, ensure_ascii=False, separators=(',', ':'))
             return len(encoded.encode('utf-8')), len(encoded) // 4
         result['payload_bytes'], result['payload_token_equivalents'] = 0, 0
+        if not trim_presentation:
+            # Internal managed-pack builder owns the final budget after rule deduplication.
+            # Query cardinality bounds above still apply; this is not an unbounded inventory.
+            for _ in range(8):
+                size, tokens = measure()
+                if (result['payload_bytes'], result['payload_token_equivalents']) == (size, tokens):
+                    break
+                result['payload_bytes'], result['payload_token_equivalents'] = size, tokens
+            return result
         for _ in range(100):
             size, tokens = measure()
             if size <= budget_bytes:

@@ -1,0 +1,82 @@
+     - Answered governance question: ADR-002 governs client.py; ADR-001 is SUPERSEDED.
+                                                                                                              ChronosGraph context: client.py
+     Active                                                                                                   timeout contract
+
+     - (none)                                                                                                 Context
+                                                                                                              12,514 tokens
+     Blocked                                                                                                  6% used
+                                                                                                              $0.00 spent
+     - (none)
+                                                                                                              MCP
+     Next Move                                                                                                • chronosgraph Connected
+
+     1. (none)                                                                                                LSP
+     2. (none)                                                                                                LSPs are disabled
+
+     Relevant Files
+
+     - client.py: exact context target; contains client.py:timeout_result, governed by ADR-002.
+     - tests/test_contract.py: caller test_timeout_contract; contract test to update per adr-002 required
+       action.
+     - worker.py: caller should_retry accesses result['ok']; affected queue worker.
+     - docs/ADR-002.md: ACTIVE decision preserving timeout result envelope.
+     - docs/ADR-001.md: SUPERSEDED exception-first decision (do not apply).
+     - incidents/INC-007.md: motivating incident; timeout exception bypassed retry branch.
+     - CODEOWNERS: declares @chronos-example/compatibility as owner of client.py.
+     - .chronosgraph/organization.json: source of organizational decisions.
+
+     ▣  Compaction · DeepSeek V4.1 Flash Free · 8.0s
+
+  ┃
+  ┃  After the process restart and compaction, name the ACTIVE decision and exact target in one sentence.
+  ┃  No tools or edits.                                                                                         ⬖ Getting started                ✕
+  ┃
+                                                                                                                  OpenCode includes free models
+     + Thought: 386ms                                                                                             so you can start immediately.
+
+     The ACTIVE decision is ADR-002 (org_0ebce70d495d1b67382b64c3_adr-002), governing the exact target            Connect from 75+ providers to
+     client.py symbol client.py:timeout_result (sha256 0606750c…f7be6 at revision c44db888…7ad7).                 use other models, including
+                                                                                                                  Claude, GPT, Gemini etc
+     ▣  Build · DeepSeek V4.1 Flash Free · 5.6s
+                                                                                                                  Connect provider        /connect
+  ┃
+  ┃
+  ┃                                                                                                           /tmp/chronos-hardening-acceptance.
+  ┃  Build · DeepSeek V4.1 Flash Free OpenCode                                                                JylF87/repo:master
+  ╹▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   /tmp/chronos-hardening-acceptance.JylF87/repo                               12.5K (6%)  ctrl+p commands    • OpenCode 1.19.3
+
+{
+  "basis": "Independent supported CLI export versus persisted completed-step events; no prompts or reasoning retained",
+  "session": "ses_eb189d1d3ffeGj4jHQll5UTf5K",
+  "context_parts": [
+    {
+      "message_id": "msg_14e762e5a001pFm7eZ9fbEUOeV",
+      "part_id": "prt_977e096b78760482daae09b3bfd82dc4",
+      "utf8_bytes": 10944
+    }
+  ],
+  "export_totals": {
+    "input_tokens": 24267,
+    "output_tokens": 1307,
+    "reasoning_tokens": 342,
+    "cache_read_tokens": 27008,
+    "cache_write_tokens": 0
+  },
+  "stored_totals": {
+    "input_tokens": 24267,
+    "output_tokens": 1307,
+    "reasoning_tokens": 342,
+    "cache_read_tokens": 27008,
+    "cache_write_tokens": 0
+  },
+  "export_cost": 0,
+  "stored_cost": 0.0,
+  "pending_count": 0,
+  "blocked_count": 0,
+  "run_status": "BOUND_NOT_COMPLETED",
+  "provider_retry_usage": "UNKNOWN_NOT_OBSERVABLE_FROM_COMPLETED_STEPS",
+  "stored_usage_count": null,
+  "matching_categories": true,
+  "matching_cost": true
+}

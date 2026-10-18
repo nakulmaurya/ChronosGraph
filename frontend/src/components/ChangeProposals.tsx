@@ -23,6 +23,8 @@ type Proposal = {
   agent_run_id?: string;
   overlay_digest?: string;
   declared_rationale?: string;
+  candidate_origin?:string;candidate_digest?:string;candidate_manifest?:unknown;
+  validated_evidence?:{status:string;caution:string;references:{decision_id:string;excerpt_id:string;source_sha256:string;status:string}[]};
   status: string;
   proposal_hash: string;
   base_revision: string;
@@ -353,8 +355,11 @@ export default function ChangeProposals({
           {p.plan_id && <section className="wb-card" aria-label="Managed task evidence">
             <h4>Task and evidence binding</h4>
             <p>Task <code>{p.task_id}</code><br/>Plan <code>{p.plan_id}</code><br/>Run <code>{p.agent_run_id}</code><br/>Context pack <code>{p.pack_id}</code></p>
-            <p>Initial worktree overlay digest: <code>{p.overlay_digest}</code>. Local plugin-reported identity; not a security attestation or proof the final checkout matches this proposal.</p>
+            <p>Initial worktree overlay digest: <code>{p.overlay_digest}</code>. Local plugin-reported identity; not a security attestation. The separate candidate manifest binds submitted contents; runner-observed test receipts remain separate.</p>
             <p><strong>Agent-declared rationale</strong><br/>{p.declared_rationale || 'Not supplied; no hidden reasoning is inferred.'}</p>
+            <p>Candidate: {p.candidate_origin==='OBSERVED_WORKTREE'?'Plugin-reported observed worktree':'Generated candidate (not observed worktree)'}. Digest: <code>{p.candidate_digest||'Historical candidate digest unavailable'}</code></p>
+            <details><summary>Complete candidate manifest</summary><pre>{JSON.stringify(p.candidate_manifest,null,2)}</pre></details>
+            {p.validated_evidence&&<section aria-label="Validated proposal citations"><h4>Source-backed citations</h4><p>{p.validated_evidence.status} · {p.validated_evidence.caution}</p>{p.validated_evidence.references.map(ref=><p key={ref.excerpt_id}><a href={`#org-decision-${ref.decision_id}`}>Inspect governing decision and source chain</a> · {ref.status}</p>)}</section>}
             <p>Current plan, captured source and policy pins are rechecked. Inspect this task in Agent activity to see harness receipts and usage; actual tests for this exact proposal are listed below.</p>
           </section>}
           <p>

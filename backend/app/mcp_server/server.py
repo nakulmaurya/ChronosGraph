@@ -120,13 +120,16 @@ def propose_change_for_approval(tenant_graph: str, expected_revision: str, task_
         proposed_files: dict[str, str | None], idempotency_key: str, client_id: str='mcp-agent',
         task_id: str | None=None, plan_id: str | None=None, pack_id: str | None=None,
         agent_run_id: str | None=None, overlay_digest: str | None=None,
-        declared_rationale: str | None=None) -> dict:
+        declared_rationale: str | None=None, candidate_origin: str='GENERATED_CANDIDATE',
+        candidate_manifest: dict | None=None, candidate_digest: str | None=None,
+        evidence_refs: list[dict] | None=None) -> dict:
     """Preview immutable replacements in GRAPH.COPY and wait for a human decision. Never apply code."""
     from app.services.change_lifecycle import propose, ProposalInput
     return propose(ProposalInput(tenant_graph=tenant_graph, expected_revision=expected_revision,
         task_title=task_title, proposed_files=proposed_files, idempotency_key=idempotency_key, client_id=client_id,
         task_id=task_id, plan_id=plan_id, pack_id=pack_id, agent_run_id=agent_run_id,
-        overlay_digest=overlay_digest, declared_rationale=declared_rationale))
+        overlay_digest=overlay_digest, declared_rationale=declared_rationale, candidate_origin=candidate_origin,
+        candidate_manifest=candidate_manifest, candidate_digest=candidate_digest, evidence_refs=evidence_refs or []))
 
 
 @mcp.tool

@@ -415,3 +415,156 @@ test("B: kernel lock excludes another process and releases after abrupt process 
     await f.close();
   }
 });
+
+test("E: completed steps replay stably; message costs reconcile without duplicating step usage", async () => {
+  const f = await fixture();
+  try {
+    f.state.eventStatus = 503;
+    const h: any = await f.plugin();
+    await h["chat.message"]({ sessionID: "ses_fault" }, f.output());
+    const m = {
+      id: "msg_assistant",
+      sessionID: "ses_fault",
+      role: "assistant",
+      providerID: "opencode",
+      modelID: "deepseek-v4.1-flash-free",
+      time: { created: 1, completed: 3 },
+      cost: 0,
+      tokens: {
+        input: 20,
+        output: 4,
+        reasoning: 1,
+        cache: { read: 3, write: 0 },
+      },
+    };
+    const step = (id: string, input: number) => ({
+      id,
+      sessionID: "ses_fault",
+      messageID: m.id,
+      type: "step-finish",
+      reason: "stop",
+      cost: 0,
+      tokens: { input, output: 4, reasoning: 1, cache: { read: 3, write: 0 } },
+    });
+    await h.event({
+      event: { type: "message.updated", properties: { info: m } },
+    });
+    for (const p of [
+      step("prt_step1", 10),
+      step("prt_step2", 20),
+      step("prt_step1", 10),
+    ])
+      await h.event({
+        event: { type: "message.part.updated", properties: { part: p } },
+      });
+    let r = (await f.stored()).runs.ses_fault;
+    assert.equal(r.queue.filter((e: any) => e.kind === "USAGE").length, 2);
+    assert.equal(
+      r.queue.find((e: any) => e.kind === "USAGE").usage.basis,
+      "OPENCODE_COMPLETED_STEP_PART",
+    );
+    assert.equal(
+      r.queue.find((e: any) => e.kind === "USAGE").usage.provider_request_id,
+      null,
+    );
+    f.state.messages.set(m.id, {
+      info: m,
+      parts: [step("prt_step1", 10), step("prt_step2", 20)],
+    });
+    await h.dispose();
+    await sleep(50);
+    await f.plugin();
+    await eventually(async () =>
+      (await f.stored()).runs.ses_fault.queue.some(
+        (e: any) => e.kind === "USAGE_EXPORT_RECONCILED",
+      ),
+    );
+    r = (await f.stored()).runs.ses_fault;
+    assert.equal(r.queue.filter((e: any) => e.kind === "USAGE").length, 2);
+  } finally {
+    await f.close();
+  }
+});
+
+test("C: factory rejects dirty start; proposal hook captures every observed source change", async () => {
+  const f = await fixture();
+  try {
+    await writeFile(join(f.directory, "source.py"), "def value(): return 2\n");
+    const h: any = await f.plugin();
+    await assert.rejects(
+      () => h["chat.message"]({ sessionID: "ses_dirty" }, f.output()),
+      /DIRTY_START/,
+    );
+    await writeFile(join(f.directory, "source.py"), "def value(): return 1\n");
+    await h["chat.message"]({ sessionID: "ses_fault" }, f.output());
+    await writeFile(join(f.directory, "source.py"), "def value(): return 2\n");
+    await writeFile(join(f.directory, "extra.py"), "x=3\n");
+    const input = {
+      sessionID: "ses_fault",
+      tool: "chronosgraph_propose_change_for_approval",
+      callID: "prop",
+    };
+    await assert.rejects(
+      () =>
+        h["tool.execute.before"](input, {
+          args: { proposed_files: { "source.py": "def value(): return 2\n" } },
+        }),
+      /MISMATCH/,
+    );
+    const output: any = {
+      args: {
+        proposed_files: {
+          "source.py": "def value(): return 2\n",
+          "extra.py": "x=3\n",
+        },
+      },
+    };
+    await h["tool.execute.before"](input, output);
+    assert.equal(output.args.candidate_origin, "OBSERVED_WORKTREE");
+    assert.equal(output.args.candidate_manifest.entries.length, 2);
+    assert.match(output.args.candidate_digest, /^[a-f0-9]{64}$/);
+    assert.equal(
+      output.args.overlay_digest,
+      (await f.stored()).runs.ses_fault.overlay_digest,
+    );
+  } finally {
+    await f.close();
+  }
+});
+
+test("B measurement: same-machine ordinary tool hook samples (fault fixture, not provider timing)", async () => {
+  const samples: { mode: string; sample: number; elapsed_ms: number }[] = [];
+  for (const mode of ["healthy", "outage"]) {
+    const f = await fixture();
+    try {
+      f.state.eventStatus = mode === "healthy" ? 200 : 503;
+      f.state.eventDelay = mode === "healthy" ? 0 : 1200;
+      const h: any = await f.plugin();
+      await h["chat.message"]({ sessionID: "ses_fault" }, f.output());
+      for (let i = 0; i < 20; i++) {
+        const t = performance.now();
+        await h["tool.execute.before"](
+          { sessionID: "ses_fault", tool: "read", callID: `measure_${i}` },
+          { args: {} },
+        );
+        const elapsed_ms = performance.now() - t;
+        samples.push({ mode, sample: i + 1, elapsed_ms });
+        assert.ok(
+          elapsed_ms < 250,
+          `predeclared 250ms local-persistence budget exceeded: ${elapsed_ms}`,
+        );
+      }
+    } finally {
+      await f.close();
+    }
+  }
+  console.log(
+    "HOOK_MEASUREMENT_JSON=" +
+      JSON.stringify({
+        basis:
+          "actual factory + real local files + controlled HTTP fault fixture; not agent/model timing",
+        budget_ms: 250,
+        samples,
+      }),
+  );
+});

@@ -87,6 +87,34 @@ def _run_pytest(worktree, tests):
     return (124 if timed_out else process.returncode), text[:8000]
 
 
+def verify_candidate_tree(worktree, proposal, bodies):
+    """Runner observation, separate from a plugin-declared digest. No test approval minted."""
+    from app.services.change_lifecycle import digest
+    manifest = proposal.get('candidate_manifest_json')
+    if not manifest:
+        return 'LEGACY_UNAVAILABLE'
+    manifest = json.loads(manifest)
+    for entry in manifest['entries']:
+        path = worktree / entry['path']
+        if path.is_symlink():
+            raise HTTPException(409, 'Candidate became a symlink')
+        observed = hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None
+        if observed != entry['result_sha256']:
+            raise HTTPException(409, 'Materialized candidate differs from immutable proposal: '+entry['path'])
+    def names(*args):
+        return subprocess.check_output([*git_command(),'-C',str(worktree),*args],env=git_environment(),timeout=10).decode().split('\0')
+    changed = names('diff','--no-ext-diff','--no-textconv','--name-only','--no-renames','-z','HEAD','--')
+    changed += names('ls-files','--others','--exclude-standard','-z')
+    # Explicitly generated pytest cache is not a proposed source file.
+    extra = [p for p in changed if p and p not in bodies and '.pytest_cache' not in p.split('/') and '__pycache__' not in p.split('/')]
+    if extra:
+        raise HTTPException(409, 'Unexpected changes outside tested candidate: '+', '.join(sorted(extra)[:20]))
+    observed_digest = digest(manifest)
+    if observed_digest != proposal['candidate_digest']:
+        raise HTTPException(409, 'Runner candidate digest mismatch')
+    return observed_digest
+
+
 def execute(proposal_id, req: WorktreeInput):
     if not req.acknowledge_code_execution:
         raise HTTPException(422, 'Confirm that candidate pytest executes trusted repository code on this machine')
@@ -150,8 +178,10 @@ def execute(proposal_id, req: WorktreeInput):
                     target = worktree/path
                     if text is None: target.unlink()
                     else: target.parent.mkdir(parents=True, exist_ok=True);target.write_text(text, encoding='utf-8')
+                verify_candidate_tree(worktree,p,bodies)
                 require_lease(lease)
                 code, output = _run_pytest(worktree, tests)
+                verify_candidate_tree(worktree,p,bodies)
                 # Revalidate after the real subprocess; a changed policy cannot be promoted.
                 if _fresh(req.tenant_graph, p, req.expected_revision):
                     raise HTTPException(409, p['status'])

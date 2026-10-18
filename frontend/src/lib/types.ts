@@ -105,7 +105,7 @@ export type Result =
 export type OrganizationalExcerpt = { path: string; start_line: number; end_line: number; excerpt: string; sha256: string; source_revision: string };
 export type OrganizationalEvidence = {
   status: string; truncated: boolean; safe_to_approve: false;
-  chains: { file_path: string; decision: { status: string; rule: string; rationale: string; required_action: string; data_kind: string }; document: OrganizationalExcerpt | null; motivating_incident: OrganizationalExcerpt | null }[];
+  chains: { file_path: string; decision: { id: string; status: string; rule: string; rationale: string; required_action: string; data_kind: string }; document: OrganizationalExcerpt | null; motivating_incident: OrganizationalExcerpt | null }[];
   review_teams: { name: string; owner: string; file_path: string }[];
   gaps: { reason: string; file_path?: string }[];
 };

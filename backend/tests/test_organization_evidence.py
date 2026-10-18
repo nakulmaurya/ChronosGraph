@@ -103,3 +103,23 @@ def test_pinned_blob_not_dirty_workspace_and_no_manifest_no_claim(case):
     (root/'.chronosgraph/organization.json').unlink();commit(root)
     other,_=ingest();empty=organizational_context(other,['client.py'])
     assert empty['status']=='NO_ORGANIZATIONAL_EVIDENCE' and not empty['review_requirements']
+
+
+def test_proposal_citation_requires_current_relevant_hash_pinned_chain(case):
+    from fastapi import HTTPException
+    from app.services.change_lifecycle import propose, check, ProposalInput
+    root,ingest=case;tenant,stats=ingest()
+    chain=next(c for c in organizational_context(tenant,['client.py'])['chains'] if c['decision']['status']=='ACTIVE')
+    ref={'decision_id':chain['decision']['id'],'excerpt_id':chain['document']['id'],'source_sha256':chain['document']['sha256']}
+    args=dict(tenant_graph=tenant,expected_revision=stats['source_revision'],task_title='Observed compatibility review',
+        proposed_files={'client.py':(root/'client.py').read_text()+'\n# Candidate requires compatibility review\n'},idempotency_key='source-backed-proposal')
+    p=propose(ProposalInput(**args,evidence_refs=[ref]))
+    assert p['validated_evidence']['status']=='EXPLICIT_CITATIONS_VALIDATED'
+    assert p['validated_evidence']['references'][0]['chains'][0]['motivating_incident']['path']=='incidents/INC-007.md'
+    with pytest.raises(HTTPException):
+        propose(ProposalInput(**{**args,'idempotency_key':'bad-citation'},evidence_refs=[{**ref,'decision_id':'unknown'}]))
+    with pytest.raises(HTTPException):
+        propose(ProposalInput(**{**args,'idempotency_key':'bad-hash'},evidence_refs=[{**ref,'source_sha256':'a'*64}]))
+    doc=chain['document']['path']
+    db_manager.query(tenant,'MATCH (f:TrackedFile {path:$path}) SET f.sha256=$sha',{'path':doc,'sha':'f'*64})
+    assert check(tenant,stats['source_revision'],p['id'])['status']=='STALE_CITED_EVIDENCE'

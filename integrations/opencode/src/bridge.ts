@@ -11,6 +11,13 @@ import {
   type Run,
   type Delivery,
 } from "./runtime.ts";
+import {
+  requireCleanStart,
+  captureCandidate,
+  compareCandidate,
+} from "./candidate.ts";
+import { stepUsage, messageCost } from "./usage.ts";
+import type { AssistantMessage } from "@opencode-ai/sdk";
 const exec = promisify(execFile);
 export const hash = (value: unknown) =>
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -137,6 +144,7 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
   };
   const ensureRun = async (session: string, parent?: string) => {
     if (state.runs[session]) return state.runs[session];
+    await requireCleanStart(directory, binding.expected_revision);
     const identity = await workspaceIdentity(
       directory,
       binding.expected_revision,
@@ -240,6 +248,57 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
       );
     }
   };
+  const messageInfo = new Map<string, AssistantMessage>();
+  const reconciling = new Set<string>();
+  const reconcileUsage = (sid: string) => {
+    if (reconciling.has(sid)) return;
+    reconciling.add(sid);
+    void (async () => {
+      const result = await Promise.race([
+        client.session.messages({ path: { id: sid }, query: { limit: 100 } }),
+        new Promise<never>((_, reject) => {
+          const t = setTimeout(
+            () => reject(Error("Usage SDK reconciliation timeout")),
+            1500,
+          );
+          t.unref();
+        }),
+      ]);
+      if (result.error || !result.data)
+        throw Error("SDK usage export unavailable");
+      await serial(async () => {
+        for (const item of result.data!) {
+          if (item.info.role !== "assistant") continue;
+          const m = item.info;
+          messageInfo.set(m.id, m);
+          for (const p of item.parts)
+            if (p.type === "step-finish")
+              await emit(sid, "USAGE", `step:${sid}:${p.messageID}:${p.id}`, {
+                usage: stepUsage(p, m),
+              });
+          await emit(
+            sid,
+            "USAGE_RECONCILIATION",
+            `message-cost:${m.id}:${hash(messageCost(m))}`,
+            { message_cost: messageCost(m) },
+          );
+        }
+        await emit(
+          sid,
+          "USAGE_EXPORT_RECONCILED",
+          `export:${hash(result.data!.map((x) => ({ id: x.info.id, parts: x.parts.filter((p) => p.type === "step-finish").map((p) => p.id) })))}`,
+          {
+            reconciliation_message_count: result.data!.length,
+            export_may_be_truncated: result.data!.length >= 100,
+          },
+        );
+      });
+    })()
+      .catch(warn)
+      .finally(() => reconciling.delete(sid));
+  };
+  // Reconnect reconciliation reads supported host history, not provider internals.
+  for (const sid of Object.keys(state.runs)) reconcileUsage(sid);
   return {
     "chat.message": async (input, output) => {
       try {
@@ -327,7 +386,24 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
         await serial(async () => {
           const run = await ensureRun(input.sessionID);
           await pack(); // current plan, file hashes and policy guard must still match
-          await workspaceIdentity(directory, binding.expected_revision); // HEAD must match
+          const current = await captureCandidate(
+            directory,
+            binding.expected_revision,
+          );
+          compareCandidate(current, output.args.proposed_files);
+          if (!current.manifest.entries.length)
+            throw Error("No observed worktree changes to propose");
+          const verified = await captureCandidate(
+            directory,
+            binding.expected_revision,
+          );
+          if (verified.digest !== current.digest)
+            throw Error("Concurrent edit before proposal capture");
+          Object.assign(output.args, {
+            candidate_origin: "OBSERVED_WORKTREE",
+            candidate_manifest: current.manifest,
+            candidate_digest: current.digest,
+          });
           const expected = {
             ...scope,
             task_id: binding.task_id,
@@ -373,22 +449,23 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
             event.properties.info.role === "assistant"
           ) {
             const m = event.properties.info;
+            messageInfo.set(m.id, m);
             await emit(
               m.sessionID,
+              "USAGE_RECONCILIATION",
+              `message-cost:${m.id}:${hash(messageCost(m))}`,
+              { message_cost: messageCost(m) },
+            );
+          } else if (
+            event.type === "message.part.updated" &&
+            event.properties.part.type === "step-finish"
+          ) {
+            const p = event.properties.part;
+            await emit(
+              p.sessionID,
               "USAGE",
-              `message:${m.id}:${hash({ tokens: m.tokens, cost: m.cost })}`,
-              {
-                usage: {
-                  request_id: m.id,
-                  input_tokens: m.tokens.input,
-                  output_tokens: m.tokens.output,
-                  reasoning_tokens: m.tokens.reasoning,
-                  cache_read_tokens: m.tokens.cache.read,
-                  cache_write_tokens: m.tokens.cache.write,
-                  cost: m.cost,
-                  basis: "OPENCODE_ASSISTANT_MESSAGE_CUMULATIVE",
-                },
-              },
+              `step:${p.sessionID}:${p.messageID}:${p.id}`,
+              { usage: stepUsage(p, messageInfo.get(p.messageID)) },
             );
           } else if (
             event.type === "message.part.updated" &&
@@ -425,6 +502,7 @@ export const ChronosGraph: Plugin = async ({ directory, client }) => {
             event.type === "session.error"
           ) {
             const sid = event.properties.sessionID;
+            if (sid) reconcileUsage(sid);
             if (sid)
               await emit(
                 sid,

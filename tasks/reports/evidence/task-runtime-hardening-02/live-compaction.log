@@ -1,0 +1,98 @@
+
+  ┃                                                                                                           ChronosGraph context: client.py
+  ┃  Read only the ChronosGraph task context injected in this message. State the exact context target and     timeout contract
+  ┃  the currently ACTIVE timeout result contract. Identify one supplied decision ID. Do not edit, call
+  ┃  tools, approve or execute repository code. This is context-delivery acceptance, not task-success         Context
+  ┃  evidence.                                                                                                15,595 tokens
+  ┃                                                                                                           8% used
+                                                                                                              $0.00 spent
+     + Thought: 1.2s
+                                                                                                              MCP
+     Context target: client.py (exact_target path/query client.py; entry symbol client.py:timeout_result,     • chronosgraph Connected
+     sha256 0606750c…, pinned revision c44db888…). Scope paths: client.py, tests/test_contract.py, worker.
+     py.                                                                                                      LSP
+                                                                                                              LSPs are disabled
+     Currently ACTIVE timeout result contract: Timeouts must retain {'ok': False, 'reason': 'timeout'}
+     for existing queue workers — decision org_0ebce70d495d1b67382b64c3_adr-002 (conflict group timeout-
+     contract, status ACTIVE, source ADR-002). Note claim is unverified source evidence.
+
+     One supplied decision ID: org_0ebce70d495d1b67382b64c3_adr-002 (the other supplied, …_adr-001, is
+     SUPERSEDED).
+
+     No edits, no tool calls, no approval or execution performed. This is context-delivery acceptance
+     only, not task-success evidence; the context self-declares safe_to_approve: false,
+     SOURCE_BACKED_REVIEW_REQUIRED.
+
+     ▣  Build · DeepSeek V4.1 Flash Free · 7.3s
+
+  ┃
+  ┃  Using the retained current task context, state whether ADR-001 or ADR-002 governs client.py. No
+  ┃  tools or edits; one short sentence.
+  ┃
+                                                                                                                ⬖ Getting started                ✕
+     ADR-002 governs client.py; ADR-001 is SUPERSEDED.
+                                                                                                                  OpenCode includes free models
+     ▣  Build · DeepSeek V4.1 Flash Free · 1.7s                                                                   so you can start immediately.
+
+                                                                                                                  Connect from 75+ providers to
+                                                                                                                  use other models, including
+                                                                                                                  Claude, GPT, Gemini etc
+
+                                                                                                                  Connect provider        /connect
+  ┃
+  ┃
+  ┃                                                                                                           /tmp/chronos-hardening-acceptance.
+  ┃  Build · DeepSeek V4.1 Flash Free OpenCode                                                                JylF87/repo:master
+  ╹▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   /tmp/chronos-hardening-acceptance.JylF87/repo                               15.6K (8%)  ctrl+p commands    • OpenCode 1.19.3
+
+===STATE===
+[('ses_eb189d1d3ffeGj4jHQll5UTf5K', 0, 'HOST_PART_OBSERVED')]
+     - Supporting IDs: task task_0b84267e12f952d46202959271d16207, plan
+       plan_a90b6e5d4b5d4f9db4921807e345213e, pack pack_bdab0c90123b46ef83f88bc1b55bef63, run                 ChronosGraph context: client.py
+       run_fcdf2b5adfd6464d8170c867206d12ae, tenant_graph                                                     timeout contract
+       repo_hardening_acceptance_a98cb81d28244be1a2e486a72f983484.
+                                                                                                              Context
+     Work State                                                                                               9,275 tokens
+                                                                                                              5% used
+     Completed                                                                                                $0.00 spent
+
+     - Stated context target: client.py with symbol client.py:timeout_result.                                 MCP
+     - Stated ACTIVE timeout result contract from ADR-002 ({'ok': False, 'reason': 'timeout'}).               • chronosgraph Connected
+     - Identified supplied decision ID org_0ebce70d495d1b67382b64c3_adr-002.
+     - Answered governance question: ADR-002 governs client.py; ADR-001 is SUPERSEDED.                        LSP
+                                                                                                              LSPs are disabled
+     Active
+
+     - (none)
+
+     Blocked
+
+     - (none)
+
+     Next Move
+
+     1. (none)
+     2. (none)
+
+     Relevant Files
+
+     - client.py: exact context target; contains client.py:timeout_result, governed by ADR-002.
+     - tests/test_contract.py: caller test_timeout_contract; contract test to update per adr-002 required
+       action.                                                                                                  ⬖ Getting started                ✕
+     - worker.py: caller should_retry accesses result['ok']; affected queue worker.
+     - docs/ADR-002.md: ACTIVE decision preserving timeout result envelope.                                       OpenCode includes free models
+     - docs/ADR-001.md: SUPERSEDED exception-first decision (do not apply).                                       so you can start immediately.
+     - incidents/INC-007.md: motivating incident; timeout exception bypassed retry branch.
+     - CODEOWNERS: declares @chronos-example/compatibility as owner of client.py.                                 Connect from 75+ providers to
+     - .chronosgraph/organization.json: source of organizational decisions.                                       use other models, including
+                                                                                                                  Claude, GPT, Gemini etc
+     ▣  Compaction · DeepSeek V4.1 Flash Free · 8.0s
+                                                                                                                  Connect provider        /connect
+  ┃
+  ┃
+  ┃                                                                                                           /tmp/chronos-hardening-acceptance.
+  ┃  Build · DeepSeek V4.1 Flash Free OpenCode                                                                JylF87/repo:master
+  ╹▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   /tmp/chronos-hardening-acceptance.JylF87/repo                                9.3K (5%)  ctrl+p commands    • OpenCode 1.19.3
+

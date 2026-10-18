@@ -60,3 +60,12 @@ def event(task_id: str, run_id: str, body: runtime.EventInput, request: Request)
     if run.get('task_id') != task_id:
         raise HTTPException(404, 'Run does not belong to selected task')
     return runtime.record_event(run_id, body)
+
+
+@router.get('/discovery/candidates')
+def discover_candidates(tenant_graph: str, expected_revision: str, query: str):
+    runtime.require_snapshot(tenant_graph, expected_revision)
+    result = runtime.locate_context(tenant_graph, query, budget_bytes=4096)
+    return {'selection_required':True, 'pack_created':False,
+            'candidates':[{'path':e['path'],'why':e['why_included']} for e in result['entry_points']],
+            'coverage':result['coverage']}

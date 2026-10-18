@@ -174,3 +174,98 @@ def test_context_delivery_states_preserve_legacy_and_are_not_provider_ack(ingest
     detail = rt.task_detail(scope['tenant_graph'], scope['expected_revision'], tid)['runs'][0]
     assert [e['kind'] for e in detail['events']] == ['CONTEXT_DELIVERED', 'CONTEXT_INJECTED', 'CONTEXT_PERSISTED']
     assert detail['telemetry_status'] == 'PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF'
+
+
+def test_candidate_manifest_mismatch_and_out_of_scope_rejected(ingested):
+    scope, tid, pid, pack, run = setup(ingested)
+    args = dict(**scope,task_title='Observed exact candidate',proposed_files={'src/pkg/a.py':'def helper():\n    return 2\n'},
+        idempotency_key='candidate-bound',task_id=tid,plan_id=pid,pack_id=pack['id'],agent_run_id=run['id'],
+        overlay_digest='a'*64,declared_rationale='Behavioral candidate; needs independent tests',candidate_origin='OBSERVED_WORKTREE')
+    with pytest.raises(HTTPException) as err:
+        propose(ProposalInput(**args))
+    assert err.value.status_code==422
+    from app.services.change_lifecycle import _hashes, digest
+    manifest = dict(schema_version=1,base_revision=scope['expected_revision'],entries=[dict(path='src/pkg/a.py',operation='MODIFY',
+        base_sha256=_hashes(scope['tenant_graph'],['src/pkg/a.py'])['src/pkg/a.py'],
+        result_sha256=hashlib.sha256(args['proposed_files']['src/pkg/a.py'].encode()).hexdigest())])
+    p = propose(ProposalInput(**args,candidate_manifest=manifest,candidate_digest=digest(manifest)))
+    assert p['candidate_digest']==digest(manifest) and p['candidate_origin']=='OBSERVED_WORKTREE'
+    assert p['candidate_provenance']=='LOCAL_PLUGIN_REPORTED_NOT_ATTESTED'
+    bad={**args,'idempotency_key':'bad-candidate','proposed_files':{'src/pkg/a.py':'x=3\n'}}
+    with pytest.raises(HTTPException) as err:
+        propose(ProposalInput(**bad,candidate_manifest=manifest,candidate_digest=digest(manifest)))
+    assert err.value.status_code==409
+    with pytest.raises(HTTPException) as err:
+        propose(ProposalInput(**{**args,'candidate_origin':'GENERATED_CANDIDATE','proposed_files':{'new_source.py':'x=1\n'}}))
+    assert err.value.detail['code']=='CONTEXT_SCOPE_EXPANSION_REQUIRED'
+    expanded=rt.build_pack(tid,rt.PackInput(**scope,plan_id=pid,expansion_paths=['new_source.py']))
+    assert 'new_source.py' in expanded['manifest']['analysis_scope']['paths']
+
+
+def test_pack_scope_is_independent_of_presentation_and_rules_deduplicate_first(ingested):
+    tenant,_,_=ingested
+    rule='Retain café compatibility — 所有调用者 must preserve the established result. '*8
+    db_manager.query(tenant,'''MATCH (f:File {path:'src/pkg/a.py'})
+        CREATE (:Decision {id:'unicode-rule',status:'ACTIVE',rule:$rule,scope:'repository',
+            source_type:'REPO_EXTRACTED_RULE',target_path:'src/pkg/a.py'})-[:GOVERNS]->(f)''',{'rule':rule})
+    scope,tid,pid,pack,_=setup(ingested)
+    manifest=pack['manifest']
+    assert next(r for r in manifest['active_rules'] if r['id']=='unicode-rule')['rule']==rule
+    assert not any(c['id']=='unicode-rule' for c in manifest['source_constraints'])
+    assert 'active_rules' not in manifest['context'] and 'source_constraints' not in manifest['context']
+    assert manifest['exact_target']['path']=='src/pkg/a.py'
+    assert manifest['analysis_scope']['expansion_handle']
+    assert len(rt.canonical(pack).encode())==pack['serialized_bytes']
+    assert manifest['analysis_scope']['paths']==manifest['supporting_paths']
+
+
+def test_completed_step_usage_dedup_reconciliation_and_legacy_separation():
+    from app.services.harness_usage import aggregate
+    def step(seq,part,inputs):
+        return dict(sequence=seq,usage=dict(basis='OPENCODE_COMPLETED_STEP_PART',session_id='ses',message_id='msg',part_id=part,
+            input_tokens=inputs,output_tokens=3,reasoning_tokens=1,cache_read_tokens=2,cache_write_tokens=0,cost=0))
+    a,b=step(1,'part-a',10),step(2,'part-b',20)
+    costs=[dict(sequence=3,message_cost=dict(message_id='msg',cost=0,completed_at_ms=100)),
+        dict(sequence=4,message_cost=dict(message_id='msg',cost=99,completed_at_ms=None)),
+        dict(sequence=6,message_cost=dict(message_id='msg',cost=99,completed_at_ms=100))]
+    result=aggregate([b,a,dict(a,sequence=5),*costs])
+    assert result['usage_totals']['input_tokens']==30 and result['usage_totals']['output_tokens']==6
+    assert result['harness_reported_cost']==0 and not result['cost_reconciliation_mismatches']
+    assert result['message_cost_reconciliation'][0]['cost']==0
+    assert result['message_cost_conflicts']==['msg']
+    assert result['provider_retry_usage'].startswith('UNKNOWN')
+    conflict=aggregate([a,dict(a,sequence=6,usage={**a['usage'],'input_tokens':99})])
+    assert conflict['usage_conflicts'] and conflict['usage_totals']=={}
+
+
+def test_legacy_event_retry_canonical_digest_is_preserved(ingested):
+    scope,tid,_,_,run=setup(ingested)
+    value=event(scope)
+    old_fields={'tenant_graph','expected_revision','schema_version','event_id','source_event_id','sequence','kind',
+                'observed_at_ms','session_id','tool_name','call_id','paths','payload_digest','usage'}
+    legacy={k:v for k,v in value.model_dump().items() if k in old_fields}
+    rt.record_event(run['id'],value)
+    rows=read(scope['tenant_graph'],'MATCH (e:HarnessEvent) RETURN e.digest AS digest,e.payload_json AS payload')[0]
+    assert rows[0]['digest']==rt.digest(legacy) and json.loads(rows[0]['payload'])==legacy
+    assert rt.record_event(run['id'],value)['duplicate']
+
+
+def test_idle_status_survives_late_usage_export_reconciliation(ingested):
+    scope, tid, _, _, run = setup(ingested)
+    rt.record_event(run['id'], event(scope, 1, 'IDLE'))
+    rt.record_event(run['id'], event(scope, 2, 'USAGE_EXPORT_RECONCILED'))
+    assert rt.task_detail(scope['tenant_graph'], scope['expected_revision'], tid)['runs'][0]['status'] == 'IDLE_NOT_SUCCESS'
+
+
+def test_internal_locator_keeps_bounded_graph_before_managed_pack_budget(ingested):
+    from app.services.context_locator import locate_context
+    tenant, _, _ = ingested
+    db_manager.query(tenant, '''MATCH (f:File {path:'src/pkg/a.py'})
+        CREATE (:Decision {id:'large-duplicate',status:'ACTIVE',rule:$rule,scope:'repository',
+            source_type:'REPO_EXTRACTED_RULE',target_path:'src/pkg/a.py'})-[:GOVERNS]->(f)''', {'rule': 'Bounded duplicate rule ' * 20})
+    raw = locate_context(tenant, 'src/pkg/a.py', budget_bytes=2048, trim_presentation=False)
+    assert raw['entry_points'] and raw['related_importers']
+    assert raw['payload_bytes'] == len(json.dumps(raw, ensure_ascii=False, separators=(',', ':')).encode())
+    assert raw['payload_bytes'] > 2048
+    limited = locate_context(tenant, 'src/pkg/a.py', budget_bytes=2048)
+    assert limited['payload_bytes'] <= 2048
