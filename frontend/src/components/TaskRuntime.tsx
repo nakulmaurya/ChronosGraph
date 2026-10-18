@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
-import { runStatusLabel, telemetryLabel, usageBasisLabel } from '@/lib/task-runtime';
+import { declaredReturnReport, handoffStatusLabel, runStatusLabel, telemetryLabel, usageBasisLabel } from '@/lib/task-runtime';
 import { API_BASE, request } from '@/lib/api';
 
 type Run = { id: string; session_id: string; plan_id: string; pack_id: string; status: string; telemetry_status: string; missing_sequences: number[];
@@ -19,7 +19,7 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
   const [pathLimit, setPathLimit] = useState(100);
   const selection = useRef('');
   selection.current = `${tenant}:${revision}`;
-  useEffect(() => { setTaskId(''); setDetail(null); setPack(null); setError(''); setBusy(false); }, [tenant, revision]);
+  useEffect(() => { setTaskId(new URLSearchParams(window.location.search).get('task') || ''); setDetail(null); setPack(null); setError(''); setBusy(false); }, [tenant, revision]);
   const scope = { tenant_graph: tenant, expected_revision: revision };
   useEffect(() => {
     if (!taskId || !revision) return;
@@ -33,6 +33,14 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
     }
     void poll(); return () => { ctrl.abort(); clearTimeout(timer); };
   }, [tenant, revision, taskId]);
+  const resumePackId=detail?.runs.find(run=>run.plan_id===detail.task.current_plan_id)?.pack_id;
+  useEffect(()=>{
+    if(!taskId||!resumePackId||!revision)return;
+    const ctrl=new AbortController();
+    request<Record<string,unknown>>(`/tasks/${encodeURIComponent(taskId)}/context-packs/${encodeURIComponent(resumePackId)}?${new URLSearchParams({tenant_graph:tenant,expected_revision:revision})}`,ctrl.signal)
+      .then(p=>{if(!ctrl.signal.aborted)setPack(p);}).catch(e=>{if(!ctrl.signal.aborted)setError(`Context unavailable: ${e instanceof Error?e.message:'Retry by reloading task'}`);});
+    return()=>ctrl.abort();
+  },[tenant,revision,taskId,resumePackId]);
   async function post<T>(path: string, body: unknown): Promise<T> {
     const response = await fetch(`${API_BASE}/tasks${path}`, { method: 'POST', signal: AbortSignal.timeout(65000),
       headers: { 'Content-Type': 'application/json', 'X-ChronosGraph-Action': 'task-runtime' }, body: JSON.stringify(body) });
@@ -53,8 +61,9 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
     finally { if (selection.current === selected) setBusy(false); }
   }
   return <section className="wb-card" aria-label="Task runtime">
-    <h3>Task → plan → context → agent run</h3>
-    <p>Local trusted-client integration for OpenCode 1.19.3. An idle agent is not a successful task. MCP-only activity remains separate below.</p>
+    <h3>Shared task context &amp; agent handoffs</h3>
+    <p>Follow the plan, worker handoff and separate reviewer report. Agent acceptance is not human approval; incomplete run telemetry remains visible below.</p>
+    <details><summary>Start a new task</summary>
     <label>Task objective<input value={title} onChange={e => setTitle(e.target.value)} maxLength={300}/></label>
     <label>Acceptance checks (one per line)<textarea value={acceptance} onChange={e => setAcceptance(e.target.value)} maxLength={4000}/></label>
     <p>Exact context target: <code>{target || 'Select a file first'}</code></p>
@@ -62,18 +71,19 @@ export default function TaskRuntime({ tenant, revision, target }: { tenant: stri
     <p>Lower limits explicitly narrow analyzed scope; omitted relationships remain unproven. Mandatory rules inside that scope are never silently dropped.</p>
     <button disabled={busy || !Number.isInteger(pathLimit) || pathLimit < 1 || pathLimit > 100 || !revision || !target || !title.trim() || !acceptance.trim()} onClick={() => void create()}>Create task and bounded context pack</button>
     {!revision && <p role="status">Loading snapshot identity before task operations…</p>}
+    </details>
     <label>Resume task ID<input disabled={!revision} value={taskId} onChange={e => { setTaskId(e.target.value); setDetail(null); setPack(null); }} placeholder="task_…"/></label>
     {error && <p role="alert" className="wb-error">{error}</p>}
     {detail && <>
-      <h4>{detail.task.title}</h4><p>Task <code>{detail.task.id}</code><br/>Current plan <code>{detail.task.current_plan_id}</code></p>
+      <h4>{detail.task.title}</h4><details><summary>Task evidence identity</summary><p>Task <code>{detail.task.id}</code><br/>Current plan <code>{detail.task.current_plan_id}</code></p></details>
       {detail.plans.map(p => <details key={p.id}><summary>Immutable plan v{p.version}{p.id === detail.task.current_plan_id ? ' · current' : ' · historical'}</summary><pre>{JSON.stringify(JSON.parse(p.payload_json), null, 2)}</pre></details>)}
-      {!!detail.assignments?.length && <section aria-label="Explicit worker handoffs"><h4>Explicit worker handoffs</h4><p>One active assignment per task. Writing workers use separate owned worktrees. Path limits are advisory outside captured proposals; these records are not worker leases or approval.</p>{detail.assignments.map(a => <details key={a.id}><summary>{a.role.toLowerCase()} · {a.owner} · {a.status === 'CLAIMED' ? 'Working under current claim' : a.status === 'RETURNED' ? 'Candidate returned; review pending' : a.status === 'CORRECTION_REQUESTED' ? 'Correction requested' : a.status === 'CLOSED' ? 'Handoff closed; verification separate' : 'Awaiting claim'}</summary><p>{a.deliverable}</p><p>Allowed paths: {a.allowed_paths.join(', ')}</p><p>Claim version {a.claim_version}; record version {a.version}.</p><pre>{JSON.stringify({assignment:a.id, predecessor:a.predecessor_id, reports:JSON.parse(a.reports_json)},null,2)}</pre></details>)}</section>}
+      {!!detail.assignments?.length && <section aria-label="Explicit worker handoffs"><h4>Explicit worker handoffs</h4><p>One active assignment per task. Writing workers use separate owned worktrees. Path limits are advisory outside captured proposals; these records are not worker leases or approval.</p>{detail.assignments.map(a => <details key={a.id}><summary>{a.role.toLowerCase()} · {a.owner} · {handoffStatusLabel(a.role,a.status,a.reports_json)}</summary><p>{a.deliverable}</p>{declaredReturnReport(a.reports_json) && <details><summary>Read declared {a.role.toLowerCase()} report</summary><p>{declaredReturnReport(a.reports_json)}</p></details>}<p>Allowed paths: {a.allowed_paths.join(', ')}</p><details><summary>Evidence details · claim and declared report</summary><p>Claim version {a.claim_version}; record version {a.version}.</p><pre>{JSON.stringify({assignment:a.id, predecessor:a.predecessor_id, reports:JSON.parse(a.reports_json)},null,2)}</pre></details></details>)}</section>}
       {!detail.runs.length && <p>No bound harness run yet. Generating configuration is not proof of connection.</p>}
       {detail.runs.map(run => <article className="wb-card" key={run.id}>
-        <strong>{runStatusLabel(run.status)}</strong><p>{telemetryLabel(run.telemetry_status)}</p><details><summary>Raw harness status and identity</summary><code>{run.status} · {run.telemetry_status}</code></details><p>Session <code>{run.session_id}</code><br/>Run <code>{run.id}</code><br/>Context <code>{run.pack_id}</code></p>
+        <strong>{runStatusLabel(run.status)}</strong><p>{telemetryLabel(run.telemetry_status)}</p><details><summary>Raw harness status and identity</summary><code>{run.status} · {run.telemetry_status}</code></details><details><summary>Session and context identity</summary><p>Session <code>{run.session_id}</code><br/>Run <code>{run.id}</code><br/>Context <code>{run.pack_id}</code></p></details>
         {!!run.missing_sequences.length && <p role="alert">Missing sequence receipts: {run.missing_sequences.join(', ')}</p>}
         <details><summary>OpenCode-reported usage categories · not a billing total</summary><p>{usageBasisLabel(run.usage_basis)}. {run.usage_integrity}</p><pre>{JSON.stringify(run.usage_totals, null, 2)}</pre><p>Provider retry usage remains unknown. Message cumulative costs are reconciliation only, never added again.</p>{!!run.cost_reconciliation_mismatches?.length&&<p role="alert">Usage/cost reconciliation has unresolved messages.</p>}<p>Reported cost: {run.harness_reported_cost === null ? 'Unknown' : run.harness_reported_cost}. Cache/reasoning categories are not added again to a guessed total.</p></details>
-        {run.events.slice(-30).map(e => <p key={e.sequence}>#{e.sequence} {e.kind} {e.tool_name || ''}{e.paths?.length ? ` · ${e.paths.join(', ')}` : ''}</p>)}
+        <details><summary>Recorded tool activity and transport events</summary>{run.events.slice(-30).map(e => <p key={e.sequence}>#{e.sequence} {e.kind} {e.tool_name || ''}{e.paths?.length ? ` · ${e.paths.join(', ')}` : ''}</p>)}</details>
       </article>)}
     </>}
     {pack && <details><summary>Bounded context pack and setup identity</summary><pre>{JSON.stringify({ tenant_graph: tenant, expected_revision: revision, task_id: detail?.task.id, plan_id: detail?.task.current_plan_id, pack_id: pack.id }, null, 2)}</pre><p>{String(pack.serialized_bytes)} serialized bytes · {String(pack.estimated_token_equivalents)} estimated token equivalents, not billed tokens.</p><pre>{JSON.stringify(pack.manifest, null, 2)}</pre></details>}

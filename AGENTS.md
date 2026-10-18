@@ -1,7 +1,7 @@
 # AGENTS.md — ChronosGraph Project Rules & Multi-Agent Contract
 
 ## Project purpose
-**ChronosGraph** is a speculative `GRAPH.COPY` PR blast-radius gatekeeper, bi-temporal architectural contradiction shield, and `shortestPath` JIT procedural memory compiler built on **FalkorDB** (`falkordb/falkordb:latest`), benchmarked on real open-source repositories (`FalkorDB/falkordb-py` and `FalkorDB/GraphRAG-SDK`).
+**ChronosGraph** is a visual oversight and shared-context layer for coding agents, powered by FalkorDB. It connects captured code dependencies, decisions, ownership, task handoffs and exact proposals. See `docs/current-release.md` and `docs/judges-guide.md` for current scope. It is not an OS security sandbox or a guarantee of correct code.
 
 ## Repo map
 - Planning & Specs: `docs/planning-manifest.md`, `docs/product-brief.md`, `docs/prd.md`, `docs/architecture.md`, `docs/design.md`, `docs/handoff.md`

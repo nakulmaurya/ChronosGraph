@@ -42,3 +42,8 @@ T-09 documents, the PRD, planning/design manifests and dated task reports preser
 how the implementation evolved. Their earlier test counts, branch names, ports,
 acceptance labels and remaining-work statements are scoped to those checkpoints.
 Use current-release.md for today's source publication and known limitations.
+
+## Deadline product release
+
+[Three-minute current workflow](release-demo.md) ·
+[Concise limitations and preserved evaluation](limitations-and-evaluation.md).

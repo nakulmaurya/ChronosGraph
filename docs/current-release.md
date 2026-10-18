@@ -1,3 +1,25 @@
+# Current release
+
+## Deadline release: visual oversight and shared context
+
+**ChronosGraph — See what your coding agents change—and the evidence behind it.**
+
+This release makes the current application understandable through one connected
+prepared example. It adds first-screen positioning, a working prepared-example
+entry point (only when configured and present), clearer agent handoff status,
+collapsed technical metadata and read-only context-pack recovery on task resume.
+It does not change backend behavior or approve/execute/integrate a candidate.
+
+The exact source and deployment verification receipt is linked here after the
+release checks complete. Until then, this section is release preparation, not
+new deployment or full-suite certification.
+
+[Demo guide](release-demo.md) · [Setup](../README.md#start-locally) ·
+[Limitations and evaluation](limitations-and-evaluation.md).
+
+<details>
+<summary>Previous release identity and historical verification</summary>
+
 # Current release status
 
 ## Latest judge-facing source — task-runtime integration checkpoint
@@ -66,3 +88,5 @@ Application code, project-specific integration scripts, tests, docs and evidence
 belong in this repository. Downloaded OpenCode/external harness binaries, model
 credentials, virtual environments and generated build caches do not. Large walkthrough
 media is distributed as GitHub release assets rather than committed to source.
+
+</details>

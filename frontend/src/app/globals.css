@@ -1646,3 +1646,16 @@ dd {
 .cc-proposal-summary { display:flex; flex-wrap:wrap; gap:12px; margin:18px 0; }
 .cc-proposal-summary span { border:1px solid #2b2b2b; border-radius:6px; padding:9px 12px; color:#a1a1a1; }
 .cc-proposal-summary strong { color:#ededed; margin-right:5px; }
+
+/* Deadline release: retain the existing monochrome design, emphasize the review path. */
+.cc-overview h1{max-width:850px;font-size:clamp(24px,2.3vw,34px);line-height:1.18;letter-spacing:-.035em}
+.cc-release-path{margin:0 30px 24px;padding:16px 20px;border:1px solid #303030;border-radius:8px;background:#111}
+.cc-release-path p{color:#b5b5b5;font-size:14px;line-height:1.6;margin:0 0 12px}
+.cc-release-path p:last-child{margin:12px 0 0}
+.cc-release-path>div{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.cc-release-path button,.cc-example-link{min-height:44px;padding:10px 16px;border-radius:6px}
+.cc-example-link{display:inline-flex;align-items:center;border:1px solid #454545;color:#eee;text-decoration:none}
+.cc-build-details{margin:8px 30px 12px;color:#999;font-size:12px}.cc-build-details summary{cursor:pointer}.cc-build-details .cc-help{margin:12px 0}
+.cc-app button:focus-visible,.cc-app a:focus-visible,.cc-app summary:focus-visible{outline:2px solid #87b9ee;outline-offset:4px}
+.wb-card pre{max-height:360px;overflow:auto}.wb-card code{overflow-wrap:anywhere}
+@media(max-width:640px){.cc-release-path{margin:0 16px 20px;padding:16px}.cc-build-details{margin:8px 16px}.cc-overview h1{font-size:25px}}

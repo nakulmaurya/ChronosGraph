@@ -2,8 +2,7 @@
 
 ## What it is
 
-**A shared, revision-aware context, persistent memory and change-evidence layer
-for coding agents.** It connects a coding client such as OpenCode to captured
+**A visual oversight and shared-context layer for coding agents, powered by FalkorDB.** It connects a coding client such as OpenCode to captured
 source relationships, governing decisions, task plans, findings and exact-content
 human review. The Command Center makes those connections and observations
 inspectable; FalkorDB stores the connected records.
@@ -25,9 +24,10 @@ guarantee that a proposed change is correct.
   credentials, database dumps, installed dependencies or model binaries belong
   on these branches.
 
-The latest verified application baseline is `8e83804`; later reporting changes
-do not imply all gates were rerun. The earlier external-review ZIP is pinned to
+The previous verified application baseline was `8e83804`; the deadline presentation release and its exact verification are recorded in [current release](current-release.md). The earlier external-review ZIP is pinned to
 `0c6be418`, not necessarily the latest documentation commit.
+
+[Open the three-minute prepared demonstration](release-demo.md).
 
 ## Follow one connected workflow
 
@@ -69,8 +69,7 @@ was mixed; **no graph advantage or savings is established**.
 - Host-observed context/usage and plugin identity are not provider-consumption
   proof, trusted execution attestation or a fabricated billing total.
 - Static candidate tests are not proof that other tests can safely be skipped.
-- Generic reviewer-summary wording, resume panel/target behavior and incomplete
-  telemetry remain documented limitations.
+- Returned-review status and read-only context-pack resume received focused frontend fixes in the deadline release. Incomplete telemetry remains explicitly incomplete; see the current release receipt for verification scope.
 - Historical benchmark acceptance remains unmet. The old missing-import audit
   and latency observations retain their exact dated scope.
 - Sanitized evidence retains usernames, absolute paths and session/tool IDs;
