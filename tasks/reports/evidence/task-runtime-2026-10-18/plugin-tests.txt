@@ -1,0 +1,15 @@
+
+> chronosgraph-opencode-local@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ project bridge rejects remote origins and wrong snapshot identity (1.413206ms)
+✔ metadata paths cannot escape selected worktree (0.301648ms)
+✔ actual git identity changes on tracked, staged and untracked edits (45.614514ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 149.704344

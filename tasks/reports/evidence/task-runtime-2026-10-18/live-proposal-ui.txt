@@ -1,0 +1,14 @@
+DESKTOP Task and evidence binding
+
+Task task_95e732a7984739fd94a1bd9d5dffc376
+Plan plan_40c3e46f74be49f08c68d234113e9609
+Run run_808e526ce1d3fac194164387de55a771
+Context pack pack_33f54cbfe5bc4b56b564de042308d63e
+
+Initial worktree overlay digest: abbf5bca70ca7e0506b62d98630dadd5695ed59b3a3f330fce903f052362a91e. Local plugin-reported identity; not a security attestation or proof the final checkout matches this proposal.
+
+Agent-declared rationale
+Docs-only change: add a docstring to client.py:timeout_result recording that existing queue workers (worker.py:should_retry) require the returned {'ok': False, 'reason': 'timeout'} envelope. ADR-002 (ACTIVE) mandates retaining that envelope, and INC-007 explains the retry branch bypass that motivated it; both govern any future exception migration. No runtime behavior, callers, tests, or policies are changed. Human approval remains pending.
+
+Current plan, captured source and policy pins are rechecked. Inspect this task in Agent activity to see harness receipts and usage; actual tests for this exact proposal are listed below.
+MOBILE_NO_OVERFLOW true PAGE_ERRORS []

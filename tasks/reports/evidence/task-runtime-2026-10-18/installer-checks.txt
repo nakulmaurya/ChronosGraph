@@ -1,0 +1,1 @@
+PASS: venv interpreter preserved; one-export plugin loader; create-only retry unchanged; live doctor CONFIG_AND_API_ONLY; symlinked implementation directory refused

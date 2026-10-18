@@ -1,0 +1,28 @@
+{
+  "runtime": [
+    {
+      "package": "@opencode-ai/plugin",
+      "version": "1.19.3",
+      "license": "MIT"
+    },
+    {
+      "package": "@opencode-ai/sdk",
+      "version": "1.19.3",
+      "license": "MIT"
+    }
+  ],
+  "development": [
+    {
+      "package": "typescript",
+      "version": "5.9.3",
+      "license": "Apache-2.0"
+    },
+    {
+      "package": "@types/node",
+      "version": "24.10.0",
+      "license": "MIT"
+    }
+  ],
+  "context_mode": "Not installed or integrated; planned optional component, no upstream implementation claimed",
+  "verification": "Installed manifests and package-lock.json; licenses are upstream package declarations"
+}

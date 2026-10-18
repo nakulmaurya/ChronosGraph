@@ -1,6 +1,12 @@
 # Current release status
 
-## Source and publication
+## Unpublished task-runtime integration checkpoint
+
+The current isolated checkout adds an opt-in OpenCode 1.19.3 task/context/event bridge and managed proposal evidence. See the [setup and compatibility boundary](../integrations/opencode/README.md) and [new verification report](../tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md). This is not a claim that `main` or any shared preview runs the checkpoint. Existing deployments were left unchanged.
+
+The sections below retain the earlier published release status and historical measurements. They do not describe the new checkpoint's test counts, adapter acceptance or deployment identity; the new report does. In particular, the old 506-import result remains historical evidence, not a claim that a freshly indexed snapshot still has that exact defect.
+
+## Historical source and publication
 
 `main` is the primary branch for the latest hackathon implementation. It integrates
 `build/final-hackathon-release`, including application baseline `479e987` and the

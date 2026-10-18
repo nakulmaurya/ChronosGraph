@@ -27,6 +27,13 @@ class ProposalInput(BaseModel):
     proposed_files: dict[str, str | None] = Field(min_length=1, max_length=20)
     idempotency_key: str = Field(min_length=1, max_length=128)
     client_id: str = Field(default='mcp-agent', min_length=1, max_length=128)
+    # Optional managed binding. All fields required together; legacy workflow retained.
+    task_id: str | None = None
+    plan_id: str | None = None
+    pack_id: str | None = None
+    agent_run_id: str | None = None
+    overlay_digest: str | None = Field(default=None, pattern=r'^[0-9a-f]{64}$')
+    declared_rationale: str | None = Field(default=None, max_length=2000)
 
 
 class DecisionInput(BaseModel):
@@ -105,6 +112,15 @@ def _fresh(tenant, p, expected):
         reason = 'STALE_SNAPSHOT'
     if not reason and policy_digest(tenant, list(json.loads(p['proposed_files_json']))) != p['policy_digest']:
         reason = 'STALE_POLICY'
+    if not reason and p.get('plan_id'):
+        from app.services.task_runtime import validate_binding
+        try:
+            validate_binding(tenant, expected, p['task_id'], p['plan_id'], p['pack_id'],
+                             p['agent_run_id'], p['overlay_digest'])
+        except HTTPException as exc:
+            if exc.status_code not in (404, 409):
+                raise
+            reason = 'STALE_TASK_CONTEXT'
     if reason:
         db_manager.query(tenant, '''MATCH (p:ChangeProposal {id:$id})
             SET p.status=$status,p.approved_proposal_hash=null''', {'id': p['id'], 'status': reason})
@@ -135,11 +151,23 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
         raise HTTPException(422, 'Title, request key and client must not be blank')
     with mutation_guard(tenant) as lock:
         _revision(tenant, req.expected_revision)
+        binding = [req.task_id, req.plan_id, req.pack_id, req.agent_run_id, req.overlay_digest]
+        managed = any(value is not None for value in binding)
+        if managed:
+            if not all(binding):
+                raise HTTPException(422, 'Managed proposals require task, plan, pack, run and overlay digest together')
+            if not req.declared_rationale or not req.declared_rationale.strip():
+                raise HTTPException(422, 'Managed proposals require a concise declared rationale, not hidden reasoning')
+            from app.services.task_runtime import validate_binding
+            validate_binding(tenant, req.expected_revision, *binding)
         hashes = _hashes(tenant, list(req.proposed_files))
         # None means absent at the base; additions are protected against later appearance.
         hashes = {p: hashes.get(p) for p in req.proposed_files}
         payload = {'tenant_graph': tenant, 'base_revision': req.expected_revision,
                    'base_file_shas': hashes, 'proposed_files': req.proposed_files}
+        if managed:
+            payload['managed_binding'] = binding
+            payload['declared_rationale'] = req.declared_rationale
         proposal_hash = digest(payload)
         found, _ = read(tenant, 'MATCH (p:ChangeProposal {idempotency_key:$key}) RETURN p', {'key': req.idempotency_key})
         if found:
@@ -161,6 +189,16 @@ def propose(req: ProposalInput, actor='MCP_AGENT'):
              'policy_digest': policy_digest(tenant, list(req.proposed_files)), 'status': 'PROPOSED',
              'touched_paths': sorted(req.proposed_files), 'created_at': int(time.time()), 'task_id': 'task_' + uuid.uuid4().hex,
              'agent_run_id': 'run_' + uuid.uuid4().hex}
+        if managed:
+            p.update(task_id=req.task_id, agent_run_id=req.agent_run_id, plan_id=req.plan_id,
+                     pack_id=req.pack_id, overlay_digest=req.overlay_digest,
+                     declared_rationale=req.declared_rationale or '', rationale_provenance='AGENT_DECLARED_NOT_HIDDEN_REASONING')
+            require_lease(lock)
+            db_manager.query(tenant, '''MATCH (r:ChangeAgentRun {id:$run}), (c:ContextPack {id:$pack})
+                CREATE (p:ChangeProposal) SET p=$props CREATE (r)-[:PROPOSED]->(p)
+                CREATE (p)-[:BASED_ON_CONTEXT]->(c)''',
+                {'props': p, 'run': req.agent_run_id, 'pack': req.pack_id})
+            return _public(tenant, p)
         require_lease(lock)
         db_manager.query(tenant, '''CREATE (p:ChangeProposal) SET p=$props
             CREATE (t:ChangeTask {id:$task,title:$title})-[:HAS_RUN]->

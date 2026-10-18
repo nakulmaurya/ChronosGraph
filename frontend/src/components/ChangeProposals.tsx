@@ -17,6 +17,12 @@ type Execution = {
 type Proposal = {
   id: string;
   task_title: string;
+  task_id?: string;
+  plan_id?: string;
+  pack_id?: string;
+  agent_run_id?: string;
+  overlay_digest?: string;
+  declared_rationale?: string;
   status: string;
   proposal_hash: string;
   base_revision: string;
@@ -344,6 +350,13 @@ export default function ChangeProposals({
       {p && impact && (
         <>
           <h3>{p.task_title}</h3>
+          {p.plan_id && <section className="wb-card" aria-label="Managed task evidence">
+            <h4>Task and evidence binding</h4>
+            <p>Task <code>{p.task_id}</code><br/>Plan <code>{p.plan_id}</code><br/>Run <code>{p.agent_run_id}</code><br/>Context pack <code>{p.pack_id}</code></p>
+            <p>Initial worktree overlay digest: <code>{p.overlay_digest}</code>. Local plugin-reported identity; not a security attestation or proof the final checkout matches this proposal.</p>
+            <p><strong>Agent-declared rationale</strong><br/>{p.declared_rationale || 'Not supplied; no hidden reasoning is inferred.'}</p>
+            <p>Current plan, captured source and policy pins are rechecked. Inspect this task in Agent activity to see harness receipts and usage; actual tests for this exact proposal are listed below.</p>
+          </section>}
           <p>
             Status: <strong>{p.status}</strong> —{" "}
             {proposalStatusLabel(p.status)}

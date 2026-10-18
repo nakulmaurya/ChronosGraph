@@ -1,6 +1,13 @@
 # ChronosGraph
 
-**A FalkorDB Change-Control Cockpit, Multi-Hop Context Layer, and Source-Bound Memory Engine for Coding Agents.**
+**A shared, revision-aware context and evidence layer for coding agents, with persistent memory and human review of exact proposed changes.**
+
+## Unpublished task-runtime checkpoint
+
+This checkout adds an opt-in **OpenCode 1.19.3** bridge: task → immutable plan → bounded context pack → actual harness events/usage → evidence-linked pending proposal. It is local trusted-client integration, **not an OS security layer or a general multi-agent scheduler**.
+
+[Exact setup, schema, recovery and compatibility](integrations/opencode/README.md) · [Witnessed checks and remaining work](tasks/reports/TASK-RUNTIME-OPENCODE-2026-10-18.md).
+The checkpoint is isolated from the existing deployments; it has not been pushed, merged or deployed to the shared preview. The release and benchmark text below describes the earlier published baseline, not a fresh result for this checkpoint.
 
 Your coding agent sees a function. You need to see the connected consequences.
 ChronosGraph brings both into one monochrome command center: explore a repository,

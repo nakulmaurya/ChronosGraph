@@ -1,0 +1,46 @@
+DURING_OWNED_API_OUTAGE [(13, 3)]
+
+  ┃                                                                                                 timeout_result TimeoutError
+  ┃  Investigate the requested change from timeout_result returning its current result to           migration acceptance
+  ┃  raising TimeoutError. This is our owned synthetic example, not an upstream incident. Use
+  ┃  the connected ChronosGraph MCP to check the current governing decision, its incident           Context
+  ┃  evidence and the declared review team. Read source only as needed. Do not edit files,          16,984 tokens
+  ┃  approve anything, or run repository code. Explain whether this change is acceptable now        8% used
+  ┃  and what evidence or review would be needed. Keep the final answer concise.                    $0.00 spent
+  ┃
+                                                                                                    MCP
+     + Thought: 143ms                                                                               • chronosgraph Connected
+
+     ⚙ chronosgraph_discover_repositories                                                           LSP
+                                                                                                    LSPs are disabled
+     + Thought: 1.9s
+
+     ⚙ chronosgraph_inspect_repository_snapshot [
+       tenant_graph=repo_task_acceptance_13a169912c4149978ffe88ef5d5b28b8,
+       expected_revision=7aeaa1c667c90017ff741887ecbe784fffdb3e0c]
+
+     ⚙ chronosgraph_query_bitemporal_decisions [question=What is the current governing decision
+       about timeout_result raising TimeoutError versus returning a result envelope, and which
+       was superseded?, tenant_graph=repo_task_acceptance_13a169912c4149978ffe88ef5d5b28b8,
+       expected_revision=7aeaa1c667c90017ff741887ecbe784fffdb3e0c, file_path=client.py]
+
+     ⠏ Thinking
+
+     ▣  Build · DeepSeek V4.1 Flash Free
+                                                                                                      ⬖ Getting started                ✕
+
+                                                                                                        OpenCode includes free models
+                                                                                                        so you can start immediately.
+
+                                                                                                        Connect from 75+ providers to
+                                                                                                        use other models, including
+                                                                                                        Claude, GPT, Gemini etc
+
+                                                                                                        Connect provider        /connect
+  ┃
+  ┃
+  ┃                                                                                                 /tmp/chronos-task-acceptance.6Si4H2/
+  ┃  Build · DeepSeek V4.1 Flash Free OpenCode                                                      repo:master
+  ╹▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   ⬝⬝⬝⬝⬝⬝■■  esc interrupt                                           17.0K (8%)  ctrl+p commands    • OpenCode 1.19.3
+

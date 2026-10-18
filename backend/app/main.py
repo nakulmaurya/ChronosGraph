@@ -325,3 +325,7 @@ class CommandPolicyInput(PolicyOverrideRequest):
 def command_policy(body: CommandPolicyInput, request: Request):
     proposal_operator(request)
     return override_policy(body, expected_revision=body.expected_revision)
+
+# Additive local-only integration; existing MCP/proposal routes remain supported.
+from app.task_api import router as task_router
+app.include_router(task_router)

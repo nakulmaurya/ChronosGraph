@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Activity, ArrowLeft, GitBranch, Search, ShieldCheck, Terminal } from "lucide-react";
 import { request } from "@/lib/api";
 import OrganizationEvidence from "./OrganizationEvidence";
+import TaskRuntime from "./TaskRuntime";
 import GitHubImportGuide from "./GitHubImportGuide";
 import { finalStateInput, formatBytes, queryString } from "@/lib/workbench";
 import type { Brain, Subgraph, Tenant } from "@/lib/types";
@@ -240,6 +241,7 @@ export default function Workbench({ fixedTenant = "", defaultView = 0, fixedPath
           </section>}
         </>}
         {view === 3 && <>
+          <TaskRuntime tenant={tenant} revision={snapshot?.source_revision || ""} target={path} />
           <h2><Activity size={20} />Agent activity & memory</h2><p>Actual ChronosGraph MCP invocations only, refreshed every 2 seconds. Browser REST reads are not agent events.</p>
           {pollError && <p role="alert" className="wb-error">{pollError}</p>}
           {!events.length && <p>No recorded MCP calls for this repository. Connect the T-09 stdio server to an agent to populate this timeline.</p>}

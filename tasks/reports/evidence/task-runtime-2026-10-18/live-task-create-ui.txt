@@ -1,0 +1,22 @@
+Task → plan → context → agent run
+
+Local trusted-client integration for OpenCode 1.19.3. An idle agent is not a successful task. MCP-only activity remains separate below.
+
+Task objective
+Acceptance checks (one per line)
+
+Exact context target: client.py
+
+Create task and bounded context pack
+Resume task ID
+Review the retained timeout envelope
+
+Task task_ec1edd8db3e73aa7ae9344e83b4d7852
+Current plan plan_dc80b9c4b44845f19d6d6bfb8ad22aee
+
+Immutable plan v1 · current
+
+No bound harness run yet. Generating configuration is not proof of connection.
+
+Bounded context pack and setup identity
+PASS actual UI task creation and bounded pack, no harness connection inferred

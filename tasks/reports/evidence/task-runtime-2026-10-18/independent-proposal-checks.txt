@@ -1,0 +1,21 @@
+{
+  "proposal_id": "prop_60faf09d225f4b048cf5f80808437e25",
+  "status": "PROPOSED",
+  "task_id": "task_95e732a7984739fd94a1bd9d5dffc376",
+  "plan_id": "plan_40c3e46f74be49f08c68d234113e9609",
+  "pack_id": "pack_33f54cbfe5bc4b56b564de042308d63e",
+  "agent_run_id": "run_808e526ce1d3fac194164387de55a771",
+  "session_id": "ses_eb1e6e252ffeY5X3v0DIAXGDOm",
+  "proposal_hash": "b4c95e7b8b27e84f18eed552d77188bdb3c4944aeaed38dc95ffa3fcbfa694c2",
+  "file_sha256": "183696ff8d64b0c4a7a5be4806a5e95fe61fd4d8f91596cccdf45f9d6453c1d0",
+  "checks": [
+    "actual proposal equals edited full file",
+    "AST unchanged excluding docstrings",
+    "only client.py changed",
+    "no approval or execution",
+    "managed task/plan/pack/run match",
+    "no event sequence gaps"
+  ]
+}
+.                                                                        [100%]
+1 passed in 0.01s

@@ -1,0 +1,294 @@
+ChronosGraph / Workspace
+Local workspace
+Connect agent
+Import repository
+REPOSITORY COMMAND CENTER
+FalkorDB/falkordb-py · legacy · kordb_py
+FalkorDB/GraphRAG-SDK · legacy · hrag_sdk
+FalkorDB/code-graph · 2a7a52c0 · de_graph
+modelcontextprotocol/python-sdk · 754254c0 · thon_sdk
+repo · 7aeaa1c6 · 5d5b28b8
+repo · 32497893 · e3ee6f0d
+repo · d94625e4 · 5c90be87
+source · 754254c0 · 03e9e2c9
+source · 754254c0 · b0914005
+source · 754254c0 · 7a926593
+source · 754254c0 · bf2fbf03
+source · 754254c0 · 4f810f99
+source · 754254c0 · 8c93f8c3
+source · 754254c0 · 480350af
+source · 754254c0 · df2df881
+source · 754254c0 · 5560f32e
+source · 754254c0 · 5164014f
+source · 754254c0 · 69c618fe
+source · 754254c0 · ffad99c5
+source · 754254c0 · d3502222
+source · 754254c0 · dc601f90
+source · 754254c0 · 83ec92ba
+source · 754254c0 · 8d8ca681
+source · 754254c0 · 2718b0f9
+source · 754254c0 · 05dd3b2f
+source · 754254c0 · eda6f5d3
+source · 754254c0 · 4eea74ac
+source · 754254c0 · 5a51bd87
+source · 754254c0 · aed939d2
+source · 754254c0 · cca05f75
+source · 754254c0 · bf9395a4
+source · 754254c0 · a6ac9af1
+source · 754254c0 · 79042c42
+source · 754254c0 · 162f1ef9
+source · 754254c0 · 1af27e41
+source · 754254c0 · ea2dbaa7
+source · 754254c0 · cef8e3c9
+source · 754254c0 · 07a5324d
+source · 754254c0 · d4a5f0f5
+source · 754254c0 · 0601f6bc
+source · 754254c0 · 091dd20c
+source · 754254c0 · dd5a36dd
+source · 754254c0 · ac04b1b8
+source · acbb9f4c · 2a2950d2
+source · 31f2723f · e6cc9120
+Pinned version
+7aeaa1c6
+Saved snapshot
+
+UI build unrecorded · API build unrecorded · Build parity unverified. Saved source 7aeaa1c6.
+
+Repository
+Changes
+History
+Ownership
+Agent activity
+Copy workspace link
+Demo & wiki
+Your codebase. Connected.
+
+Find your way through the code, then see what a change could affect.
+
+9
+tracked files
+3
+functions
+0
+classes
+EXPLORER
+9
+↵
+.chronosgraph
+1
+.gitignore
+CODEOWNERS
+client.py
+docs
+2
+incidents
+1
+tests
+1
+worker.py
+File inventory · Python analysis
+Repository
+client.py
+Dependencies
+Functions
+Graph
+Table
+imports
+imports
+◇ client.py
+client.py
+◇ test_contract.py
+tests/test_contract.py
+◇ worker.py
+worker.py
+React Flow
+Scroll to zoom · drag to explore · select a node to inspect
+Incoming ← selected file → imported dependencies
+Pinned graph data
+FILE INSPECTOR
+client.py
+
+client.py
+
+3 lines
+1 definitions
+Plan a change to this file
+What depends on this
+2
+
+These files import the selected file.
+
+tests/test_contract.py
+worker.py
+Imports
+0
+
+No resolved local imports.
+
+Functions & classes
+1
+timeout_result
+L
+INPUT task_a20a8f00470a846021fb06f549b35311
+RUNTIME_DEBUG Task → plan → context → agent run
+
+Local trusted-client integration for OpenCode 1.19.3. An idle agent is not a successful task. MCP-only activity remains separate below.
+
+Task objective
+Acceptance checks (one per line)
+
+Exact context target: client.py
+
+Create task and bounded context pack
+Resume task ID
+Investigate synthetic timeout compatibility
+
+Task task_a20a8f00470a846021fb06f549b35311
+Current plan plan_ac310c0c85e9490a9cf872031afc79f8
+
+Immutable plan v1 · current
+IDLE_NOT_SUCCESS
+
+PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF
+
+Session ses_eb1f1a697ffe3vd7su2LSYzqlM
+Run run_9c5215a184765322579646fbbfda4ff7
+Context pack_4d26f28e43644af3aa631876bd2047d8
+
+OpenCode-reported usage categories · not a billing total
+
+#1 SESSION_CREATED
+
+#2 CONTEXT_DELIVERED
+
+#3 USAGE
+
+#4 TOOL_STARTED chronosgraph_discover_repositories
+
+#5 TOOL_COMPLETED chronosgraph_discover_repositories
+
+#6 USAGE
+
+#7 USAGE
+
+#8 TOOL_STARTED chronosgraph_inspect_repository_snapshot
+
+#9 TOOL_STARTED chronosgraph_query_bitemporal_decisions
+
+#10 TOOL_COMPLETED chronosgraph_inspect_repository_snapshot
+
+#11 TOOL_COMPLETED chronosgraph_query_bitemporal_decisions
+
+#12 USAGE
+
+#13 USAGE
+
+#14 TOOL_STARTED chronosgraph_get_symbol_source
+
+#15 TOOL_STARTED chronosgraph_get_symbol_source
+
+#16 TOOL_STARTED chronosgraph_get_symbol_source
+
+#17 TOOL_COMPLETED chronosgraph_get_symbol_source
+
+#18 TOOL_COMPLETED chronosgraph_get_symbol_source
+
+#19 TOOL_COMPLETED chronosgraph_get_symbol_source
+
+#20 USAGE
+
+#21 USAGE
+
+#22 USAGE
+
+#23 IDLE
+
+#24 USAGE
+
+#25 USAGE
+
+#26 COMPACTED
+
+#27 IDLE
+DESKTOP Task → plan → context → agent run
+
+Local trusted-client integration for OpenCode 1.19.3. An idle agent is not a successful task. MCP-only activity remains separate below.
+
+Task objective
+Acceptance checks (one per line)
+
+Exact context target: client.py
+
+Create task and bounded context pack
+Resume task ID
+Investigate synthetic timeout compatibility
+
+Task task_a20a8f00470a846021fb06f549b35311
+Current plan plan_ac310c0c85e9490a9cf872031afc79f8
+
+Immutable plan v1 · current
+IDLE_NOT_SUCCESS
+
+PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF
+
+Session ses_eb1f1a697ffe3vd7su2LSYzqlM
+Run run_9c5215a184765322579646fbbfda4ff7
+Context pack_4d26f28e43644af3aa631876bd2047d8
+
+OpenCode-reported usage categories · not a billing total
+
+#1 SESSION_CREATED
+
+#2 CONTEXT_DELIVERED
+
+#3 USAGE
+
+#4 TOOL_STARTED chronosgraph_discover_repositories
+
+#5 TOOL_COMPLETED chronosgraph_discover_repositories
+
+#6 USAGE
+
+#7 USAGE
+
+#8 TOOL_STARTED chronosgraph_inspect_repository_snapshot
+
+#9 TOOL_STARTED chronosgraph_query_bitemporal_decisions
+
+#10 TOOL_COMPLETED chronosgraph_inspect_repository_snapshot
+
+#11 TOOL_COMPLETED chronosgraph_query_bitemporal_decisions
+
+#12 USAGE
+
+#13 USAGE
+
+#14 TOOL_STARTED chronosgraph_get_symbol_source
+
+#15 TOOL_STARTED chronosgraph_get_symbol_source
+
+#16 TOOL_STARTED chronosgraph_get_symbol_source
+
+#17 TOOL_COMPLETED chronosgraph_get_symbol_source
+
+#18 TOOL_COMPLETED chronosgraph_get_symbol_source
+
+#19 TOOL_COMPLETED chronosgraph_get_symbol_source
+
+#20 USAGE
+
+#21 USAGE
+
+#22 USAGE
+
+#23 IDLE
+
+#24 USAGE
+
+#25 USAGE
+
+#26 COMPACTED
+
+#27 IDLE
+MOBILE_WIDTH { viewport: 390, document: 390 }
+PAGE_ERRORS []

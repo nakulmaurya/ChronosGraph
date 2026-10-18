@@ -13,3 +13,6 @@ dist/
 
 # Machine-specific OpenCode paths/permissions; never commit local credentials.
 opencode.local.json
+
+# Project-local harness receipts/config (may contain private task metadata)
+.chronosgraph-local/
