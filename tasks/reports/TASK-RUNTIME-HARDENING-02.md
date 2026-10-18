@@ -1,5 +1,7 @@
 # Task-runtime hardening 02 — checkpoint handoff, not final release certification
 
+> Historical pre-reboot checkpoint. Later [tasks 3–5 verification](TASKS-03-04-05-2026-10-18.md) supersedes the whole-native blocker and records a new reconstructed pending proposal; it does not restore the old candidate or complete reviewer/browser/comparison work.
+
 Code checkpoint: `ebb747d` on `build/task-context-opencode-integration`, following `d86db9a` (A/B) and `9bf4e0f` (C/D/E/G). No push, merge, deployment replacement or human approval was performed.
 
 ## Outcome by requirement

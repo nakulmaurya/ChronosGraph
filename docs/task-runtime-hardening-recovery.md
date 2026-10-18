@@ -24,7 +24,13 @@ Transitions: PENDING → CLAIMED → RETURNED; RETURNED → CORRECTION_REQUESTED
 
 These are serialized trusted-client declarations, **not authenticated ownership, durable worker leases, distributed scheduling or OS filesystem restrictions**. Ordinary shell edits outside mediated proposal capture are advisory. Do not run two writers in the same worktree. Actual parent sessions are linked only when the harness reports an explicit parent; separate top-level sessions use explicit assignment predecessor records, not invented parent IDs.
 
-## Recover the interrupted checkpoint
+## Current recovery override — tasks 3–5 completed
+
+The VM reboot removed the old `/tmp` roots. Do not follow historical pointer/digest steps below as if those files still exist. The new [tasks 3–5 report](../tasks/reports/TASKS-03-04-05-2026-10-18.md) is authoritative for recovered verification. Persistent VM root is selected by `~/chronos-work/LAST_PREREQUISITES`; its `TASK3_ROOT` points to the new reconstruction, with complete candidate files and receipts also copied off-VM. It is not the old run.
+
+New proposal `prop_64084206f032410a923823abd797e75b` is PROPOSED, candidate digest `466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982`; worker RETURNED, no approval/execution. Native 403, plugin 19, frontend 37, typechecks and build passed at `8e83804`. Do not launch fresh reviewer, comparison or deployment without the next authorization. The Task 3 API is loopback 8015; its PID/log and owned graph binding are under the persistent Task 3 root. Idle OpenCode is not task success.
+
+## Historical recovery instructions — pre-reboot, not current state
 
 1. Check SSH access; do not reboot shared services as a first step. Pending command outcome is unknown while disconnected.
 2. Read `/tmp/chronos-behavioral-handoff-root` and `/tmp/chronos-public-pilot-v2-root`; inspect tmux panes, local state, API receipts and supported OpenCode exports before sending any prompt.

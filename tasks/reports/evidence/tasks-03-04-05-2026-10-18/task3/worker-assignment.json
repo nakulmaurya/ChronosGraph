@@ -1,0 +1,31 @@
+{
+  "tenant_graph": "repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee",
+  "expected_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+  "plan_id": "plan_b2481e86f777458ab609224836495caf",
+  "pack_id": "pack_44db4093d43a4ebfbf3f9b2a4cc16fcd",
+  "run_id": "run_4f194b9967e6afbf3a6232a90b9319f6",
+  "owner": "task3-new-reconstruction-worker",
+  "role": "WORKER",
+  "deliverable": "Complete three-file optional retry_after candidate, tests and evidence-linked pending proposal; no approval",
+  "allowed_paths": [
+    "client.py",
+    "worker.py",
+    "tests/test_retry_after.py"
+  ],
+  "acceptance": [
+    "Preserve default/None envelope and retry behavior",
+    "Validate keyword-only nonnegative integer delay excluding bool",
+    "Test forwarding and both controlled dependency ok branches",
+    "Independent frozen acceptance checks pass; complete candidate manifest"
+  ],
+  "id": "assignment_37c364ea14474ac1a9b139bc0c5aa0d8",
+  "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+  "worktree_id": "3293c2691fc09ca05685246a159cf4424673ad2805e01bbc6b2037ab2b7e4012",
+  "status": "CLAIMED",
+  "version": 1,
+  "claim_version": 1,
+  "created_at": 1792326437,
+  "reports_json": "[{\"action\":\"CLAIM\",\"claim_version\":1,\"evidence_ids\":[],\"expected_revision\":\"fabe543f8f010433a58f93d8cb7698f77e39e6b0\",\"expected_version\":0,\"observed_at\":1792326437,\"owner\":\"task3-new-reconstruction-worker\",\"provenance\":\"LOCAL_CLIENT_DECLARED_NOT_TEST_ATTESTATION\",\"report\":\"New reconstruction explicitly claimed after managed context delivery; original lost experiment remains historical.\",\"tenant_graph\":\"repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee\",\"unresolved\":[],\"version\":1}]",
+  "coordination_basis": "SERIALIZED_ONE_ACTIVE_ASSIGNMENT_PER_TASK_NO_WORKER_LEASE",
+  "path_boundary": "ADVISORY_OUTSIDE_MEDIATED_PROPOSAL_CAPTURE"
+}

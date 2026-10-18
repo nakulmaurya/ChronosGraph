@@ -1,0 +1,37 @@
+
+> chronosgraph-opencode-local@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ project bridge rejects remote origins and wrong snapshot identity (1.278065ms)
+✔ metadata paths cannot escape selected worktree (0.277487ms)
+✔ actual git identity changes on tracked, staged and untracked edits (50.663797ms)
+✔ C: clean start refuses dirty state without losing user files; observed add/edit/delete is complete (86.049479ms)
+✔ C: concurrent edits, wrong HEAD and binary candidates fail closed (46.293046ms)
+✔ A: receipt upload failure after pack fetch must not abort the first context-bearing turn (144.766604ms)
+FAULT_HOOK_OVERHEAD_MS 2.0152870000000007
+✔ B: slow telemetry must not be on the ordinary tool critical path (250ms fault-test budget) (451.999457ms)
+✔ B: two plugin writers cannot mutate the same project state concurrently (20.187436ms)
+✔ A: same-message retry is duplicate-free; later turn skips only after SDK persistence evidence (72.205848ms)
+✔ A: restart without host confirmation reinjects; persisted message reconciles on next restart (155.972445ms)
+✔ A: stale pack refuses chat and managed proposal; compaction is bounded per output (56.120154ms)
+✔ B: outage queue survives restart and eventually drains without changing event identity (348.228268ms)
+✔ B: permanent rejected head is quarantined, later events drain; stale binding stops visibly (134.889099ms)
+✔ B: retention exhaustion preserves originals, explicitly counts unobserved; dispose is bounded (723.685512ms)
+✔ B: kernel lock excludes another process and releases after abrupt process death (286.957936ms)
+✔ E: completed steps replay stably; message costs reconcile without duplicating step usage (133.489186ms)
+✔ C: factory rejects dirty start; proposal hook captures every observed source change (202.182099ms)
+HOOK_MEASUREMENT_JSON={"basis":"actual factory + real local files + controlled HTTP fault fixture; not agent/model timing","budget_ms":250,"samples":[{"mode":"healthy","sample":1,"elapsed_ms":1.3101830000000518},{"mode":"healthy","sample":2,"elapsed_ms":1.5062160000002223},{"mode":"healthy","sample":3,"elapsed_ms":1.8959899999999834},{"mode":"healthy","sample":4,"elapsed_ms":1.318749999999909},{"mode":"healthy","sample":5,"elapsed_ms":1.424282999999832},{"mode":"healthy","sample":6,"elapsed_ms":1.5556400000000394},{"mode":"healthy","sample":7,"elapsed_ms":1.654602000000068},{"mode":"healthy","sample":8,"elapsed_ms":1.0208589999997457},{"mode":"healthy","sample":9,"elapsed_ms":1.487152000000151},{"mode":"healthy","sample":10,"elapsed_ms":1.5227890000001025},{"mode":"healthy","sample":11,"elapsed_ms":0.9847759999997834},{"mode":"healthy","sample":12,"elapsed_ms":1.4820079999999507},{"mode":"healthy","sample":13,"elapsed_ms":2.2447620000002644},{"mode":"healthy","sample":14,"elapsed_ms":1.2345919999997932},{"mode":"healthy","sample":15,"elapsed_ms":1.4837579999998525},{"mode":"healthy","sample":16,"elapsed_ms":1.3635340000000724},{"mode":"healthy","sample":17,"elapsed_ms":1.69156699999985},{"mode":"healthy","sample":18,"elapsed_ms":1.7814040000002933},{"mode":"healthy","sample":19,"elapsed_ms":1.9655389999998079},{"mode":"healthy","sample":20,"elapsed_ms":1.2679549999998017},{"mode":"outage","sample":1,"elapsed_ms":1.4778160000000753},{"mode":"outage","sample":2,"elapsed_ms":0.6392319999999927},{"mode":"outage","sample":3,"elapsed_ms":0.6032790000003843},{"mode":"outage","sample":4,"elapsed_ms":0.6259700000000521},{"mode":"outage","sample":5,"elapsed_ms":0.47006599999986065},{"mode":"outage","sample":6,"elapsed_ms":0.366935999999896},{"mode":"outage","sample":7,"elapsed_ms":0.47027299999990646},{"mode":"outage","sample":8,"elapsed_ms":0.42742400000042835},{"mode":"outage","sample":9,"elapsed_ms":0.37172800000007555},{"mode":"outage","sample":10,"elapsed_ms":0.36170799999990777},{"mode":"outage","sample":11,"elapsed_ms":0.40184199999976045},{"mode":"outage","sample":12,"elapsed_ms":0.4197140000001127},{"mode":"outage","sample":13,"elapsed_ms":0.4143349999999373},{"mode":"outage","sample":14,"elapsed_ms":0.3890340000002652},{"mode":"outage","sample":15,"elapsed_ms":0.3750100000002021},{"mode":"outage","sample":16,"elapsed_ms":0.46212900000000445},{"mode":"outage","sample":17,"elapsed_ms":0.5601999999998952},{"mode":"outage","sample":18,"elapsed_ms":0.500981000000138},{"mode":"outage","sample":19,"elapsed_ms":0.513274000000365},{"mode":"outage","sample":20,"elapsed_ms":0.6584069999998974}]}
+✔ B measurement: same-machine ordinary tool hook samples (fault fixture, not provider timing) (570.272769ms)
+✔ F: late explicit parent survives an already-created local run (126.6335ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4611.935067
+
+> chronosgraph-opencode-local@0.1.0 typecheck
+> tsc --noEmit
+

@@ -1,0 +1,22 @@
+{
+  "tenant_graph": "repo_task3_reconstruction_2032d410f5b7442d9eb4af2529d41cee",
+  "expected_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+  "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+  "plan_id": "plan_b2481e86f777458ab609224836495caf",
+  "pack_id": "pack_44db4093d43a4ebfbf3f9b2a4cc16fcd",
+  "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+  "reconstruction": true,
+  "historical_base_revision": "b9c6e297861b6a813a3174f88297c52f290c6602",
+  "historical_base_files_hash_matched": [
+    ".chronosgraph/organization.json",
+    "client.py",
+    "docs/ADR-001.md",
+    "docs/ADR-002.md",
+    "incidents/INC-007.md",
+    "tests/test_contract.py",
+    "worker.py"
+  ],
+  "historical_candidate_digest": "e6693fb0e9e0089f36601496442e04e0fdfcc8cb7fbb7024796e1f50aca53e31",
+  "provenance": "NEW_RECONSTRUCTION_NOT_RESTORED_ORIGINAL_AGENT_RUN",
+  "created_at_utc": "2026-10-18T12:22:33.064005+00:00"
+}

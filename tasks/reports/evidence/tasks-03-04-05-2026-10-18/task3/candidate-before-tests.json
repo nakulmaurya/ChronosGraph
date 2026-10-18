@@ -1,0 +1,32 @@
+{
+  "manifest": {
+    "schema_version": 1,
+    "base_revision": "fabe543f8f010433a58f93d8cb7698f77e39e6b0",
+    "entries": [
+      {
+        "path": "client.py",
+        "operation": "MODIFY",
+        "base_sha256": "0606750cfac544988e19204c945a74391effe821ead28bc731ddbdc21def7be6",
+        "result_sha256": "774acc12cb587a346b641ddcfedc4bf1442ebd49a93a3059c22410d0f4baae20"
+      },
+      {
+        "path": "tests/test_retry_after.py",
+        "operation": "ADD",
+        "base_sha256": null,
+        "result_sha256": "6ccb6aab227f9cdbdd5a994f17797a3aa7df59be3d70a96ffd119933ce50b500"
+      },
+      {
+        "path": "worker.py",
+        "operation": "MODIFY",
+        "base_sha256": "a593c5ee231ba22f811e3add721b3272bffd180507745b48d0d520f8b7e37c67",
+        "result_sha256": "0f293543ec0a8015bcc98c575f485c2f9110ce0cc98d81b5bfb7e763e2f29f51"
+      }
+    ]
+  },
+  "files": {
+    "client.py": "\"\"\"Owned synthetic organization example, not a reported upstream defect.\"\"\"\ndef timeout_result(*, retry_after=None):\n    result = {'ok': False, 'reason': 'timeout'}\n    if retry_after is None:\n        return result\n    if isinstance(retry_after, bool) or not isinstance(retry_after, int):\n        raise TypeError('retry_after must be a nonnegative int')\n    if retry_after < 0:\n        raise ValueError('retry_after must be nonnegative')\n    result['retry_after'] = retry_after\n    return result\n",
+    "tests/test_retry_after.py": "import pytest\n\nimport client\nimport worker\n\n\ndef test_default_returns_exact_envelope():\n    assert client.timeout_result() == {'ok': False, 'reason': 'timeout'}\n\n\ndef test_none_returns_exact_envelope():\n    assert client.timeout_result(retry_after=None) == {\n        'ok': False, 'reason': 'timeout'}\n\n\ndef test_zero_adds_retry_after():\n    assert client.timeout_result(retry_after=0) == {\n        'ok': False, 'reason': 'timeout', 'retry_after': 0}\n\n\ndef test_positive_adds_retry_after():\n    assert client.timeout_result(retry_after=5) == {\n        'ok': False, 'reason': 'timeout', 'retry_after': 5}\n\n\n@pytest.mark.parametrize('value', [True, False, 1.5, '3', [1], object()])\ndef test_nonint_retry_after_raises_type_error(value):\n    with pytest.raises(TypeError):\n        client.timeout_result(retry_after=value)\n\n\ndef test_negative_retry_after_raises_value_error():\n    with pytest.raises(ValueError):\n        client.timeout_result(retry_after=-1)\n\n\ndef test_timeout_result_retry_after_is_keyword_only():\n    with pytest.raises(TypeError):\n        client.timeout_result(3)\n\n\ndef test_should_retry_retry_after_is_keyword_only():\n    with pytest.raises(TypeError):\n        worker.should_retry(3)\n\n\ndef test_should_retry_forwards_retry_after(monkeypatch):\n    seen = {}\n\n    def fake(*, retry_after=None):\n        seen['retry_after'] = retry_after\n        return {'ok': False, 'reason': 'timeout'}\n\n    monkeypatch.setattr(worker, 'timeout_result', fake)\n    assert worker.should_retry(retry_after=7) is True\n    assert seen['retry_after'] == 7\n\n\ndef test_should_retry_forwarded_default_is_none(monkeypatch):\n    seen = {}\n\n    def fake(*, retry_after=None):\n        seen['retry_after'] = retry_after\n        return {'ok': False, 'reason': 'timeout'}\n\n    monkeypatch.setattr(worker, 'timeout_result', fake)\n    assert worker.should_retry() is True\n    assert seen['retry_after'] is None\n\n\ndef test_should_retry_ok_false_branch(monkeypatch):\n    monkeypatch.setattr(\n        worker, 'timeout_result',\n        lambda *, retry_after=None: {'ok': False, 'reason': 'timeout'})\n    assert worker.should_retry() is True\n\n\ndef test_should_retry_ok_true_branch(monkeypatch):\n    monkeypatch.setattr(\n        worker, 'timeout_result',\n        lambda *, retry_after=None: {'ok': True, 'reason': 'timeout'})\n    assert worker.should_retry() is False\n",
+    "worker.py": "from client import timeout_result\n\ndef should_retry(*, retry_after=None):\n    return not timeout_result(retry_after=retry_after)['ok']\n"
+  },
+  "digest": "466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982"
+}
