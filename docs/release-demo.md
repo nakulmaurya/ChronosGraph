@@ -6,7 +6,7 @@ This is a read-only walkthrough of a working application with a **prepared owned
 synthetic organization/incident** and persisted actual agent activity. It is not
 a new live model run, new test execution, human approval or merged candidate.
 
-## Primary: real-bug demonstration
+## Real-bug case study
 
 [Watch the 3:26 real-bug cut](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4) ·
 [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.srt) ·
@@ -18,6 +18,23 @@ source `6896183` and compared with fixed `44bb68b`. Plan changes and the failed
 replacement response are controlled browser-only regression inputs; they are
 not persistent project changes or a new coding-agent execution. The cut uses
 local Kokoro stock voice `af_heart`. See the [exact regression scope](context-integrity-regression.md).
+
+## Continuous product-UI alternative
+
+[Watch the continuous UI cut · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.mp4) ·
+[Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.srt) ·
+[Script](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo-script.md) ·
+[Source manifest](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo-evidence.md).
+
+Actual browser interaction is retained throughout, with edited pacing and
+minimal labels/captions, rather than screenshot or architecture cards. Native
+1560×1000 UI footage is preserved with a label/caption area (1560×1140 export),
+not distorted into 16:9. Narration uses local Kokoro `af_heart`.
+
+This cut shows the prepared synthetic task, not the separate real frontend bug.
+It is **not** a matching OpenCode terminal/UI split-screen. No matching terminal
+recording was available; older sessions are not spliced in as this task. The
+published alternatives do not claim that unavailable format was completed.
 
 ## Supporting connected workflow
 

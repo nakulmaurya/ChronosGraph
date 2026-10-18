@@ -13,12 +13,17 @@ a change, review linked evidence, and retain control over approval.
 
 [![ChronosGraph captured dependency graph and file inspector](docs/assets/chronosgraph-connected-review.png)](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
 
-**[Watch the real-bug demonstration · Kokoro narration · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4)** · [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.srt) · [Script](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-script.md)
+**[Real-bug case study · Kokoro narration · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4)** · [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.srt) · [Script](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-script.md)
 
 A real ChronosGraph stale-context bug, reproduced on the old build and rejected
 by the fixed build using clearly labeled controlled browser regression inputs.
 [Exact source versions and verification](docs/context-integrity-regression.md).
 This is not a FalkorDB engine fix or a new live coding-agent run.
+
+[Continuous product-UI walkthrough · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.mp4) · [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.srt).
+This alternative shows actual navigation, not a slide deck. It is a prepared
+synthetic workflow with recorded agent evidence, not a matching OpenCode
+terminal/UI split-screen or a new live run.
 
 [Connected workflow · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4) ·
 [All recording sources, captions and evidence manifests](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission).

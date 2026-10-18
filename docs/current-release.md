@@ -49,7 +49,7 @@ review evidence do not grant human approval or prove complete harness telemetry.
 
 ## Demonstration and real-bug evidence
 
-**[Primary video: the real stale-context bug, before and after · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4).**
+**[Real-bug case study: the stale-context bug, before and after · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4).**
 Local Kokoro narration, captions, reusable recorder and source manifest accompany
 actual old/fixed UI footage. Controlled regression inputs are explicitly labeled.
 
@@ -59,6 +59,11 @@ actual old and fixed source builds under controlled browser-only inputs. Both
 failure modes reproduced before the fix and rejected old context after it.
 A fresh frontend rerun passed all 47 existing tests; no historical counts are
 combined. No database writes, model runs or candidate approvals were performed.
+
+A distinct [continuous product-UI alternative · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-interactive-demo.mp4)
+preserves actual browser interaction rather than a slide-based edit. Its prepared
+synthetic records are labeled. Matching OpenCode terminal/current-task footage
+was unavailable; this is not claimed as a completed dual-pane live-agent demo.
 
 A separate [4:34 Kokoro-narrated connected workflow](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4)
 shows the prepared synthetic project and recorded actual agent activity.
