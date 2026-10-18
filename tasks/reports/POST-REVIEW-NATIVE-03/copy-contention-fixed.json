@@ -1,0 +1,32 @@
+{
+  "scope": "DISPOSABLE_NATIVE_AOF_CONTENTION",
+  "runs": [
+    {
+      "raw_copy": "NATIVE_FORK_REFUSED",
+      "bounded_copy": "PASS",
+      "elapsed_ms": 212.181
+    },
+    {
+      "raw_copy": "NATIVE_FORK_REFUSED",
+      "bounded_copy": "PASS",
+      "elapsed_ms": 236.904
+    },
+    {
+      "raw_copy": "NATIVE_FORK_REFUSED",
+      "bounded_copy": "PASS",
+      "elapsed_ms": 238.207
+    },
+    {
+      "raw_copy": "NATIVE_FORK_REFUSED",
+      "bounded_copy": "PASS",
+      "elapsed_ms": 328.214
+    },
+    {
+      "raw_copy": "NATIVE_FORK_REFUSED",
+      "bounded_copy": "PASS",
+      "elapsed_ms": 228.972
+    }
+  ],
+  "persistence_enabled": 1,
+  "cleanup": "PASS"
+}

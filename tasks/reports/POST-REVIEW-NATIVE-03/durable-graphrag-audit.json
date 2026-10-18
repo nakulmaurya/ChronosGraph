@@ -1,0 +1,17 @@
+{
+  "source_digest": "e278cb5fa9df2f5d98a9519e5268154cc302c5f1a2ca9ff884d6e44c833f0dfb",
+  "file_count": 154,
+  "revision": [],
+  "audit": {
+    "oracle": "stdlib AST, unambiguous absolute module paths only; not runtime ground truth",
+    "eligible_files": 134,
+    "excluded_files": 20,
+    "expected_edges": 506,
+    "indexed_edges_in_scope": 506,
+    "true_positive_edges": 506,
+    "precision": 1.0,
+    "recall": 1.0,
+    "missing_edges": [],
+    "extra_edges": []
+  }
+}

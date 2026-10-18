@@ -65,7 +65,7 @@ def reduction(total, selected):
 def owned_copy(tenant):
     """All service mutations target an owned graph, with verified finally cleanup."""
     name = 'repo_test_workflow_' + uuid.uuid4().hex
-    graph = db_manager.get_graph(tenant).copy(name)
+    graph = db_manager.copy_graph(tenant, name)
     try:
         yield name, graph
     finally:
@@ -232,7 +232,7 @@ def evaluate_repository(tenant, samples=20):
         for _ in range(3):
             name = 'repo_test_workflow_clone_'+uuid.uuid4().hex
             start = time.perf_counter()
-            clone = graph.copy(name)
+            clone = db_manager.copy_graph(owned, name)
             clone_samples.append((time.perf_counter()-start)*1000)
             try:
                 assert clone.ro_query('MATCH (n) RETURN count(n)').result_set[0][0] == counts['nodes']

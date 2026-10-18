@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Activity, ArrowLeft, ArrowUpRight, Box, ChevronRight, Code2, FileCode2, Folder, GitBranch, GitCommitHorizontal, Layers, Network, Plus, Search, Shield, Terminal, X } from "lucide-react";
+import { buildPairing, pinnedCommit } from "@/lib/release";
 import { request, safeUrl } from "@/lib/api";
 import { queryString } from "@/lib/workbench";
 import { breadcrumbParent, boundedMapNotice, type RepositoryMap, type FileDetail, type HistoryData } from "@/lib/command-center";
@@ -44,6 +45,10 @@ type Source = {
 function readSavedRepository() { try { return localStorage.getItem("chronosgraph-repository"); } catch { return null; } }
 const tabs = [{ name: "Repository", icon: Network }, { name: "Changes", icon: GitBranch }, { name: "History", icon: GitCommitHorizontal }, { name: "Ownership", icon: Shield }, { name: "Agent activity", icon: Activity }];
 export default function CommandCenter() {
+    const frontendCommit=pinnedCommit(process.env.NEXT_PUBLIC_CHRONOSGRAPH_BUILD_COMMIT);
+    const [apiCommit,setApiCommit]=useState<string | null>(null);
+    useEffect(()=>{const c=new AbortController();request<{application_commit:string|null}>("/release/identity",c.signal).then(r=>{if(!c.signal.aborted)setApiCommit(pinnedCommit(r.application_commit));}).catch(()=>{if(!c.signal.aborted)setApiCommit(null);});return ()=>c.abort();},[]);
+    const pairing=buildPairing(frontendCommit,apiCommit);
     const [policyVersion,setPolicyVersion]=useState(0);
     const [catalog, setCatalog] = useState<Tenant[]>([]), [tenant, setTenant] = useState("");
     const [table, setTable] = useState(false);
@@ -191,6 +196,9 @@ export default function CommandCenter() {
     <aside className="cc-rail"><Link href="/workbench" aria-label="ChronosGraph home" className="cc-logo"><Network size={24}/></Link><div className="cc-rail-rule"/>{tabs.map((t, i) => <button key={t.name} title={t.name} aria-label={t.name} aria-current={tab === i ? "page" : undefined} className={tab === i ? "active" : ""} onClick={() => switchTab(i)}><t.icon size={19}/></button>)}<button title="Connect coding agent" aria-label="Connect coding agent" className="cc-rail-bottom" onClick={() => setAgentOpen(true)}><Terminal size={20}/></button></aside>
     <div className="cc-main"><header className="cc-topbar"><div className="cc-brand">ChronosGraph <span>/</span> <span>Workspace</span></div><div className="cc-top-actions"><span className="cc-local"><i />Local workspace</span><button aria-label="Connect agent" onClick={() => setAgentOpen(true)}><Terminal size={14}/>Connect agent</button><button aria-label="Import repository" className="cc-primary" onClick={() => setImportOpen(true)}><Plus size={15}/>Import repository</button></div></header>
       <div className="cc-projectbar"><div className="cc-project"><span className="cc-project-icon"><Box size={22}/></span><div><span className="cc-kicker">REPOSITORY COMMAND CENTER</span><select aria-label="Repository" value={tenant} disabled={!catalog.length} onChange={e => setTenant(e.target.value)}>{!tenant && <option value="">Choose a saved version</option>}{catalog.map(t => <option key={t.tenant_graph} value={t.tenant_graph}>{t.repository} · {t.source_revision?.slice(0,8) || "legacy"} · {t.tenant_graph.slice(-8)}</option>)}</select></div></div><div className="cc-revision"><span><GitBranch size={13}/>{snapshot?.selected_branch || "Pinned version"}</span><code>{snapshot?.source_revision?.slice(0, 8) || "Version unavailable"}</code><span className="cc-pill">{snapshot?.last_check.status === "MATCHED_AT_CHECK" ? "Matched at last check" : snapshot?.last_check.status === "PINNED_AT_IMPORT" ? "Saved at import" : "Saved snapshot"}</span></div></div>
+      <p className="cc-help" aria-label="Application and saved snapshot identity" role={pairing==="MISMATCH" ? "alert" : undefined}>
+        UI build <code title={frontendCommit||undefined}>{frontendCommit?.slice(0,8)||"unrecorded"}</code> · API build <code title={apiCommit||undefined}>{apiCommit?.slice(0,8)||"unrecorded"}</code> · {pairing==="MISMATCH" ? "Build mismatch — preview parity not verified" : pairing==="MATCHED_DECLARATIONS" ? "Matched build declarations" : "Build parity unverified"}. Saved source <code title={snapshot?.source_revision||undefined}>{snapshot?.source_revision?.slice(0,8)||"unavailable"}</code>.
+      </p>
       {linkNotice && <p role="status" className="cc-help">{linkNotice}</p>}
       <nav className="cc-tabs" aria-label="Command center views">{tabs.map((t, i) => <button key={t.name} className={tab === i ? "active" : ""} aria-current={tab === i ? "page" : undefined} onClick={() => switchTab(i)}><t.icon size={15}/>{t.name}</button>)}<button disabled={!tenant || !snapshot?.source_revision} onClick={() => {
         const url=new URL(window.location.href);url.search="";

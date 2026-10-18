@@ -48,6 +48,12 @@ def health():
     return {'status':'ok' if db_manager.db.connection.ping() else 'unavailable'}
 
 
+@app.get('/api/v1/release/identity')
+def application_release_identity():
+    from app.services.release_identity import release_identity
+    return release_identity()
+
+
 @app.get('/api/v1/tenants')
 def tenants():
     data=[]

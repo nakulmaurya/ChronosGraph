@@ -53,7 +53,7 @@ def test_repeat_setup_preserves_properties_and_does_not_duplicate_indexes(graph)
 def test_graph_copy_preserves_ownership_index_and_lookup(graph):
     ensure_ownership_indexes(graph)
     name = 'repo_test_' + uuid.uuid4().hex
-    clone = graph.copy(name)
+    clone = db_manager.copy_graph(graph.name, name)
     try:
         q = 'MATCH (n:OwnershipRule {id:$id}) RETURN n.pattern'
         assert clone.ro_query(q, {'id':'rule_1777'}).result_set == [['src/1777.py']]

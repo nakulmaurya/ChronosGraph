@@ -5,6 +5,7 @@ from contextlib import contextmanager
 from typing import Any, Dict, Generator, List, Optional
 import numpy as np
 from falkordb import FalkorDB, Graph
+from redis.exceptions import ResponseError
 from app.config import settings
 
 
@@ -26,6 +27,28 @@ class FalkorDBManager:
 
     def list_tenant_graphs(self) -> List[str]:
         return self.db.list_graphs()
+
+    def copy_graph(self, source: str, destination: str) -> Graph:
+        """Bounded retry only for native fork refusal (e.g. AOF/BGSAVE).
+
+        Never retry transport errors, destination collisions, or ambiguous
+        responses. The caller owns a unique destination and its cleanup.
+        This does not lock or freeze the source while waiting.
+        """
+        graph = self.get_graph(source)
+        deadline = time.monotonic() + 5.0
+        delay = 0.05
+        while True:
+            try:
+                return graph.copy(destination)
+            except ResponseError as exc:
+                if str(exc) != "GRAPH.COPY failed, could not fork":
+                    raise
+                remaining = deadline - time.monotonic()
+                if remaining <= 0 or destination in self.list_tenant_graphs():
+                    raise
+                time.sleep(min(delay, remaining))
+                delay = min(delay * 2, 0.5)
 
     def ensure_indexes(self, tenant_graph: str) -> None:
         graph = self.get_graph(tenant_graph)
@@ -82,9 +105,8 @@ class FalkorDBManager:
     ) -> Generator[tuple[Graph, str, float], None, None]:
         """Clones base_tenant_graph using FalkorDB GRAPH.COPY and guarantees cleanup."""
         sandbox_name = f"{prefix}_{uuid.uuid4().hex[:8]}"
-        base_graph = self.get_graph(base_tenant_graph)
         t0 = time.perf_counter()
-        sandbox_graph = base_graph.copy(sandbox_name)
+        sandbox_graph = self.copy_graph(base_tenant_graph, sandbox_name)
         clone_ms = round((time.perf_counter() - t0) * 1000.0, 2)
         try:
             yield sandbox_graph, sandbox_name, clone_ms
