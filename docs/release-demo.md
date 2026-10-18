@@ -6,7 +6,20 @@ This is a read-only walkthrough of a working application with a **prepared owned
 synthetic organization/incident** and persisted actual agent activity. It is not
 a new live model run, new test execution, human approval or merged candidate.
 
-## Released recordings
+## Primary: real-bug demonstration
+
+[Watch the 3:26 real-bug cut](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4) ·
+[Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.srt) ·
+[Script](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-script.md) ·
+[Evidence manifest](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-evidence.md).
+
+The actual ChronosGraph stale-context defect is reproduced using old application
+source `6896183` and compared with fixed `44bb68b`. Plan changes and the failed
+replacement response are controlled browser-only regression inputs; they are
+not persistent project changes or a new coding-agent execution. The cut uses
+local Kokoro stock voice `af_heart`. See the [exact regression scope](context-integrity-regression.md).
+
+## Supporting connected workflow
 
 [Watch the 4:34 Kokoro-narrated connected workflow](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4).
 [Script, two-line captions, evidence manifest and portable recorder](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)

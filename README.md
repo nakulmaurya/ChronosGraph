@@ -13,13 +13,17 @@ a change, review linked evidence, and retain control over approval.
 
 [![ChronosGraph captured dependency graph and file inspector](docs/assets/chronosgraph-connected-review.png)](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
 
-**[Watch the connected workflow · Kokoro narration · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4)** · [Transcript and captions](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission)
+**[Watch the real-bug demonstration · Kokoro narration · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4)** · [Captions](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.srt) · [Script](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-script.md)
 
-Prepared synthetic organization/incident, real retained agent records; app `44bb68b`. No candidate approval or execution in the recording.
+A real ChronosGraph stale-context bug, reproduced on the old build and rejected
+by the fixed build using clearly labeled controlled browser regression inputs.
+[Exact source versions and verification](docs/context-integrity-regression.md).
+This is not a FalkorDB engine fix or a new live coding-agent run.
 
-[Real bug fixed: stale context under a new plan](docs/context-integrity-regression.md).
-Actual before/after source builds were checked with controlled browser inputs;
-the old build reproduced both cases and the fixed build rejected stale evidence.
+[Connected workflow · 4:34](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-hackathon-demo.mp4) ·
+[All recording sources, captions and evidence manifests](https://github.com/nakulmaurya/ChronosGraph/releases/tag/hackathon-2026-submission).
+The supporting workflow uses a prepared synthetic organization/incident and
+real retained agent records on app `44bb68b`; its candidate stays unapproved.
 
 ## The developer problem
 

@@ -49,6 +49,11 @@ review evidence do not grant human approval or prove complete harness telemetry.
 
 ## Demonstration and real-bug evidence
 
+**[Primary video: the real stale-context bug, before and after · 3:26](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4).**
+Local Kokoro narration, captions, reusable recorder and source manifest accompany
+actual old/fixed UI footage. Controlled regression inputs are explicitly labeled.
+
+
 The [real stale-context regression](context-integrity-regression.md) compares
 actual old and fixed source builds under controlled browser-only inputs. Both
 failure modes reproduced before the fix and rejected old context after it.

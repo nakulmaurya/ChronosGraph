@@ -6,6 +6,9 @@ browser-only GET responses** to reproduce the selection change reliably. It is
 not a new coding-agent run or a fix to FalkorDB itself. FalkorDB Python issue #244
 is deferred and is not claimed as implemented.
 
+[Watch the narrated before/after demonstration](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo.mp4) ·
+[Recording evidence and source mapping](https://github.com/nakulmaurya/ChronosGraph/releases/download/hackathon-2026-submission/ChronosGraph-real-bug-demo-evidence.md).
+
 ## Before and after
 
 - Before: `689618354f6b821f072e3af873c45a5da3abd5fa`.
