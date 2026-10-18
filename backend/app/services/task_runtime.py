@@ -81,7 +81,7 @@ class EventInput(Scoped):
     source_event_id: str = Field(min_length=1, max_length=200)
     sequence: int = Field(ge=1, le=1000000)
     kind: Literal['SESSION_CREATED', 'TOOL_STARTED', 'TOOL_COMPLETED', 'TOOL_ERROR',
-                  'USAGE', 'COMPACTED', 'IDLE', 'SESSION_ERROR', 'CONTEXT_DELIVERED', 'DISCONNECTED']
+                  'USAGE', 'COMPACTED', 'IDLE', 'SESSION_ERROR', 'CONTEXT_DELIVERED', 'CONTEXT_INJECTED', 'CONTEXT_PERSISTED', 'DISCONNECTED']
     observed_at_ms: int = Field(ge=0)
     session_id: str = Field(min_length=1, max_length=200)
     tool_name: str | None = Field(default=None, max_length=200)
@@ -89,6 +89,10 @@ class EventInput(Scoped):
     paths: list[str] = Field(default_factory=list, max_length=40)
     payload_digest: str = Field(pattern=r'^[0-9a-f]{64}$')
     usage: Usage | None = None
+    delivery_id: str | None = Field(default=None, max_length=200)
+    message_id: str | None = Field(default=None, max_length=200)
+    part_id: str | None = Field(default=None, max_length=200)
+    injection_bytes: int | None = Field(default=None, ge=0, le=20000)
 
 
 def node(tenant, label, ident):

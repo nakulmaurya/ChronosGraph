@@ -164,3 +164,13 @@ def test_managed_proposal_requires_declared_rationale(ingested):
             agent_run_id=run['id'], overlay_digest='a'*64, declared_rationale='   '))
     assert failure.value.status_code == 422
     assert 'declared rationale' in failure.value.detail
+
+
+def test_context_delivery_states_preserve_legacy_and_are_not_provider_ack(ingested):
+    scope, tid, _, _, run = setup(ingested)
+    for seq, kind in enumerate(['CONTEXT_DELIVERED', 'CONTEXT_INJECTED', 'CONTEXT_PERSISTED'], 1):
+        rt.record_event(run['id'], event(scope, seq, kind, delivery_id='ctx_owned', message_id='msg_owned',
+                                      part_id='prt_owned', injection_bytes=4096))
+    detail = rt.task_detail(scope['tenant_graph'], scope['expected_revision'], tid)['runs'][0]
+    assert [e['kind'] for e in detail['events']] == ['CONTEXT_DELIVERED', 'CONTEXT_INJECTED', 'CONTEXT_PERSISTED']
+    assert detail['telemetry_status'] == 'PARTIAL_NO_END_TO_END_COMPLETENESS_PROOF'

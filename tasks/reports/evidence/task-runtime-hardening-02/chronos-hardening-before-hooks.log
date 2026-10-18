@@ -1,0 +1,63 @@
+✖ A: receipt upload failure after pack fetch must not abort the first context-bearing turn (101.949949ms)
+FAULT_HOOK_OVERHEAD_MS 1204.784815
+✖ B: slow telemetry must not be on the ordinary tool critical path (250ms fault-test budget) (1245.46737ms)
+✖ B: two plugin writers cannot mutate the same project state concurrently (15.425647ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1492.918891
+
+✖ failing tests:
+
+test at tests/hooks.test.ts:36:1
+✖ A: receipt upload failure after pack fetch must not abort the first context-bearing turn (101.949949ms)
+  AssertionError [ERR_ASSERTION]: Got unwanted rejection.
+  Actual message: "Bridge HTTP 503; task may be stale"
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/tests/hooks.test.ts:37:104)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: Error: Bridge HTTP 503; task may be stale
+        at request (file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/src/bridge.ts:73:29)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async flush (file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/src/bridge.ts:91:7)
+        at async emit (file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/src/bridge.ts:106:90)
+        at async file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/src/bridge.ts:125:11,
+    expected: undefined,
+    operator: 'doesNotReject',
+    diff: 'simple'
+  }
+
+test at tests/hooks.test.ts:39:1
+✖ B: slow telemetry must not be on the ordinary tool critical path (250ms fault-test budget) (1245.46737ms)
+  AssertionError [ERR_ASSERTION]: 1204.784815ms exceeds 250ms
+      at TestContext.<anonymous> (file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/tests/hooks.test.ts:40:382)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/hooks.test.ts:42:1
+✖ B: two plugin writers cannot mutate the same project state concurrently (15.425647ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///vercel/sandbox/data/ChronosGraph-integration/integrations/opencode/tests/hooks.test.ts:43:47)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /writer|lock|owned/i,
+    operator: 'rejects',
+    diff: 'simple'
+  }

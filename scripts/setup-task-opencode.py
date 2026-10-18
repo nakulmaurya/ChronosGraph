@@ -10,6 +10,8 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import shutil
+import time
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 
@@ -45,6 +47,9 @@ def main():
     for path in (local, project / '.opencode', plugin_dir, project / '.opencode/chronosgraph'):
         if path.is_symlink():
             raise ValueError('Refuse symlinked integration directories')
+    if not shutil.which('flock'):
+        raise ValueError('Linux flock is required for project single-writer protection')
+    modules = {p.name:p.read_bytes() for p in (ROOT/'integrations/opencode/src').glob('*.ts') if p.name != 'plugin.ts'}
     if args.mode == 'install':
         if not all([args.backend,args.python,args.tenant,args.revision,args.task,args.plan,args.pack]):
             parser.error('install requires backend, python, tenant, revision, task, plan and pack')
@@ -72,8 +77,8 @@ def main():
         files = {local/'binding.json':json.dumps(binding,indent=2).encode(),
                  local/'opencode.json':json.dumps(config,indent=2).encode(),
                  plugin_dir/'chronosgraph.ts':entry,
-                 project/'.opencode/chronosgraph/bridge.ts':plugin,
                  project/'.opencode/package.json':json.dumps({'private':True,'dependencies':{'@opencode-ai/plugin':'1.19.3'}}).encode()}
+        files.update({project/'.opencode/chronosgraph'/name:content for name,content in modules.items()})
         if any(p.exists() or p.is_symlink() for p in files):
             raise ValueError('Create-only install: target already exists. Preserve and review existing configuration; no overwrite performed.')
         made=[]
@@ -98,7 +103,9 @@ def main():
         installed=(project/'.opencode/chronosgraph/bridge.ts').read_bytes()
         if (plugin_dir/'chronosgraph.ts').read_bytes() != b"export { ChronosGraph } from '../chronosgraph/bridge.ts';\n":
             raise ValueError('Unexpected plugin entry exports')
-        if source!=installed:raise ValueError('Installed plugin differs from reviewed source')
+        for name,content in modules.items():
+            if (project/'.opencode/chronosgraph'/name).read_bytes()!=content:
+                raise ValueError(f'Installed plugin module differs from reviewed source: {name}')
         scope=urlencode({k:binding[k] for k in ('tenant_graph','expected_revision')})
         pack=bridge_api(binding['api_url'],f'{binding["task_id"]}/context-packs/{binding["pack_id"]}?{scope}')
         task=bridge_api(binding['api_url'],f'{binding["task_id"]}?{scope}')
@@ -107,6 +114,10 @@ def main():
         print(json.dumps({'version':version,'plugin_sha256':hashlib.sha256(source).hexdigest(),
             'pack_digest':pack['digest'],'task_id':task['task']['id'],
             'runs_with_received_events':sum(bool(r['events']) for r in task['runs']),
+            'local_transport':{sid:{'pending_count':len(r['queue']),
+                'oldest_pending_age_ms':max(0,int(time.time()*1000)-r['queue'][0]['observed_at_ms']) if r['queue'] else 0,
+                **{k:v for k,v in r.get('transport',{}).items() if k!='blocked'},
+                'blocked_count':len(r.get('transport',{}).get('blocked',[])), 'completeness':'NOT_PROVEN'} for sid,r in state['runs'].items()} if state else None,
             'pending_local_events':sum(len(r['queue']) for r in state['runs'].values()) if state else None,
             'acceptance':'CONFIG_AND_API_ONLY' if not state else 'RECEIPTS_PRESENT_REVIEW_FULL_WORKFLOW_SEPARATELY',
             'caution':'No doctor result alone proves provider execution, compaction, task success or approval.'},indent=2))

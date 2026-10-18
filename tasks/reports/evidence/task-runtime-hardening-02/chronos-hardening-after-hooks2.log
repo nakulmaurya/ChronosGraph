@@ -1,0 +1,12 @@
+✔ A: receipt upload failure after pack fetch must not abort the first context-bearing turn (133.652311ms)
+FAULT_HOOK_OVERHEAD_MS 1.9384079999999813
+✔ B: slow telemetry must not be on the ordinary tool critical path (250ms fault-test budget) (446.673242ms)
+✔ B: two plugin writers cannot mutate the same project state concurrently (21.670438ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1527.553644
