@@ -1,0 +1,26 @@
+{
+  "status": "DOCS_CHECKED_NOT_BROWSER_OR_RELEASE_CERTIFICATION",
+  "relative_link_targets_checked": 39,
+  "bash_fences_syntax_checked": 6,
+  "checked_documents": [
+    "docs/task-runtime-hardening-recovery.md",
+    "docs/task-runtime-checkpoint-demo.md",
+    "integrations/opencode/README.md",
+    "docs/README.md",
+    "tasks/reviews/TASK-07-INDEPENDENT-REVIEW-2026-10-18.md"
+  ],
+  "health": {
+    "status": "ok"
+  },
+  "api_identity": {
+    "application_commit": "8e83804448cf251a26735d70c5a66f5b0d26db67",
+    "status": "DECLARED",
+    "basis": "DEPLOYMENT_ENVIRONMENT_DECLARATION_NOT_CRYPTOGRAPHIC_ATTESTATION",
+    "model_calls": 0
+  },
+  "doctor_acceptance": "RECEIPTS_PRESENT_REVIEW_FULL_WORKFLOW_SEPARATELY",
+  "doctor_pending": 0,
+  "heavy_test_or_build_jobs_started": false,
+  "new_model_calls_started": false,
+  "recording_or_voiceover_created": false
+}

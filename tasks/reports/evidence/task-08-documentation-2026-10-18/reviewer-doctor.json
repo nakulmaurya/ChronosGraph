@@ -1,0 +1,24 @@
+{
+  "version": "1.19.3",
+  "plugin_sha256": "dd062fd7718fba750ff6a1d7fdd651ec889275dc057806a6748f899aba1eee25",
+  "pack_digest": "59d7e6c976682c0aa2a34923f3a44c09cad783069f396990850e87328297ce78",
+  "task_id": "task_ef1809a9462f0b7be50e176e6b4d1db6",
+  "runs_with_received_events": 2,
+  "local_transport": {
+    "ses_eb0f8cdddfferaUqG93TV4OeE7": {
+      "pending_count": 0,
+      "oldest_pending_age_ms": 0,
+      "attempts": 0,
+      "retry_at": 0,
+      "last_error": null,
+      "reconciliation_required": false,
+      "saturated": false,
+      "unobserved_count": 0,
+      "blocked_count": 0,
+      "completeness": "NOT_PROVEN"
+    }
+  },
+  "pending_local_events": 0,
+  "acceptance": "RECEIPTS_PRESENT_REVIEW_FULL_WORKFLOW_SEPARATELY",
+  "caution": "No doctor result alone proves provider execution, compaction, task success or approval."
+}

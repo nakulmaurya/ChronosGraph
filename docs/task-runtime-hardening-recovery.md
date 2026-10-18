@@ -2,6 +2,83 @@
 
 This is an unpublished trusted-local checkpoint. Do not replace a shared deployment or approve a proposal as a recovery shortcut.
 
+## Current entry points and safe resumption
+
+Use this runbook with the [current checkpoint status](current-release.md), [Task 7 review](../tasks/reviews/TASK-07-INDEPENDENT-REVIEW-2026-10-18.md), and [current evidence/demo script](task-runtime-checkpoint-demo.md). Earlier published walkthroughs and pre-reboot instructions below are historical, not the current run's identities or results.
+
+The original numbered plan defines **Task 8 as recovery documentation and demo preparation**, not integration. Independent review acceptance does not implicitly authorize integration, approval, execution or deployment.
+
+### Establish what survived before starting anything
+
+On the existing VM, these commands are read-only. Do not paste private keys, provider credentials or raw agent exports into recordings or source archives.
+
+```bash
+P=$(cat "$HOME/chronos-work/LAST_PREREQUISITES")
+R3=$(cat "$P/TASK3_ROOT")
+R7=$(cat "$P/TASK7_ROOT")
+test -d "$P/repository" && test -d "$R3" && test -d "$R7"
+git -C "$P/repository" rev-parse HEAD
+git -C "$R3/worker" status --short
+git -C "$R7/reviewer" status --short
+tmux list-sessions
+curl --fail --silent --show-error http://127.0.0.1:8015/health
+curl --fail --silent --show-error http://127.0.0.1:8015/api/v1/release/identity
+```
+
+The surviving prerequisite repository stays at application `8e83804`; later documentation/evidence checkpoints are separate refs, not a claim that the API changed. Health is a database connectivity check. Release identity is an environment declaration, not cryptographic attestation or proof of matching frontend deployment. Task 10 still owns final UI/API identity and desktop/mobile checks.
+
+Read the saved metadata without dumping complete private conversations:
+
+```bash
+python3 - "$R3" "$R7" <<'PYMETA'
+import json, sys
+from pathlib import Path
+for root in map(Path, sys.argv[1:]):
+    receipt = json.loads((root / 'completion-receipt.json').read_text())
+    print(root.name, {k: receipt.get(k) for k in (
+        'status', 'verdict', 'candidate_digest', 'proposal_id',
+        'proposal_status', 'approved_execution_records')})
+PYMETA
+```
+
+Expected saved state: reconstructed candidate digest `466f90e5884900baf4c575cbf6c55fb166359002c99a0d28f945f0a07f41c982`; proposal `prop_64084206f032410a923823abd797e75b` PROPOSED; zero execution records; worker and reviewer RETURNED. These receipts are point-in-time observations: re-read server state before a future mutation. Do not re-submit solely because a terminal response is missing.
+
+### Check the existing bridge without creating a session
+
+```bash
+PY="$HOME/ChronosGraph-quality-batch1/.venv/bin/python"
+"$PY" "$P/repository/scripts/setup-task-opencode.py" doctor \
+  --project "$R7/reviewer" --opencode "$P/tools/opencode"
+```
+
+`doctor` verifies the pinned binary, installed module bytes, current pack/task and local transport. It makes no model request and does not approve or run a proposal. Current read-only check returned version 1.19.3, zero pending local events and `RECEIPTS_PRESENT_REVIEW_FULL_WORKFLOW_SEPARATELY`. That label is not success certification. Use the immutable review response and test/tool receipts for the bounded result.
+
+If health/doctor fails, retain its error before changing anything. Inspect only the owned API PID/log under Task 3 and the explicit graph/port binding. A stale PID after reboot is not proof that the old process is running. Do not restart/delete shared containers, clear a queue, reinstall into an existing worktree, or replace Agent 2's services as a shortcut. The existing Task 3/7 API is loopback **8015** and its durable database is loopback **6381**; these are this environment's assignments, not universal defaults or ports available for reuse. Reserve heavy reruns and new services until the measured comparison window ends.
+
+### New project setup or changed binding
+
+1. Choose an owned, clean Git worktree at the exact indexed revision; keep each writing agent in a different worktree and HOME. A clean Git start is required; a dirty candidate cannot be made clean by deleting evidence or pretending edits are already indexed.
+2. Use an intentionally selected local backend/database and a fresh task/current plan/bounded pack. Keep native tool permissions explicit. The installer generates `ask` defaults; witnessed Task 3/7 sessions allowed scoped read/glob/grep/list/skill and inspected edit/bash requests individually.
+3. Follow the [create-only install and doctor commands](../integrations/opencode/README.md#install-into-an-owned-project), using actual returned IDs, the installed virtualenv path and the pinned 1.19.3 binary. Do not substitute the system interpreter or a different client version without validation.
+4. Launch actual OpenCode from that worktree only after configuration review. A connected MCP status is not a completed task. If model availability fails, preserve the error; do not silently switch to a paid model or emulate the client.
+5. Bind the actual new session/run. Then create and explicitly CLAIM its role assignment; a reviewer follows a RETURNED predecessor. These declarations are serialized coordination, not authenticated identities or filesystem enforcement.
+6. Keep source inspection, frozen checks, complete candidate capture, review, human approval and approved execution as distinct steps. Never relabel an old execution as a test on a new revision.
+
+### Migration and failure decisions
+
+| Situation | Safe response | Must not claim/do |
+| --- | --- | --- |
+| Existing installer targets | Preserve project metadata and choose a reviewed fresh worktree for the upgrade. Installer refuses overwrite. | Delete installed state/config to force success. |
+| Local telemetry v1 with unchanged binding | Runtime supports v1/v2; attempts create-only `telemetry-state.v1-backup.json`, retains existing backup if present, then uses v2 fields/defaults. Preserve original artifacts separately before any upgrade. | Treat old `delivered` as provider-consumption proof or assume this documents a fresh migration execution. |
+| Binding fingerprint changed | Stop; preserve the old state and explicitly select fresh task/plan/pack/session/worktree bindings. | Reuse a session or rewrite identifiers to bypass mismatch. |
+| Plan, policy or source changed | Revalidate current plan/pack, references, candidate and any later approval. New source snapshots retain old provenance as historical. | Inherit approval or carry a test result across revisions as newly executed. |
+| Queue failures/quarantine/saturation | Preserve local receipts and error classifications; inspect doctor and immutable server receipts. | Clear queues/locks, infer zero usage, or call idle a successful task. |
+| Temporary files lost after reboot | Reconcile durable graph records and verified backups; mark lost bytes unknown. Reconstruct under a new explicit run only if needed. | Recreate an old digest/run from prose or overwrite historical records. |
+| Reviewer requests corrections | Return/transition explicit assignments using current expected versions; bounded worker correction, fresh capture and re-review. | Reviewer edits the implementation silently or approves different content. |
+| Benchmark in progress | Read/draft locally; keep heavy tests, builds, imports, restarts and duplicate trials out of its measured window. | Blend setup attempts with scored trials or hide interference/waits. |
+
+Private per-graph recovery dumps and agent homes are not portable public source artifacts. A per-key dump is not an atomic cross-graph backup, and restoring it into a different FalkorDB version requires separate compatibility verification. Recovery/restore drills and fresh backend+agent restart tests have not been newly performed by Task 8.
+
 ## Local transport / schema
 
 - Pinned Linux/OpenCode 1.19.3 bridge requires `flock` and Node with supported TypeScript stripping; retain the installed Python virtualenv executable path.
@@ -41,7 +118,7 @@ New proposal `prop_64084206f032410a923823abd797e75b` is PROPOSED, candidate dige
 7. Whole native tests use `run-isolated-regression.sh` in the VM working environment, a new disposable container and read-only corpus copies. Never aim the full suite at shared deployment graphs. The latest started run's exit/result is unconfirmed; inspect before rerunning.
 8. Build and verify exact UI/API commit identities, complete desktop/mobile browser flow, then archive a clean exact commit with sanitized receipts. No push/merge or pending proposal approval is implicit.
 
-## Short actual demo script after recovery
+## Historical pre-reboot demo outline — not the current recording script
 
 1. Show exact API/UI build commit and selected source revision; distinguish application version from indexed code.
 2. Open Agent activity; resume task and show immutable plan, explicit scope/truncation and mandatory current decision.

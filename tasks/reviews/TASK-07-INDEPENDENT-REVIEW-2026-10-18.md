@@ -29,7 +29,7 @@ At capture, the review run had 57 persisted events with no missing sequence numb
 
 Server readback after review: `prop_64084206f032410a923823abd797e75b` remains **PROPOSED**, with **zero execution records**. Code-review acceptance is not proposal approval, Compatibility Platform approval, permission to execute, merge or deploy. Current ADR/incident evidence remains attached to that same immutable candidate.
 
-Task 8/integration, final desktop/mobile browser verification, merge, push and deployment were not performed. No other agent's worktree, dependencies, database or API were changed. Agent 2 was separately dispatched to Task 9's already-prepared comparison environments, with sequential measured runs; no Task 9 outcome is claimed in this report.
+Integration, final desktop/mobile browser verification, merge, push and deployment were not performed. The original numbered plan defines Task 8 as recovery documentation/demo preparation, not integration; the retained assignment receipt’s earlier “Task 8 integration” label is a coordination-label error, not evidence that integration was authorized or performed. No other agent's worktree, dependencies, database or API were changed. Agent 2 was separately dispatched to Task 9's already-prepared comparison environments, with sequential measured runs; no Task 9 outcome is claimed in this report.
 
 ## Preserved evidence
 
